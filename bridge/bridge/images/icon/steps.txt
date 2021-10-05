@@ -1,0 +1,7 @@
+//convert from one png multisize ico
+http://www.icoconverter.com/
+
+with white background
+1 make native resolution 666x161 png from svg
+2 in adobe phtoshot make png 333x322
+3 http://online-converting.com/image/convert2ico/ make one 3 sizes ico from one png

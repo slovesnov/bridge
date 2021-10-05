@@ -1,0 +1,1422 @@
+% PBN 1.0
+% EXPORT
+%
+[Event "17th European Youth Team Championships"]
+[Site "Antalya, Turkey TRK"]
+[Date "2000.07.16"]
+[Board "1"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:654.JT62.AT8.KJ4 A.KQ973.QJ762.A2 KQT973..93.97653 J82.A854.K54.QT8"]
+[Declarer "E"]
+[Contract "6H"]
+[Result "11"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 50"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "N"]
+Pass 1H 2S 4H
+4S 5D Pass 6H
+Pass Pass Pass
+[Play "S"]
+SK S2 S4 SA
+S3 HA H2 H3
+S7 H4 HT HK
+D3 D4 D8 DJ
+D9 DK DA D2
+S9 S8 S6 H7
+ST D5 DT DQ
+C3 C8 H6 D6
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "1"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:654.JT62.AT8.KJ4 A.KQ973.QJ762.A2 KQT973..93.97653 J82.A854.K54.QT8"]
+[Declarer "E"]
+[Contract "6H"]
+[Result "11"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 50"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "N"]
+Pass 1H 3S 4H
+Pass 5D Pass 6H
+Pass Pass Pass
+[Play "S"]
+SQ S2 S6 SA
+S3 HA H2 H3
+S7 H8 HT HK
+D3 D4 D8 DJ
+D9 DK DA D2
+S9 S8 S4 H7
+C7 H4 H6 HQ
+ST D5 DT DQ
+C3 C8 - D6
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "2"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "E"]
+[Vulnerable "NS"]
+[Deal "E:T87.93.AT9752.AJ KJ93.AQ2.KQ83.82 Q652.65.J64.T973 A4.KJT874..KQ654"]
+[Declarer "S"]
+[Contract "5H"]
+[Result "11"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 650"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "E"]
+Pass 1NT Pass 2D
+X 2H Pass 3C
+Pass 3H Pass 3S
+Pass 4D Pass 4NT
+Pass 5D Pass 5H
+Pass Pass Pass
+[Play "W"]
+D4 H4 D2 D3
+S2 S4 S7 SK
+C3 CK CA C2
+S6 SA S8 S3
+CT C4 CJ C8
+SQ H7 ST S9
+- C5 - -
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "2"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "E"]
+[Vulnerable "NS"]
+[Deal "E:T87.93.AT9752.AJ KJ93.AQ2.KQ83.82 Q652.65.J64.T973 A4.KJT874..KQ654"]
+[Declarer "N"]
+[Contract "6H"]
+[Result "12"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 1430"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "E"]
+Pass 1NT Pass 2D
+3D Pass Pass 5D
+Pass 5S Pass 6H
+Pass Pass Pass
+[Play "E"]
+CA C2 CT C6
+CJ C8 C3 CK
+- - - C4
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "3"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "S"]
+[Vulnerable "EW"]
+[Deal "S:J43.KQJ.AKT.JT63 KQT92.T95.J8.K82 A6.82.76432.AQ74 875.A7643.Q95.95"]
+[Declarer "S"]
+[Contract "3NT"]
+[Result "^8"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS -50"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "S"]
+1NT Pass 3NT Pass
+Pass Pass
+[Play "W"]
+SK SA S8 S3
+H5 H2 HA HJ
+S2 S6 S7 S4
+SQ D2 S5 SJ
+S9 D3 H7 C3
+ST D4 H6 DT
+DJ D6 D5 DK
+CK C4 C5 CJ
+C2 C7 C9 C6
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "3"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "S"]
+[Vulnerable "EW"]
+[Deal "S:J43.KQJ.AKT.JT63 KQT92.T95.J8.K82 A6.82.76432.AQ74 875.A7643.Q95.95"]
+[Declarer "S"]
+[Contract "3NT"]
+[Result "8"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS -50"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "S"]
+1NT Pass 2NT Pass
+3NT Pass Pass Pass
+[Play "W"]
+SK SA S5 S4
+H5 H2 H3 HK
+CK CA C5 CJ
+HT H8 HA HJ
+SQ S6 S8 SJ
+ST D2 S7 S3
+S9 D3 H7 DT
+S2 D4 H4 C3
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "4"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "W"]
+[Vulnerable "All"]
+[Deal "W:AT87.K42.432.Q73 J62.QT875.AK76.A Q5.A6.JT9.KJ9852 K943.J93.Q85.T64"]
+[Declarer "N"]
+[Contract "3H"]
+[Result "9"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 140"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "W"]
+Pass 1H 2C 2H
+2NT 3H Pass Pass
+Pass
+[Play "E"]
+DJ DQ D4 D6
+HA H3 H2 HT
+C2 C4 CQ CA
+D9 D5 D2 DA
+S5 SK SA S2
+H6 H9 HK H5
+C5 HJ H4 HQ
+DT D8 D3 DK
+C8 C6 C3 D7
+SQ - - S6
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "4"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "W"]
+[Vulnerable "All"]
+[Deal "W:AT87.K42.432.Q73 J62.QT875.AK76.A Q5.A6.JT9.KJ9852 K943.J93.Q85.T64"]
+[Declarer "E"]
+[Contract "3C"]
+[Result "8"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 100"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "W"]
+Pass 1H 2C 2H
+X Pass 2S Pass
+3C Pass Pass Pass
+[Play "S"]
+H9 H2 HQ HA
+C6 CQ CA C5
+D5 D2 DA DT
+DQ D3 D6 DJ
+D8 D4 DK D9
+CT S7 D7 S5
+HJ HK H5 H6
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "5"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "N"]
+[Vulnerable "NS"]
+[Deal "N:652.K6542.972.K6 97.T97.AQ84.QT54 3.AJ3.KJ53.AJ832 AKQJT84.Q8.T6.97"]
+[Declarer "W"]
+[Contract "4S"]
+[Result "8"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 100"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "N"]
+Pass Pass 1D 4S
+Pass Pass Pass
+[Play "N"]
+CK C4 C2 C7
+C6 C5 CJ C9
+S2 S7 S3 SA
+S5 S9 C3 S4
+S6 CT C8 H8
+D7 DQ DK D6
+H2 H7 HA HQ
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "5"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "N"]
+[Vulnerable "NS"]
+[Deal "N:652.K6542.972.K6 97.T97.AQ84.QT54 3.AJ3.KJ53.AJ832 AKQJT84.Q8.T6.97"]
+[Declarer "W"]
+[Contract "4S"]
+[Result "8"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 100"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "N"]
+Pass Pass 1C 4S
+Pass Pass Pass
+[Play "N"]
+CK C4 C3 C7
+C6 C5 CJ C9
+S2 CT C8 HQ
+H2 H7 HA H8
+- - CA -
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "6"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "E"]
+[Vulnerable "EW"]
+[Deal "E:AKJ94.65.K864.65 85.J74.Q93.QJT84 Q2.2.AT72.AK9732 T763.AKQT983.J5."]
+[Declarer "N"]
+[Contract "4HX"]
+[Result "9"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS -100"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "E"]
+1S Pass 2C 4H
+X Pass Pass Pass
+[Play "E"]
+SA S5 S2 S3
+SK S8 SQ S6
+S4 HJ C2 S7
+C5 CJ CK H3
+H5 H7 H2 H8
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "6"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "E"]
+[Vulnerable "EW"]
+[Deal "E:AKJ94.65.K864.65 85.J74.Q93.QJT84 Q2.2.AT72.AK9732 T763.AKQT983.J5."]
+[Declarer "W"]
+[Contract "5CXX"]
+[Result "9"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 1000"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "E"]
+1S Pass 2C 4H
+Pass Pass 5C Pass
+Pass X XX Pass
+Pass Pass
+[Play "N"]
+HK H5 H7 H2
+HQ H6 H4 C2
+H3 C5 C4 CA
+S3 S4 S5 SQ
+S6 SA S8 S2
+S7 SK CT D2
+H8 C6 CQ CK
+D5 D4 D3 DA
+DJ DK D9 D7
+ST SJ C8 C9
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "7"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "S"]
+[Vulnerable "All"]
+[Deal "S:643.AK5.AQ54.KQT AQT85.QT98.3.842 92.642.KT762.A97 KJ7.J73.J98.J653"]
+[Declarer "N"]
+[Contract "5D"]
+[Result "10"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS -100"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "S"]
+1C 1S 2D 2S
+3S Pass 4D Pass
+5D Pass Pass Pass
+[Play "E"]
+S7 S3 SA S9
+SJ S4 ST S2
+SK S6 SQ D2
+D8 DA D3 D6
+D9 DQ S5 D7
+DJ D4 S8 DK
+H7 D5 C8 DT
+C5 CK C2 C7
+C3 CQ C4 C9
+C6 CT H8 CA
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "7"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "S"]
+[Vulnerable "All"]
+[Deal "S:643.AK5.AQ54.KQT AQT85.QT98.3.842 92.642.KT762.A97 KJ7.J73.J98.J653"]
+[Declarer "S"]
+[Contract "1H"]
+[Result "7"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 80"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "S"]
+1C X 1D Pass
+1H Pass Pass Pass
+[Play "W"]
+SA S2 S7 S3
+S5 S9 SK S4
+H8 H2 H3 HA
+C2 C7 C3 CK
+S8 H4 SJ S6
+C4 CA C5 CT
+C8 C9 C6 CQ
+D3 D2 D8 DA
+H9 D6 D9 D4
+ST H6 H7 D5
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "8"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "W"]
+[Vulnerable "None"]
+[Deal "W:A74.JT3.T98.T984 JT9.AQ97.J72.QJ6 K6.K85.K654.7532 Q8532.642.AQ3.AK"]
+[Declarer "N"]
+[Contract "3C"]
+[Result "8"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS -50"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "W"]
+Pass Pass Pass 1S
+Pass 2C Pass 2NT
+Pass 3C Pass Pass
+Pass
+[Play "E"]
+C2 CK C4 C6
+C3 CA CT CJ
+SK S2 S4 SJ
+H5 H2 HT HQ
+C5 H4 C8 CQ
+S6 S3 SA ST
+H8 H6 HJ HA
+C7 SQ S7 S9
+HK D3 H3 H7
+D4 DQ D8 D2
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "8"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "W"]
+[Vulnerable "None"]
+[Deal "W:A74.JT3.T98.T984 JT9.AQ97.J72.QJ6 K6.K85.K654.7532 Q8532.642.AQ3.AK"]
+[Declarer "S"]
+[Contract "3NT"]
+[Result "10"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 430"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "W"]
+Pass Pass Pass 1NT
+Pass 3NT Pass Pass
+Pass
+[Play "W"]
+HJ HQ HK H2
+D8 DJ D4 D3
+S4 SJ SK S2
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "9"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:42.A5.AKQ65.KQ52 Q.Q84.J8732.J974 AJT9863.KT3.T9.8 K75.J9762.4.AT63"]
+[Declarer "S"]
+[Contract "4S"]
+[Result "11"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 450"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "N"]
+1C Pass 1S Pass
+2D Pass 2S Pass
+3C Pass 4S Pass
+Pass Pass
+[Play "W"]
+D4 DA D8 D9
+S5 DK D7 DT
+H2 H5 HQ HK
+S7 S2 SQ SA
+H6 HA H4 H3
+- DQ D2 C8
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "9"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "N"]
+[Vulnerable "EW"]
+[Deal "N:42.A5.AKQ65.KQ52 Q.Q84.J8732.J974 AJT9863.KT3.T9.8 K75.J9762.4.AT63"]
+[Declarer "S"]
+[Contract "4S"]
+[Result "10"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 420"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "N"]
+1D Pass 1S Pass
+3C Pass 4S Pass
+Pass Pass
+[Play "W"]
+D4 DA D8 D9
+S5 S2 SQ SA
+H2 HA H4 H3
+H6 H5 H8 HK
+H7 S4 HQ HT
+S7 DK D2 DT
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "10"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "E"]
+[Vulnerable "All"]
+[Deal "E:543.T973.A6.QT95 962.KQ84.KQ5.743 KQJ.52.JT732.AK8 AT87.AJ6.984.J62"]
+[Declarer "W"]
+[Contract "1NT"]
+[Result "6"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 100"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "E"]
+Pass Pass 1NT Pass
+Pass Pass
+[Play "N"]
+D8 D6 DQ D2
+D4 DA D5 D3
+SA S3 S2 SK
+D9 S4 DK D7
+HJ H3 H4 H5
+HA H7 H8 H2
+H6 H9 HQ C8
+- - HK -
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "10"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "E"]
+[Vulnerable "All"]
+[Deal "E:543.T973.A6.QT95 962.KQ84.KQ5.743 KQJ.52.JT732.AK8 AT87.AJ6.984.J62"]
+[Declarer "W"]
+[Contract "1NT"]
+[Result "7"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS -90"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "E"]
+Pass Pass 1NT Pass
+Pass Pass
+[Play "N"]
+S7 S3 S9 SQ
+H6 HT HQ H2
+SA S4 S6 SK
+ST S5 S2 SJ
+HJ H3 H4 H5
+S8 D6 C3 D2
+D4 DA D5 D3
+C2 C5 C4 CA
+C6 C9 C7 CK
+CJ CQ H8 C8
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "11"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "S"]
+[Vulnerable "None"]
+[Deal "S:6532.QJ74.A9653. KJ7.K65.QT42.AK6 84.T832.KJ8.J952 AQT9.A9.7.QT8743"]
+[Declarer "E"]
+[Contract "5C"]
+[Result "12"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS -420"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "S"]
+Pass 1NT Pass 3D
+X Pass Pass 4C
+Pass 4D Pass 4S
+Pass 5C Pass Pass
+Pass
+[Play "S"]
+HQ H5 H2 HA
+D3 CA C2 C3
+S2 CK C5 C4
+D5 C6 CJ CQ
+D6 D2 C9 CT
+D9 D4 D8 C7
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "11"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "S"]
+[Vulnerable "None"]
+[Deal "S:6532.QJ74.A9653. KJ7.K65.QT42.AK6 84.T832.KJ8.J952 AQT9.A9.7.QT8743"]
+[Declarer "W"]
+[Contract "3NT"]
+[Result "12"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS -490"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "S"]
+Pass 1C Pass 2C
+Pass 2NT Pass 3C
+Pass 3NT Pass Pass
+Pass
+[Play "N"]
+H8 HA H4 H5
+C2 C3 D3 CA
+C5 C4 S2 CK
+C9 CT S3 C6
+- CQ - -
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "12"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "W"]
+[Vulnerable "NS"]
+[Deal "W:86.T.J98652.Q873 JT42.J42.T3.AK94 AK93.53.K74.JT62 Q75.AKQ9876.AQ.5"]
+[Declarer "S"]
+[Contract "4H"]
+[Result "10"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 620"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "W"]
+Pass Pass 1S X
+Pass 2NT Pass 3H
+Pass 4H Pass Pass
+Pass
+[Play "W"]
+S8 S2 SK SQ
+S6 S4 SA S5
+HT ST S3 S7
+D2 D3 DK DA
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "12"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "W"]
+[Vulnerable "NS"]
+[Deal "W:86.T.J98652.Q873 JT42.J42.T3.AK94 AK93.53.K74.JT62 Q75.AKQ9876.AQ.5"]
+[Declarer "S"]
+[Contract "4H"]
+[Result "11"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 650"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "W"]
+Pass Pass 1NT X
+2D X Pass 4H
+Pass Pass Pass
+[Play "W"]
+C3 CA C2 C5
+HT H2 H3 HA
+D2 HJ H5 H6
+C7 CK C6 DQ
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "13"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "N"]
+[Vulnerable "All"]
+[Deal "N:KJT2.Q9.KT2.J543 A74.J86543.Q7.T6 9863.AK2.J85.KQ8 Q5.T7.A9643.A972"]
+[Declarer "N"]
+[Contract "2S"]
+[Result "8"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 110"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "N"]
+Pass Pass 1C Pass
+1S Pass 2S Pass
+Pass Pass
+[Play "E"]
+H4 HA H7 H9
+SA S3 SQ SK
+CT CK CA C3
+DQ D5 D3 D2
+D7 D8 DA DT
+S4 DJ D4 DK
+H3 H2 HT HQ
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "13"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "N"]
+[Vulnerable "All"]
+[Deal "N:KJT2.Q9.KT2.J543 A74.J86543.Q7.T6 9863.AK2.J85.KQ8 Q5.T7.A9643.A972"]
+[Declarer "N"]
+[Contract "2S"]
+[Result "10"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 170"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "N"]
+Pass Pass 1C 1H
+1S Pass 2S Pass
+Pass Pass
+[Play "E"]
+H8 HA H7 H9
+SA S3 S5 SJ
+H3 H2 HT HQ
+S4 S6 SQ SK
+S7 S8 D3 ST
+C6 CK CA C3
+D7 D5 DA D2
+DQ D8 D4 DK
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "14"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "E"]
+[Vulnerable "None"]
+[Deal "E:J5.73.QT972.KT86 K932.T9865.K.A52 Q74.KQ42.J843.73 AT86.AJ.A65.QJ94"]
+[Declarer "N"]
+[Contract "4S"]
+[Result "11"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 450"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "E"]
+Pass 1H Pass 1S
+Pass 2S Pass 3C
+Pass 3S Pass 4S
+Pass Pass Pass
+[Play "E"]
+D9 DK D8 D5
+S5 SK S4 S6
+SJ S2 S7 ST
+H7 H9 HQ HA
+D2 S3 SQ SA
+H3 H5 HK HJ
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "14"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "E"]
+[Vulnerable "None"]
+[Deal "E:J5.73.QT972.KT86 K932.T9865.K.A52 Q74.KQ42.J843.73 AT86.AJ.A65.QJ94"]
+[Declarer "N"]
+[Contract "4S"]
+[Result "10"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 420"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "E"]
+2D Pass Pass 2NT
+Pass 3C Pass 3D
+Pass 3H Pass 4S
+Pass Pass Pass
+[Play "E"]
+H7 H5 HQ HA
+S5 SK S4 S6
+SJ S2 S7 ST
+C6 CA C3 C4
+D2 S3 SQ SA
+H3 H6 HK HJ
+CK C2 C7 CQ
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "15"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "S"]
+[Vulnerable "NS"]
+[Deal "S:KJT932.K98.A6.65 Q654.T7432.J3.Q4 A.AJ.QT7542.AKT3 87.Q65.K98.J9872"]
+[Declarer "N"]
+[Contract "3NT"]
+[Result "12"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 690"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "S"]
+1S Pass 2D Pass
+2S Pass 2NT Pass
+3S Pass 3NT Pass
+Pass Pass
+[Play "E"]
+C2 C5 CQ CA
+D9 DA D3 D2
+DK D6 DJ DQ
+C7 C6 - -
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "15"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "S"]
+[Vulnerable "NS"]
+[Deal "S:KJT932.K98.A6.65 Q654.T7432.J3.Q4 A.AJ.QT7542.AKT3 87.Q65.K98.J9872"]
+[Declarer "S"]
+[Contract "4S"]
+[Result "11"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 650"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "S"]
+1S Pass 2D Pass
+2H Pass 3C Pass
+3S Pass 4S Pass
+Pass Pass
+[Play "W"]
+H7 HJ H6 H8
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "16"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "W"]
+[Vulnerable "EW"]
+[Deal "W:Q62.A5.T86.QJ762 .K8432.AKQ7.AT83 AKJ54.JT76.J5.K5 T9873.Q9.9432.94"]
+[Declarer "S"]
+[Contract "4D"]
+[Result "8"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS -100"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "W"]
+Pass 1H 1S Pass
+2S X Pass 3D
+Pass 4D Pass Pass
+Pass
+[Play "W"]
+S2 D7 S4 S3
+HA H2 H6 HQ
+S6 DQ S5 S7
+H5 HK H7 H9
+D6 H3 HJ D2
+C2 CA C5 C4
+SQ H4 HT C9
+D8 DK D5 D3
+C6 C3 CK D4
+DT DA DJ D9
+- H8 - -
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "16"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "W"]
+[Vulnerable "EW"]
+[Deal "W:Q62.A5.T86.QJ762 .K8432.AKQ7.AT83 AKJ54.JT76.J5.K5 T9873.Q9.9432.94"]
+[Declarer "E"]
+[Contract "4S"]
+[Result "6"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 400"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "W"]
+Pass 1H 1S Pass
+2H X 3C Pass
+4S Pass Pass Pass
+[Play "S"]
+HQ HA H4 H6
+C4 C2 C3 CK
+C9 CJ CA C5
+D2 D6 DK D5
+H9 H5 HK H7
+D3 D8 DQ DJ
+D4 C6 C8 SJ
+S3 SQ CT S4
+S7 S2 D7 SA
+S8 S6 DA SK
+S9 - - HJ
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "17"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:AKJ54.8.AT43.Q98 96.KT654.K52.T53 T72.AJ32.J98.J76 Q83.Q97.Q76.AK42"]
+[Declarer "N"]
+[Contract "3S"]
+[Result "10"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 170"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "N"]
+1S Pass 1NT Pass
+2D Pass 2S Pass
+3C Pass 3S Pass
+Pass Pass
+[Play "E"]
+S6 S7 S8 SJ
+S9 S2 S3 SA
+H4 ST SQ SK
+C5 C6 CK C9
+C3 C7 CA CQ
+CT CJ C2 C8
+- D8 D6 -
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "17"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Deal "N:AKJ54.8.AT43.Q98 96.KT654.K52.T53 T72.AJ32.J98.J76 Q83.Q97.Q76.AK42"]
+[Declarer "N"]
+[Contract "2S"]
+[Result "10"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 170"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "N"]
+1S Pass 2S Pass
+Pass Pass
+[Play "E"]
+S6 S2 SQ SA
+S9 S7 S3 SK
+H5 ST S8 S4
+DK D8 D6 D3
+D2 DJ DQ DA
+D5 D9 D7 D4
+C3 C6 CK C8
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "18"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "E"]
+[Vulnerable "NS"]
+[Deal "E:QT82.542.AT2.Q65 AKJ9743.KJ8.63.9 6.QT7.KQ874.AT43 5.A963.J95.KJ872"]
+[Declarer "S"]
+[Contract "4S"]
+[Result "9"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS -100"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "E"]
+Pass 1S X Pass
+1NT 2S Pass 3S
+Pass 4S Pass Pass
+Pass
+[Play "W"]
+DK D5 D2 D3
+D8 D9 DT D6
+H7 H3 H5 HK
+CA C2 C6 C9
+D4 DJ DA S3
+HT HA H2 H8
+C3 CK C5 HJ
+S6 S5 S2 SJ
+- - - SA
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "18"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "E"]
+[Vulnerable "NS"]
+[Deal "E:QT82.542.AT2.Q65 AKJ9743.KJ8.63.9 6.QT7.KQ874.AT43 5.A963.J95.KJ872"]
+[Declarer "S"]
+[Contract "4S"]
+[Result "9"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS -100"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "E"]
+Pass 1S 3D Pass
+Pass 3S Pass 4S
+Pass Pass Pass
+[Play "W"]
+DK D5 DT D6
+D4 D9 DA D3
+D7 DJ D2 S3
+CA C2 C5 C9
+C3 CK C6 H8
+S6 S5 S2 SJ
+D8 H3 S8 SA
+DQ H6 ST SK
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "19"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "S"]
+[Vulnerable "EW"]
+[Deal "S:A843.KQT4.KJ.KQ8 T52.A3.852.J9763 J976.J652.AT3.AT KQ.987.Q9764.542"]
+[Declarer "N"]
+[Contract "4H"]
+[Result "11"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 450"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "S"]
+1C Pass 1H Pass
+2C Pass 2D Pass
+4H Pass Pass Pass
+[Play "E"]
+SK SA S5 S6
+C2 C8 C3 CA
+C4 CQ C9 CT
+C5 CK C6 S7
+H7 HK H3 H2
+H8 HQ HA H5
+SQ S3 S2 S9
+D4 - - -
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "19"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "S"]
+[Vulnerable "EW"]
+[Deal "S:A843.KQT4.KJ.KQ8 T52.A3.852.J9763 J976.J652.AT3.AT KQ.987.Q9764.542"]
+[Declarer "N"]
+[Contract "4H"]
+[Result "10"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 420"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "S"]
+1C Pass 1H Pass
+2D Pass 2H Pass
+3H Pass 4H Pass
+Pass Pass
+[Play "E"]
+H7 H4 HA H2
+H8 HK H3 H5
+H9 HQ C3 H6
+SK S3 S2 S6
+C5 C8 CJ CA
+SQ SA S5 SJ
+*
+
+[Event "#"]
+[Site "#"]
+[Date "2000.07.16"]
+[Board "20"]
+[West "Brink S"]
+[North "Krasnosselski"]
+[East "Drijver B"]
+[South "Kelina M"]
+[Dealer "W"]
+[Vulnerable "All"]
+[Deal "W:KJ76.AK.52.97654 AQ32.43.KQJ64.Q3 5.J8652.T983.AJ8 T984.QT97.A7.KT2"]
+[Declarer "S"]
+[Contract "2S"]
+[Result "8"]
+[HomeTeam "Russia"]
+[Room "Open"]
+[Round "25"]
+[Score "NS 110"]
+[Section "Junior Teams"]
+[Table "12"]
+[VisitTeam "Netherlands"]
+[Auction "W"]
+1C 1D 1H 1S
+Pass 2S Pass Pass
+Pass
+[Play "W"]
+HA H3 H8 H7
+HK H4 H2 H9
+C9 C3 CA C2
+C4 CQ C8 CT
+D2 D4 D3 DA
+SK SA S5 ST
+S6 SQ H5 S4
+D5 DK D8 D7
+*
+
+[Event "#"]
+[Site "#"]
+[Date "#"]
+[Board "20"]
+[West "Andreev V"]
+[North "Lagas M"]
+[East "Semisochenko"]
+[South "Schollaardt M"]
+[Dealer "W"]
+[Vulnerable "All"]
+[Deal "W:KJ76.AK.52.97654 AQ32.43.KQJ64.Q3 5.J8652.T983.AJ8 T984.QT97.A7.KT2"]
+[Declarer "E"]
+[Contract "2HX"]
+[Result "4"]
+[HomeTeam "#"]
+[Room "Closed"]
+[Round "#"]
+[Score "NS 1100"]
+[Section "#"]
+[Table "#"]
+[VisitTeam "#"]
+[Auction "W"]
+1NT X 2H Pass
+Pass X Pass Pass
+Pass
+[Play "S"]
+S9 SJ SQ S5
+H7 HK H3 H2
+CT C4 C3 C8
+H9 HA H4 H5
+C2 C5 CQ CA
+CK C6 D4 CJ
+ST S6 S2 H6
+DA D2 D6 D8
+D7 D5 DK D3
+S4 C7 DQ D9
+S8 C9 DJ DT
+*
+

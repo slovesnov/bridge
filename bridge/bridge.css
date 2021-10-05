@@ -1,0 +1,155 @@
+@import url("bridge0.css");
+@define-color selected_bg_color #d0d0d0;
+
+menuitem, menubar, window > grid > label{
+	background-color:rgb(240,240,240);
+}
+
+/* right border, font color */
+window > grid > box > box > scrolledwindow > viewport > grid /*game analysis*/
+,window > grid > box > label /* statusbar */
+{
+	border-right: solid 1px @font_color;
+	color:@font_color;
+}
+
+/*last trick upper border*/
+window > grid > box > box {
+	border-top: solid 1px @font_color;
+}
+
+/*5.02 visited link same color with unvisited*/
+dialog label link{
+	color:#2a76c6;
+}
+
+menubar{
+	padding:1px;
+}
+
+window > grid > label{ /*ProblemSelector.m_label*/
+	border-bottom: solid 1px rgb(216,216,216);
+}
+
+menuitem:hover{
+    background-image: -gtk-gradient (linear,left top, left bottom,
+		 from (shade (@selected_bg_color, 1.1)),
+		 to (shade (@selected_bg_color, 0.9)));
+	transition: 200ms linear;		 
+}
+
+menubar > menuitem{
+	border-left:0;
+	border-right:0;
+}
+
+menuitem{
+	color:rgb(0,0,0);
+	border-left: solid 1px rgb(157,157,153); 
+	border-right: solid 1px rgb(157,157,153); 
+}
+
+menuitem:disabled{
+	color:#8e8e8e;
+}
+
+menubar label{
+	font-size: 10pt;
+	font-family: Tahoma;
+}
+
+textview, entry, label, progressbar, scale{
+	font-size:14pt;/*##1 special string is used to change font where user choose 'select font' menu item */
+	font-family:Times New Roman;/*##1*/
+	font-style:normal;/*##1*/
+	font-weight:400;/*##1*/
+}
+
+.smallFont{/*toottip smallfont*/
+	font-size: 11pt;
+}
+
+/*recent, music etc if open/save file, disks C,D lays at the end of list, need move them upper*/
+dialog box filechooser box paned placessidebar viewport list row revealer widget box label{
+	font-size: 9pt;
+	font-family: Tahoma;
+}
+
+.bigFont{
+	font-size: 20pt;
+	font-family:Times New Roman;
+}
+
+textview, textview text{
+	background:transparent;
+}
+
+.round-corner /*problem list editor, calculator*/{
+	border-radius: .8em;
+	border: solid 1px @font_color;
+}
+
+dialog frame border{
+	padding:10px;
+	border-radius: .8em;
+	border-color: @font_color;
+}
+
+GtkLabel /*Config::loadCss()*/
+,label.fontcolor /*game analisys label. staus bar*/
+,textview text
+,dialog label
+,scale
+,progressbar text
+{
+	color:@font_color;
+}
+
+/*pbn editor auction text_view*/
+textview.whitebackground text{
+	color:rgb(0,0,0);
+}
+.whitebackground{
+	background:rgb(255,255,255);
+}
+
+/*
+dialog box box buttonbox buttonl - font/color selection dialog
+.sbutton label -sbutton without image it's CustomSkinDialog
+.sbutton widget box label - sbutton with image
+doesn't depend on skin label text in button is always black
+*/
+.sbutton widget box label
+,.sbutton label
+,dialog box box buttonbox button label
+{
+	color:rgb(0,0,0);
+	text-shadow:none;/*important, this line remove ugly white shadow*/
+}
+
+.sbutton
+,dialog box box buttonbox button{
+	border-radius: .5em;
+	border: solid 1px #0076a3;
+	background: -gtk-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));	
+}
+
+.sbutton:hover
+,dialog box box buttonbox button:hover{
+	background: -gtk-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
+}
+
+.sbutton:hover:active
+,dialog box box buttonbox button:hover:active{
+	background: -gtk-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+}
+
+.sbutton:disabled
+,dialog box box buttonbox button:disabled{
+	border: solid 1px #222222;
+	background: -gtk-gradient(linear, left top, left bottom, from(#222222), to(#dddddd));
+}
+
+.cerror{
+	color:rgb(255,0,0);
+}

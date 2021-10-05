@@ -1,0 +1,20 @@
+
+
+
+Deal: 1                                A87 432 A975 432
+Contract: 4S-South    K QT765 QJ QJT87                  9543 KJ T86432 6
+OnLead: West                           QJT62 A98 K AK95
+Lead: SK
+Result: makes
+Commentary:
+This deal is a very tough double-dummy construction by Hugh Darwen.  The SK is led which attacks dummy's entry to the DA.  How do you bring home 4S from there?
+
+
+
+Deal: 2                                765432 AK A KJ32
+Contract: 4NT-South - - JT98765432 T98                  QJT98 QJT98 Q 76
+OnLead: West                           AK 765432 K AQ54
+Lead: CT 
+Result: makes
+Commentary:
+Another tough double-dummy construction by Hugh Darwen.  Not a very natural looking deal to be sure, but making 4NT after a club lead requires an intricate balancing act.

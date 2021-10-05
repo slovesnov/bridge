@@ -1,0 +1,3 @@
+/*Note use rgba not rgb colors because for 'scale' font color is changed for example black color became gray, seems wrong opacity*/
+@define-color font_color rgba(238,238,236,255);
+GtkDialog,dialog{background:rgba(255,163,72,255);}

@@ -1,0 +1,307 @@
+% bts version 5.0
+deal 1 76.J4..A3 .T53.Q7.6 .AK6.T9.T .Q9.J6.J8
+contract 6S
+play S
+turns 0
+comment South to lead with spades as trumps. North-South to win all six tricks. DR1 http://www.doubledummy.net/Bergholt001.html
+
+deal 2 7..AJ842.A K.9.Q95.T6 A.T2.K6.J9 8.7.T73.Q8
+contract 7S
+play S
+turns 0
+comment South to lead with spades as trumps. North-South to win all seven tricks. DR1 http://www.doubledummy.net/Bergholt002.html
+
+deal 3 J86.AJ4.A. T72.96.4.T A9.Q7..J93 K.K8.9.K86
+contract 7H
+play S
+turns 0
+comment South to lead with hearts as trumps. North-South to win all seven tricks. DR1 http://www.doubledummy.net/Bergholt003.html
+
+deal 4 KT..AQ5.43 J7.Q..JT65 65.3.6.AK9 ..KJ98.Q87
+contract 6H
+play S
+turns 0
+comment South to lead with hearts as trumps. North-South to win six tricks. DR1 http://www.doubledummy.net/Bergholt004.html
+
+deal 5 AQ9..T5.Q7 J75.7.J87. 64.5.A96.5 KT8.J..982
+contract 6H
+play S
+turns 0
+comment South to lead with hearts as trumps. North-South to win six tricks. DR1 http://www.doubledummy.net/Bergholt005.html
+
+deal 6 J5..A6.Q94 Q76..J7.J7 K84.9.8.K8 9..QT9.AT5
+contract 6H
+play S
+turns 0
+comment South to lead with hearts as trumps. North-South to win six tricks. DR1 http://www.doubledummy.net/Bergholt006.html
+
+deal 7 AK95.J.Q4. QJ..AT8.AQ .T4.K93.K7 .A983.J.T3
+contract 6S
+play S
+turns 0
+comment South to lead with spades as trumps. North-South to win six tricks. DR1 http://www.doubledummy.net/Bergholt007.html
+
+deal 8 .K8765.T6. 9.AJ9.Q.JT .QT.A.9873 .32.98.KQ5
+contract 6H
+play S
+turns 0
+comment South to lead with hearts as trumps. North-South to win six tricks. DR1 http://www.doubledummy.net/Bergholt008.html
+
+deal 9 5..J932.AT 98.Q.65.76 T6.95.KQ.8 ..AT874.QJ
+contract 5C
+play S
+turns 0
+comment South to lead with clubs as trumps. North-South to win five tricks. DR1 http://www.doubledummy.net/Bergholt009.html
+
+deal 10 .97.K6.K95 T.T.J8.Q87 J983...J64 Q765.J..AT
+contract 4H
+play S
+turns 0
+comment South to lead with hearts as trumps. North-South to win four tricks. DR2 http://www.doubledummy.net/Bergholt010.html
+
+deal 11 .KQ5.J74.T .94.T653.2 QT..A9.Q93 AK.T3.KQ.K
+contract 4H
+play S
+turns 0
+comment South to lead with hearts as trumps. North-South to win four tricks. DR2 http://www.doubledummy.net/Bergholt011.html
+
+deal 12 .JT63.82.74 QT54..T7.QT AJ97..K6.A3 K..QJ9.KJ82
+contract ?H
+play S
+turns 0
+comment South to lead with hearts as trumps. North-South to win eight tricks. DR1 http://www.doubledummy.net/Bergholt012.html
+
+deal 13 K2..AQT7.J6 J5..J653.K8 T4.753.9.A4 Q6..K842.Q2
+contract ?H
+play S
+turns 0
+comment South to lead with hearts as trumps. North-South to win eight tricks. DR3 http://www.doubledummy.net/Bergholt013.html
+
+deal 14 .A.AJ83.K92 .K8.Q76.T76 3.95.K2.AJ4 .Q6.T95.Q85
+contract ?S
+play S
+turns 0
+comment South to lead with spades as trumps. North-South to win eight tricks. DR1 http://www.doubledummy.net/Bergholt014.html
+
+deal 15 AT7.J..T983 95.KQ6..QJ5 J3.T85..AK4 Q8.A97..762
+contract 7S
+play S
+turns 0
+comment South to lead with spades as trumps. North-South to win seven tricks. DR1 http://www.doubledummy.net/Bergholt015.html
+
+deal 16 52.T63..982 J.QJ5.52.KQ A4.AK8.K.74 .97.AQJ976.
+contract 6S
+play S
+turns 0
+comment South to lead with spades as trumps. North-South to win six tricks. DR2 http://www.doubledummy.net/Bergholt016.html
+
+deal 17 65432.9.Q6.J J8.8.KT97.T8 AKQ7..AJ432. T9.7.85.9653
+contract ?H
+play S
+turns 0
+comment South to lead with hearts as trumps. North-South to win eight tricks. DR1 http://www.doubledummy.net/Bergholt017.html
+
+deal 18 74.4.A654.KJ 8.T8.QT73.T3 K.J7.K9.7654 J..J82.AQ982
+contract 7S
+play S
+turns 0
+comment South to lead with spades as trumps. North-South to win seven tricks. DR1 http://www.doubledummy.net/Bergholt018.html
+
+deal 19 T652.AQT53.8. KJ8.9764..987 AQ9..KT65.AQ4 743.KJ8.QJ9.5
+contract ?S
+play S
+turns 0
+comment South to lead with spades trumps. North-South to make nine tricks. DR3 http://www.doubledummy.net/Bergholt019.html
+
+deal 20 AJ8..A85.JT53 K.9654.Q.K986 T543.Q8.92.A4 Q976.J.T76.Q7
+contract ?S
+play S
+turns 0
+comment South to lead with spades trumps. North-South to make eight tricks. DR1 http://www.doubledummy.net/Bergholt020.html
+
+deal 21 A6.KJT.A9532.8 T84..KQT4.T972 QJ9.987.J.AQJ6 7.654.876.K543
+contract ?S
+play S
+turns 0
+comment South to lead with spades trumps. North-South to make all eleven tricks. DR1 http://www.doubledummy.net/Bergholt021.html
+
+deal 22 652.J632.AT8.5 KQ87.Q98.7.T82 AJ43.AK.53.J97 T9.T754.Q94.64
+contract ?D
+play S
+turns 0
+comment South to lead with diamonds trumps. North-South to make ten tricks. DR1 http://www.doubledummy.net/Bergholt022.html
+
+deal 23 Q9.AT3.Q73.543 87.K95.A54.KJ9 .Q76.KT86.AQT2 J.J842.J92.876
+contract ?H
+play S
+turns 0
+comment South to lead with hearts trumps. North-South to make eight tricks. DR3 http://www.doubledummy.net/Bergholt023.html
+
+deal 24 AKT3.AQ54..J74 Q82.JT6..QT652 54.932.JT93.AK J976.K87.Q.983
+contract 7C
+play S
+turns 0
+comment South to lead with clubs trumps. North-South to make seven tricks. DR2 http://www.doubledummy.net/Bergholt024.html
+
+deal 25 AT84.84.AK643.63 76.7632.9875.874 QJ32.KQJ5.T.AKQ9 K95.AT9.QJ2.JT52
+contract 7S
+play CJ
+turns 1
+comment South to make seven spades. West generously leads the CJ. DR1 http://www.doubledummy.net/Bergholt025.html
+
+deal 26 A43.65.AQJ75.A63 J85.QT43.K.JT952 K762.AKJ92.83.K4 QT9.87.T9642.Q87
+contract 7H
+play D2
+turns 1
+comment South to make seven hearts. West leads the D2. DR2 http://www.doubledummy.net/Bergholt026.html
+
+deal 27 84.AK7.5.AK86432 Q732.J63.87642.T AKJT65.954.AQJ9. 9.QT82.KT3.QJ975
+contract 7S
+play CQ
+turns 1
+comment South to make seven spades. West leads the CQ. DR5 http://www.doubledummy.net/Bergholt027.html
+
+deal 28 KJ84.AQ98.2.AQ93 93.T7632.KT4.T75 AT6.4.AQ98765.J6 Q752.KJ5.J3.K842
+contract 6C
+play S2
+turns 1
+comment South to make six clubs. West leads the S2. DR2 http://www.doubledummy.net/Bergholt028.html
+
+deal 29 AJT82.Q.8532.874 96543.8654.T74.J K.AKJT3.AJ.AT632 Q7.972.KQ96.KQ95
+contract 5H
+play DK
+turns 1
+comment South to make five hearts. West leads the DK. DR2 http://www.doubledummy.net/Bergholt029.html
+
+deal 30 Q842.Q54..AK7654 K53.K72.K754.JT3 AT6.AJ6.AQJT6.92 J97.T983.9832.Q8
+contract 5D
+play HT
+turns 1
+comment South to make five diamonds. West leads the H10. DR1 http://www.doubledummy.net/Bergholt030.html
+
+deal 31 J5.K843.AJ532.A4 KQ6.Q97.KT98.K83 A9743.A.Q6.Q7652 T82.JT652.74.JT9
+contract 5D
+play CJ
+turns 1
+comment South to make five diamonds. West leads the CJ.  (HD's improvement was to swap the SQ and S10. Why?) DR2 http://www.doubledummy.net/Bergholt031.html
+
+deal 32 A852.AKJ.A97432. T9.7654.T865.T75 QJ6.T9832.J.K963 K743.Q.KQ.AQJ842
+contract 5S
+play DK
+turns 1
+comment South to make five spades. West leads the DK. DR2 http://www.doubledummy.net/Bergholt032.html
+
+deal 33 K983.JT9642.AKQ. 742.Q8753.952.T3 QT5.A.87643.K987 AJ6.K.JT.AQJ6542
+contract 5S
+play HK
+turns 1
+comment South to make five spades. West leads the HK. DR2 http://www.doubledummy.net/Bergholt033.html
+
+deal 34 752.AQ98.AQ64.92 QJ6.76432.J.QJ73 AKT.5.98732.AKT8 9843.KJT.KT5.654
+contract 5S
+play C4
+turns 1
+comment South to make five spades. West leads the C4. DR3 http://www.doubledummy.net/Bergholt035.html
+
+deal 35 AQT.A7.KQ84.JT64 73.QJT62.A763.AQ 86542.98543.52.K KJ9.K.JT9.987532
+contract 4S
+play DJ
+turns 1
+comment South to make four spades. West leads the DJ. DR1 http://www.doubledummy.net/Bergholt036.html
+
+deal 36 AJ5..J98543.K986 Q94.Q8632.QT762. KT7.KJ95.A.AQ542 8632.AT74.K.JT73
+contract 4S
+play DK
+turns 1
+comment South to make four spades. West leads the DK. DR1 http://www.doubledummy.net/Bergholt037.html
+
+deal 37 AT8.JT93.K92.A62 K974.Q5.A764.KJT 532.AK87642..754 QJ6..QJT853.Q983
+contract 4H
+play DQ
+turns 1
+comment South to make four hearts. West leads the DQ. DR2 http://www.doubledummy.net/Bergholt038.html
+
+deal 38 J42.92.AT4.AT984 KT98653.Q84.92.K AQ.AK753.876.Q73 7.JT6.KQJ53.J652
+contract 4H
+play DK
+turns 1
+comment South to make four hearts. West leads the DK. DR2 http://www.doubledummy.net/Bergholt039.html
+
+deal 39 AQ7.KJ7.943.QJ95 6532.T965.K7.T87 T98.832.AQ5.A432 KJ4.AQ4.JT862.K6
+contract 4S
+play CK
+turns 1
+comment South to make four spades. West helpfully leads the CK. DR2 http://www.doubledummy.net/Bergholt040.html
+
+deal 40 732.AT9.J932.Q73 KJ4.K75.8754.A65 AQT5.Q63.A6.KT42 986.J842.KQT.J98
+contract 3H
+play DK
+turns 1
+comment South to make three hearts. West helpfully leads the DK. DR1 http://www.doubledummy.net/Bergholt041.html
+
+deal 41 AQ4.98.J865.A754 JT82.A6.A43.T963 753.J7542.KQ.K82 K96.KQT3.T972.QJ
+contract 2H
+play D2
+turns 1
+comment South to make two hearts. West helpfully leads the D2. DR1 http://www.doubledummy.net/Bergholt042.html
+
+deal 42 J832.J542.986.94 .K9.JT7542.AQT82 K654.AQ7.AK.7653 AQT97.T863.Q3.KJ
+contract 1NT
+play ST
+turns 1
+comment South to make one no-trump. West helpfully leads the S10. DR3 http://www.doubledummy.net/Bergholt043.html
+
+deal 43 KT5.J63.K6.K9752 J3.Q8754.J5.Q863 A8.KT2.Q98742.J4 Q97642.A9.AT3.AT
+contract 1NT
+play D3
+turns 1
+comment South to make one no-trump. West helpfully leads the D3. DR5 http://www.doubledummy.net/Bergholt044.html
+
+deal 44 AJ7.AT3.754.T632 T9852.K74.A32.Q8 643.J86.KQ6.A954 KQ.Q952.JT98.KJ7
+contract 1S
+play SK
+turns 1
+comment South to make one spade. West leads the SK. DR6 http://www.doubledummy.net/Bergholt045.html
+
+deal 45 A3.A87.A965. J8.Q.QT8.K97 QT.654.4.A86 95.32.32.543
+contract ?S
+play S
+turns 0
+comment South to lead with spades trumps. North-South to make all the tricks. DR1 http://www.doubledummy.net/Bergholt049.html
+
+deal 46 A8.JT.T8.64 76.Q98..JT3 J5.75..AKQ9 QT..97.8752
+contract 7S
+play S
+turns 0
+comment South to lead with spades trumps. North-South to make seven tricks. DR1 http://www.doubledummy.net/Bergholt051.html
+
+deal 47 T84...T 97.76.. 6.4..A9 .A..Q86
+contract 3NT
+play S
+turns 0
+comment South to lead at no-trumps. North-South to make three tricks. DR1 http://www.doubledummy.net/Bergholt052.html
+
+deal 48 JT4.J7.. Q.Q964.. A86.8.7. K97.T.6.
+contract 3D
+play S
+turns 0
+comment South to lead with diamonds trumps. North-South to make three tricks. (The problem is remarkably similar to Problem 2 in Coffin's collection. Thanks to Freda Fong for spotting this.) DR1 http://www.doubledummy.net/Bergholt053.html
+
+deal 49 .KT83.K. 7.4.T8.T 6.7.J97. 8.QJ9.6.
+contract 3S
+play S
+turns 0
+comment South to lead with spades trumps. North-South to make three tricks. DR1 http://www.doubledummy.net/Bergholt054.html
+
+deal 50 K.AJ2..2 .Q74.9.3 .T86.7.7 6.K95.Q.
+contract 4C
+play S
+turns 0
+comment South to lead with clubs trumps. North-South to make four tricks. DR1 http://www.doubledummy.net/Bergholt055.html
+
+deal 51 6..95.A7 .9.K6.QT .5.J72.9 J..T.J85
+contract 4D
+play S
+turns 0
+comment South to lead with diamonds trumps. North-South to make four tricks. DR1 http://www.doubledummy.net/Bergholt056.html
+

@@ -1,0 +1,53 @@
+--
+--
+--			         DEAL DESCRIPTION FILE
+--
+--
+-- When asked to save a deal or position, Deep Finesse appends to this
+-- file by default and uses the human-readable format shown in the 
+-- example deals below.  Once saved, Deep Finesse can load back any 
+-- deal or position for later analysis.  
+--
+-- The format is meant to be intuitive.  The North cards are shown on
+-- top, spades leftmost and clubs rightmost.  Declarer is always South.
+-- Cards of rank ten are represented with a 'T' not '10'.
+--
+-- Of special note are the "Lead:" cards.  When a whole deal is saved,
+-- this field shows the single lead card of the deal from the West
+-- hand.  When a position is saved, it contains the list of cards that
+-- must be played in order to reach the position.
+--
+
+
+
+
+Deal: 1                               AJ2 A32 K32 KQ32
+Contract: 6D-South   Q543 QT84 T4 T76                  KT987 K7 95 J984
+OnLead: West                          6 J965 AQJ876 A5
+Lead: H4 HA 
+Result: down
+Commentary:
+Declarer's only real shot at six diamonds after a small heart lead is to strip the black suits and hope someone holds Kx or Qx of hearts for an endplay.  East can foil the plan by dumping the HK under the ace.  Played by Bill Lopenheimer at a GNT match.
+
+
+
+
+Deal: 2                               QT7642 42 K43 A6
+Contract: 3NT-South  85 KQJ875 T85 92                  AJ9 T9 A76 JT753
+OnLead: West                          K3 A63 QJ92 KQ84
+Lead: HK H2 H9 H3  HQ 
+Result: makes
+Commentary:
+In 3NT, declarer allows the first heart trick to hold and West opts to continue the suit.  At this point, declarer can make it but it isn't easy.  Can you find the correct line?
+
+
+
+
+Deal: 3                               AQ5 J KQT75 AQ63
+Contract: 4S-South   T973 T543 84 JT5                  62 KQ876 A63 K98
+Onlead: West                          KJ84 A92 J92 742
+Lead: H3
+Result: makes
+Commentary:
+This deal contains many complicated lines.  As it turns out, the only way for declarer to succeed in four spades is to duck the first heart, and ruff the next heart if the suit is continued.  Saving the ace in this manner keeps control of hearts, enabling declarer to draw trumps and drive out the DA.  From a Frank Stewart column.
+

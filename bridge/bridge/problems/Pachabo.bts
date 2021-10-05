@@ -1,0 +1,229 @@
+% bts version 5.0
+deal 1 K9..K64.K85 87.T76.Q.76 42.QJ82.5.3 JT..J98.QJT
+contract ?H
+play S
+turns 0
+comment South to lead with hearts as trumps. South and North to win all eight tricks. DR1 http://www.doubledummy.net/Pachabo001.html
+
+deal 2 8.AK43.4.K98 765.T86.7.65 A432.Q97.T.7 KQJT..Q5.QJT
+contract ?H
+play S
+turns 0
+comment South to lead with hearts as trumps. South and North to win all nine tricks. DR1 http://www.doubledummy.net/Pachabo002.html
+
+deal 3 .A954.Q54.6 T.K.KJ97.T7 8.T7.632.54 J.QJ86..983
+contract 2NT
+play S
+turns 0
+comment South to lead at no-trumps. South and North to win two tricks. DR2 http://www.doubledummy.net/Pachabo003.html
+
+deal 4 5432..32.32 .QT98.98.98 .AJ32.A7.A7 .K.KQJ.KQJT
+contract ?S
+play S
+turns 0
+comment South to lead with spades as trumps. South and North to win all eight tricks. DR1 http://www.doubledummy.net/Pachabo004.html
+
+deal 5 432..Q.7 KJ.T98.. Q95..J.3 T876...J
+contract 3D
+play S
+turns 0
+comment South to lead with diamonds as trumps. South and North to win three tricks. DR1 http://www.doubledummy.net/Pachabo005.html
+
+deal 6 65432.Q.Q6.K K7.T.KT92.98 AQJ8..AJ754. T9.9.83.QJT7
+contract ?H
+play S
+turns 0
+comment South to lead with hearts as trumps. South and North to win eight tricks. DR2 http://www.doubledummy.net/Pachabo006.html
+
+deal 7 A983.AK.K6.Q5 7.954.QJ2.J96 .QJT873.73.74 KQT2.62.T8.T8
+contract ?H
+play S
+turns 0
+comment South to lead with hearts as trumps. South and North to win all ten tricks. DR1 http://www.doubledummy.net/Pachabo007.html
+
+deal 8 QJ7.A65.AQJ.A543 AKT98432..6532.7 .QJT987.KT8.KQ62 65.K432.974.JT98
+contract 6H
+play S6
+turns 1
+comment South to make six hearts. West leads the S6. DR1 http://www.doubledummy.net/Pachabo008.html
+
+deal 9 J9.Q4.AK76532.J8 QT87.KJ853..AKQ9 AK43.A72.T4.7532 652.T96.QJ98.T64
+contract 3D
+play C4
+turns 1
+comment South to make three diamonds. West leads the C4. DR1 http://www.doubledummy.net/Pachabo009.html
+
+deal 10 AT8765.K5.K6.T82 J.Q76.QT987.6543 Q42.AT84.AJ54.AJ K93.J932.32.KQ97
+contract 7NT
+play CK
+turns 1
+comment South to make seven no-trumps. West leads the CK. DR1 http://www.doubledummy.net/Pachabo010.html
+
+deal 11 7532..AK5432.J63 KJ.KT976542.QJ.T AQT.AJ83.987.AKQ 9864.Q.T6.987542
+contract 6NT
+play HQ
+turns 1
+comment South to make six no-trumps. West leads the HQ. DR1 http://www.doubledummy.net/Pachabo011.html
+
+deal 12 A54.A7643.KQ.K84 J9732.T.JT8743.T K6.KJ9.652.AJ532 QT8.Q852.A9.Q976
+contract 5NT
+play DA
+turns 1
+comment South to make five no-trumps. West leads the DA and continues with the D9. DR1 http://www.doubledummy.net/Pachabo012.html
+
+deal 13 K876.AQT6.AK87.8 T543.KJ542.6542. AQJ2..3.AK765432 9.9873.QJT9.QJT9
+contract 6S
+play S9
+turns 1
+comment South to make six spades. West leads the S9. DR2 http://www.doubledummy.net/Pachabo013.html
+
+deal 14 K74.Q76.QT964.KQ QT98.K54.K.JT987 A32.A32.A532.A62 J65.JT98.J87.543
+contract 6NT
+play HJ
+turns 1
+comment South to make six no-trumps. West leads the HJ. DR2 http://www.doubledummy.net/Pachabo014.html
+
+deal 15 972.J9752.KQ.Q52 T.AKT843.A87.K43 AKQJ85.Q6.432.AT 643..JT965.J9876
+contract 4S
+play W
+turns 0
+comment South to make four spades. West leads the DJ but East errs badly by winning with the DA and playing HA, HK and another heart. DR2 http://www.doubledummy.net/Pachabo015.html
+
+deal 16 Q865.AQJT..JT 9.754.T95.983 T7432.K.J863. AKJ.98632.KQ.
+contract ?S
+play S
+turns 0
+comment South to lead with spades as trumps. South and North to win eight tricks. DR2 http://www.doubledummy.net/Pachabo016.html
+
+deal 17 Q7.Q7.JT9876.Q32 J98.J98.432.T987 AT3.AT3.AKQ.A654 K6542.K6542.5.KJ
+contract 6NT
+play W
+turns 0
+comment Can South, as declarer, make six no-trumps against any defence? DR1 http://www.doubledummy.net/Pachabo017.html
+
+deal 18 J86.32..A2 5.J97..T87 7.K.K5.J96 .QT.Q3.Q53
+contract 7S
+play S
+turns 0
+comment South to lead with spades as trumps. South and North to win all seven tricks. DR1 http://www.doubledummy.net/Pachabo018.html
+
+deal 19 .T3.AJ5.3 743.4.82. QJ8..96.6 T.82..KJ4
+contract 5H
+play S
+turns 0
+comment South to lead with hearts as trumps. South and North to win five tricks. DR2 http://www.doubledummy.net/Pachabo019.html
+
+deal 20 4.643..5 ..532.42 62..64.3 53.52..6
+contract 5H
+play S
+turns 0
+comment South to lead with hearts as trumps. South and North to win five tricks. DR1 http://www.doubledummy.net/Pachabo020.html
+
+deal 21 .K2..A654 9.J.Q9.98 .AQ.AT85. .43.432.3
+contract 5NT
+play S
+turns 0
+comment South to lead at no-trumps. South and North to win five tricks. DR1 http://www.doubledummy.net/Pachabo021.html
+
+deal 22 AJT9.K54.A.76543 Q876.Q87.9876.K8 K.AT932.KQJT.AQ2 5432.J6.5432.JT9
+contract 7H
+play S2
+turns 1
+comment South make seven hearts against the lead of a spade. DR1 http://www.doubledummy.net/Pachabo022.html
+
+deal 23 .JT2.Q8742.QT832 A9742.Q85.J963.K K8653.AK96.AT5.A QJT.743.K.J97654
+contract 6H
+play C6
+turns 1
+comment South make six hearts. West leads the C6. DR1 http://www.doubledummy.net/Pachabo023.html
+
+deal 24 A8..Q.AJ54 J.86.4.KT7 K.T3.753.Q T.4.T2.986
+contract 7S
+play S
+turns 0
+comment South to lead with spades trumps. South and North are to make all seven tricks. DR1 http://www.doubledummy.net/Pachabo024.html
+
+deal 25 A.Q8.8.A85 97..J96.T7 T86..QT7.J QJ.J7..Q96
+contract 6NT
+play S
+turns 0
+comment South to lead at no-trumps. South and North are to make six tricks. DR3 http://www.doubledummy.net/Pachabo025.html
+
+deal 26 QJ.AT765432.K98. KT9..AQT.T765432 A762.QJ.432.AKQ8 8543.K98.J765.J9
+contract 3NT
+play D5
+turns 1
+comment South to make three no-trumps. West leads the D5. DR2 http://www.doubledummy.net/Pachabo026.html
+
+deal 27 987.Q.AT.43 64..97543.Q KQJ.A..J762 53.K.KJ.T98
+contract 7NT
+play S
+turns 0
+comment South to lead at no-trumps. South and North are to make seven tricks. DR1 http://www.doubledummy.net/Pachabo027.html
+
+deal 28 Q.K732.AQ6.Q95 .J954.J75.KT63 K93.Q.T93.AJ84 T7.AT86.K842.7
+contract ?S
+play S
+turns 0
+comment South to lead with spades trumps. South and North are to make ten tricks. DR2 http://www.doubledummy.net/Pachabo028.html
+
+deal 29 643.874.K84.A5 K95..J52.T9764 AQ2.Q.AT9.QJ83 JT87.T9.Q763.K
+contract ?NT
+play S
+turns 0
+comment South to lead at no-trumps. South and North are to make ten tricks. DR2 http://www.doubledummy.net/Pachabo029.html
+
+deal 30 J32.J32.KJ752.T3 64.65.T864.K7642 A7.AK4.A93.AQJ85 KQT985.QT987.Q.9
+contract 6NT
+play SK
+turns 1
+comment South to make six no-trumps. West leads the SK. DR1 http://www.doubledummy.net/Pachabo030.html
+
+deal 31 A9.AK5.J92.K8653 KQ852.T82.Q87.A2 73.643.AKT6543.7 JT64.QJ97..QJT94
+contract 6D
+play CQ
+turns 1
+comment South to make six diamonds. West leads the CQ, which holds, and switches to the HQ. DR2 http://www.doubledummy.net/Pachabo031.html
+
+deal 32 KT63.AK752..Q643 54.JT983.83.KJT7 A7.64.KQJ75.A952 QJ982.Q.AT9642.8
+contract 5C
+play W
+turns 0
+comment West to lead and West and East to defeat South's contract of five clubs. DR4 http://www.doubledummy.net/Pachabo032.html
+
+deal 33 KJ64.AT82..K84 AQ852.J73..J63 .54.976532.Q72 T73.Q96.J.AT95
+contract ?NT
+play S
+turns 0
+comment South is on lead at no-trumps. How many tricks can South and North make against best defence? DR3 http://www.doubledummy.net/Pachabo033.html
+
+deal 34 Q7.QT932.4.T8762 KT43.AKJ4.AT732. A8652..KJ9.AKQJ5 J9.8765.Q865.943
+contract ?C
+play W
+turns 0
+comment West to lead with clubs as trumps. How many tricks can South and North make against best defence? DR2 http://www.doubledummy.net/Pachabo034.html
+
+deal 35 Q7.2.AQJ432.AKQJ 96543.T987.KT5.T AKJT8.AJ6.7.9873 2.KQ543.986.6542
+contract ?S
+play HK
+turns 1
+comment With spades as trumps, West leads the HK. How many tricks can South and North make against best defence? DR1 http://www.doubledummy.net/Pachabo035.html
+
+deal 36 7.AK54.Q63.AJ 9.QJT7.JT8.72 KQ.8.K94.Q965 5.9632..KT843
+contract ?S
+play S
+turns 0
+comment South to lead with spades as trumps. South and North are to make nine tricks. DR2 http://www.doubledummy.net/Pachabo036.html
+
+deal 37 9.9.QT96.9753 J86.J2..J8642 A52.5.AK532.A 43.7.J874.KQT
+contract ?D
+play S
+turns 0
+comment South to lead with diamonds as trumps. South and North are to make ten tricks. DR1 http://www.doubledummy.net/Pachabo037.html
+
+deal 38 KJ832.AQ.Q.AKJT7 Q764.T.T987654.9 A5.J9874.AK3.853 T9.K6532.J2.Q642
+contract 7C
+play ST
+turns 1
+comment South to make seven clubs. West leads the S10. DR1 http://www.doubledummy.net/Pachabo038.html
+

@@ -1,0 +1,263 @@
+-- Bridge Puzzle Deals created by Richard Pavlicek
+-- For personal, non-commercial use only.  May not be redistributed
+-- or republished without permission.  Copyright (c) 1980-1999
+-- Email: pavlicek@gate.net  Web site: www.gate.net/~pavlicek
+
+-- Group 1 (Deals 1-40)
+-- Declarer can succeed with given lead
+
+
+Deal: 1                               876 8 AKQ65 J852
+Contract: 6S-South   953 KQ6542 4 Q76                  4 AJT973 J32 KT9
+OnLead: West                          AKQJT2 - T987 A43
+Lead: HK
+
+Deal: 2                               876 A8542 AQT87 -
+Contract: 6S-South   953 KT93 6 JT984                  4 QJ76 KJ9 76532
+OnLead: West                          AKQJT2 - 5432 AKQ
+Lead: CJ
+
+Deal: 3                               876 AK2 986 QJ54
+Contract: 6S-South   953 QJT943 Q T32                  4 8765 KJT2 9876
+OnLead: West                          AKQJT2 - A7543 AK
+Lead: HQ
+
+Deal: 4                               AK JT93 64 AQJT9
+Contract: 7D-South   J9743 87654 - 754                 QT65 AKQ2 K3 K86
+OnLead: West                          82 - AQJT98752 32
+Lead: H8
+
+Deal: 5                               AKJ 983 9876 AQ7
+Contract: 4H-South   QT43 74 AQJ5 K54                  876 JT65 T4 9863
+OnLead: West                          952 AKQ2 K32 JT2
+Lead: H7
+
+Deal: 6                               J6543 AK32 2 432
+Contract: 6H-South   T987 Q 9876543 7                  2 JT KQJT KQJT98
+OnLead: West                          AKQ 987654 A A65
+Lead: C7
+
+Deal: 7                               AK54 K2 A543 A32
+Contract: 6H-South   JT9 Q43 QJT9 JT9                  876 A K876 Q8765
+OnLead: West                          Q32 JT98765 2 K4
+Lead: DQ
+
+Deal: 8                               K32 A654 K32 A54
+Contract: 3N-South   QJT9 87 QJT98 76                  87 QJT9 76 QJT98
+OnLead: West                          A654 K32 A54 K32
+Lead: DQ
+
+Deal: 9                               - K2 AQJ8 KQJT987
+Contract: 7N-South   2 QJ987654 K976 -                 T754 T 32 A65432
+OnLead: West                          AKQJ9863 A3 T54 -
+Lead: HQ
+
+Deal: 10                              5432 KQJT9 JT98 -
+Contract: 6S-South   6 32 K765 KQJT98                  7 A87 Q2 A765432
+OnLead: West                          AKQJT98 654 A43 -
+Lead: CK
+
+Deal: 11                              K9843 QJT 4 JT54
+Contract: 4S-South   2 9 AKJT9 AQ9876                  QT7 K87654 32 K3
+OnLead: West                          AJ65 A32 Q8765 2
+Lead: DK D4 D3 D5 H9
+
+Deal: 12                              Q52 Q63 AKJ98 A4
+Contract: 7H-South   J76 987 73 QJT65                  K43 52 T6542 987
+OnLead: West                          AT98 AKJT4 Q K32
+Lead: CQ
+
+Deal: 13                              A97532 2 6543 AT
+Contract: 5S-South   T864 543 QJ987 2                  Q KJ9876 K QJ987
+OnLead: West                          KJ AQT AT2 K6543
+Lead: H3
+
+Deal: 14                              A8543 65432 AKT -
+Contract: 6C-South   KQJ7 A7 J9654 32                  T96 QJT9 32 7654
+OnLead: West                          2 K8 Q87 AKQJT98
+Lead: D5
+
+Deal: 15                              432 32 KQJT2 983
+Contract: 3N-South   A AKJ97654 87 76                  KQJT98 - 654 JT54
+OnLead: West                          765 QT8 A93 AKQ2
+Lead: HK
+
+Deal: 16                              J32 QJ AK72 Q732
+Contract: 5C-South   T98 KT98 Q6543 T                  Q654 A654 T9 K54
+OnLead: West                          AK7 732 J8 AJ986
+Lead: ST
+
+Deal: 17                              K T32 T432 AKQ92
+Contract: 6S-South   765 - KJ987 JT876                 432 AJ98765 - 543
+OnLead: West                          AQJT98 KQ4 AQ65 -
+Lead: CJ
+
+Deal: 18                              T982 AQ AKQ6 K76
+Contract: 6S-South   J KT9876 7 QJT98                  Q765 32 JT98 543
+OnLead: West                          AK43 J54 5432 A2
+Lead: CQ
+
+Deal: 19                              Q32 K2 AQ98 AQT2
+Contract: 5H-South   AK654 Q86 T2 KJ4                  JT987 T9 KJ64 86
+OnLead: West                          - AJ7543 753 9753
+Lead: SK
+
+Deal: 20                              432 A2 98765 432
+Contract: 3N-South   J765 Q98 - QJT987                 K98 7654 KT432 K
+OnLead: West                          AQT KJT3 AQJ A65
+Lead: CQ
+
+Deal: 21                              A2 3 JT98 JT9876
+Contract: 4H-South   9876 K987 A3 AQ5                  543 2 KQ7654 K43
+OnLead: West                          KQJT AQJT654 2 2
+Lead: DA
+
+Deal: 22                              AK32 QJT 5432 A2
+Contract: 6S-South   QJ54 98 JT98 K43                  6 K76543 7 98765
+OnLead: West                          T987 A2 AKQ6 QJT
+Lead: DJ
+
+Deal: 23                              Q932 AJ6 7654 T4
+Contract: 4H-South   KJ Q Q932 Q98765                  T87654 K543 JT J
+OnLead: West                          A T9872 AK8 AK32
+Lead: HQ
+
+Deal: 24                              KJ3 32 AK AQJT98
+Contract: 6N-South   AT87 K98 T98 K65                  654 7654 7654 72
+OnLead: West                          Q92 AQJT QJ32 43
+Lead: DT
+
+Deal: 25                              9876 4 AK7 98765
+Contract: 6N-South   J5432 32 32 J432                  Q JT9876 QJT98 Q
+OnLead: West                          AKT AKQ5 654 AKT
+Lead: S3
+
+Deal: 26                              - AT94 AK954 AJT9
+Contract: 6N-South   432 KQ65 QT2 543                  QJT987 87 876 Q2
+OnLead: West                          AK65 J32 J3 K876
+Lead: HK
+
+Deal: 27                              AKQ32 - 76 987654
+Contract: 4S-South   JT9 KQ532 KQ532 -                 8 AT987 98 QJT32
+OnLead: West                          7654 J64 AJT4 AK
+Lead: HK
+
+Deal: 28                              AKQ QJT9 J97 JT8
+Contract: 6H-South   JT9876 8743 4 65                  532 2 QT865 KQ97
+OnLead: West                          4 AK65 AK32 A432
+Lead: SJ
+
+Deal: 29                              AK654 AK A86 A86
+Contract: 5D-South   QJT7 432 QJT97 T                  983 JT98 - KQJ942
+OnLead: West                          2 Q765 K5432 753
+Lead: DQ
+
+Deal: 30                              A654 32 AQT9 432
+Contract: 3N-South   JT AJT J87654 JT                  Q987 K987 3 Q987
+OnLead: West                          K32 Q654 K2 AK65
+Lead: D6
+
+Deal: 31                              432 A9832 543 32
+Contract: 4H-South   Q K76 J6 KJT9876                  KJT987 - QT987 Q4
+OnLead: West                          A65 QJT54 AK2 A5
+Lead: SQ
+
+Deal: 32                              654 K432 5432 32
+Contract: 4S-South   JT A987 987 KJ54                  K987 QJT65 6 987
+OnLead: West                          AQ32 - AKQJT AQT6
+Lead: H7
+
+Deal: 33                              KT KT98 AK98 AK6
+Contract: 6S-South   Q32 QJ76 QJ7 QJ7                  J A5432 T65 5432
+OnLead: West                          A987654 - 432 T98
+Lead: HQ
+
+Deal: 34                              A54 T A9762 6543
+Contract: 5D-South   QJT98 AJ2 K JT98                  76 K9876543 54 7
+OnLead: West                          K32 Q QJT83 AKQ2
+Lead: SQ
+
+Deal: 35                              K AQJ KQ AQ98765
+Contract: 7H-South   Q432 8765 9765 K                  T9876 K J32 JT32
+OnLead: West                          AJ5 T9432 AT84 4
+Lead: D5
+
+Deal: 36                              A843 K A765 QJ54
+Contract: 5C-South   76 QT98765 T T98                  KQJT95 J KQ98 32
+OnLead: West                          2 A432 J432 AK76
+Lead: CT
+
+Deal: 37                              A876 A2 765 A876
+Contract: 4S-South   K5 T KQJT98 KQJT                  32 KQJ9876543 - 9
+OnLead: West                          QJT94 - A432 5432
+Lead: CK
+
+Deal: 38                              A754 Q32 A98 AT2
+Contract: 6S-South   K KJT987 654 K98                  8632 654 32 J765
+OnLead: West                          QJT9 A KQJT7 Q43
+Lead: HJ
+
+Deal: 39                              A76 32 KQ54 A543
+Contract: 6S-South   K54 J9876 9 9876                  32 QT4 JT876 KQT
+OnLead: West                          QJT98 AK5 A32 J2
+Lead: D9
+
+Deal: 40                              32 AKQT K987 AK3
+Contract: 6H-South   K9876 9876 Q4 Q4                  T5 5 JT65 T98765
+OnLead: West                          AQJ4 J432 A32 J2
+Lead: H9
+
+-- Group 2 (Deals 41-50)
+-- Defense can prevail (lead is a free choice unless stipulated)
+
+Deal: 41                              K32 543 AKJT987 -
+Contract: 3N-South   76 QJT98 432 K32                  QJT98 76 Q65 A54
+OnLead: West                          A54 AK2 - QJT9876
+Lead: 
+
+Deal: 42                              A987 KQ8 K2 6543
+Contract: 6N-South   QJT JT9 QT86 T98                  432 A7654 9754 2
+OnLead: West                          K65 32 AJ3 AKQJ7
+Lead: 
+
+Deal: 43                              Q432 KT5432 432 -
+Contract: 6C-South   - AQJ9876 KJT987 -                JT98765 - - 876543
+OnLead: West                          AK - AQ65 AKQJT92
+Lead: HA
+
+Deal: 44                              J Q KT64 QJT9876
+Contract: 7C-South   Q98642 KT6 Q92 K                  T73 J9732 J73 32
+OnLead: West                          AK5 A854 A85 A54
+Lead: 
+
+Deal: 45                              A54 KJ QT876 J84
+Contract: 3N-South   K9763 7654 KJ T2                  T2 T98 A92 K9763
+OnLead: West                          QJ8 AQ32 543 AQ5
+Lead: 
+
+Deal: 46                              T32 AQT KT2 JT98
+Contract: 3N-South   A95 9876 987 765                  J76 KJ5 AJ43 432
+OnLead: West                          KQ84 432 Q65 AKQ
+Lead: H9
+
+Deal: 47                              32 KT987 Q876 KQ
+Contract: 3N-South   Q98765 AQ65 AT T                  T J2 J92 A876543
+OnLead: West                          AKJ4 43 K543 J92
+Lead: CT
+
+Deal: 48                              K98 QJT JT98 AK3
+Contract: 6H-South   65432 - 432 QJT54                 AJT 432 AKQ765 2
+OnLead: West                          Q7 AK98765 - 9876
+Lead: 
+
+Deal: 49                              Q54 873 642 KQ92
+Contract: 4H-South   J976 - 873 876543                 KT8 KJ4 AKQ95 JT
+OnLead: West                          A32 AQT9652 JT A
+Lead: C5
+
+Deal: 50                              AK5 8765 6543 AQ
+Contract: 3N-South   QJT9876 JT2 J82 -                 - A9 AT9 KJT98765
+OnLead: West                          432 KQ43 KQ7 432
+Lead: any
+
+

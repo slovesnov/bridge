@@ -1,0 +1,3004 @@
+% bts version 5.0
+deal 1 .A5432.Q3.AKQ432 T9876.Q9876.JT9. AK532.K.A82.8765 QJ4.JT.K7654.JT9
+contract 6NT
+play HJ
+turns 1
+comment South to make six no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0001.html
+
+deal 2 KJ7.QT.AKQ92.JT9 A4.K98.T543.AQ65 Q832.A432..K7432 T965.J765.J876.8
+contract 5NT
+play ST
+turns 1
+comment South to make five no-trumps. Difficulty 7 http://www.doubledummy.net/Problem0002.html
+
+deal 3 AQ5432.KJT.A32.2 JT98.AQ98765.87. K..QJT9.AKJ98765 76.432.K654.QT43
+contract 4NT
+play S6
+turns 1
+comment South to make four no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0003.html
+
+deal 4 K93.K32.AKT.9872 87654.87654..KJ4 A2.A9.J95432.AQ6 QJT.QJT.Q876.T53
+contract 6D
+play HT
+turns 1
+comment South is in six diamonds and East leads a heart out of turn.  Should South prohibit or accept the lead? How is the contract made? Difficulty 7 http://www.doubledummy.net/Problem0004.html
+
+deal 5 KT98.QT64..A9543 J65.AK5.T843.QJT Q7432.32.AJ972.2 A.J987.KQ65.K876
+contract 3S
+play SA
+turns 1
+comment South to make three spades. Difficulty 8 http://www.doubledummy.net/Problem0005.html
+
+deal 6 AKQ2..AK.AK87654 J987654.954.984. T3.AKQJ8.QT53.32 .T7632.J762.QJT9
+contract 6NT
+play H3
+turns 1
+comment South to make six no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0006.html
+
+deal 7 KQ754..876543.K4 8.JT987.AKQJT9.T A9632.A5432..A32 JT.KQ6.2.QJ98765
+contract 6S
+play CQ
+turns 1
+comment South to make six spades. Difficulty 4 http://www.doubledummy.net/Problem0007.html
+
+deal 8 AJ95.AQ86.AT96.K T862.T972.5432.2 Q7.J3.QJ7.AJ6543 K43.K54.K8.QT987
+contract 5NT
+play CT
+turns 1
+comment South to make five no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0008.html
+
+deal 9 QJ.5.A.KQJT987 K875.7.98765.2 A43.AQ86.QJ32. T9.K94.KT4.654
+contract 4H
+play ST
+turns 1
+comment South to make ten tricks with hearts trumps. Difficulty 4 http://www.doubledummy.net/Problem0009.html
+
+deal 10 A92.AT6..9872 87.985.98.KT5 QJ43.K.AK.AQ6 KT65.QJ7..J43
+contract 3C
+play S
+turns 0
+comment South to lead and make nine tricks with clubs trumps. Difficulty 5 http://www.doubledummy.net/Problem0010.html
+
+deal 11 32.A65432.AT96.K J7654.T987.KQJ8. AKT98..7543.AJ98 Q.KQJ.2.QT765432
+contract 3NT
+play HK
+turns 1
+comment South to make three no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0011.html
+
+deal 12 KQ4.A32.QJT98.J4 J76.KQJT94..QT92 AT98..AK.AK87653 532.8765.765432.
+contract 6S
+play H5
+turns 1
+comment South to make six spades. Difficulty 2 http://www.doubledummy.net/Problem0012.html
+
+deal 13 QJ5.A7.Q5432.T32 K42.2.K7.AK98765 A97.K8654.AJ6.Q4 T863.QJT93.T98.J
+contract 5NT
+play DT
+turns 1
+comment South to make five no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0013.html
+
+deal 14 7632.AQ732.98.K6 K8.KJ6.J65432.Q9 A9.54.A7.AT85432 QJT54.T98.KQT.J7
+contract 5C
+play SQ
+turns 1
+comment South to make five clubs. Difficulty 4 http://www.doubledummy.net/Problem0014.html
+
+deal 15 AQJ.T965.JT98.75 K76.K842.7654.T9 5432.QJ7.AK.AK82 T98.A3.Q32.QJ643
+contract 3NT
+play ST
+turns 1
+comment South to make three no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0015.html
+
+deal 16 KJ75.43.Q5.QT .A86.T98.K642 Q.K7.763.AJ53 T962.T9.A.987
+contract 2NT
+play S
+turns 0
+comment South to lead at no-trumps and make eight tricks Difficulty 5 http://www.doubledummy.net/Problem0016.html
+
+deal 17 J876.654.AJ2.AK9 K2.KJ.KQ4.Q65432 AQ5.AQT32.975.J7 T943.987.T863.T8
+contract 6H
+play D3
+turns 1
+comment South to make six hearts. Difficulty 4 http://www.doubledummy.net/Problem0017.html
+
+deal 18 JT87.6.4.9876543 K94.A7.765.AKQJT Q65.KQJ5432.A32. A32.T98.KQJT98.2
+contract 2H
+play C2
+turns 1
+comment South to make two hearts. Difficulty 5 http://www.doubledummy.net/Problem0018.html
+
+deal 19 A432.74.AK32.K54 65.AT982.Q876.JT QJT.J63.54.AQ932 K987.KQ5.JT9.876
+contract 5C
+play C6
+turns 1
+comment South to make five clubs. Difficulty 7 http://www.doubledummy.net/Problem0019.html
+
+deal 20 732.KJ65.8732.QJ A654.T987.Q654.2 KQ.AQ432.A.K9764 JT98..KJT9.AT853
+contract 4H
+play CA
+turns 1
+comment South to make four hearts. Difficulty 6 http://www.doubledummy.net/Problem0020.html
+
+deal 21 QJ5.A7.Q5432.T32 K42.J.87.AK98765 A97.K8654.AK6.Q4 T863.QT932.JT9.J
+contract 5NT
+play DJ
+turns 1
+comment South to make five no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0021.html
+
+deal 22 JT3.A532.532.432 8.KQ76.T987.8765 AKQ42.4.AJ64.AQT 9765.JT98.KQ.KJ9
+contract 4S
+play S5
+turns 1
+comment South to make four spades. Difficulty 3 http://www.doubledummy.net/Problem0022.html
+
+deal 23 JT98.KQ.A654.A65 KQ32.A3.K32.KT98 A7654.7652..J432 .JT984.QJT987.Q7
+contract 3S
+play W
+turns 0
+comment South to make three spades. West leads the QD to North's AD, South discarding a club. Difficulty 7 http://www.doubledummy.net/Problem0023.html
+
+deal 24 Q85.432.A92.A432 43.QJ5.T854.9875 AK76.AKT9.QJ3.KT JT92.876.K76.QJ6
+contract 6H
+play SJ
+turns 1
+comment East-West to defeat South's six hearts. Difficulty 4 http://www.doubledummy.net/Problem0024.html
+
+deal 25 AT9...65432 KQ8..J6.T98 754.AJ9.A9. .QT7654..QJ
+contract ?NT
+play S
+turns 0
+comment South leads at no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0025.html
+
+deal 26 Q432.AKQ.J832.32 J986.T83.QT9.JT4 A5.7654.AK7.KQ76 KT7.J92.654.A985
+contract 4H
+play C5
+turns 1
+comment South to make four hearts. Difficulty 5 http://www.doubledummy.net/Problem0026.html
+
+deal 27 AK7.J52.AQ6.8743 T98.KT9876.K87.2 J3.A43.952.AKQ65 Q6542.Q.JT43.JT9
+contract 5C
+play CJ
+turns 1
+comment South to make five clubs. Difficulty 6 http://www.doubledummy.net/Problem0027.html
+
+deal 28 AQ2.AKQ.AK.65432 J..QJT987.KJT987 543.JT9.65432.AQ KT9876.8765432..
+contract 4NT
+play H5
+turns 1
+comment South to make four no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0028.html
+
+deal 29 K.A954.Q7654.A84 873.T76.KJ832.QJ AQJ54.KQ.T9.T732 T962.J832.A.K965
+contract 4S
+play DA D7
+turns 1
+comment South to make four spades. West leads the AD, followed by the 5C. Difficulty 6 http://www.doubledummy.net/Problem0029.html
+
+deal 30 J987.3.KQ.KQ2 QT.K2..A87654 .AQJ54.74.T93 .T987.A6532.J
+contract 1NT
+play S
+turns 0
+comment South to lead and North-South to make seven tricks at no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0030.html
+
+deal 31 Q6543.Q.AT4.A432 987.K765.J876.JT 2.A984.Q32.Q9765 AKJT.JT32.K95.K8
+contract 5C
+play W
+turns 0
+comment Which leads by West (and subsequent defence) defeat South's contract of five clubs? Difficulty 7 http://www.doubledummy.net/Problem0031.html http://www.doubledummy.net/Problem0348.html
+
+deal 32 .K654.A9432.AJ82 987.AQ9.8765.Q65 KQT64.T32..KT743 AJ532.J87.KQJT.9
+contract 5C
+play W
+turns 0
+comment South to make five clubs.  West leads a) 7H, b) 9C, c) 2S Difficulty 8 http://www.doubledummy.net/Problem0032.html
+
+deal 33 J943.A65.K2.A976 K2.QT7.AQ93.J543 AQ.K32.T864.QT82 T8765.J984.J75.K
+contract 4NT
+play H9
+turns 1
+comment South to make four no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0033.html
+
+deal 34 AKT73.Q32.32.QT9 J9654.5.AJ5.7532 Q2.AT4.KQ97.A864 8.KJ9876.T864.KJ
+contract 3S
+play D4
+turns 1
+comment South to make three spades. Difficulty 3 http://www.doubledummy.net/Problem0034.html
+
+deal 35 KJ532.A2.6.65432 QT9876.654.Q.T98 A.KQJ3.A5432.AK7 4.T987.KJT987.QJ
+contract 4H
+play CQ
+turns 1
+comment South to make four hearts. Difficulty 2 http://www.doubledummy.net/Problem0035.html
+
+deal 36 A432.6543.A.AQ65 KT5.AT98.3.JT987 QJ.KQJ7.KJ975.K2 9876.2.QT8642.43
+contract 4NT
+play D6
+turns 1
+comment South to make four no-trumps. Difficulty 7 http://www.doubledummy.net/Problem0036.html
+
+deal 37 AK654.A6432.43.2 QJT.QT8.QJT92.T7 32.5.AK8765.AKQJ 987.KJ97..986543
+contract 5D
+play C5
+turns 1
+comment South to make five diamonds. Difficulty 3 http://www.doubledummy.net/Problem0037.html
+
+deal 38 8.JT54.AJ2.A6 .A98.Q85.QJT5 KJT..K93.K987 Q54.K.T76.432
+contract 2NT
+play D6
+turns 1
+comment South to make eight tricks at no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0038.html
+
+deal 39 987.AT954.A5.AT9 4.KQJ876.QJT432. AQJT65.32.K9876. K32...KQJ8765432
+contract 5S
+play CK
+turns 1
+comment South to make five spades. Difficulty 6 http://www.doubledummy.net/Problem0039.html
+
+deal 40 432.A.AK.A765432 98765.8765432.5. AKQJT.9.JT432.KJ .KQJT.Q9876.QT98
+contract 6S
+play W
+turns 0
+comment South is in six spades.  What lead by West defeats the contract?  How does South make it against any other lead? Difficulty 2 http://www.doubledummy.net/Problem0040.html
+
+deal 41 KJ3.A876.43.7654 Q98762.2.A98.K98 T4.QJT9.KQT5.A32 A5.K543.J762.QJT
+contract 3H
+play W
+turns 0
+comment West leads the 2D against South's three hearts contract, East winning with the AD. (a) Show that the contract is now impossible.(b) Show how the contract is made if East fails to make the correct lead at trick 2.Difficulty 7 http://www.doubledummy.net/Problem0041.html
+
+deal 42 AKQJ.A.AJ987.QJT 54.76543.KQT43.K 32.KQJT9.52.9742 T9876.82.6.A8653
+contract 4H
+play D6
+turns 1
+comment South to make four hearts. Difficulty 3 http://www.doubledummy.net/Problem0042.html
+
+deal 43 QJ5..AK.K8765 K42.Q975..AT9 A86.AJT2.2.QJ T97.K86.6.432
+contract 2NT
+play S
+turns 0
+comment South to lead and make eight tricks at no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0043.html
+
+deal 44 AJ87.A32.A32.654 Q965.JT98.JT9.K9 K4.Q74.Q85.AQJ83 T32.K65.K764.T72
+contract 5NT
+play S
+turns 0
+comment South to lead and make eleven tricks at no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0044.html
+
+deal 45 J6543.AK..T987 .T9.AQJT987.AK Q72.876543.K6. AKT98..43.QJ65
+contract 2H
+play S
+turns 0
+comment South to lead and make eight tricks with hearts as trumps. Difficulty 5 http://www.doubledummy.net/Problem0045.html
+
+deal 46 QJ72.AQ2.A32.765 KT63.JT96.876.Q9 A54.43.QJT9.AJ32 98.K875.K54.KT84
+contract 4NT
+play S
+turns 0
+comment South to lead and make ten tricks at no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0046.html
+
+deal 47 AQ82..AQ854.9865 9.8765.KJ76.K743 543.AKJ432.32.AQ KJT76.QT9.T9.JT2
+contract 4H
+play W
+turns 0
+comment South to make four hearts against any lead by West. Difficulty 5 http://www.doubledummy.net/Problem0047.html
+
+deal 48 32.K432.K32.Q432 KQT8765.QJ.QJ.KT AJ4.T65.AT54.AJ5 9.A987.9876.9876
+contract 5NT
+play H7
+turns 1
+comment South to make five no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0048.html
+
+deal 49 543.A42.A432.A92 KJ9.65.9875.T854 AQT2.KQT3.KT.QJ3 876.J987.QJ6.K76
+contract 6S
+play W
+turns 0
+comment West to lead and East-West to defeat South's contract of six spades. Difficulty 4 http://www.doubledummy.net/Problem0049.html
+
+deal 50 AKJ.A9842.AQ.842 T2.KQ.K87.AKQJT9 98765.6.J96542.6 Q43.JT753.T3.753
+contract 4S
+play C3
+turns 1
+comment South to make four spades. Difficulty 5 http://www.doubledummy.net/Problem0050.html
+
+deal 51 .KJT.KT8.J6543 7.AQ92.AJ9.AK7 98.876543.Q.Q2 QJT..75432.T98
+contract ?S
+play S
+turns 0
+comment Spades are trumps. South to lead and North/South to make two tricks. Difficulty 4 http://www.doubledummy.net/Problem0051.html
+
+deal 52 T32.A4.AKQJ3.432 9876.J987.2.KQT9 AK54.QT653..AJ87 QJ.K2.T987654.65
+contract 5C
+play D4
+turns 1
+comment South to make five clubs. Difficulty 4 http://www.doubledummy.net/Problem0052.html
+
+deal 53 AT987.K.QT5.KQT4 Q65.QT54.A2.J965 K.A9876.KJ86.A32 J432.J32.9743.87
+contract 5NT
+play C7
+turns 1
+comment South to make five no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0053.html
+
+deal 54 432.AK.AKQ.Q6543 KT9.QJT.T987.A87 AQJ.432.J5432.K2 8765.98765.6.JT9
+contract 4S
+play H5
+turns 1
+comment South to make four spades. Difficulty 4 http://www.doubledummy.net/Problem0054.html
+
+deal 55 AKJ92.KQ4.AQ32.Q 65.65.T9.A987654 43.AT32.J54.KJT2 QT87.J987.K876.3
+contract 6NT
+play C3
+turns 1
+comment South to make six no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0055.html
+
+deal 56 AKQ.A.J432.AKQ32 32.KQ.8765.JT987 T987.JT9876.AKQ. J654.5432.T9.654
+contract 6S
+play D9
+turns 1
+comment South to make six spades. Difficulty 5 http://www.doubledummy.net/Problem0056.html
+
+deal 57 AKQ.AK3.A.A98765 JT987.QJT.KQJT.Q 65432.876542.32. .9.987654.KJT432
+contract 4S
+play D4
+turns 1
+comment East/West to defeat South's four spades, West having led a diamond. Difficulty 3 http://www.doubledummy.net/Problem0057.html
+
+deal 58 76542.AQJ5.K.KJ2 J.T98.AJT987643. AQ3.432.Q5.AQ653 KT98.K76.2.T9874
+contract 5NT
+play D2
+turns 1
+comment South to make five no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0058.html
+
+deal 59 A3.A3.KJ976.6543 QT2.7.A5432.AK72 KJ9874.6542.QT8. 65.KQJT98..QJT98
+contract 4S
+play H8
+turns 1
+comment South to make four spades. Difficulty 4 http://www.doubledummy.net/Problem0059.html
+
+deal 60 AJ42.AK98.AQ.642 KQT9876..J985.A5 3.QT432.432.KJ73 5.J765.KT76.QT98
+contract 4H
+play S5
+turns 1
+comment South to make four hearts. Difficulty 7 http://www.doubledummy.net/Problem0060.html
+
+deal 61 JT6.JT532.T.A942 K85.KQ4.7543.QJ5 AQ732.A6.AK62.K3 94.987.QJ98.T876
+contract 6S
+play C6
+turns 1
+comment South to make six spades. Difficulty 5 http://www.doubledummy.net/Problem0061.html
+
+deal 62 K.J76.AKQJT.5432 5432.K432.2.KQJT A987.AQ98..A9876 QJT6.T5.9876543.
+contract 5H
+play SQ
+turns 1
+comment South to make five hearts. Difficulty 7 http://www.doubledummy.net/Problem0062.html
+
+deal 63 76.KQ6..K76 JT5.T9..QJ5 K8.87.QT.98 9.J.KJ987.T
+contract ?H
+play S
+turns 0
+comment South to lead and make six tricks with hearts as trumps. Difficulty 6 http://www.doubledummy.net/Problem0063.html
+
+deal 64 KQT.AK32.32.J432 J9832.QJ84.T86.6 A7654..AQ54.AKQ5 .T9765.KJ97.T987
+contract 5NT
+play HT
+turns 1
+comment West leads the 10H against South's five no-trumps, East signalling with the 8H. (a) South to make the contract against any defence, having discarded a club. (b) Could a different defence at trick 1 have beaten the contract? Difficulty 6 http://www.doubledummy.net/Problem0064.html
+
+deal 65 AK.A7632.AK76.76 972.KJT98.Q3.K54 J54.54.542.AQJ32 QT863.Q.JT98.T98
+contract 5C
+play HQ
+turns 1
+comment South to make five clubs. Difficulty 4 http://www.doubledummy.net/Problem0065.html
+
+deal 66 T8765.T432.A2.83 J94.9876.KT93.K5 AQ2.A.QJ54.AQJT9 K3.KQJ5.876.7642
+contract 5C
+play HK
+turns 1
+comment South to make five clubs. Difficulty 3 http://www.doubledummy.net/Problem0066.html
+
+deal 67 A642.64.T982.AJ2 QJT9.QJT98.K43.Q K753.AK7532.AQJ. 8..765.KT9876543
+contract 3NT
+play D7
+turns 1
+comment South to make three no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0067.html
+
+deal 68 AKQT432.32.A2.AK J9876.KQJT.QJT9. 5.A87654.K87654. .9.3.QJT98765432
+contract 6NT
+play CQ
+turns 1
+comment South to make six no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0068.html
+
+deal 69 AQ53.32.AK63. 987.K8654.2.8 J42.AJT9.7.QT KT6.Q7.854.J9
+contract ?H
+play S
+turns 0
+comment Hearts are trumps. Difficulty 5 http://www.doubledummy.net/Problem0069.html
+
+deal 70 AKQJT..542.87654 9.8642.T98.AKQJT 87432.QJ97.AJ3.9 65.AKT53.KQ76.32
+contract 4S
+play S5
+turns 1
+comment South to make four spades. Difficulty 5 http://www.doubledummy.net/Problem0070.html
+
+deal 71 .AQJT98.54.JT9 A.76543.AJT.65 K65432..Q97.A2 QJT987.K2.K86.
+contract ?NT
+play D6
+turns 1
+comment No-trumps. West leads the D6. (a) Which side makes the most tricks? (b) How does the winning side make six tricks? (c) How would the losing side make six tricks against any but the winning play? DR5 http://www.doubledummy.net/Problem0071.html
+
+deal 72 A3.AKQJT.AJ43.54 42.8765432.Q82.2 Q987.9.K97.AKQJ3 KJT65..T65.T9876
+contract 7NT
+play C6
+turns 1
+comment South to make seven no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0072.html
+
+deal 73 T.JT95..A976 Q.4.J987.K32 .8763.AQT2.Q .AKQ2.65.T84
+contract ?H
+play E
+turns 0
+comment East leads with hearts trumps. Difficulty 4 http://www.doubledummy.net/Problem0073.html
+
+deal 74 K543..Q543.Q3 AQJT.T9.AKJT. 98.A5.9.T9876 762.Q2.876.A5
+contract ?H
+play S
+turns 0
+comment South to lead and make three tricks with hearts trumps. Difficulty 5 http://www.doubledummy.net/Problem0074.html
+
+deal 75 AK8.32.932.65432 .KQJT987.876.KT9 QJ6.A54.AKJ4.AQJ T975432.6.QT5.87
+contract 5NT
+play H6
+turns 1
+comment South to make five no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0075.html
+
+deal 76 J.A32.A32.QT9864 QT9.QT9.QT9.KJ32 AK732.KJ84.KJ4.A 8654.765.8765.75
+contract 5NT
+play W
+turns 0
+comment South to make five no-trumps against any defence. Difficulty 3 http://www.doubledummy.net/Problem0076.html
+
+deal 77 Q93.K3.642.AKJ85 2.98765.JT98.Q76 AK7654.2.K53.432 JT8.AQJT4.AQ7.T9
+contract 4S
+play SJ
+turns 1
+comment East-West to defeat South's four spades. (the key play is precise but there are several successful defences following the key play.) Difficulty 1 http://www.doubledummy.net/Problem0077.html
+
+deal 78 JT2.9876.T8.QJ76 K987.QT2.K7.KT98 AQ543.AKJ.AQJ2.A 6.543.96543.5432
+contract 5NT
+play C2
+turns 1
+comment South to make five no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0078.html
+
+deal 79 AK.AK.76.532 987.9876.3.J QJT2...AK876 6543..T8.QT9
+contract ?S
+play S
+turns 0
+comment South to lead with spades as trumps. North/South to make seven tricks. Difficulty 4 http://www.doubledummy.net/Problem0079.html
+
+deal 80 87.Q65432.Q754.K AKT543..J632.765 QJ62.AK.AK8.A432 9.JT987.T9.QJT98
+contract 4NT
+play HJ
+turns 1
+comment South to make four no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0080.html
+
+deal 81 AKQJ..JT2.Q98 T9876..A9.AJ7 .AKQJ..KT6543 543.T9.Q876.2
+contract ?NT
+play W
+turns 0
+comment No-trumps. How many tricks does South get (1) if West has the lead; (2) if South has the lead? Difficulty 4 http://www.doubledummy.net/Problem0081.html
+
+deal 82 AKQ32.3.8.6543 .QT9864.JT.QT8 J4.AKJ52.K.KJ2 T98765.7.5.A97
+contract 3NT
+play S5
+turns 1
+comment South to make 9 tricks at no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0082.html
+
+deal 83 5432.AKT3.AK6.J2 T9.Q9875.874.A83 AKQ.J4.QJ532.T54 J876.62.T9.KQ976
+contract 5D
+play D9
+turns 1
+comment South to make five diamonds. Difficulty 4 http://www.doubledummy.net/Problem0083.html
+
+deal 84 AK3.AQT.AK6543.K Q.K7654.QJ.97532 54.9832..AQJT864 JT98762.J.T9872.
+contract 6NT
+play W
+turns 0
+comment South to make six no-trumps against any lead and defence. Difficulty 2 http://www.doubledummy.net/Problem0084.html
+
+deal 85 8753.AKQ9.654.A2 AJT9.T854.T987.9 Q642.6.AK32.K543 K.J732.QJ.QJT876
+contract ?NT
+play N
+turns 0
+comment No-trumps. North to lead and make 9 tricks. Difficulty 7 http://www.doubledummy.net/Problem0085.html
+
+deal 86 J653.AJ52.87.543 72.Q43.KJT9.J862 AK9.K8.A632.AKQT QT84.T976.Q54.97
+contract 5NT
+play S4
+turns 1
+comment South to make five no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0086.html
+
+deal 87 AK.QT84.765432.7 JT9.AKJ.T.QJT932 Q852.3.AQ8.AK654 7643.97652.KJ9.8
+contract 2NT
+play S3
+turns 1
+comment South to make two no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0087.html
+
+deal 88 973.973.A973.973 QJT.4.JT84.Q8642 K.AKQJ2.KQ52.AKT A86542.T865.6.J5
+contract 6H
+play W
+turns 0
+comment What lead(s) defeat(s) South's six hearts?  How does declarer succeed against other leads? Difficulty 5 http://www.doubledummy.net/Problem0088.html
+
+deal 89 Q765.5432.A43.43 AT98.6.K52.QJT98 K432.AKQJ..AK652 J.T987.QJT9876.7
+contract 4H
+play SJ
+turns 1
+comment South to make four hearts. West leads the JS, East playing the AS and another spade. Difficulty 6 http://www.doubledummy.net/Problem0089.html
+
+deal 90 T73.43.J97543.T7 Q.KJT9875.Q.AJ32 AK2.AQ62.K62.KQ6 J98654..AT8.9854
+contract 3NT
+play S6
+turns 1
+comment South to make three no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0090.html
+
+deal 91 7.98765.A97.Q 3.QJT3.6543.9 QT9864..QT8.T AKJ52.4.KJ2.J
+contract ?NT
+play S
+turns 0
+comment South to lead and make four tricks at no-trumps against any defence. Difficulty 3 http://www.doubledummy.net/Problem0091.html
+
+deal 92 T9.AK.KQJT.KQ654 QJ8432..A654.J83 AK5.JT987.32.T97 76.Q65432.987.A2
+contract 5NT
+play W
+turns 0
+comment East-West to defeat South's five no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0092.html
+
+deal 93 A932.T4.K8543.J4 Q84.Q875.JT9.Q32 K75.AKJ62.A6.K96 JT6.93.Q72.AT875
+contract 3NT
+play C7
+turns 1
+comment South to make three no-trumps. West leads the 7C.  (Is there a better lead for West?) Difficulty 6 http://www.doubledummy.net/Problem0093.html
+
+deal 94 AQJ.A965.QJT2.K3 KT98.K843.K98.T9 6542.7.A543.AJ42 73.QJT2.76.Q8765
+contract 5D
+play S7
+turns 1
+comment South to make five diamonds. Difficulty 7 http://www.doubledummy.net/Problem0094.html
+
+deal 95 432.A.KQT982.865 T98.KT8765.AJ.72 KQJ5.Q9432..AKQ4 A76.J.76543.JT93
+contract 4S
+play CJ
+turns 1
+comment South to make four spades. Difficulty 5 http://www.doubledummy.net/Problem0095.html
+
+deal 96 AK87.T5..AJ32 QT6543.J..T98 J9.Q2.KJ987.Q .K98.QT4.K765
+contract ?NT
+play S
+turns 0
+comment South to lead and make seven tricks at no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0096.html
+
+deal 97 AQ7.432.AKJ.A987 98.76.QT98765.KQ 5432.QJT98.432.6 KJT6.AK5..JT5432
+contract 3H
+play C4
+turns 1
+comment South to make three hearts. Difficulty 4 http://www.doubledummy.net/Problem0097.html
+
+deal 98 AT9.42.AKT42.842 54.A53.953.QJ975 KJ32.KQ876.J.AT3 Q876.JT9.Q876.K6
+contract 6NT
+play S6
+turns 1
+comment South to make six no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0098.html
+
+deal 99 A7532.5432.AJ.K5 KQJT9.6..QJT9732 864.AKQJ.QT.A864 .T987.K98765432.
+contract 4H
+play HT
+turns 1
+comment South to make four hearts. Difficulty 5 http://www.doubledummy.net/Problem0099.html
+
+deal 100 AQT2.AKJ4.54.AQ5 KJ96.Q852.J2.T96 83.73.AQ8763.K72 754.T96.KT9.J843
+contract 5D
+play HT
+turns 1
+comment South to make five diamonds. Difficulty 3 http://www.doubledummy.net/Problem0100.html
+
+deal 101 987..JT98.QJT 6.QJT987..543 QJ3.K654..987 T54.A32..AK62
+contract ?H
+play W
+turns 0
+comment West to lead and South to make three tricks with hearts trumps. Difficulty 3 http://www.doubledummy.net/Problem0101.html
+
+deal 102 A854.A76543.2.32 .KQJT98.JT987.A6 KT932.2.A6543.54 QJ76..KQ.KQJT987
+contract 2S
+play C7
+turns 1
+comment South to make two spades. Difficulty 8 http://www.doubledummy.net/Problem0102.html
+
+deal 103 KJT8.QT5.A93.Q43 Q963.AJ962.5.K96 A5.8743.QJT.AT52 742.K.K87642.J87
+contract 3NT
+play S7
+turns 1
+comment South to make three no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0103.html
+
+deal 104 AK2.AKJ84.432.32 876.Q976532.A.54 QJT95..Q65.AK876 43.T.KJT987.QJT9
+contract 6S
+play S4
+turns 1
+comment East-West to defeat six spades. Difficulty 6 http://www.doubledummy.net/Problem0104.html
+
+deal 105 A984.QJ.AJ8.8743 JT32.KT9.976543. Q.A5432.KT2.Q652 K765.876.Q.AKJT9
+contract 3H
+play DQ
+turns 1
+comment South to make three hearts. Difficulty 3 http://www.doubledummy.net/Problem0105.html
+
+deal 106 A42.AK543.A.8765 QJ8.QJ987.KJ975. 3.T.T86432.AQJT4 KT9765.62.Q.K932
+contract 5C
+play H6
+turns 1
+comment South to make five clubs. Difficulty 5 http://www.doubledummy.net/Problem0106.html
+
+deal 107 QJ.65.AK832.3 .JT9.QJ76.JT9 654.Q.95.A876 87.87.T.KQ542
+contract 2S
+play W
+turns 0
+comment Spades are trumps and West has the lead. North-South to make eight tricks. Difficulty 3 http://www.doubledummy.net/Problem0107.html
+
+deal 108 A.AKQ.T9876.Q432 QJT9.J32..JT9876 K832.7654.432.AK 7654.T98.AKQJ5.5
+contract 3H
+play W
+turns 0
+comment South to make three hearts against any defence. Difficulty 7 http://www.doubledummy.net/Problem0108.html
+
+deal 109 KJ86.A32.K.A9876 9743.T7.J432.J32 QT5.KQ94.AT987.K A2.J865.Q65.QT54
+contract 5NT
+play H5
+turns 1
+comment South to make five no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0109.html
+
+deal 110 J2.A654.K6.AQ763 Q43.KJT3.QT987.2 AK5.2.A5432.JT54 T9876.Q987.J.K98
+contract 7C
+play ST
+turns 1
+comment South to make seven clubs. Difficulty 2 http://www.doubledummy.net/Problem0110.html
+
+deal 111 .K843.864.542 .965.KQ5.KJT3 543.QJ7.32.AQ KT987..7.9876
+contract 1H
+play W
+turns 0
+comment Hearts are trumps. Can North/South make 7 tricks if West leads (a) spade? (b) a diamond, (c) a club. Difficulty 6 http://www.doubledummy.net/Problem0111.html
+
+deal 112 A987.A432.AJ.QJ6 5.T9.8765.KT8532 QJ2.QJ5.K432.A97 KT643.K876.QT9.4
+contract 5NT
+play C4
+turns 1
+comment South to make five no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0112.html
+
+deal 113 KQ5.654..9876543 T876.QJ.J4.KQJT2 A432.AK32.AK32.A J9.T987.QT98765.
+contract 3NT
+play HT
+turns 1
+comment South to make three no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0113.html
+
+deal 114 987.AKQ6.KJ32.K8 Q532.T987.Q97.Q7 KJ64.543.A54.J96 AT.J2.T86.AT5432
+contract 3NT
+play C4
+turns 1
+comment South to make three no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0114.html
+
+deal 115 AK63.AK.A87654.K JT92.Q2.Q.765432 Q54.654.J32.QT98 87.JT9873.KT9.AJ
+contract 3NT
+play HJ
+turns 1
+comment South to make three no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0115.html
+
+deal 116 AQ4.J432.T962.AJ 876.Q9765.KQJ5.9 JT32.AKT.A43.654 K95.8.87.KQT8732
+contract 4NT
+play CK
+turns 1
+comment South to make four no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0116.html
+
+deal 117 AKQJ.9543.KQ2.QJ 8765.JT6.AT95.K5 T432.K2.J43.A432 9.AQ87.876.T9876
+contract 4S
+play CT
+turns 1
+comment South to make four spades. Difficulty 4 http://www.doubledummy.net/Problem0117.html
+
+deal 118 AQJ.T42.QJT4.QJ2 T9876542.Q7.876. .A653.A95.A76543 K3.KJ98.K32.KT98
+contract 3NT
+play CT
+turns 1
+comment South to make three no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0118.html
+
+deal 119 KJT2.J2.K6543.32 A9543.A.987.QJT5 .KQ76543.AT.AK94 Q876.T98.QJ2.876
+contract 6H
+play W
+turns 0
+comment South to make six hearts against any lead. Difficulty 1 http://www.doubledummy.net/Problem0119.html
+
+deal 120 T52.K4.J732.T942 9876.98.Q64.KQJ3 AK43.AJ32.AKT98. QJ.QT765.5.A8765
+contract 6D
+play D5
+turns 1
+comment South to make six diamonds. Difficulty 7 http://www.doubledummy.net/Problem0120.html
+
+deal 121 A3.A7654.Q7.AK54 J86542.Q3.J6.T76 Q9.JT98.K54.J932 KT7.K2.AT9832.Q8
+contract 3NT
+play DT
+turns 1
+comment South to make three no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0121.html
+
+deal 122 QT432.QJ.AKJ.KQ2 K985.K2.QT6.9876 A.AT964.943.AT54 J76.8753.8752.J3
+contract 7H
+play S6
+turns 1
+comment South to make seven hearts. Difficulty 4 http://www.doubledummy.net/Problem0122.html
+
+deal 123 A.4.A.AKT5432 764.QT6.Q32.Q 853.AJ9.654.J T9..KJT9.9876
+contract ?H
+play S
+turns 0
+comment South to lead and make nine tricks with hearts trumps. Difficulty 2 http://www.doubledummy.net/Problem0123.html
+
+deal 124 AK7654.K.32.AK65 .QJT98765432..QJ 32.A.AK7654.T987 QJT98..QJT98.432
+contract 4NT
+play C2
+turns 1
+comment South make four no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0124.html
+
+deal 125 J964.AQT9.AT.AKQ AK7.K32.432.9876 Q5.8.QJ765.JT432 T832.J7654.K98.5
+contract 5C
+play S2
+turns 1
+comment West leads a low spade to South's contract of five clubs. How is the contract now defeated? Difficulty 6 http://www.doubledummy.net/Problem0125.html
+
+deal 126 765.A82.A82.AJT5 8.JT.QJ7654.Q874 A432.KQ43.K9.K63 KQJT9.9765.T3.92
+contract 4H
+play W
+turns 0
+comment South to make four hearts against any lead and defence. Difficulty 5 http://www.doubledummy.net/Problem0126.html
+
+deal 127 J642.KQJT4..QT84 K9.A32.987654.K7 Q873..KQJT2.A653 AT5.98765.A3.J92
+contract 5S
+play W
+turns 0
+comment South to make five spades. West leads a heart.  (What lead defeats it?) Difficulty 8 http://www.doubledummy.net/Problem0127.html
+
+deal 128 AQ9.AQ43.KJ.AQ32 T876.876..T98765 5432.52.AT9876.4 KJ.KJT9.Q5432.KJ
+contract ?D
+play S
+turns 0
+comment What lead or leads allow South to make six diamonds, and how? Difficulty 4 http://www.doubledummy.net/Problem0128.html
+
+deal 129 AJT.A2.JT94.T987 9876543.K.KQ3.65 .Q6543.A652.AKQJ KQ2.JT987.87.432
+contract 5NT
+play H7
+turns 1
+comment South to make five no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0129.html
+
+deal 130 K.AQJT7.K.A65432 A65432.K95.5432. QJT987.86.AQJ9.Q .432.T876.KJT987
+contract 3NT
+play D6
+turns 1
+comment South to make three no-trumps.  West leads the D6. Difficulty 4 http://www.doubledummy.net/Problem0130.html
+
+deal 131 AQ2.QJ5.A2.76543 K763.K43.765.KJ9 54.A97.Q43.AQT82 JT98.T862.KJT98.
+contract 5NT
+play DJ
+turns 1
+comment South is in five no-trumps.  West leads the DJ. Difficulty 3 http://www.doubledummy.net/Problem0131.html
+
+deal 132 .543.5.JT9876 .987.AT6.K543 .AK62.K87.AQ2 JT98.QJT.QJ9.
+contract ?C
+play S
+turns 0
+comment South is on lead with clubs trumps.  How many tricks can North-South make? Difficulty 4 http://www.doubledummy.net/Problem0132.html
+
+deal 133 A63.AT932.J2.T92 JT84.J76.KQ7.Q83 KQ52.K8.A6543.AK 97.Q54.T98.J7654
+contract 5NT
+play S9
+turns 1
+comment South to make five no-trumps.  West leads the S9.  Difficulty 4 http://www.doubledummy.net/Problem0133.html
+
+deal 134 AJ2.AQ952.6.7654 KT9.KJ43.J.KJT98 Q6543.T.AK87.A32 87.876.QT95432.Q
+contract 4S
+play H8
+turns 1
+comment South to make four spades.  West leads the H8.  Difficulty 3 http://www.doubledummy.net/Problem0134.html
+
+deal 135 AK42.AT83..AKQJ5 J8.Q765.9876.876 653.42.K432.T432 QT97.KJ9.AQJT5.9
+contract 4S
+play DQ
+turns 1
+comment South to make four spades.  West leads the DQ.  Difficulty 3 http://www.doubledummy.net/Problem0135.html
+
+deal 136 AT96.A.32.765432 KQJ8..97654.JT98 75432.KJ87.AKT8. .QT965432.QJ.AKQ
+contract 2NT
+play H6
+turns 1
+comment Can South make two no-trumps if West leads (a) the H6, (b) the DQ? Difficulty 7 http://www.doubledummy.net/Problem0136.html
+
+deal 137 AKQJ.AKQ4.2.KJ93 7654.7652.86.A42 T982.T983.A7543. 3.J.KQJT9.QT8765
+contract 4NT
+play DK
+turns 1
+comment South to make four no-trumps.  West leads DK. Difficulty 4 http://www.doubledummy.net/Problem0137.html
+
+deal 138 QJ..J965.KT6 KT985...J743 A432.J.8.A82 76.T.QT7.Q95
+contract ?NT
+play S
+turns 0
+comment South to lead and make seven tricks in no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0138.html
+
+deal 139 J9.432.AK862.Q54 7543.9765.Q.JT76 AK2.AKJ.T93.A932 QT86.QT8.J754.K8
+contract 6NT
+play D4
+turns 1
+comment South to make six no-trumps.  West leads the D4. Difficulty 4 http://www.doubledummy.net/Problem0139.html
+
+deal 140 QJ65.KJ2.T6543.A 87.AT9.J987.QJT4 A432.Q43.AQ.K932 KT9.8765.K2.8765
+contract 4S
+play H8
+turns 1
+comment South to make four spades.  West leads the 8H. Difficulty 5 http://www.doubledummy.net/Problem0140.html
+
+deal 141 J32.KT8.Q5432.J2 A54.J543.J.QT976 KT.A92.AK.AK8543 Q9876.Q76.T9876.
+contract 3NT
+play S6
+turns 1
+comment South to make three no-trumps.  West leads a low spade. Difficulty 5 http://www.doubledummy.net/Problem0141.html
+
+deal 142 A975.J.K732.AK63 KJT8643.Q.64.982 Q.A97643.AQJ95.4 2.KT852.T8.QJT75
+contract 6D
+play CQ
+turns 1
+comment South to make six diamonds.  West leads the CQ. Difficulty 4 http://www.doubledummy.net/Problem0142.html
+
+deal 143 A8732.K2.5432.65 JT965.AQJT7..A42 KQ4.8654.AK.KQJT .93.QJT9876.9873
+contract 4NT
+play DQ
+turns 1
+comment East-West to defeat four no-trumps, East having discarded a club on West's lead of the DQ Difficulty 6 http://www.doubledummy.net/Problem0143.html
+
+deal 144 AQ32.Q.AKJ92.KQ3 T9.A987654.75.65 J54.KJT3.43.AT42 K876.2.QT86.J987
+contract 6NT
+play H2
+turns 1
+comment South to make six no-trumps. West leads the H2. Difficulty 4 http://www.doubledummy.net/Problem0144.html
+
+deal 145 AQT2.6543.J2.632 KJ9876.8.Q876.Q4 43.A92.AK94.AKT9 5.KQJT7.T53.J875
+contract 3NT
+play HK
+turns 1
+comment South to make three no-trumps. West leads the HK. Difficulty 7 http://www.doubledummy.net/Problem0145.html
+
+deal 146 QJ.K876.QJ4. .AT.K32.Q975 3.J.A86.AJT4 5.43.T97.K86
+contract ?NT
+play S
+turns 0
+comment South to lead and make seven tricks at no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0146.html
+
+deal 147 54.AK432.T8764.J 76.QJT75.2.KT984 AK.6.KQ953.AQ765 QJT9832.98.AJ.32
+contract 5NT
+play SQ
+turns 1
+comment South make five no-trumps.  West leads the SQ. Difficulty 5 http://www.doubledummy.net/Problem0147.html
+
+deal 148 A65.AT.7654.9754 QJ9743.3.QJ982.2 KT2.2.AKT3.AKQ86 8.KQJ987654..JT3
+contract 6C
+play HK
+turns 1
+comment South make six clubs.  West leads the HK.  Difficulty 4 http://www.doubledummy.net/Problem0148.html
+
+deal 149 AJ954.A2.J32.QT8 T87.JT8.AQT98.76 32.Q43.7654.AK92 KQ6.K9765.K.J543
+contract 3NT
+play DK
+turns 1
+comment South make three no-trumps.  West leads the DK.  Difficulty 5 http://www.doubledummy.net/Problem0149.html
+
+deal 150 .5432.AQ65432.JT AJ876543.KT..765 KQ2.AQ6.T9.AK983 T9.J987.KJ87.Q42
+contract 4NT
+play ST
+turns 1
+comment South make four no-trumps.  West leads the S10. Difficulty 5 http://www.doubledummy.net/Problem0150.html
+
+deal 151 KT.876.AK32.KQT3 987.A32..AJ87654 AJ32.KJT9.87654. Q654.Q54.QJT9.92
+contract 3H
+play DQ
+turns 1
+comment South make three hearts.  West leads the DQ.  Difficulty 6 http://www.doubledummy.net/Problem0151.html
+
+deal 152 AK5432.2.AT76.JT 7.76.843.K987654 6.AK543.QJ95.AQ2 QJT98.QJT98.K2.3
+contract 6NT
+play C3
+turns 1
+comment South make six no-trumps.  West leads the C3. Difficulty 4 http://www.doubledummy.net/Problem0152.html
+
+deal 153 A92.A32.AKT.9872 87654.87654..KJ5 K3.K9.J95432.AQ6 QJT.QJT.Q876.T43
+contract 6D
+play E
+turns 0
+comment South to make six diamonds.  East leads a heart out of turn.  South can either prohibit a heart lead or demand one. http://www.doubledummy.net/Problem0153.html
+
+deal 154 AKQ.AKQ..QT98765 2.32.AQT98765.J4 JT97.JT8.J432.32 86543.97654.K.AK
+contract 3NT
+play W
+turns 0
+comment South to make three no-trumps against any defence. Difficulty 2 http://www.doubledummy.net/Problem0154.html
+
+deal 155 KJ9.Q532.A6.KJT7 43.J976.QT9.AQ94 AQT8765.AT4.543. 2.K8.KJ872.86532
+contract 6S
+play C2
+turns 1
+comment South to make six spades. West leads a low club. Difficulty 1 http://www.doubledummy.net/Problem0155.html
+
+deal 156 K3.Q532.AJT95.J4 T98.KJT98..T9872 AJ7.6.K864.AKQ53 Q6542.A74.Q732.6
+contract 6D
+play C6
+turns 1
+comment South to make six diamonds. West leads the C6. Difficulty 5 http://www.doubledummy.net/Problem0156.html
+
+deal 157 QT.AK62.753.AJ42 AK75.T87.642.T75 86432.J9.AK9.Q93 J9.Q543.QJT8.K86
+contract 4S
+play DQ
+turns 1
+comment South to make four spades. West leads the DQ. Difficulty 6 http://www.doubledummy.net/Problem0157.html
+
+deal 158 K6432.K843.Q3.54 J9.765.K76.AT876 87.JT92.A852.K32 AQT5.AQ.JT94.QJ9
+contract 2H
+play CQ
+turns 1
+comment South to make two hearts. West leads the CQ Difficulty 6 http://www.doubledummy.net/Problem0158.html
+
+deal 159 A98.KT3.AK98.762 K73.Q76.QT43.Q54 T62.A85.7.AKJT98 QJ54.J942.J652.3
+contract 6NT
+play W
+turns 0
+comment South to make six no-trumps against any defence. Difficulty 8 http://www.doubledummy.net/Problem0159.html
+
+deal 160 Q54.5432.642.AKT K93.JT8.A95.Q974 AJ2..KQJT873.652 T876.AKQ976..J83
+contract 5D
+play HK
+turns 1
+comment West leads the HK against South's five diamonds.  How is the contract defeated? Difficulty 6 http://www.doubledummy.net/Problem0160.html
+
+deal 161 .A854.4.KJT98765 K76543.JT92.765. AQ8.Q3.AKQJT9.32 JT92.K76.832.AQ4
+contract 5D
+play D2
+turns 1
+comment South to make five diamonds.  West leads a trump. Difficulty 3 http://www.doubledummy.net/Problem0161.html
+
+deal 162 73.AKQT73.6.AQT3 KQJ85.J9865.KQJ. A962.42.AT974.KJ T4..8532.9876542
+contract 6NT
+play C9
+turns 1
+comment South to make six no-trumps.  West leads the C9. Difficulty 3 http://www.doubledummy.net/Problem0162.html
+
+deal 163 .QJ93.AK.A765432 KQ765432.AK872.. AJT.T54.QJT5432. 98.6.9876.KQJT98
+contract 2NT
+play W
+turns 0
+comment South to make two no-trumps against any defence. Difficulty 6 http://www.doubledummy.net/Problem0163.html
+
+deal 164 654.T876.AK7.A76 AT.QJ95432.98.84 KQJ32.A.6543.QJ5 987.K.QJT2.KT932
+contract 4S
+play HK
+turns 1
+comment South to make four spades. West leads the HK. Difficulty 8 http://www.doubledummy.net/Problem0164.html
+
+deal 165 .76542.A864.9654 KQ976543.8.KT.KT AJ82.A3.QJ7.AQ32 T.KQJT9.9532.J87
+contract 3NT
+play HK
+turns 1
+comment South to make three no-trumps. West leads the HK. Difficulty 4 http://www.doubledummy.net/Problem0165.html
+
+deal 166 K8764.A32.Q2.AJT .KQ98.K87654.Q32 AQ952.JT54.A93.K JT3.76.JT.987654
+contract 6S
+play SJ
+turns 1
+comment South to make six spades. West leads the SJ. Difficulty 5 http://www.doubledummy.net/Problem0166.html
+
+deal 167 Q32.AQT.Q5432.92 65.J975.K96.K754 AK94.K642.AT8.AJ JT87.83.J7.QT863
+contract 6NT
+play SJ
+turns 1
+comment South to make six no-trumps. West leads the SJ. Difficulty 4 http://www.doubledummy.net/Problem0167.html
+
+deal 168 KQJ2.AK.432.KQ76 T98765.987.T.A54 A.QJT5.AK9876.32 43.6432.QJ5.JT98
+contract 4H
+play CJ
+turns 1
+comment South to make four hearts. West leads the CJ Difficulty 5 http://www.doubledummy.net/Problem0168.html
+
+deal 169 8763..Q87.AKJT AKQ4..AK4.5432 JT95.9865.JT9. 2.Q732.2.Q9876
+contract ?NT
+play D2
+turns 1
+comment South to make five tricks at no-trumps. West leads the D2.  Difficulty 7 http://www.doubledummy.net/Problem0169.html
+
+deal 170 A92.A43.T.A98765 8.Q96.Q8765.K432 K643.KT2.A32.QJT QJT75.J875.KJ94.
+contract 3NT
+play D4
+turns 1
+comment South to make three no-trumps. West leads the D4. Difficulty 4 http://www.doubledummy.net/Problem0170.html
+
+deal 171 43.5432.KQ743.A2 K765.QT9876.2.K8 AQT2.AKJ.A8.QJ54 J98..JT965.T9763
+contract 6NT
+play W
+turns 0
+comment West to lead and East-West to defeat South's six no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0171.html
+
+deal 172 A742.K932.3.J765 T8.65.J987654.43 Q963.AJ.AKQT.AK2 KJ5.QT874.2.QT98
+contract 6NT
+play H7
+turns 1
+comment South to make six no-trumps.  West leads the H7. Difficulty 1 http://www.doubledummy.net/Problem0172.html
+
+deal 173 A3.A2.Q9654.A743 2.876543.J872.T9 T654.QJ9.AKT3.J2 KQJ987.KT..KQ865
+contract 5D
+play SK
+turns 1
+comment South to make five diamonds.  West leads the SK. Difficulty 8 http://www.doubledummy.net/Problem0173.html
+
+deal 174 K64.T65.J874.KJT 975.K32.KQ3.Q854 AQ3.AJ9.A.A97632 JT82.Q874.T9652.
+contract 6NT
+play SJ
+turns 1
+comment East-West to defeat South's six no-trumps.  West leads the SJ. http://www.doubledummy.net/Problem0174.html
+(You have to find declarer's best attempt to make this contract, then show how it fails.) Difficulty 2
+
+deal 175 Q9.KJ87.QT43.AQ8 T54.T542.J986.32 KJ632.9.K752.T96 A87.AQ63.A.KJ754
+contract 3S
+play W
+turns 0
+comment South to make three spades against any defence. Difficulty 5 http://www.doubledummy.net/Problem0175.html
+
+deal 176 Q.32.AT654.AQJT9 K32.Q875.QJ87.K8 AJT9.AKJ96.K9.75 87654.T4.32.6432
+contract 6H
+play D3
+turns 1
+comment South to make six hearts.  West leads the D3. Difficulty 6 http://www.doubledummy.net/Problem0176.html
+
+deal 177 6543.AQJ8.432.A2 T9.KT7542.9.9876 K82.63.AKQJ.KJ43 AQJ7.9.T8765.QT5
+contract 3NT
+play H9
+turns 1
+comment South to make three no-trumps.  West leads the H9. Difficulty 4 http://www.doubledummy.net/Problem0177.html
+
+deal 178 AJT.KT.KJT9.J953 932.A8.Q8765.A84 Q8754.Q76532.2.2 K6.J94.A43.KQT76
+contract 4S
+play CK
+turns 1
+comment South to make four spades.  West leads the CK.  Difficulty 2 http://www.doubledummy.net/Problem0178.html
+
+deal 179 JT9.84.AKQ.AQJ98 Q876.QJT6..KT543 AK2.932.JT8765.2 543.AK75.9432.76
+contract 5D
+play D2
+turns 1
+comment South to make five diamonds.  West leads the D2. Difficulty 5 http://www.doubledummy.net/Problem0180.html
+
+deal 180 AJ32.94.AQ32.A96 87.765.J954.J832 654.AK83.876.K54 KQT9.QJT2.KT.QT7
+contract 3NT
+play SK
+turns 1
+comment South to make three no-trumps.  West leads the SK. Difficulty 8 http://www.doubledummy.net/Problem0181.html
+
+deal 181 A.T432.KQT43.AT3 876.KJ.98765.Q54 K5432.AQ5.J2.K62 QJT9.9876.A.J987
+contract 6NT
+play SQ
+turns 1
+comment South to make six no-trumps.  West leads the SQ. Difficulty 6 http://www.doubledummy.net/Problem0182.html
+
+deal 182 J74.K543.A6.Q965 KT8532.T.Q9842.2 A96.AJ986.T753.4 Q.Q72.KJ.AKJT873
+contract 4H
+play CA
+turns 1
+comment South to make four hearts.  West leads the CA followed by a low club. Difficulty 4 http://www.doubledummy.net/Problem0183.html
+
+deal 183 Q864.AT32.AQ2.T9 K7532.9876.98.54 J.QJ54.T76.AKQ32 AT9.K.KJ543.J876
+contract 6H
+play W
+turns 0
+comment South is in six hearts.  Can the contract be made if West leads (a) a spade? (b) a heart? (c) a diamond? (d) a club? Difficulty 7 http://www.doubledummy.net/Problem0184.html
+
+deal 184 A432..KQJT.AKQJT KQT98.2.654.6543 765.AJT8653.32.2 J.KQ974.A987.987
+contract 4H
+play SJ
+turns 1
+comment South to make four hearts.  West leads the SJ Difficulty 3 http://www.doubledummy.net/Problem0185.html
+
+deal 185 5.K86.QT8.AJ9732 .3.9765432.KQ854 AKQJT7.7542.AKJ. 986432.AQJT9..T6
+contract 5NT
+play W
+turns 0
+comment South to make five no-trumps against any defence. Difficulty 6 http://www.doubledummy.net/Problem0186.html
+
+deal 186 AT2..T543.AT9876 K7.9876543.J62.5 Q543.KJT.AK7.KQJ J986.AQ2.Q98.432
+contract 6C
+play W
+turns 0
+comment Can South make six clubs against best defence? Difficulty 1 http://www.doubledummy.net/Problem0187.html
+
+deal 187 K3.KT2.J952.AK53 876.84.QT43.J987 AT52.AJ9.K.QT642 QJ94.Q7653.A876.
+contract 6C
+play SQ
+turns 1
+comment South to make six clubs.  West leads the SQ Difficulty 5 http://www.doubledummy.net/Problem0188.html
+
+deal 188 Q8.AQ2.AJ932.KQ7 KT.J9876.KQ.AJT9 AJ962.54.54.6543 7543.KT3.T876.82
+contract 4S
+play C8
+turns 1
+comment South to make four spades.  West leads the C8. Difficulty 5 http://www.doubledummy.net/Problem0189.html http://www.doubledummy.net/Problem0289.html
+
+deal 189 J864.AT32.AQ2.T8 K7532.9876.98.J4 Q.QJ54.T76.AKQ32 AT9.K.KJ543.9765
+contract 6H
+play HK
+turns 1
+comment Can South make six hearts if  West leads the HK? Difficulty 5 http://www.doubledummy.net/Problem0190.html
+
+deal 190 5432.A4.AQ6.QT32 K.65.8752.K98765 AQJT.QJ32.T94.A4 9876.KT987.KJ3.J
+contract 6S
+play CJ
+turns 1
+comment South to make six spades.  West leads the CJ. Difficulty 4 http://www.doubledummy.net/Problem0191.html
+
+deal 191 AT65.Q2.AKT7.K76 KQ.KJ876.8654.Q9 J74.A9543.2.A432 9832.T.QJ93.JT85
+contract 4NT
+play CJ
+turns 1
+comment South to make four no-trumps.  West leads the CJ.  Difficulty 8 http://www.doubledummy.net/Problem0192.html
+
+deal 192 AKQJ2.T8.AT7.AK8 T43.J953.Q65.JT9 .KQ642.K982.5432 98765.A7.J43.Q76
+contract 6H
+play S5
+turns 1
+comment South to make six hearts.  West leads a spade. Difficulty 5 http://www.doubledummy.net/Problem0193.html
+
+deal 193 32.A43.AK72.J852 JT874.7.543.T943 AQ65.Q62.T98.AQ6 K9.KJT985.QJ6.K7
+contract 5NT
+play W
+turns 0
+comment South to make five no-trumps against any lead. Difficulty 8 http://www.doubledummy.net/Problem0194.html
+
+deal 194 A87.432.A932.432 9543.KJ.T87654.6 QJT62.A65.K.AK95 K.QT987.QJ.QJT87
+contract 4S
+play SK
+turns 1
+comment South to make four spades.  West leads the SK.  Difficulty 7 http://www.doubledummy.net/Problem0195.html
+
+deal 195 A97.T86.AK8.Q853 654.A97.JT5.JT94 QJ832.K5.96.AK62 KT.QJ432.Q7432.7
+contract 6S
+play H2
+turns 1
+comment South to make six spades.  West leads a heart.  Difficulty 5 http://www.doubledummy.net/Problem0196.html
+
+deal 196 KT3.K92.KJ9.J654 Q62.AQJ4.Q82.KT3 A54.763.A73.AQ92 J987.T85.T654.87
+contract 4NT
+play S9
+turns 1
+comment South to make four no-trumps.  West leads the S9. Difficulty 2 http://www.doubledummy.net/Problem0197.html
+
+deal 197 JT.83.K87654.T65 7654.J76.J2.KJ73 AK2.K92.AT9.AQ92 Q983.AQT54.Q3.84
+contract 3NT
+play H5
+turns 1
+comment Can South to make three no-trumps if West leads the H5? Difficulty 2 http://www.doubledummy.net/Problem0198.html
+
+deal 198 532.KT4.432.QJT8 T9.A8.JT98.AK432 AKQJ4.J765.AQ65. 876.Q932.K7.9765
+contract 4S
+play S6
+turns 1
+comment South to make four spades.  West leads a trump. Difficulty 5 http://www.doubledummy.net/Problem0199.html
+
+deal 199 AT954.T.QT92.KQ3 K73.987.AJ83.765 QJ862.AKQ62.K76. .J543.54.AJT9842
+contract 4H
+play D4
+turns 1
+comment South to make four hearts. Difficulty 5 http://www.doubledummy.net/Problem0200.html
+
+deal 200 AKQ.K85.AQ4.Q984 943.QJ3.983.K765 62.T762.T62.AT32 JT875.A94.KJ75.J
+contract 5C
+play W
+turns 0
+comment South to make five clubs against any lead. Difficulty 5 http://www.doubledummy.net/Problem0201.html
+
+deal 201 K843.K32.J3.432 976.T987654.K.J QT2.A.T987.QT96 AJ5.QJ.54.AK875
+contract 2NT
+play D4
+turns 1
+comment A diamond was led to South's no-trump contract.  Declarer needs 8 more tricks. How is the contract made if South has the lead, and how is it defeated if East has the lead? Difficulty 4 http://www.doubledummy.net/Problem0202.html
+
+deal 202 QJ3.AQ6.AKJ64.T9 K9872.JT9..J8432 A654.87.T97.AK75 T.K5432.Q8532.Q6
+contract 6NT
+play ST
+turns 1
+comment South's contract is six no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0203.html
+
+deal 203 Q932.QT2.5432.KQ K8.K654.KQJT9.54 A7654.A3.876.A32 JT.J987.A.JT9876
+contract 4S
+play DA
+turns 1
+comment South to make four spades. West cashes the AD and switches to a club. Difficulty 2 http://www.doubledummy.net/Problem0204.html
+
+deal 204 .KT85.Q92.AJ9832 QJT9.J2.865.7654 AK432.Q7.A743.QT 8765.A9643.KJT.K
+contract 6NT
+play W
+turns 0
+comment South to make six no-trumps against any defence. Difficulty 4 http://www.doubledummy.net/Problem0205.html
+
+deal 205 A43.AKT3.Q.AQ632 QT92.QJ.JT92.KJ9 KJ.6542.AK43.T54 8765.987.8765.87
+contract 6NT
+play S8
+turns 1
+comment South to make six no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0206.html
+
+deal 206 KT.QJ5.KQT3.AKJT A98.K76.J987.Q76 J32.A432.A2.5432 Q7654.T98.654.98
+contract 3NT
+play S4
+turns 1
+comment South to make three no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0207.html
+
+deal 207 95432.A86.AKQT.4 KT7.9532.9532.K7 A86.KQT7..QJ9532 QJ.J4.J8764.AT86
+contract 4H
+play SQ
+turns 1
+comment South to make four hearts. Difficulty 5 http://www.doubledummy.net/Problem0208.html
+
+deal 208 A5432.AKJ3.A.AKT 7.T987.QJ6543.QJ J86.2.T987.98765 KQT9.Q654.K2.432
+contract 3NT
+play SK
+turns 1
+comment South to make three no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0209.html
+
+deal 209 A2.K987.932.A765 Q.J54.Q87654.432 9843.AQ632.AJ.QJ KJT765.T.KT.KT98
+contract 5H
+play HT
+turns 1
+comment What is the fate of South's five hearts contract when West leads the 10H. Difficulty 6 http://www.doubledummy.net/Problem0210.html
+
+deal 210 A32.AT75.AQ32.K4 J5.J9632..QT8765 Q874.KQ84.T54.32 KT96..KJ9876.AJ9
+contract 2H
+play W
+turns 0
+comment South to make two hearts against any defence. Difficulty 8 http://www.doubledummy.net/Problem0211.html
+
+deal 211 8765..KJ987.9876 K32.AT92.32.5432 JT9.Q876543.Q.KJ AQ4.KJ.AT654.AQT
+contract 5NT
+play W
+turns 0
+comment West to lead against South's no-trump contract. East-West to make 11 tricks. Difficulty 5 http://www.doubledummy.net/Problem0212.html
+
+deal 212 83.8765.A92.AK32 K94.9.T654.87654 AQT2.A432.KJ7.QJ J765.KQJT.Q83.T9
+contract 3S
+play HT
+turns 1
+comment South to make three spades. Difficulty 8 http://www.doubledummy.net/Problem0213.html
+
+deal 213 A42.9876.432.AK3 K8765.Q532.5.QT5 Q93.KJT4.AK98.J2 JT.A.QJT76.98764
+contract 4NT
+play DQ
+turns 1
+comment East-West to defeat South's four no-trumps contract after West has started with the QD. Difficulty 4 http://www.doubledummy.net/Problem0214.html
+
+deal 214 AKT.T32.A432.432 J654.QJ5.Q.K8765 32.AK4.K65.AQJT9 Q987.9876.JT987.
+contract 5C
+play DJ
+turns 1
+comment South to make five clubs. Difficulty 5 http://www.doubledummy.net/Problem0215.html
+
+deal 215 765432.AK.Q.QT54 8.6.KT8765432.K8 AK.5432.AJ9.AJ32 QJT9.QJT987..976
+contract 5NT
+play HQ
+turns 1
+comment South to make five no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0216.html
+
+deal 216 A.QJT5.A87654.AQ 987654.K743.J.J9 QT32.A62.Q32.432 KJ.98.KT9.KT8765
+contract 3NT
+play C7
+turns 1
+comment South to make three no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0217.html
+
+deal 217 32.9832.K5432.K8 AQ.KJT76.76.T965 K54.AQ54.QJT.AJ7 JT9876..A98.Q432
+contract 3NT
+play SJ
+turns 1
+comment South to make three no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0218.html
+
+deal 218 AQ.AT843.J5432.A J32.9765.T9876.2 K87654.QJ..JT543 T9.K2.AKQ.KQ9876
+contract 6S
+play C8
+turns 1
+comment South to make six spades. Difficulty 3 http://www.doubledummy.net/Problem0219.html
+
+deal 219 A5432.Q72..AJ742 Q9876.K864.T87.Q K.J93.AJ932.KT83 JT.AT5.KQ654.965
+contract 5C
+play C5
+turns 1
+comment South to make five clubs. Difficulty 6 http://www.doubledummy.net/Problem0220.html
+
+deal 220 A32.KJT.963.QT74 8765.A9432.5.K95 KT4..AQJT72.A832 QJ9.Q8765.K84.J6
+contract 5D
+play SQ
+turns 1
+comment South to make five diamonds. Difficulty 4 http://www.doubledummy.net/Problem0221.html
+
+deal 221 KT32.AQ32.654.A5 J87.T98.AQT9.Q96 A9.J7.KJ32.KT432 Q654.K654.87.J87
+contract 5NT
+play W
+turns 0
+comment South to make five no-trumps against any defence. Difficulty 8 http://www.doubledummy.net/Problem0222.html
+
+deal 222 J8765.J842.A43.T KQ43.9.KQJT9.A32 AT9.AKQT73.8765. 2.65.2.KQJ987654
+contract 5H
+play D2
+turns 1
+comment South to make five hearts. Difficulty 2 http://www.doubledummy.net/Problem0223.html
+
+deal 223 KT4.Q9.QJ32.AQ83 J65.KT654.K54.J7 A8732.A832.A.T92 Q9.J7.T9876.K654
+contract 6S
+play DT
+turns 1
+comment South to make six spades. Difficulty 6 http://www.doubledummy.net/Problem0224.html
+
+deal 224 AK.J432.AQT97.K9 Q864.AQ.65432.T7 7532.965.J.AJ864 JT9.KT87.K8.Q532
+contract 4NT
+play W
+turns 0
+comment South's contract is four no-trumps. What defensive error would very possibly be made at trick 1 if this were played at the bridge table, to allow the contract to be made? Difficulty 3 http://www.doubledummy.net/Problem0225.html
+
+deal 225 K32.AK742.J6.K64 A987..QT853.T987 654.986.AK974.AJ QJT.QJT53.2.Q532
+contract 3NT
+play HQ
+turns 1
+comment South to make three no-trumps. Difficulty 7 http://www.doubledummy.net/Problem0226.html
+
+deal 226 A4.J432.AQ832.32 JT987.Q8.T7654.T Q65.K95.K9.AKJ84 K32.AT76.J.Q9765
+contract 3NT
+play W
+turns 0
+comment West to lead and East-West to defeat South's contract of three no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0227.html
+
+deal 227 32.KJ432.A9543.A Q876.875.KQJT2.6 AK54.T9.6.QJ5432 JT9.AQ6.87.KT987
+contract 3H
+play D8
+turns 1
+comment South to make three hearts. West leads the D8. Difficulty 6 http://www.doubledummy.net/Problem0228.html
+
+deal 228 J2.73.K43.T98764 T3.Q964.QJT876.2 A764.A2.52.AKQJ5 KQ985.KJT85.A9.3
+contract 3NT
+play HJ
+turns 1
+comment South to make three no-trumps. Difficulty 1 http://www.doubledummy.net/Problem0229.html
+
+deal 229 QT72.T65.9432.AQ J9.K987.75.97654 A.A432.AKQJ86.32 K86543.QJ.T.KJT8
+contract 6D
+play HQ
+turns 1
+comment South to make six diamonds. Difficulty 4 http://www.doubledummy.net/Problem0230.html
+
+deal 230 A9.5432.Q432.A82 J876.9.JT98.T765 Q52.QJT6.A65.K93 KT43.AK87.K7.QJ4
+contract 2H
+play H7
+turns 1
+comment South to make two hearts. Difficulty 7 http://www.doubledummy.net/Problem0231.html
+
+deal 231 QJ97.Q76.AKQ.AQ6 T654.KT2.JT98.32 .A98.65432.T9875 AK832.J543.7.KJ4
+contract 5C
+play D7
+turns 1
+comment South to make five clubs.  West leads the D7. What lead defeats the contract, and how? Difficulty 5 http://www.doubledummy.net/Problem0232.html
+
+deal 232 2.AJT62.KT96.AQ2 8654.987.J43.KT9 JT97.K.A875.J876 AKQ3.Q543.Q2.543
+contract 5D
+play H3
+turns 1
+comment South to make five diamonds. Difficulty 7 http://www.doubledummy.net/Problem0233.html
+
+deal 233 J432.54.AQJ85.76 AT98.A76.94.K543 KQ.KQ32.K3.AQT98 765.JT98.T762.J2
+contract 5NT
+play HJ
+turns 1
+comment South to make five no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0234.html
+
+deal 234 Q82.432.A92.A432 JT.QJ5.T854.9875 AK73.AKT9.QJ3.KT 9654.876.K76.QJ6
+contract 6H
+play S4
+turns 0
+comment South to make six hearts. Why would it be a mistake to lead a diamond at trick 2? Difficulty 6 http://www.doubledummy.net/Problem0235.html
+
+deal 235 AQJ7.9752.AQJ54. T984.T.KT987.QT8 32.AKQJ.32.KJ976 K65.8643.6.A5432
+contract 5NT
+play H8
+turns 1
+comment South to make five no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0236.html
+
+deal 236 AT432.AT84.32.QJ KQJ5.J65.QJT8.K5 .Q32.AK54.AT8432 9876.K97.976.976
+contract 6C
+play D6
+turns 1
+comment South to make six clubs. Difficulty 4 http://www.doubledummy.net/Problem0237.html
+
+deal 237 T32.JT432.QJ52.2 Q976.KQ.K76.6543 J854.A.A8.AKT987 AK.98765.T943.QJ
+contract 4S
+play CJ
+turns 1
+comment South to make four spades. Difficulty 7 http://www.doubledummy.net/Problem0238.html
+
+deal 238 32.K8.AQT7.QJ854 T.Q962.K86543.32 KJ97.AT754.J92.A AQ8654.J3..KT976
+contract 3NT
+play C6
+turns 1
+comment South to make three no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0239.html
+
+deal 239 A432.4.K965.AKJ5 87.AJT5.432.QT96 KQ65.9832.QT.432 JT9.KQ76.AJ87.87
+contract 4S
+play SJ
+turns 1
+comment South to make four spades. Difficulty 4 http://www.doubledummy.net/Problem0240.html
+
+deal 240 K832.K.QJ432.J32 A65.T987.KT987.5 T94.AQJ32.65.AQ4 QJ7.654.A.KT9876
+contract 3NT
+play W
+turns 0
+comment South to make three no-trumps against any defence. Difficulty 5 http://www.doubledummy.net/Problem0241.html
+
+deal 241 KQ97.A65.AK.QJ43 J65432.T87.98.K6 .Q432.765432.A92 AT8.KJ9.QJT.T875
+contract 5D
+play DQ
+turns 1
+comment South to make five diamonds. Difficulty 6 http://www.doubledummy.net/Problem0242.html
+
+deal 242 KJ73.AT52.Q53.75 65.J73.KT764.J64 AQ2.Q8.A982.K932 T984.K964.J.AQT8
+contract 3NT
+play ST
+turns 1
+comment South to make three no-trumps. West leads the 10S. What lead(s) defeat(s) three no-trumps? Difficulty 8 http://www.doubledummy.net/Problem0243.html
+
+deal 243 876.54.Q32.AKJ87 54.KT9876.K54.43 KJT32.A32.AJT9.2 AQ9.QJ.876.QT965
+contract 4S
+play HQ
+turns 1
+comment South to make four spades. Difficulty 5 http://www.doubledummy.net/Problem0244.html
+
+deal 244 653.A765.Q2.KJ74 987.QJT32.K987.T AQ4.K4.AJT3.9832 KJT2.98.654.AQ65
+contract 4NT
+play C5
+turns 1
+comment South to make four no-trumps. Difficulty 7 http://www.doubledummy.net/Problem0245.html
+
+deal 245 QJ92.K532.A2.J95 K5.A8764.Q96.KQ4 A64.J9.KJ854.A32 T873.QT.T73.T876
+contract 5NT
+play C6
+turns 1
+comment South to make five notrumps. Difficulty 3 http://www.doubledummy.net/Problem0246.html
+
+deal 246 A654.K98.KJ53.65 JT32.J432.AT4.KJ Q9.A76.62.AQT432 K87.QT5.Q987.987
+contract 5NT
+play H5
+turns 1
+comment South to make five no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0247.html
+
+deal 247 A5.A432.KQ32.KT8 Q6.KT9.JT98.J765 J432.QJ65.A.A432 KT987.87.7654.Q9
+contract 5H
+play D7
+turns 1
+comment South to make five hearts. Difficulty 6 http://www.doubledummy.net/Problem0248.html
+
+deal 248 Q.865.AQ832.AJ82 K97543..754.T765 AJ62.AQ432.K.Q43 T8.KJT97.JT96.K9
+contract 5NT
+play W
+turns 0
+comment (a) South to make five no-trumps against any defence. (b) What is the highest suit contract South can make against any defence? Difficulty 6 http://www.doubledummy.net/Problem0249.html
+
+deal 249 KT9.J2.AKJ64.AQ8 A6432.AQ643..J64 J5.KT9.Q7532.972 Q87.875.T98.KT53
+contract 5NT
+play DT
+turns 1
+comment South to make five no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0250.html
+
+deal 250 K72.T943.AKJ2.KQ QJT.K8765.T.A965 A93.AQ2.Q873.432 8654.J.9654.JT87
+contract 5D
+play D4
+turns 1
+comment South to make five diamonds. Difficulty 4 http://www.doubledummy.net/Problem0251.html
+
+deal 251 A4.J87.JT2.QT962 873.KT54.7654.54 KT2.Q632.AK98.K8 QJ965.A9.Q3.AJ73
+contract 3NT
+play SQ
+turns 1
+comment South to make three no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0252.html
+
+deal 252 A3.9654.873.AK92 2.T873.Q952.8754 K654.AKQJ2.AK4.3 QJT987..JT6.QJT6
+contract 6H
+play SQ
+turns 1
+comment South to make six hearts. Difficulty 4 http://www.doubledummy.net/Problem0253.html
+
+deal 253 8765.2.AQ43.AT54 T9.73.KT876.KQ32 K42.AKQJ654.J2.J AQJ3.T98.95.9876
+contract 4H
+play HT
+turns 1
+comment South to make four hearts. Difficulty 7 http://www.doubledummy.net/Problem0254.html
+
+deal 254 AJ43.AK4.A92.876 Q765.QJ9.QJ876.2 2.T87.543.AKQJT9 KT98.6532.KT.543
+contract 5C
+play ST
+turns 1
+comment South to make five clubs. Difficulty 8 http://www.doubledummy.net/Problem0255.html
+
+deal 255 AKJ3.AK43..K7654 Q9872.T86.AKQ.32 54.J2.97632.AT98 T6.Q975.JT854.QJ
+contract 6C
+play CQ
+turns 1
+comment South to make six clubs. Difficulty 5 http://www.doubledummy.net/Problem0256.html
+
+deal 256 5432.KQ2.J4.AQT2 T9876.T9876.A6.K A.A543.T32.76543 KQJ.J.KQ9875.J98
+contract 5C
+play HJ
+turns 1
+comment South to make five clubs. Difficulty 3 http://www.doubledummy.net/Problem0257.html
+
+deal 257 98.A7543.K6.9743 K65432.KQ6.J7.K8 A7.J2.AT95432.A2 QJT.T98.Q8.QJT65
+contract 5D
+play CQ
+turns 1
+comment South to make five diamonds. Difficulty 4 http://www.doubledummy.net/Problem0258.html
+
+deal 258 A6543.T97.2.A543 T98.A543.Q76.Q76 2.KQJ86.A543.KT2 KQJ7.2.KJT98.J98
+contract 4H
+play H2
+turns 1
+comment South to make four hearts. Difficulty 6 http://www.doubledummy.net/Problem0259.html
+
+deal 259 J9.AJT5432.5.K96 .KQ98.KQT9.AQJ87 KQT..AJ432.T5432 A8765432.76.876.
+contract 1NT
+play H7
+turns 1
+comment South to make one no-trump. Difficulty 6 http://www.doubledummy.net/Problem0260.html
+
+deal 260 T2.K76543.32.AK6 K9865.98.KQ.Q984 AQJ7.2.AJT94.T75 43.AQJT.8765.J32
+contract 5D
+play D8
+turns 1
+comment South to make five diamonds. Difficulty 7 http://www.doubledummy.net/Problem0261.html
+
+deal 261 QT2.AKJ75.A54.85 93.Q6432.K32.J96 87654..T987.KT42 AKJ.T98.QJ6.AQ73
+contract 2S
+play DQ
+turns 1
+comment South to make two spades. Difficulty 6 http://www.doubledummy.net/Problem0262.html
+
+deal 262 AJ5.T932.4.AT984 43.AQ854.5.KQJ32 Q9876.K76.AJ932. KT2.J.KQT876.765
+contract 4S
+play DK
+turns 1
+comment South to make four spades. Difficulty 5 http://www.doubledummy.net/Problem0263.html
+
+deal 263 T76.654.AQ76.Q54 A98.AT97.JT98.A2 K5432.K832.5432. QJ.QJ.K.KJT98763
+contract 1S
+play SQ
+turns 1
+comment East-West to defeat South's one spade contract. DeepFinesse has discovered that the problem as set in 1979 was insoluble.  Nobody noticed at the time. Difficulty 8 http://www.doubledummy.net/Problem0264.html
+
+deal 264 AQ92.K.Q54.KQ432 K.A954.A96.A8765 JT543.JT832.J32. 876.Q76.KT87.JT9
+contract 4S
+play CJ
+turns 1
+comment South to make four spades. Difficulty 8 http://www.doubledummy.net/Problem0265.html
+
+deal 265 A6.AKQJ72.K65.A6 .T98643.QJT4.975 K95432.5.A7.K432 QJT87..9832.QJT8
+contract 5NT
+play W
+turns 0
+comment Exchange two specific cards of the same suit so that South http://www.doubledummy.net/Problem0266.html
+can make five no-trumps against any lead except a club honour. Difficulty 8
+
+deal 266 A43.AJ5.AJ4.J432 JT8765.432..T765 Q2.QT.T987652.AQ K9.K9876.KQ3.K98
+contract 6NT
+play W
+turns 0
+comment South to make six no-trumps against any lead. Difficulty 5 http://www.doubledummy.net/Problem0267.html
+
+deal 267 KQ6.K965432.A.T9 A987.A.Q654.QJ32 5432.JT.K732.AK4 JT.Q87.JT98.8765
+contract 1NT
+play ST
+turns 0
+comment South is in 1NT. West leads a spade and East fails to find the correct play to this trick.What is East's error and how does declarer make the contract after it? Difficulty 4 http://www.doubledummy.net/Problem0268.html
+
+deal 268 .AK432.A9876.A42 65432.QJ6.J54.JT AJT9.5.KQT32.KQ3 KQ87.T987..98765
+contract 6NT
+play C5
+turns 1
+comment South to make 6NT. Difficulty 3 http://www.doubledummy.net/Problem0269.html
+
+deal 269 Q432.Q975.A85.K2 K9.J86.J976.QT98 A765.K4.KT3.AJ43 JT8.AT32.Q42.765
+contract 4NT
+play C5
+turns 1
+comment South to make four no-trumps. Difficulty 7 http://www.doubledummy.net/Problem0270.html
+
+deal 270 AK.A976.2.KT9732 J987654.KT8.765. QT.5432.AKQT3.54 32.QJ.J984.AQJ86
+contract 3NT
+play HQ
+turns 1
+comment South to make three no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0271.html
+
+deal 271 8765.A5.K32.5432 J9.943.QT98.9876 AQ4.QT876.AJ.KQJ KT32.KJ2.7654.AT
+contract 4H
+play CA
+turns 1
+comment South to make four hearts. Difficulty 3 http://www.doubledummy.net/Problem0272.html
+
+deal 272 32.32.KT932.T432 98.K9854.QJ.8765 K7654.AQ76.A.AQ9 AQJT.JT.87654.KJ
+contract 4NT
+play HJ
+turns 1
+comment South to make four no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0273.html
+
+deal 273 Q984..432.JT5432 765.8765432.A.98 AT32.AJT.98765.A KJ.KQ9.KQJT.KQ76
+contract 3S
+play C6
+turns 1
+comment South to make three spades. Difficulty 5 http://www.doubledummy.net/Problem0274.html
+
+deal 274 432.AQ54.32.KT43 AKJ.T92.A86.J872 Q98765.K.K75.A95 T.J8763.QJT94.Q6
+contract 4S
+play H6
+turns 1
+comment South to make four spades. Difficulty 2 http://www.doubledummy.net/Problem0275.html
+
+deal 275 J4.AKT32.KT8.QJ4 KQ95.98.QJ2.K932 A8732..A543.A865 T6.QJ7654.976.T7
+contract 4S
+play HQ
+turns 1
+comment South to make four spades. Difficulty 7 http://www.doubledummy.net/Problem0276.html
+
+deal 276 84.A65432.KQ8.J2 K52.8.A765432.K6 AQJT93.K7..AQ543 76.QJT9.JT9.T987
+contract 6S
+play HQ
+turns 1
+comment South to make six spades. Difficulty 3 http://www.doubledummy.net/Problem0277.html
+
+deal 277 J532.A642.A.QJ73 QT9874.QT73.5.K8 K6.KJ985.98632.A A..KQJT74.T96542
+contract 4H
+play DK
+turns 1
+comment South to make four hearts. Difficulty 3 http://www.doubledummy.net/Problem0278.html
+
+deal 278 Q.AT42.AQ9.65432 A6543.J7.8765.87 KJ72.Q85.J432.AK T98.K963.KT.QJT9
+contract 5NT
+play CQ
+turns 1
+comment South to make five no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0279.html
+
+deal 279 6543.QJ.AT8.A987 AJ.765.J654.QT32 K87.A432.K32.KJ6 QT92.KT98.Q97.54
+contract 3NT
+play HT
+turns 1
+comment South to make three no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0280.html
+
+deal 280 76543.A7652.T3.6 QJ98.83.J854.432 AK2.4.AQ72.AKQT5 T.KQJT9.K96.J987
+contract 5C
+play W
+turns 0
+comment South to make five clubs. West leads the only card to give South a chance. Difficulty 3 http://www.doubledummy.net/Problem0281.html
+
+deal 281 QJ.QJ7.Q732.A752 T765.K.K654.T983 9432.A65432.A.QJ AK8.T98.JT98.K64
+contract 4H
+play SA
+turns 1
+comment South to make four hearts. Difficulty 4 http://www.doubledummy.net/Problem0282.html
+
+deal 282 AKQ.Q765.AJ983.A 32.2.T7652.QJ765 T987.KJ.4.KT9832 J654.AT9843.KQ.4
+contract 4S
+play C4
+turns 1
+comment South to make four spades. Difficulty 7 http://www.doubledummy.net/Problem0283.html
+
+deal 283 2.AQ2.T872.KQ432 JT93.JT75.J.AJT9 AKQ8.943.K43.765 7654.K86.AQ965.8
+contract 2NT
+play D6
+turns 1
+comment South to make two no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0284.html
+
+deal 284 A432..KJ93.AK876 KQT9.4.Q876.QJT9 J765.AQ2.A2.5432 8.KJT987653.T54.
+contract 4S
+play S8
+turns 1
+comment South to make four spades. Difficulty 8 http://www.doubledummy.net/Problem0285.html
+
+deal 285 AQ2.A87.QT7.A432 976.J965.KJ65.JT T85.T432.A432.KQ KJ43.KQ.98.98765
+contract 4H
+play HK
+turns 1
+comment South to make four hearts. Difficulty 8 http://www.doubledummy.net/Problem0286.html
+
+deal 286 AK982.T9.QT86.J9 JT..974.K8765432 Q.AK76432.AK.AQT 76543.QJ85.J532.
+contract 6NT
+play S7
+turns 1
+comment South to make six no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0287.html
+
+deal 287 AK5.JT.A52.KJ942 .Q765.T9876.AQT3 J987632.8432.QJ. QT4.AK9.K43.8765
+contract 4S
+play HA
+turns 1
+comment South to make four spades. Difficulty 7 http://www.doubledummy.net/Problem0288.html
+
+deal 288 Q8.AQ2.AJ932.KQ7 KT.J9876.KQ.AJT9 AJ962.54.54.6543 7543.KT3.T876.82
+contract 4S
+play C8
+turns 1
+comment South to make four spades. Difficulty 7 http://www.doubledummy.net/Problem0189.html http://www.doubledummy.net/Problem0289.html
+
+deal 289 AKQ4.Q2.Q543.A43 65.K9876.T987.87 872.AT43.AJ2.Q62 JT93.J5.K6.KJT95
+contract 5NT
+play SJ
+turns 1
+comment South to make five no-trumps.  West leads the JS.Which leads would defeat the contract? Difficulty 7 http://www.doubledummy.net/Problem0290.html
+
+deal 290 A3.KT954.A43.AKT 4.Q876.JT.987654 KQJ92.A32.Q952.J T8765.J.K876.Q32
+contract 6S
+play HJ
+turns 1
+comment South to make six spades. Difficulty 6 http://www.doubledummy.net/Problem0291.html
+
+deal 291 54.J32.KJ65.A432 AKT6.Q76.Q432.J5 J932.AK854.A.K87 Q87.T9.T987.QT96
+contract 4H
+play HT
+turns 1
+comment South to make four hearts. Difficulty 5 http://www.doubledummy.net/Problem0292.html
+
+deal 292 Q432.A543.2.AJ32 KT98.JT62.Q86.T9 J765.Q9.KJ43.654 A.K87.AT975.KQ87
+contract 1S
+play CK
+turns 1
+comment South to make one spade. Difficulty 8 http://www.doubledummy.net/Problem0293.html
+
+deal 293 AK2.2.J5432.J432 Q98.KQ.Q876.Q876 T76.AJ6543.AK.AK J543.T987.T9.T95
+contract 5H
+play W
+turns 0
+comment South to make five hearts against any lead other than a spade. Difficulty 2 http://www.doubledummy.net/Problem0294.html
+
+deal 294 QJ.54.AKT2.65432 K8.AQJ98..QJT987 AT9.KT32.Q9654.A 765432.76.J873.K
+contract 5D
+play CK
+turns 1
+comment South to make five diamonds. West leads the CK. Difficulty 8 http://www.doubledummy.net/Problem0295.html
+
+deal 295 .K985432.KT.AKQJ 75432..AQ87653.5 AKQ8.A6.942.T643 JT96.QJT7.J.9872
+contract 5NT
+play HQ
+turns 1
+comment South to make five no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0297.html
+
+deal 296 Q.54.KQ732.Q5432 9632.Q876.A654.K AJT8.AK932..A976 K754.JT.JT98.JT8
+contract 4H
+play HJ
+turns 1
+comment South to make four hearts. Difficulty 5 http://www.doubledummy.net/Problem0298.html
+
+deal 297 A43.Q843.AK3.Q32 J9.KJ9.Q954.KJT4 QT2.A2.T82.A8765 K8765.T765.J76.9
+contract 3NT
+play S5
+turns 1
+comment South to make three no-trumps. Difficulty 7 http://www.doubledummy.net/Problem0299.html
+
+deal 298 AK64.KJ52.97.QJ5 J.76.K86543.9863 987.983.AQ2.T742 QT532.AQT4.JT.AK
+contract 3NT
+play DJ
+turns 1
+comment South to make three no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0300.html
+
+deal 299 A985.J95.A86.J54 T74.QT7.J9432.T9 Q.K432.QT5.AQ876 KJ632.A86.K7.K32
+contract 3C
+play SK
+turns 1
+comment South to make three clubs. Difficulty 8 http://www.doubledummy.net/Problem0301.html
+
+deal 300 K.Q43.KQ2.QJ6543 J9753.65.JT987.2 AQT8642.K2.A543. .AJT987.6.AKT987
+contract 6S
+play CA
+turns 1
+comment South to make six spades. Difficulty 3 http://www.doubledummy.net/Problem0302.html
+
+deal 301 A532.A532.QJ4.92 9764.J9.K75.T765 KJ.Q6.A32.AKQ843 QT8.KT874.T986.J
+contract 5NT
+play D8
+turns 1
+comment West leads the 8D against South's contract of five no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0303.html
+
+deal 302 Q7642.94.KQ.KQJ4 KJ93.KT7.97653.T A.AQ85.T42.A6532 T85.J632.AJ8.987
+contract 6C
+play C9
+turns 1
+comment South to make six clubs. Difficulty 3 http://www.doubledummy.net/Problem0304.html
+
+deal 303 Q432.J87.Q75432. T965.Q65.AK.8632 KJ8.AK432..JT954 A7.T9.JT986.AKQ7
+contract 4H
+play DJ
+turns 1
+comment South to make four hearts. Difficulty 5 http://www.doubledummy.net/Problem0305.html
+
+deal 304 A76.AJ932.AK8.54 Q9.T87.5432.KQ32 5432.4.Q76.AJ876 KJT8.KQ65.JT9.T9
+contract 3NT
+play DJ
+turns 1
+comment South to make three no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0306.html
+
+deal 305 A54.J2.AKJ75.A32 QJ76.KQ654.T98.4 K832.A873..Q9875 T9.T9.Q6432.KJT6
+contract 3NT
+play HT
+turns 1
+comment South to make three no-trumps. Difficulty 7 http://www.doubledummy.net/Problem0307.html
+
+deal 306 95.KQ432.T97.JT3 Q432.765.QJ3.Q54 AKJT8.JT.AK2.AK2 76.A98.8654.9876
+contract 6NT
+play C9
+turns 1
+comment South to make six no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0308.html
+
+deal 307 AQ8432.98.KT6.32 KJT.KJ42.A543.KQ .AQT3.J982.AJT54 9765.765.Q7.9876
+contract 5NT
+play C9
+turns 1
+comment South to make five no-trumps. West leads the C9. Difficulty  3 http://www.doubledummy.net/Problem0309.html
+
+deal 308 K6542.9.JT54.654 J.Q854.KQ876.JT9 AT97.KT7.A32.AQ8 Q83.AJ632.9.K732
+contract 3S
+play D9
+turns 1
+comment South to make three spades. Difficulty 8 http://www.doubledummy.net/Problem0310.html
+
+deal 309 J872.T.AJT32.A7 AT5.9876.KQ.T82 Q643.AJ43.4.J95 K9.KQ.98765.Q43
+contract 4S
+play D9
+turns 1
+comment South to make ten tricks with spades trumps. Difficulty 8 http://www.doubledummy.net/Problem0311.html
+
+deal 310 832.K32.Q543.Q76 JT9.A97654.K76.2 AKQ765..AT.AK543 4.QJT8.J982.JT98
+contract 6S
+play HQ
+turns 1
+comment South to make six spades. Difficulty 2 http://www.doubledummy.net/Problem0312.html
+
+deal 311 AQ93.A.AQ83.AKQ6 T42.J9876.T9.987 J8.KQT32.J4.5432 K765.54.K7652.JT
+contract 6NT
+play W
+turns 0
+comment South to make six no-trumps against any lead. Difficulty 2 http://www.doubledummy.net/Problem0313.html
+
+deal 312 K82.AK.QJ2.AQJT3 QT9543.Q7.K9743. A76.65.A65.98752 J.JT98432.T8.K64
+contract 6C
+play SJ
+turns 1
+comment South to make six clubs. Difficulty 2 http://www.doubledummy.net/Problem0314.html
+
+deal 313 AQ3.K9765.AK2.QT K6..Q876543.K873 8742.A2.JT9.A654 JT95.QJT843..J92
+contract 3NT
+play SJ
+turns 1
+comment South to make three no-trumps. Difficulty 7 http://www.doubledummy.net/Problem0315.html
+
+deal 314 K432.QJ.AJT3.AT8 J.AT87654.987.KJ AT5.K932.Q2.9732 Q9876..K654.Q654
+contract 4NT
+play S6
+turns 1
+comment South to make four no-trumps. Difficulty  8 http://www.doubledummy.net/Problem0316.html
+
+deal 315 AKQ84.T432..KT43 5.AKQ98765..J876 32..AQJ5432.AQ92 JT976.J.KT9876.5
+contract 4NT
+play SJ
+turns 1
+comment South to make four no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0317.html
+
+deal 316 K873.AKJ.AJ.AT75 AT92.QT85.9654.J J.432.Q32.Q86432 Q654.976.KT87.K9
+contract 6C
+play D7
+turns 1
+comment South to make six clubs. Difficulty 2 http://www.doubledummy.net/Problem0318.html
+
+deal 317 J54.Q32.A32.AQT2 KT86.K8765.KJ.65 AQ32.A94.9876.43 97.JT.QT54.KJ987
+contract 3NT
+play C7
+turns 1
+comment South to make three no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0319.html
+
+deal 318 K87.J62.AJ82.Q32 AT543.Q54.T.K864 QJ2.AK3.K3.AT975 96.T987.Q97654.J
+contract 6NT
+play W
+turns 0
+comment South is in six no-trumps, which cannot be made. Which exchanges of (a) a red queen with the ten of the suit suit or (b) an eight held by North with the nine of the same suit, allow South to make the contract?  Analyse each of the four cases. Difficulty 7 http://www.doubledummy.net/Problem0320.html
+
+deal 319 98.T43.QT432.KT8 7654.J765.KJ.432 AKJ32.AQ82.A.AQ9 QT.K9.98765.J765
+contract 6S
+play W
+turns 0
+comment South to make six spades against any lead. Difficulty 2 http://www.doubledummy.net/Problem0321.html
+
+deal 320 KQ.765432.T.K975 AJ874..KQJ8765.2 T9653.A.A932.A43 2.KQJT98.4.QJT86
+contract 2NT
+play S2
+turns 1
+comment South to make two no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0322.html
+
+deal 321 JT9.A96.AQ95.Q75 K.T5432.T6432.AJ 432.QJ8.J7.K9432 AQ8765.K7.K8.T86
+contract 3NT
+play W
+turns 0
+comment South to make three no-trumps against any lead. Difficulty 4 http://www.doubledummy.net/Problem0323.html
+
+deal 322 A754.AJT9.9.AQT2 3.KQ32.AKJ65.K43 QJT986..Q432.987 K2.87654.T87.J65
+contract 6S
+play W
+turns 0
+comment West to lead and East-West to defeat South's contract of six spades. Difficulty 6 http://www.doubledummy.net/Problem0324.html
+
+deal 323 543.5432.5432.A2 Q92.JT98.AJT9.54 AK6.KQ76.KQ87.K3 JT87.A.6.QJT9876
+contract 1S
+play HA
+turns 1
+comment South to make one spade. West leads the AH followed by JS. Difficulty 8 http://www.doubledummy.net/Problem0325.html
+
+deal 324 KT6.J974..KT8742 J5432.AQ865.532. AQ7.KT2.AKQJ6.AQ 98.3.T9874.J9653
+contract 6NT
+play C3
+turns 1
+comment South to make six no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0326.html
+
+deal 325 AK43.QJ8.JT42.AQ 975.A7.AKQ3.T987 T82.65432.9.J432 QJ6.KT9.8765.K65
+contract 3H
+play HT
+turns 1
+comment South to make three hearts. Difficulty 5 http://www.doubledummy.net/Problem0327.html
+
+deal 326 Q5432.A932.9876. AT6.Q876.5.A7654 K.KJT4.AKQJT.K32 J987.5.432.QJT98
+contract 6D
+play H5
+turns 1
+comment South to make six diamonds. Difficulty 3 http://www.doubledummy.net/Problem0328.html
+
+deal 327 K2.AKQ.43.876543 Q9876..AKQJ.KQT9 AT543.JT9876.2.2 J.5432.T98765.AJ
+contract 4H
+play DT
+turns 1
+comment South to make four hearts. Difficulty 5 http://www.doubledummy.net/Problem0329.html
+
+deal 328 K32.A98.QT54.432 87.K76.KJ32.AJ87 AJ654.JT32.A.K65 QT9.Q54.9876.QT9
+contract 4S
+play D9
+turns 1
+comment South to make four spades. Difficulty 4 http://www.doubledummy.net/Problem0331.html
+
+deal 329 T9.KT.K543.K9832 J32.A9876.QJ98.T KQ87.Q32.AT2.Q76 A654.J54.76.AJ54
+contract 3NT
+play H4
+turns 1
+comment South to make three no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0332.html
+
+deal 330 5432.K5.AQJT54.5 KQJT.AJ.986.A987 A.Q432.K732.T432 9876.T9876..KQJ6
+contract 5D
+play HT
+turns 1
+comment South to make five diamonds. Difficulty 5 http://www.doubledummy.net/Problem0333.html
+
+deal 331 32.J92.A943.J873 AJ.QT7.K876.K954 K54.AK865.Q2.AQ6 QT9876.43.JT5.T2
+contract 4H
+play CT
+turns 1
+comment South to make four hearts. (A trump lead defeats the contract. Do any other leads defeat it?) Difficulty 6 http://www.doubledummy.net/Problem0334.html
+
+deal 332 K8.K5432.KJ95.32 AJ932.JT8.AT432. T654.AQ976..A654 Q7..Q876.KQJT987
+contract 4H
+play CK
+turns 1
+comment South to make four hearts. Difficulty 8 http://www.doubledummy.net/Problem0335.html
+
+deal 333 Q542.AQT2.94.K32 T973.J65.T.AJT98 AJ86.43.AJ863.Q4 K.K987.KQ752.765
+contract 3NT
+play SK
+turns 1
+comment South to make three no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0336.html
+
+deal 334 QJT2.AQT2.94.K32 8753.J65.T.AJT98 A964.43.AJ863.Q4 K.K987.KQ752.765
+contract 3NT
+play SK
+turns 1
+comment South to make three no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0337.html
+
+deal 335 AQ4.AQ9.432.5432 976.K8543.J8.KJ8 T852.2.AT765.A76 KJ3.JT76.KQ9.QT9
+contract 3D
+play DK
+turns 1
+comment East-West to defeat South's three diamonds. How is the contract made if East plays the wrong card at trick 1? Difficulty 8 http://www.doubledummy.net/Problem0338.html
+
+deal 336 K9.972.Q432.Q965 Q54.A86543.7.K87 AT32.K.AK86.A432 J876.QJT.JT95.JT
+contract 5C
+play DJ
+turns 1
+comment South to make five clubs. Difficulty 8 http://www.doubledummy.net/Problem0339.html
+
+deal 337 A5432.K6.43.AT32 QT87.JT97.KQ7.74 K6.A5432.AJ2.KQJ J9.Q8.T9865.9865
+contract 6C
+play W
+turns 0
+comment South to make six clubs against any lead. Difficulty 5 http://www.doubledummy.net/Problem0340.html
+
+deal 338 Q32.AT98.AQ3.AJ5 K.KQJ2.7654.KQ32 AT9876..T98.9876 J54.76543.KJ2.T4
+contract 6S
+play C4
+turns 1
+comment South to make six spades. Difficulty 4 http://www.doubledummy.net/Problem0341.html
+
+deal 339 .A2.KQJ942.A5432 65.9876.AT873.KQ AQJT987.KQ3.65.6 K432.JT54..JT987
+contract 3NT
+play CJ
+turns 1
+comment South to make three no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0342.html
+
+deal 340 432.QJ.A32.A5432 AKT98.AT.6.KQ987 65.K76543.KQJ54. QJ7.982.T987.JT6
+contract 4H
+play SQ
+turns 1
+comment South to make four hearts. Difficulty 3 http://www.doubledummy.net/Problem0343.html
+
+deal 341 Q64.A864.AT7.432 A32.JT75.J5.KQJ8 KJ975.Q9.K9.A975 T8.K32.Q86432.T6
+contract 4S
+play H2
+turns 1
+comment South to make four spades. Difficulty 8 http://www.doubledummy.net/Problem0344.html
+
+deal 342 AKQ432.543.KJ2.4 .QT987.Q654.8765 8765.AJ6.A3.AKJ3 JT9.K2.T987.QT92
+contract 6NT
+play SJ
+turns 1
+comment South to make six no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0346.html
+
+deal 343 J9.954.K87654.43 Q43.J87.J3.K8765 AK2.KT6.AT9.AQ92 T8765.AQ32.Q2.JT
+contract 4NT
+play H2
+turns 1
+comment South to make four no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0347.html
+
+deal 344 Q6543.Q.AT4.A432 987.K765.J876.JT 2.A984.Q32.Q9765 AKJT.JT32.K95.K8
+contract 5C
+play W
+turns 0
+comment Which lead or leads by West defeat South's contract of five clubs, and how? Difficulty 8 http://www.doubledummy.net/Problem0031.html http://www.doubledummy.net/Problem0348.html
+
+deal 345 32.AK7532.AKT.K8 QJ98.4.QJ974.J96 AKT654.86.8.AT52 7.QJT9.6532.Q743
+contract 6S
+play HQ
+turns 1
+comment South to make six spades. Difficulty 2 http://www.doubledummy.net/Problem0349.html
+
+deal 346 AJ.K432.KJ85.JT4 Q643..Q764.Q8653 K752.Q.A32.AK972 T98.AJT98765.T9.
+contract 6NT
+play DT
+turns 1
+comment South to make six no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0350.html
+
+deal 347 7.J9753.97.QJ753 8642.K864.642.K2 QJT95.QT2.KJ5.A8 AK3.A.AQT83.T964
+contract 1S
+play HA
+turns 1
+comment Can South make one spade, after West has led the AH? Difficulty 8 http://www.doubledummy.net/Problem0351.html
+
+deal 348 A64.Q32.K543.J32 T.AK7654.J876.Q7 KQ9875.J.A2.K654 J32.T98.QT9.AT98
+contract 4S
+play HT
+turns 1
+comment South to make four spades. Difficulty 6 http://www.doubledummy.net/Problem0352.html
+
+deal 349 432.A654.A97.932 T965.732.T32.654 KJ8.KQ.QJ6.AQJT8 AQ7.JT98.K854.K7
+contract 4H
+play W
+turns 0
+comment South to make four hearts against any lead (only red suits need to be considered). Difficulty 8 http://www.doubledummy.net/Problem0353.html
+
+deal 350 K76.8642.AT86.A2 82.KQ753.9732.KJ AJT5.AJ9.Q5.8643 Q943.T.KJ4.QT975
+contract 3D
+play HT
+turns 1
+comment South to make three diamonds. Difficulty 5 http://www.doubledummy.net/Problem0355.html
+
+deal 351 A543.9832.AK2.K2 T76.KQ.JT9.JT765 QJ82.A7.Q543.Q98 K9.JT654.876.A43
+contract 3NT
+play H5
+turns 1
+comment South to make three no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0356.html
+
+deal 352 KJ.2.KQ942.AQJT2 A3.AQ8753.765.K6 QT9872.KJ9.83.94 654.T64.AJT.8753
+contract 3NT
+play HT
+turns 1
+comment West leads the 10H to South's three no-trumps. East-West to defeat the contract. Difficulty 6 http://www.doubledummy.net/Problem0357.html
+
+deal 353 AJ4..AT86.642 82.9.KJ7.J973 7.KQ3.432.AK5 K95.T.Q95.QT8
+contract ?NT
+play S
+turns 0
+comment South to lead and North-South to make 9 tricks at no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0358.html
+
+deal 354 AT6543.AT32.A86. QJ87.QJ87.Q32.J2 K2.654.JT94.AKT7 9.K9.K75.Q986543
+contract 3NT
+play D5 D6 DQ
+turns 3
+comment South to make three no-trumps. West leads a diamond, taken by East's QD. Difficulty 6 http://www.doubledummy.net/Problem0360.html
+
+deal 355 KJ9.A65.A32.Q432 AQ5432.Q43.J.K65 .KJT982.KQ654.AT T876.7.T987.J987
+contract 6H
+play DT
+turns 1
+comment South to make six hearts. Difficulty 7 http://www.doubledummy.net/Problem0361.html
+
+deal 356 JT.AT.QJ863.T742 Q876.K862.A2.QJ5 AK95.Q543.K9.K83 432.J97.T754.A96
+contract 3NT
+play D4
+turns 1
+comment South to make three no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0362.html
+
+deal 357 943.T987632.43.A 8765.KJ4.QT.QJT9 AK2.AQ5.AJ2.5432 QJT..K98765.K876
+contract 6H
+play SQ
+turns 1
+comment South to make six hearts. Difficulty 5 http://www.doubledummy.net/Problem0363.html
+
+deal 358 AQ6.K87.765.AQ92 K74.AQ94.KQ8.K87 952.T652.AJ9.654 JT83.J3.T432.JT3
+contract 1C
+play W
+turns 0
+comment West to lead and East-West to defeat South's contract of one club. Difficulty 8 http://www.doubledummy.net/Problem0364.html
+
+deal 359 Q87.AK2.7543.Q87 J95432.J.2.95432 AT.Q843.JT986.AT K6.T9765.AKQ.KJ6
+contract 3NT
+play DA
+turns 1
+comment East-West to defeat South's contract of three no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0365.html
+
+deal 360 AT942.5.KQT942.T 3.Q2.J753.QJ8763 5.AKT874.86.AK92 KQJ876.J963.A.54
+contract 5D
+play DA
+turns 1
+comment West correctly leads the AH to South's contract of five diamonds. Show why a spade switch is needed to defeat the contract. Difficulty 8 http://www.doubledummy.net/Problem0366.html
+
+deal 361 A2.AK82.432.JT94 8654.3.K987.KQ76 K973.JT.AT5.A832 QJT.Q97654.QJ6.5
+contract 4NT
+play SQ
+turns 1
+comment South to make four no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0367.html
+
+deal 362 J98.AT7543.3.J76 KT432.J8.QJT.543 AQ76.Q2.AK82.A98 5.K96.97654.KQT2
+contract 3NT
+play D4
+turns 1
+comment South to make three no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0368.html
+
+deal 363 KJ543.AT32.Q2.K7 T98.Q98765.987.9 2.J.AT43.AT85432 AQ76.K4.KJ65.QJ6
+contract 2NT
+play W
+turns 0
+comment West to lead and East-West to defeat South's two no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0369.html
+
+deal 364 865.A865.65.AK65 JT92.KQJ7432..32 AKQ43.T9.A9432.4 7..KQJT87.QJT987
+contract 4S
+play S7
+turns 1
+comment South to make four spades. Difficulty 8 http://www.doubledummy.net/Problem0370.html
+
+deal 365 KQ32.7.AQ32.KQ32 AT.J5432.K84.AJ4 54.AKQT98.976.T9 J9876.6.JT5.8765
+contract 4H
+play DJ
+turns 1
+comment East-West to defeat South's four hearts. Difficulty 7 http://www.doubledummy.net/Problem0371.html
+
+deal 366 K542.AKT.Q62.T63 9.Q872.KT543.QJ7 A73.54.AJ987.AK2 QJT86.J963..9854
+contract 5D
+play SQ
+turns 1
+comment South to make five diamonds. Difficulty 7 http://www.doubledummy.net/Problem0372.html
+
+deal 367 32.K8765.765.AQJ AK9.AJ4..K987654 87654..AKQJT98.T QJT.QT932.432.32
+contract 5D
+play D2
+turns 1
+comment (a) Can South make five diamonds if West leads a diamond?
+(b) Can East make five clubs if South leads a spade? Difficulty 2 http://www.doubledummy.net/Problem0373.html
+
+deal 368 432.T432.94.AKQ5 A5.KJ876.Q3.T432 KQ76.A5.AT2.9876 JT98.Q9.KJ8765.J
+contract 2S
+play W
+turns 0
+comment South is in two spades. Which lead or leads by West defeat the contract and which allow it to be made? Difficulty 8 http://www.doubledummy.net/Problem0374.html
+
+deal 369 5432.65432..A962 A7.T8.QJT987654. KQ6.A7.A32.KJT73 JT98.KQJ9.K.Q854
+contract 5C
+play DK
+turns 1
+comment South to make five clubs. Difficulty 5 http://www.doubledummy.net/Problem0375.html
+
+deal 370 A832.A432.AK32.A 76.KQJT987.765.8 KQJ94.5.4.765432 T5.6.QJT98.KQJT9
+contract 6S
+play DQ
+turns 1
+comment South to make six spades. Difficulty 4 http://www.doubledummy.net/Problem0376.html
+
+deal 371 AK8.654.A32.AT87 97.AJ.765.K96543 6432.KQ732.QJ4.2 QJT5.T98.KT98.QJ
+contract 4H
+play CQ
+turns 1
+comment South to make four hearts. Difficulty 4 http://www.doubledummy.net/Problem0377.html
+
+deal 372 654.KJ6.J654.A84 KJ97.A5.AT8.J953 AQ32.T432.K2.QT6 T8.Q987.Q973.K72
+contract 2NT
+play HQ
+turns 1
+comment South to make two no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0378.html
+
+deal 373 43.AQ4.A754.AQT7 K865.2.9632.6543 A972.T98765.QJ.2 QJT.KJ3.KT8.KJ98
+contract 6H
+play SQ
+turns 1
+comment South to make six hearts. Difficulty 3 http://www.doubledummy.net/Problem0379.html
+
+deal 374 A2.AK.T2.QJ65432 KJT865.9765..AK7 Q9743.8432.AKJ8. .QJT.Q976543.T98
+contract 2NT
+play HQ
+turns 1
+comment South to make two no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0380.html
+
+deal 375 A32.AJT62..AKJ32 9765.KQ98.K.Q765 KQJ84.543.AJT2.4 T.7.Q9876543.T98
+contract 6S
+play D3
+turns 1
+comment South to make six spades. Difficulty 4 http://www.doubledummy.net/Problem0381.html
+
+deal 376 873.K7.A7543.A65 T.965.QJT96.J872 K92.AT84.K2.KQ43 AQJ654.QJ32.8.T9
+contract 3NT
+play W
+turns 0
+comment South is in three no-trumps. Show how a club lead, and only a club lead, defeats the contract. Difficulty 8 http://www.doubledummy.net/Problem0382.html
+
+deal 377 5432.K32.AK2.832 T6.J6.T6543.QT94 AQ8.AT54.J7.AKJ5 KJ97.Q987.Q98.76
+contract 4NT
+play H7
+turns 1
+comment South to make four no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0383.html
+
+deal 378 53.AT432.K94.KT3 K9876.Q.532.Q654 AQT42.KJ.AT7.A92 J.98765.QJ86.J87
+contract 6NT
+play H9
+turns 1
+comment South to make six no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0384.html
+
+deal 379 .Q82.AQ9876.QT32 654.KT7.KT5.8765 K32.96543.J.AKJ9 AQJT987.AJ.432.4
+contract 4H
+play C4
+turns 1
+comment East-West to defeat South's four hearts. Difficulty 1 http://www.doubledummy.net/Problem0387.html
+
+deal 380 KJ9.987.Q32.AK65 Q2.JT65.9876.QJ7 AT543.K43.A4.432 876.AQ2.KJT5.T98
+contract 4S
+play CT
+turns 1
+comment South to make four spades. Difficulty 6 http://www.doubledummy.net/Problem0388.html
+
+deal 381 A2.A5432.KJT65.2 K976.QJ876..K764 Q543.KT9.A98.AJ9 JT8..Q7432.QT853
+contract 3NT
+play W
+turns 0
+comment South to make three no-trumps against any defence, (a) on the deal as shown, (b) after swapping West's diamonds for East's hearts, (c) after swapping West's 3C for East's 6H. Difficulty 4 http://www.doubledummy.net/Problem0389.html
+
+deal 382 Q76.AKJ.A765.JT9 K2.5432.32.AQ832 T9.T98.KQ4.K7654 AJ8543.Q76.JT98.
+contract 3NT
+play D8
+turns 1
+comment South to make three no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0390.html
+
+deal 383 AJT9.K8.A432.Q93 Q876.AT.65.AK654 K.QJ5432.QJT9.T2 5432.976.K87.J87
+contract 4H
+play W
+turns 0
+comment South to make four hearts against any defence. Difficulty 3 http://www.doubledummy.net/Problem0391.html
+
+deal 384 A97.T96.A432.K32 .A8.Q98765.QJT97 QJT.K754.KT.A654 K865432.QJ32.J.8
+contract 3NT
+play S2
+turns 1
+comment South to make three no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0392.html
+
+deal 385 T8762.AJ.QJ.AKQT Q543.62.KT85.753 AKJ.KT53.A76432. 9.Q9874.9.J98642
+contract 6NT
+play D9
+turns 1
+comment South to make six no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0393.html
+
+deal 386 5432.Q876.AQT.32 A876.432.32.AQ96 KQJT.AK95.4.T854 9.JT.KJ98765.KJ7
+contract 4S
+play S9
+turns 1
+comment South to make four spades. Difficulty 7 http://www.doubledummy.net/Problem0394.html
+
+deal 387 A65.AK94.T9.KJ54 JT2.QJ.AKQJ.AT98 KQ9874.32.876.32 3.T8765.5432.Q76
+contract 4S
+play W
+turns 0
+comment In a contract of four spades, South won the opening trump lead in hand and led a club to North's JC.  East won with the AC and returned a low spade, which ran round to North's 6S.Identify and explain any errors made by any players in the above sequence of play. Difficulty 7 http://www.doubledummy.net/Problem0395.html
+
+deal 388 KQ.AK86.AJT.KJT4 7654.JT9.98765.5 32.75432.Q32.932 AJT98.Q.K4.AQ876
+contract 4H
+play SJ
+turns 1
+comment South to make four hearts. Difficulty 1 http://www.doubledummy.net/Problem0396.html
+
+deal 389 J65.A42.76543.Q2 KQ432.87.J98.K76 A9.KT63.KQ2.AJ85 T87.QJ95.AT.T943
+contract 3NT
+play HQ
+turns 1
+comment South to make three no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0397.html
+
+deal 390 K2.AKJ5.AQ52.JT5 QT9654.986.KT.Q8 J873.T.876.K9432 A.Q7432.J943.A76
+contract 3NT
+play SA
+turns 1
+comment South to make three no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0398.html
+
+deal 391 T96.QJ.QT32.KQ97 QJ752.K96.A96.AT K843.AT875.84.53 A.432.KJ75.J8642
+contract 1NT
+play C4
+turns 1
+comment South to make one no-trump. Difficulty 6 http://www.doubledummy.net/Problem0399.html
+
+deal 392 A32..AKQ32.T9876 KQJ954.87..Q5432 T876.A9632.4.AKJ .KQJT54.JT98765.
+contract 3NT
+play DJ
+turns 1
+comment South to make three no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0400.html
+
+deal 393 AQ2.32.AJ432.972 K765.AT94.Q876.T 43.KQJ8.K5.AKQJ3 JT98.765.T9.8654
+contract 6C
+play DT
+turns 1
+comment South to make six clubs. Difficulty 3 http://www.doubledummy.net/Problem0401.html
+
+deal 394 A87.AQJT.AQJT.32 654.K975.K975.QT JT93.32..K987654 KQ2.864.86432.AJ
+contract 4S
+play SK
+turns 1
+comment East-West to defeat South's four spades. Difficulty 8 http://www.doubledummy.net/Problem0402.html
+
+deal 395 T43.KT6.T43.5432 5.J97.K9765.KQ76 KQ2.AQ8.AQJ82.AJ AJ9876.5432..T98
+contract 3NT
+play W
+turns 0
+comment South to make three no-trumps against any defence. Difficulty 7 http://www.doubledummy.net/Problem0403.html
+
+deal 396 AK4.Q32.AK2.A872 Q32.KT8.QT98.Q54 T95.A97654.3.K63 J876.J.J7654.JT9
+contract 6H
+play W
+turns 0
+comment South to make six hearts against any defence. Difficulty 3 http://www.doubledummy.net/Problem0404.html
+
+deal 397 K98.QT.AQ92.AJ54 T654.9876.JT6.76 A32.AK32.543.K32 QJ7.J54.K87.QT98
+contract 6NT
+play SQ
+turns 1
+comment South to make six no-trumps. Difficulty 7 http://www.doubledummy.net/Problem0405.html
+
+deal 398 7652.KQT5.K84.A3 8.9863.T732.JT96 KQJ9.742.A95.Q75 AT43.AJ.QJ6.K842
+contract 4S
+play SA S7
+turns 1
+comment South to make four spades. West leads the AS and follows with the 3S. Difficulty 4 http://www.doubledummy.net/Problem0406.html
+
+deal 399 A.A97.AKQ43.Q876 9.T65.98765.KJT9 KQJT2.KJ32.J2.A2 876543.Q84.T.543
+contract 7NT
+play S8
+turns 1
+comment South to make seven no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0407.html
+
+deal 400 AQ4.QJT2.A432.A4 K98765.AK97.J97. 32..Q85.KJT98765 JT.86543.KT6.Q32
+contract 6C
+play H3
+turns 1
+comment South to make six clubs. Difficulty 5 http://www.doubledummy.net/Problem0408.html
+
+deal 401 A963.K865.64.A76 7.Q.K9752.KT9532 QJ542.A2.AQJ8.Q4 KT8.JT9743.T3.J8
+contract 6S
+play H3
+turns 1
+comment South to make six spades. Difficulty 1 http://www.doubledummy.net/Problem0409.html
+
+deal 402 .AKQJ2.AQ.765432 543.T87654.432.T AKQJ.93.T98765.A T98762..KJ.KQJ98
+contract 6NT
+play CK
+turns 1
+comment South to make six no-trumps. Difficulty 1 http://www.doubledummy.net/Problem0410.html
+
+deal 403 QJ63.6.AJ8.AKQ43 9.T987.Q765.JT98 A872.A5432.432.2 KT54.KQJ.KT9.765
+contract 6S
+play W
+turns 0
+comment South to make six spades against any lead. Difficulty 6 http://www.doubledummy.net/Problem0411.html
+
+deal 404 T2.K65.65432.K54 9.Q43.AT9.J98762 AKQ3.AJT9872..Q3 J87654..KQJ87.AT
+contract 6H
+play DK
+turns 1
+comment South to make six hearts. Difficulty 1 http://www.doubledummy.net/Problem0412.html
+
+deal 405 AQJ4..2.AK765432 9.9843.QJT9.QJT9 K876.AQT7.AK83.8 T532.KJ652.7654.
+contract 6S
+play S2
+turns 1
+comment South to make six spades. Difficulty 6 http://www.doubledummy.net/Problem0413.html
+
+deal 406 2.93.T76.854 854.2.93.T76 T76.854.2.93 93.T76.854.2
+contract ?NT
+play S
+turns 0
+comment South to lead at no-trumps North-South to make five tricks. Difficulty 8 http://www.doubledummy.net/Problem0414.html
+
+deal 407 AQ832.A92.43.K93 T.Q754.K9875.876 KJ.KT3.AQJ62.AJ2 97654.J86.T.QT54
+contract 6NT
+play S4
+turns 1
+comment South to make six no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0415.html
+
+deal 408 A.A.AJ542.QT8543 .987632.QT7.A976 QJT98.KQ54.K3.K2 K765432.JT.986.J
+contract 6NT
+play HJ
+turns 1
+comment South to make six no-trumps. Difficulty 1 http://www.doubledummy.net/Problem0416.html
+
+deal 409 AKJ32.A5.A975.AQ Q7654.KJT9.T43.K 98.Q432.KJ2.J932 T.876.Q86.T87654
+contract 5D
+play H8
+turns 1
+comment South to make five diamonds. Difficulty 6 http://www.doubledummy.net/Problem0417.html
+
+deal 410 T985.A92.AT32.J9 AQ.T8.987.T87642 K6432.Q3.K54.KQ5 J7.KJ7654.QJ6.A3
+contract 4S
+play W
+turns 0
+comment South to make four spades against any defence. Difficulty 2 http://www.doubledummy.net/Problem0418.html
+
+deal 411 .A432.AQT32.AQ95 8765.J97.765.876 J432.QT86.J4.432 AKQT9.K5.K98.KJT
+contract 6H
+play SA
+turns 1
+comment South to make six hearts. Difficulty 6 http://www.doubledummy.net/Problem0420.html
+
+deal 412 AQ32..AQJ65.5432 KJ9.K987654..K76 654.A32.87.AJT98 T87.QJT.KT9432.Q
+contract 5C
+play HQ
+turns 1
+comment East-West to defeat five clubs. Difficulty 5 http://www.doubledummy.net/Problem0421.html
+
+deal 413 AT43.A632.542.42 J6.9874.K973.JT8 Q75.QJ.AQT.AQ753 K982.KT5.J86.K96
+contract 5C
+play S2
+turns 1
+comment South to make five clubs. Difficulty 2 http://www.doubledummy.net/Problem0422.html
+
+deal 414 J543.QJ82..QJ852 AK762.K9.AQ.AKT4 Q8.AT43.KJ8632.9 T9.765.T9754.763
+contract 3H
+play H7
+turns 1
+comment South to make three hearts. Difficulty 8+ http://www.doubledummy.net/Problem0423.html
+
+deal 415 AJ2.AQ65.T9.K976 .2.KQ8765432.JT8 KT3.T9873.AJ.Q32 Q987654.KJ4..A54
+contract 3H
+play W
+turns 0
+comment South to make three hearts against any lead. Difficulty 3 http://www.doubledummy.net/Problem0424.html
+
+deal 416 Q93.AK54.J9.KQ63 J82.JT.AKQT.AJT2 AK7654.87.854.54 T.Q9632.7632.987
+contract 4S
+play ST
+turns 1
+comment South to make four spades. Difficulty 2 http://www.doubledummy.net/Problem0425.html
+
+deal 417 AQ.Q.AT96543.QJ2 2.KJ765432..K543 6543.AT8.J2.AT76 KJT987.9.KQ87.98
+contract 5C
+play W
+turns 0
+comment South to make five clubs against any lead. Difficulty 6 http://www.doubledummy.net/Problem0426.html
+
+deal 418 AKQ32.K732..T986 T54.A654.876.QJ3 J98.8.JT952.AK72 76.QJT9.AKQ43.54
+contract 6S
+play C5
+turns 1
+comment South to make six spades. Difficulty 2 http://www.doubledummy.net/Problem0427.html
+
+deal 419 JT654.2.QJ63.QJ2 KQ3.Q654.K87.K76 A2.AK73.A2.AT543 987.JT98.T954.98
+contract 6C
+play DT
+turns 1
+comment South to make six clubs. Difficulty 4 http://www.doubledummy.net/Problem0428.html
+
+deal 420 AKT73.Q6.AJ97.A4 96.JT94.KQT642.Q 5.AK8752.3.K8632 QJ842.3.85.JT975
+contract 6H
+play CJ
+turns 1
+comment South to make six hearts. Difficulty 2 http://www.doubledummy.net/Problem0429.html
+
+deal 421 987.K654.65.AQ76 T2.J98.987.T8543 K6543.AT.A432.92 AQJ.Q732.KQJT.KJ
+contract 3S
+play W
+turns 0
+comment South to make three spades against any lead. Difficulty 8 http://www.doubledummy.net/Problem0430.html
+
+deal 422 A63.AQ.J7432. T987..Q65.A64 QJ.98765..QJ2 K54.KT.T98.K5
+contract ?H
+play C4
+turns 1
+comment North-South to make eight tricks. Difficulty 5 http://www.doubledummy.net/Problem0432.html
+
+deal 423 T87.JT.Q763.AJ93 J963.Q86.2.KT854 K42.A5432.AT98.Q AQ5.K97.KJ54.762
+contract 3D
+play D4
+turns 1
+comment South to make three diamonds. Difficulty 6 http://www.doubledummy.net/Problem0433.html
+
+deal 424 6.QJ.AJ8763.9763 A8.K65.K92.KQ854 KQJ543.A432.T.A2 T972.T987.Q54.JT
+contract 4S
+play CJ
+turns 1
+comment South to make four spades. Difficulty 1 http://www.doubledummy.net/Problem0434.html
+
+deal 425 JT87.Q2.J32.QT87 Q432.J.T765.9532 AK.A643.AQ984.AJ 965.KT9875.K.K64
+contract 6D
+play C4
+turns 1
+comment South to make six diamonds. Difficulty 2 http://www.doubledummy.net/Problem0435.html
+
+deal 426 A8432.K9.A4.J952 JT965.8.JT987.Q6 KQ7.A7632.Q32.K7 .QJT54.K65.AT843
+contract 3NT
+play D5
+turns 1
+comment South to make three no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0436.html
+
+deal 427 .QT.AKQJT8.43 9.J543.5.QJT6 876.K62.97.A2 AKQJT.98.6.75
+contract ?H
+play S
+turns 0
+comment South to lead and North-South to make six tricks. Difficulty 2 http://www.doubledummy.net/Problem0437.html
+
+deal 428 Q987.32.A943.Q54 AKT.Q9.K8765.AK6 65432.KJ874.2.32 J.AT65.QJT.JT987
+contract 1S
+play CJ
+turns 1
+comment South to make one spade. Difficulty 8 http://www.doubledummy.net/Problem0438.html
+
+deal 429 A.AQT.KT632.AK63 98762.K6.AQJ9.QJ KQT54.J542.54.54 J3.9873.87.T9872
+contract 4NT
+play CT
+turns 1
+comment South to make four no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0439.html
+
+deal 430 A743.K863.864.64 T852.AJ97.K5.JT9 QJ9.QT52.AQ3.AQ8 K6.4.JT972.K7532
+contract ?NT
+play DA
+turns 1
+comment East is declarer at no-trumps. North-South to make nine tricks. Difficulty 5 http://www.doubledummy.net/Problem0440.html
+
+deal 431 A5432.AJ92.Q74.J JT9876.Q87.A.Q32 .K43.T9832.AKT98 KQ.T65.KJ65.7654
+contract 5D
+play SK
+turns 1
+comment South to make five diamonds. Difficulty 2 http://www.doubledummy.net/Problem0441.html
+
+deal 432 A3.T432.AK.A5432 K987654.8765..QT Q2.KQJ9.765432.K JT.A.QJT98.J9876
+contract 3H
+play DQ
+turns 1
+comment South to make three hearts. Difficulty 4 http://www.doubledummy.net/Problem0442.html
+
+deal 433 A.983.A2.A32 K9.KQ654.8.9 T2.AJ7..K654 QJ8.T.QJ.QJT
+contract 1NT
+play CQ
+turns 1
+comment South to make seven tricks at no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0443.html
+
+deal 434 K43.A84.KJ86.AQ4 T965.KJ7.A9.KJT7 AJ2.Q32.5432.832 Q87.T965.QT7.965
+contract 2D
+play HT
+turns 1
+comment South to make two diamonds. Difficulty 5 http://www.doubledummy.net/Problem0444.html
+
+deal 435 A32..T98762.AKJ4 4.JT9876.KQJ.QT9 KQJT.AKQ32.A5.32 98765.54.43.8765
+contract 6S
+play C8
+turns 1
+comment South to make six spades. Difficulty 3 http://www.doubledummy.net/Problem0446.html
+
+deal 436 9432..Q932.KQJ76 6.T98765.K4.A543 AQJ5.AKQJ.AJ.T98 KT87.432.T8765.2
+contract 6NT
+play W
+turns 0
+comment What lead defeats six no-trumps by South? How is the contract made on any other lead? Difficulty 3 http://www.doubledummy.net/Problem0447.html
+
+deal 437 AJ6.AQ2.AQ43.QJ8 KQ542.JT843.8.K2 93.976.J652.A543 T87.K5.KT97.T976
+contract 3NT
+play CT
+turns 1
+comment South to make three no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0448.html
+
+deal 438 8765.8.AJ432.J54 Q32.T976.Q98.AQ6 AK4.J5432.KT.K32 JT9.AKQ.765.T987
+contract 3S
+play CT
+turns 1
+comment South to make three spades. Difficulty 2 http://www.doubledummy.net/Problem0449.html
+
+deal 439 AK6532.A932.A94. QT74.QJT7.K32.KJ J9.654.QJT5.AQT8 8.K8.876.9765432
+contract ?NT
+play S
+turns 0
+comment South to lead against East's no-trump contract, and North-South to make 9 tricks. Difficulty 6 http://www.doubledummy.net/Problem0450.html
+
+deal 440 974.J6.AQT862.K2 Q8632.Q82.K.T543 AT.AK9743.95.876 KJ5.T5.J743.AQJ9
+contract 6H
+play W
+turns 0
+comment What must West lead to defeat South's contract of six hearts, and why? Difficulty 3 http://www.doubledummy.net/Problem0451.html
+
+deal 441 A9.9654.AQJ954.A Q864.QT87.KT86.9 K532.K32.732.KT2 JT7.AJ..QJ876543
+contract 2NT
+play SJ
+turns 1
+comment South to make two no-trumps. Difficulty 7 http://www.doubledummy.net/Problem0452.html
+
+deal 442 K543.KQ.Q432.432 J976.8765.T8.T98 A2.A432.AK65.AJ7 QT8.JT9.J97.KQ65
+contract 5H
+play CK
+turns 1
+comment South to make five hearts. Difficulty 2 http://www.doubledummy.net/Problem0453.html
+
+deal 443 AKJ4.Q7.AK975.QJ T2.K.QT864.KT974 875.A842.32.A865 Q963.JT9653.J.32
+contract 4NT
+play HJ
+turns 1
+comment South to make four no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0454.html
+
+deal 444 JT987.AQ6.A932.5 K5432.543.8764.J AQ.T9872.T.AQ876 6.KJ.KQJ5.KT9432
+contract 6H
+play DK
+turns 1
+comment South to make six hearts. Difficulty 2 http://www.doubledummy.net/Problem0455.html
+
+deal 445 K54.5432.AQ.J654 QJ.9876.65432.87 T9876.AQ.987.Q32 A32.KJT.KJT.AKT9
+contract 2S
+play W
+turns 0
+comment South to make two spades against any lead. Difficulty 5 http://www.doubledummy.net/Problem0456.html
+
+deal 446 Q52.AT32.432.T54 AK43.Q87.JT987.2 6.K96.AQ.AKQ9876 JT987.J54.K65.J3
+contract 5C
+play SJ
+turns 1
+comment South to make five clubs. Difficulty 2 http://www.doubledummy.net/Problem0457.html
+
+deal 447 AQ52.AJ.97654.K4 K86.K9876542.KQ. 93..A32.QJT98763 JT74.QT3.JT8.A52
+contract 5C
+play CA
+turns 1
+comment South is in five clubs.  How is the contract defeated and how is it made against any other defence? Difficulty 5 http://www.doubledummy.net/Problem0458.html
+
+deal 448 JT952.T7.AQ82.AJ AKQ4.K98.K.QT864 .AQJ6543.T943.32 8763.2.J765.K975
+contract 7H
+play H2
+turns 1
+comment South to make seven hearts. Difficulty 3 http://www.doubledummy.net/Problem0459.html
+
+deal 449 854.K2.T87652.92 32.A76543.AJ.T85 AT9.T98.KQ3.AK73 KQJ76.QJ.94.QJ64
+contract 3D
+play CQ
+turns 1
+comment South to make three diamonds. Difficulty 6 http://www.doubledummy.net/Problem0460.html
+
+deal 450 A98.Q832.AK5.K 543.A976.QJ97. QJT.K54..AJ654 K76.JT.864.Q98
+contract ?NT
+play S
+turns 0
+comment South to lead at no-trumps and North-South to make nine tricks. Difficulty 2 http://www.doubledummy.net/Problem0461.html
+
+deal 451 AK.A6.K98765.654 .9754.JT43.KQ987 Q432.QT82.A2.A32 JT98765.KJ3.Q.JT
+contract 3NT
+play W
+turns 0
+comment What lead defeats South's four no-trumps?  How does South make three no-trumps against that lead? Difficulty 7 http://www.doubledummy.net/Problem0462.html
+
+deal 452 A4.KQJ.98.KQJT98 T953.765.5432.A2 Q876.T98.KQJT.76 KJ2.A432.A76.543
+contract 3NT
+play W
+turns 0
+comment West to lead and defeat South's three no-trump contract. Difficulty 1 http://www.doubledummy.net/Problem0463.html
+
+deal 453 AJ2.K9743.A43.AT Q865.T2.Q876.J76 K43.J.KT2.Q85432 T97.AQ865.J95.K9
+contract 5C
+play H5
+turns 1
+comment South is in five clubs. Difficulty 6 http://www.doubledummy.net/Problem0464.html
+
+deal 454 65432.32.A.95432 K.J987.9876.KJ87 AQJ7.KT4.JT32.A6 T98.AQ65.KQ54.QT
+contract 4S
+play W
+turns 0
+comment South to make four spades against any lead. Difficulty 2 http://www.doubledummy.net/Problem0465.html
+
+deal 455 A75432.9532.AQ3. KQJ8..KJ762.AKQT 6.AKQJT864.T954. T9.7.8.J98765432
+contract 6H
+play D8
+turns 1
+comment South to make six hearts. Difficulty 1 http://www.doubledummy.net/Problem0466.html
+
+deal 456 A32.T3.KJT3.AJT2 Q654.Q654.76.KQ9 KJ.AK2.A542.6543 T987.J987.Q98.87
+contract 5NT
+play W
+turns 0
+comment South to make five no-trumps against any lead. Difficulty 5 http://www.doubledummy.net/Problem0467.html
+
+deal 457 T943.JT976.A962. A876.82.K53.K987 K52.KQ3.JT7.AQJT QJ.A54.Q84.65432
+contract 3NT
+play W
+turns 0
+comment South to make three no-trumps against any lead. Difficulty 6 http://www.doubledummy.net/Problem0468.html
+
+deal 458 KJT.QT9.743.AQ84 95.AK854.652.J76 A87643.6.AJ8.532 Q2.J732.KQT9.KT9
+contract 4S
+play W
+turns 0
+comment South to make four spades. Difficulty 4 http://www.doubledummy.net/Problem0469.html
+
+deal 459 AK932.AK.5432.A2 5.J987.J876.Q543 4.QT65.AQ9.JT987 QJT876.432.KT.K6
+contract 5NT
+play SQ
+turns 1
+comment South to make five no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0471.html
+
+deal 460 AT72.T.A95432.K4 J65.KQJ62.JT.QJT KQ98.A9543..8765 43.87.KQ876.A932
+contract 4S
+play S4
+turns 1
+comment South to make four spades. Difficulty 4 http://www.doubledummy.net/Problem0472.html
+
+deal 461 AQT92.K.Q963.Q65 6543.A432.J85.87 87.J765.A72.A432 KJ.QT98.KT4.KJT9
+contract 3NT
+play W
+turns 0
+comment West to lead and East-West to defeat South's three no-trumps. Difficulty 7 http://www.doubledummy.net/Problem0473.html
+
+deal 462 K95.KQ32.6543.32 432.987.AT72.AK8 AJT6.T.K98.Q7654 Q87.AJ654.QJ.JT9
+contract 2S
+play W
+turns 0
+comment South to make two spades against any defence. Difficulty 8 http://www.doubledummy.net/Problem0475.html
+
+deal 463 AQJ5.K62.QT3.K73 K9.AT98.AK5.Q542 43.J7543..AJT986 T8762.Q.J987642.
+contract 4H
+play DJ
+turns 1
+comment South to make four hearts. Difficulty 5 http://www.doubledummy.net/Problem0476.html
+
+deal 464 T84.A65.A54.KQ62 QJ76.QJ87.98.987 K32.432.QJT32.AT A95.KT9.K76.J543
+contract 5D
+play C3
+turns 1
+comment South to make five diamonds. Difficulty 3 http://www.doubledummy.net/Problem0477.html
+
+deal 465 KQ863..6432.AK86 9742.T742.J97.52 A5.AQ8653.AK5.T9 JT.KJ9.QT8.QJ743
+contract 5NT
+play W
+turns 0
+comment South to make five no-trumps against any lead. Difficulty 3 http://www.doubledummy.net/Problem0478.html
+
+deal 466 AKT5.5432.T2.QJT .KQJT98.KQJ65.K3 Q9432.76.A743.A2 J876.A.98.987654
+contract 4S
+play HA
+turns 1
+comment South to make four spades. Difficulty 7 http://www.doubledummy.net/Problem0479.html
+
+deal 467 JT65.A.KQ43.KT32 .T987.AT98.QJ865 AK432.J432.J762. Q987.KQ65.5.A974
+contract 4S
+play W
+turns 0
+comment South to make four spades against West's best opening lead. Difficulty 8 http://www.doubledummy.net/Problem0481.html
+
+deal 468 A32.2.AQ93.T6543 K6.A6.T8765.KQJ2 Q54.KQJ543.J4.A8 JT987.T987.K2.97
+contract 4H
+play W
+turns 0
+comment South to make four hearts against any lead by West. Difficulty 5 http://www.doubledummy.net/Problem0482.html
+
+deal 469 AJT65..5432.A976 3.98765.876.QT42 Q98.KJT4.AQ.KJ85 K742.AQ32.KJT9.3
+contract 6S
+play S2
+turns 1
+comment South to make six spades. Difficulty 3 http://www.doubledummy.net/Problem0483.html
+
+deal 470 432.32.Q32.KQ432 K76.A97.A987.765 AQ5.KJ654.KT54.A JT98.QT8.J6.JT98
+contract 2NT
+play W
+turns 0
+comment South is in two no-trumps, which can be made against any defence. However, one lead by West is clearly superior to all the others. What lead is it and how does declarer succeed against that lead? Difficulty 8 http://www.doubledummy.net/Problem0484.html
+
+deal 471 432.Q.A863.AJ432 K876.K9.7542.Q76 A95.AT764.9.KT98 QJT.J8532.KQJT.5
+contract 5C
+play SQ
+turns 1
+comment South to make five clubs. Difficulty 5 http://www.doubledummy.net/Problem0485.html
+
+deal 472 AJ7654.2.KJ.AK98 KT.543.AQ987.QJT 32.AKQ.T32.76543 Q98.JT9876.654.2
+contract 3NT
+play HJ
+turns 1
+comment South to make three no-trumps. Difficulty 2 http://www.doubledummy.net/Problem0487.html
+
+deal 473 KQJ2.QJ.KQ7.J432 AT98.K2.JT965.87 .A543.A8432.KQ65 76543.T9876..AT9
+contract 5D
+play HT
+turns 1
+comment South to make five diamonds. Difficulty 4 http://www.doubledummy.net/Problem0488.html
+
+deal 474 .A.K.T98652 3.43.75.K43 A.Q86.A4.Q7 2.752.Q6.AJ
+contract ?S
+play W
+turns 0
+comment West is on lead with spades as trumps. East-West to make four tricks.In what circumstance could the presence of 2C in the North hand influence the play? Difficulty 3 http://www.doubledummy.net/Problem0489.html
+
+deal 475 AJ2.A52.A543.AKT 65.QT.KQJ98.J876 Q43.863.62.Q9432 KT987.KJ974.T7.5
+contract 3NT
+play ST
+turns 1
+comment South to make three no-trumps. Difficulty 6 http://www.doubledummy.net/Problem0490.html
+
+deal 476 A63.AJ8432.K2.32 QT42.Q.AQJT987.J KJ9875.K9..AQ984 .T765.6543.KT765
+contract 5S
+play D3
+turns 1
+comment South to make five spades. Difficulty 7 http://www.doubledummy.net/Problem0491.html
+
+deal 477 76.65432.AQJ.AQJ QJT98.JT987.654. K52.A.32.8765432 A43.KQ.KT987.KT9
+contract 6C
+play HK
+turns 1
+comment South to make six clubs. Difficulty 2 http://www.doubledummy.net/Problem0492.html
+
+deal 478 A76...KJ98765 K832.T.95.T43 QT54.J954.T4. J9.AQ6.76.AQ2
+contract ?NT
+play N
+turns 0
+comment North-South to make 5 tricks at no-trumps (a) with North on lead, (b) with South on lead. Difficulty 7 http://www.doubledummy.net/Problem0493.html
+
+deal 479 A95.K43.872.Q432 T43.8765.KT9.K65 QJ762.AQ2.AJ6.AJ K8.JT9.Q543.T987
+contract 6S
+play HJ
+turns 1
+comment North-South to make six spades. Difficulty 4 http://www.doubledummy.net/Problem0494.html
+
+deal 480 T72.54.KQJT6.T98 A8..A9532.KJ6542 KQ63.AKT.74.AQ73 J954.QJ987632.8.
+contract 4NT
+play W
+turns 0
+comment Can South make four no-trumps if West leads the 4C? Difficulty 8 http://www.doubledummy.net/Problem0495.html
+
+deal 481 K43.T3.AJ932.Q32 QT.KJ654.Q65.876 AJ2.AQ872.4.AJ95 98765.9.KT87.KT4
+contract 5C
+play D7
+turns 1
+comment South to make five clubs. Difficulty 7 http://www.doubledummy.net/Problem0496.html
+
+deal 482 AK8.AQ932.543.Q2 7654.54.KT9876.K 932.J.AQJ2.AJ543 QJT.KT876..T9876
+contract 6NT
+play W
+turns 0
+comment What lead defeats South's contract of six no-trumps?  How is it made against any other lead? Difficulty 5 http://www.doubledummy.net/Problem0497.html
+
+deal 483 T76.Q87.AK87.A32 AJ32.J632.9.JT97 K54.AT54.T432.Q4 Q98.K9.QJ65.K865
+contract 3D
+play W
+turns 0
+comment West to lead and East-West to defeat South's contract of three diamonds. Difficulty 8 http://www.doubledummy.net/Problem0498.html
+
+deal 484 AKQT.AJ2.Q76.AJT 2.K54.AKJ5.KQ432 J987654.T3.98.98 3.Q9876.T432.765
+contract 4S
+play C7
+turns 1
+comment East/West to defeat South's four spades. Difficulty 6 http://www.doubledummy.net/Problem0500.html
+
+deal 485 JT6.Q542.AJ32.AJ 87.876.8654.7654 A5432.AKJ3.Q.K32 KQ9.T9.KT97.QT98
+contract 5NT
+play W
+turns 0
+comment South to make five no-trumps against any defence. Difficulty 3 http://www.doubledummy.net/Problem0501.html
+
+deal 486 AQ97.Q6.A75.AK42 J.KT432.QJ98.987 32.AJ95.T42.T653 KT8654.87.K63.QJ
+contract 5NT
+play CQ
+turns 1
+comment South to make five no-trumps. Difficulty 5 http://www.doubledummy.net/Problem0502.html
+
+deal 487 A6543.932.2.K432 KQ8.A654.Q987.Q9 2.KQJT8.AT43.AT8 JT97.7.KJ65.J765
+contract 4H
+play W
+turns 0
+comment South to make four hearts against any defence. Difficulty 7 http://www.doubledummy.net/Problem0503.html
+
+deal 488 QT94.K432.AKQ.KT AK32.A87.JT9.Q98 .QJT9.65432.A732 J8765.65.87.J654
+contract 5D
+play H6
+turns 1
+comment South to make five diamonds. Difficulty 6 http://www.doubledummy.net/Problem0504.html
+
+deal 489 Q94.AJ85.KJT.K98 AJ62.7432.AQ9.AJ K73.Q9.7432.7432 T85.KT6.865.QT65
+contract ?D
+play W
+turns 0
+comment West to lead with diamonds as trumps. Difficulty 7 http://www.doubledummy.net/Problem0505.html
+
+deal 490 53.J543.AK853.T9 AJT.K987.642.K76 KQ97.A2.J9.AQ853 8642.QT6.QT7.J42
+contract 3NT
+play S8
+turns 1
+comment South to make three no-trumps. Difficulty 4 http://www.doubledummy.net/Problem0506.html
+
+deal 491 J432.876.82.QT98 A65.5.KQJT93.J32 KQ.AQJT4.A.A7654 T987.K932.7654.K
+contract 4H
+play D5
+turns 1
+comment South to make four hearts. Difficulty 7 http://www.doubledummy.net/Problem0507.html
+
+deal 492 AJ8.AKQ43.T.Q864 QT5432.J9.J9.K32 976.T.AKQ43.AT75 K.87652.87652.J9
+contract 5NT
+play W
+turns 0
+comment South to make five no-trumps against any defence. Difficulty 6 http://www.doubledummy.net/Problem0508.html
+
+deal 493 A3.AKQ.AQT8765.K JT98.T9876..J876 Q2.J5432.J.A5432 K7654..K9432.QT9
+contract 4H
+play W
+turns 0
+comment South to make four hearts against any defence. Difficulty 7 http://www.doubledummy.net/Problem0509.html
+
+deal 494 AQ6.A3.JT86.AKT3 JT.JT98.A.Q98642 9832.Q62.K754.J5 K754.K754.Q932.7
+contract 3NT
+play C7
+turns 1
+comment South to make three no-trumps. Difficulty 8 http://www.doubledummy.net/Problem0510.html
+
+deal 495 765432.AK.A.KJ32 QJT98.QJT98.Q.76 AK.765432.K.AQ54 ..JT98765432.T98
+contract 4NT
+play CT
+turns 1
+comment South to make four no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0511.html
+
+deal 496 765432.AK.AT.AJT ..9876543.Q76543 AK.765432.K2.K98 QJT98.QJT98.QJ.2
+contract 4NT
+play C2
+turns 1
+comment South to make four no-trumps. Difficulty 3 http://www.doubledummy.net/Problem0512.html
+
+deal 497 5432.J843.A8543. Q87.A.Q92.AQT984 AKJT9.QT2.J.KJ75 6.K9765.KT76.632
+contract 4S
+play H7
+turns 1
+comment South to make four spades. West leads the H7. DR7 http://www.doubledummy.net/Problem0513.html
+
+deal 498 Q8.A96.K96.T9876 9.JT432.T7.AQJ32 AKT432.7.A852.K4 J765.KQ85.QJ43.5
+contract 4S
+play W
+turns 0
+comment South to make four spades against any lead by West. DR5 http://www.doubledummy.net/Problem0514.html
+
+deal 499 .KQJT32.T854.K32 KQJT987.987654.. A65432.A.AQJ32.T ..K976.AQJ987654
+contract 5D
+play W
+turns 0
+comment South to make five diamonds against any lead by West. DR6 http://www.doubledummy.net/Problem0515.html
+
+deal 500 96.7654.AKQJT9.7 .QT32.765.J65432 AQJT84.AJ98.8.98 K7532.K.432.AKQT
+contract 4S
+play W
+turns 0
+comment What lead or leads will set four spades by South? How is the contract made on any other lead? DR6 http://www.doubledummy.net/Problem0516.html
+

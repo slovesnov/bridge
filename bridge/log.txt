@@ -1,0 +1,186 @@
+changes 5.103beta
+#define printloginfo for non debug mode
+
+changes 5.102beta
+[fixed bugs]
+fixed macros definition two times in base.h file #define INDEX_OF(a,id) indexOf(a,SIZE(a),id)
+
+[исправленные баги]
+исправлено определение макроса в файле base.h повторяется дважды #define INDEX_OF(a,id) indexOf(a,SIZE(a),id)
+
+changes 5.101beta
+[fixed bugs]
+fixed bug when store/load problems when more than 50 turns
+fixed bug for bridge score calculator when current game is preferans, there is no option mizer now
+[interface] (inno changes done)
+change image for first deck, diamond became smooth (image take from gambler)
+
+[исправленные баги]
+исправлен баг при сохранении/загрузки задач, когда сделано больше 50 ходов
+исправлен баг при вызове калькулятора очков для брижда при текущей игре преферанс, теперь нет опции мизер
+[интерфейс] (изменение inno сделаны)
+заменено изображение первой колоды, бубна стала более гладкой (изображение взято в гамблера)
+
+changes 5.1
+[base changes]
+table rotation by 90 degrees for preferans game (selection place of abcent player) if click on absent cards or "addons" menu
+option "solve for all declarers and trumps" for preferans now solves for all first moves, players and game type. First move was fixed in earlier versions
+code for preferans is changes and became much faster, especially option "solve all opponent deals"
+[interface part]
+fixed bug when option "solve for all declarers and trumps" for bridge was selected and dialog was closed and open again (old version outputs information to new dialog)
+fixed bug when file was opened by association from another directory. It wasn't possible to run console apptication
+fixed bug when save problem to html file
+fixed bug when setup application to path with utf8 characters
+fixed bug with click/tooltip when cards was over north/south players and number of tricks of them
+fixed bug with tooltips with small decks and arrows and for preferans game. Tooltips now doesn't extend window
+fixed bug for menu "clear deal". Last trick window now is cleared
+fixed bug number of trick not always cleared when problem was edited
+[logical part]
+prefeans code is rewritten. Now it's possible to solve many problems in one process
+hash options for preferans is improved, now program uses codes of suits, like in bridge solver, only for recent cards. It's possible to not clear hash if trump is still the same
+option "solve all opponent deals" for preferans was strictly accelerated
+all source files were proceded using eclipse formatter. Source code became more readable
+thread synchronization including console application is fully completed
+preferans and bridge solvers are moved to base project
+for BridgePosition class all functions/variables now starts from small letters, all constants became static class members and uppercased
+read more about logical part changes (only in russian) <a href="?bridge_logic51,russian">here</a>
+
+[основные изменения]
+добавлена опция поворота стола на 90 градусов для преферанса (выбор места отсутствующего игрока) при клике на отсутствующих картах и в меню "дополнительно"
+расширена опция "решить для всех игроков и козырей" для преферанса, теперь выводится информация для любого первого хода, игрока и типа игры, раньше первый ход был фиксирован
+код преферансного решателя переписан и стал намного быстрее, особенно опция "решить все расклады противников"
+[интерфейсная часть]
+исправлен баг когда выбиралась опция "решить для всех игроков и козырей" для бриджа и потом диалог закрывался и открывался новый (информация от старого расчета выводилась в новый диалог при завершении старого расчета)
+исправлен баг когда файл открывался по ассоциации из другого каталога, то невозможно было запускать консольное приложение
+исправлен баг при сохранении в html файл
+исправлен баг при установке приложения в каталог с русскими буквами
+исправлен баг при клике/подсказке когда карты были поверх надписей Север/Юг и числа их взяток
+исправлен баг с подсказками, при маленьких колодах и стрелках и если тип игры преферанс. Подсказки теперь не расширяют окно
+исправлен баг при вызове меню "очистить сдачу" не очищалось окно последней взятки
+исправлен баг число взяток не всегда обнулялось при редактировании сдачи
+[логическая часть]
+переписан код преферансного решателя, теперь можно решать несколько задач в одном процессе
+улучшено хеширование в преферансе, теперь используются коды мастей, как в бридже, только по картам оставшимся на руках. Код переписан так, что теперь можно не очищать хеш если остался тот же козырь
+очень сильно ускорена опция "решить все расклады противников"
+все файлы кода отредактированы с помощью formatter'а eclipse, в связи с чем код стал более читаемым
+полностью доделана синхронизация потоков, в том числе и для консольного приложения
+преферанс и бридж перенесены из консольного проекта в основной
+код бриджа немного изменен все функции/переменные стали начинаться с маленькой буквы, константы стали статическим членами класса, их имена в верхнем регистре
+об изменениях логической части решателя более подробно можно прочитать <a href="?bridge_logic51">здесь</a> 
+
+
+changes 5.02
+code adopted for gcc 7.3.0 and gtk 3.22.28
+remove 'zip' folder now use 'minizip' package 
+add vector graphic logo on about dialog
+fixed bug with disable menu language
+change installator extension to exe 
+
+код адаптирован под gcc 7.3.0 и gtk 3.22.28
+удален каталог zip теперь используется пакет minizip
+логотип сделан в виде векторной графики
+исправлен баг с деактивацией текущего языка  
+инсталлятор изменен на exe файл  
+
+added suits.svg
+removed "aboutBig.png"
+
+
+changes 5.01
+add new feature for preferans "solve all opponent deals"
+fixed bug with edit problem list option when first problem has type preferans
+accelerate solution of preferans problems
+clean up and reviewed PrefPosition.h & PrefPosition.cpp files
+solver code now is shared for bridge and bridgeConsole projects
+
+добавлена новая опция для преферанса "решить все расклады противников"
+исправлен баг в редакторе списка задач, когда первая задача является задачей по преферансу
+ускорено решение преферансных задач
+очищены и пересмотрены файлы PrefPosition.h & PrefPosition.cpp
+код решателя сделан общим для проектов bridge и bridgeConsole
+
+modified files in distributive
+bridge.exe 
+bridgeConsole.exe
+lng/*.lng
+css/bridge.css
+
+CHANGES 5.0
+=========== BEGIN before release ===================
+file search println, printinfo remove
+search todo
+format code by eclipse source format
+define FINAL_RELEASE NDEBUG
+
+call from console
+bridge.exe 1.txt - 1.txt not exists
+bridge.exe 2.txt -no tasks
+install to russian named dictionary
+
+click all menu items
+=========== END before release =====================
+
+remove
+Type: files; Name: "{app}\bin\images\fill24.png"
+Type: files; Name: "{app}\bin\images\stop48.png"
+Type: files; Name: "{app}\bin\images\html16.png"
+Type: files; Name: "{app}\bin\images\flag_unknown.gif"
+Type: files; Name: "{app}\bin\images\saveadd16.png"
+
+============== BEGIN UPDATE ===========================================
+run Frame::resetCssFiles() before create installer
+
+upload sources
+upload program (test http://sourceforge.net/projects/bridge-studio/files/latest/download)
+upload sf.net/bridge/version.txt
+upload bridge-studio.sf.net/version.txt
+make screenshots
+test
+
+============== END UPDATE =============================================
+
+============== BEGIN COMMON ===========================================
+all functions which have std::string arguments use utf8 encoding
+all class members of std::string type use utf8 encoding
+all class members which are path to file use full path to file
+================ END COMMON ===========================================
+
+================ BEGIN HELPER CODES ===================================
+w = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+gtk_container_add(GTK_CONTAINER(w), w1);
+gtk_box_pack_start (GTK_BOX (w), w1, TRUE, TRUE, 0);
+
+gtk_widget_set_hexpand(m_button[i],TRUE);//instead of glue
+
+//another type of stretch or glue
+gtk_widget_set_halign (w1,GTK_ALIGN_CENTER);
+gtk_box_pack_start (GTK_BOX(w), w1, TRUE, TRUE, 0);
+
+
+-- widget path to string --
+println("%s",gtk_widget_path_to_string (gtk_widget_get_path(w)) );
+
+GtkWidgetPath *path=gtk_widget_get_path(widget);
+println("%s",gtk_widget_path_to_string (path) );
+
+GtkWidget*w=gtk_window_get_focus (GTK_WINDOW(getWidget()));
+println("w=%x",w);
+GtkWidgetPath *path=gtk_widget_get_path(w);
+int i=gtk_widget_path_length(path);
+println("len%d %s",i,gtk_widget_path_to_string (path) );
+
+g = gtk_grid_new ();
+gtk_grid_set_column_spacing(GTK_GRID(g),margin);
+gtk_grid_set_row_spacing(GTK_GRID(g), margin );
+gtk_grid_attach (GTK_GRID (g), gtk_label_new(getString(LID[i])), 0, i,1,1);
+
+
+Photoshop remove red level
+menu image/ adjustments/levels. Select "red" channel in combobox
+and move slider
+
+
+================ END HELPER CODES =====================================
+
+львиндоус	
+

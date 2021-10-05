@@ -1,0 +1,30 @@
+1nov2020 in solver/bridgeposition.cpp
+bool First = true; seems need to remove
+
+
+version 5.1
+bridge/src
+test project
+bridgeConsole/src
+javascript files
+site/php/cpp2js.php
+
+опубликованы исходники бета версии 5.101 на sourceforge, где кое-что исправлено. 
+»змененные исходники лежата в папке /eclipse/bridge (как и положено) „то исправлено написано в файле log.txt
+
+опубликованы исходники бета версии 5.102 (изменени€ описаны в файле log.txt)
+исправлено определение макроса в файле base.h повтор€етс€ дважды #define INDEX_OF(a,id) indexOf(a,SIZE(a),id)
+
+5.1 bugs
+*при попытке открыть файл preferansFriday1.pts возникает ошибка Problem.cpp line 1357, задача сохран€лась нормально, проблема в том, что throwOnError(getDealState(false) != DEAL_STATE_ERROR,STRING_ERROR_INVALID_DEAL, ""); но при этом эту невалидную сдачу можно сохранить
+============ тело файла preferansFriday1.pts ========================
+% bts version 5.1
+deal 1 ... A..AQJT9.AKQJT7 KQJ987.AKQJT87.K87.98
+contract 6D
+play S
+turns 0
+player S
+absent N
+comment 
+
+==========================================================
