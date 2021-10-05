@@ -1773,7 +1773,7 @@ void Frame::finishSaveImage() {
 	GdkPixbuf * pb = gdk_pixbuf_get_from_window(gdk_window, a.x, a.y, a.width,
 			a.height);
 
-	std::string ext = getLowerFileExtension(m_saveImagePath);
+	std::string ext = getFileInfo(m_saveImagePath, FILEINFO::LOWER_EXTENSION);
 	if (ext == "jpeg") {
 		gdk_pixbuf_save(pb, m_saveImagePath.c_str(), ext.c_str(), NULL, "quality",
 				"100", NULL);

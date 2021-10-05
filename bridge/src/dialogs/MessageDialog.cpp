@@ -105,7 +105,7 @@ MessageDialog::MessageDialog(const VParseException& e, BUTTONS_DIALOG_TYPE type,
 
 	for (j = 2, it = e.begin(); it != e.end(); it++, j++) {
 		i = 0;
-		w = gtk_label_new(getFileName(it->m_parseFile, true).c_str());
+		w = gtk_label_new(getFileInfo(it->m_parseFile, FILEINFO::NAME).c_str());
 		gtk_grid_attach(GTK_GRID(g), w, i++, j, 1, 1);
 
 		w = gtk_label_new(it->getErrorString().c_str());

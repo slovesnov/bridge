@@ -181,21 +181,11 @@ const int NO_TRUMP_SET = -1;
 const gchar * getString(const STRING_ID& id);
 const gchar * getString(const MENU_ID& id);
 std::string getStringNoDots(MENU_ID id);
-
-//TODO
-std::string getFileName(std::string filepath, bool withExtension); //[in] full path file name, returns only name of filepath
-std::string getLowerFileExtension(std::string file); //[in] full path file name, returns file extension
-
 FILE_TYPE getFileType(std::string filepath);
-
-
 int indexOfPlayer(CARD_INDEX player);
-
 CARD_INDEX playerFromChar(char c);
-
 int countScore(const int contract, const int trump, const int tricks,
 		const int doubleRedouble, const int declarer, const int vulnerable);
-
 std::string getSuitString(int suit);
 std::string getContractString(int n);
 const std::string getNTString();

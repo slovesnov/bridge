@@ -559,7 +559,7 @@ std::string ProblemSelector::getTitle() const {
 	std::string s =
 			isEmptyFilepath() ?
 					"(" + std::string(getString(STRING_UNTITLED)) + ")" :
-					getFileName(m_filepath, true);
+					getFileInfo(m_filepath, FILEINFO::NAME);
 	s += format(" %c ", isModified() ? '*' : '-') + gconfig->getTitle();
 	return s;
 }

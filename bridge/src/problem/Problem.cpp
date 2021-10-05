@@ -167,7 +167,7 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 	if(totaproblems>1){
 		w=format("%d", nproblem);
 	}
-	q = getFileName(m_filepath, false);
+	q = getFileInfo(m_filepath, FILEINFO::SHORT_NAME);
 	s = "\n<p id='" + q + w
 			+ "'>\n<table border=1 cellspacing=0 cellpadding=1>\n<tr><td valign='top'><table border=0 cellspacing=2 cellpadding=1>\n<tr><td><b>"
 			+ getString(MENU_PROBLEM) + "</b><td align='right'>" + q
@@ -660,7 +660,7 @@ void Problem::parseDealString(const char* p, CARD_INDEX _player) {
 }
 
 std::string Problem::getShortFileName() const {
-	return getFileName(m_filepath, true);
+	return getFileInfo(m_filepath, FILEINFO::NAME);
 }
 
 std::string Problem::postproceedHTML(const std::string& s, bool images) {
@@ -2187,7 +2187,7 @@ std::string Problem::getForBridgeTestDealClass(int n)const {
 	i=INDEX_OF(state.m_firstmove,ci);
 	s+=", "+std::to_string(i);
 
-	s+=", \""+getFileName(m_filepath, false)+std::to_string(n)+"\"";
+	s+=", \""+getFileInfo(m_filepath, FILEINFO::SHORT_NAME)+std::to_string(n)+"\"";
 
 	s+="},\n";
 	return s;

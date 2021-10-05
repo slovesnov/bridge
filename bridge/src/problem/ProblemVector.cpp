@@ -110,7 +110,7 @@ void ProblemVector::openDf(const std::string& filepath) {
 
 void ProblemVector::openPbn(const std::string& filepath) {
 	std::string s, q;
-	const std::string fileName = getFileName(filepath, false);
+	const std::string fileName = getFileInfo(filepath, FILEINFO::SHORT_NAME);
 	std::vector<int>::const_iterator vi;
 
 	FILE*f = open(filepath.c_str(), "r");

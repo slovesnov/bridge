@@ -30,7 +30,7 @@ const char PNG[]="png";
 
 
 FILE_TYPE getFileType(std::string filepath) {
-	std::string ext = getLowerFileExtension(filepath);
+	std::string ext = getFileInfo(filepath, FILEINFO::LOWER_EXTENSION);
 	if (ext == "pbn") {
 		return FILE_TYPE_PBN;
 	}
@@ -54,17 +54,6 @@ FILE_TYPE getFileType(std::string filepath) {
 			return FILE_TYPE_ERROR;
 		}
 	}
-}
-
-std::string getFileName(std::string filepath, bool withExtension) {
-	std::size_t pos = filepath.rfind(G_DIR_SEPARATOR);
-	std::string s =
-			pos == std::string::npos ? filepath : filepath.substr(pos + 1);
-	if (withExtension) {
-		return s;
-	}
-	pos = s.rfind('.');
-	return pos == std::string::npos ? s : s.substr(0, pos);
 }
 
 CARD_INDEX playerFromChar(char c) {
@@ -501,22 +490,6 @@ int isBridgeFoeAbsentNS(){
 
 void setBridgeFoeAbsentNS(int ns){
 	gconfig->m_bridgeSolveAllFoeAbsentNS=ns;
-}
-
-std::string getLowerFileExtension(std::string file) { //[in] full path file name, returns file extension
-	std::size_t pos = file.rfind('.');
-	//version 4.0 return pos==std::string::npos ? "" : file.substr(pos+1);
-
-	if (pos == std::string::npos) {
-		return "";
-	}
-	else {
-		std::string s = "";
-		for (const char*p = file.c_str() + pos + 1; *p != 0; p++) {
-			s += ::tolower(*p);
-		}
-		return s;
-	}
 }
 
 int indexOfPlayer(CARD_INDEX player) {
