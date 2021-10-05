@@ -883,49 +883,19 @@ std::string Config::getUniqueApplicationName() {
 	return s;
 }
 
-std::string Config::getBasePath(const char* argv0) {
-	std::string s = argv0;
-	std::size_t pos = s.rfind(G_DIR_SEPARATOR);
-	//if pos====std::string::npos nothing to do already in working directory
-	if (pos == std::string::npos) {
-		s = "";	//base_path="" need to run from bat files without absolute path "bridge.exe 1.bts"
-	}
-	else {
-		s = s.substr(0, pos + 1);		//last symbol G_DIR_SEPARATOR
+bool Config::allowOnlyOneInstance() {
+	MapStringString m;
+	MapStringString::iterator it;
+	if (loadConfig(m)
+			&& (it = m.find(ALLOW_ONLY_ONE_INSTANCE_SIGNATURE)) != m.end()) {
+		return std::stoi(it->second) != 0;
 	}
 
-#ifndef FINAL_RELEASE
-	/* run under eclipse remove last Release or Debug directory
-	 * argv0="D:\\slovesno\\MyProjects\\eclipse\\bridge_cpp\\bridge\\Release\\bridge.exe"
-	 * s="D:\\slovesno\\MyProjects\\eclipse\\bridge_cpp\\bridge\\Release\\"
-	 */
-	pos = s.rfind(G_DIR_SEPARATOR, s.length() - 2);
-	assert(pos != std::string::npos);
-	s = s.substr(0, pos + 1);
-
-	// s="D:\\slovesno\\MyProjects\\eclipse\\bridge_cpp\\bridge\\"
-#endif
-	return localeToUtf8(s);
+	return ALLOW_ONE_INSTANCE_DEFAULT_VALUE;
 }
 
-bool Config::allowOnlyOneInstance(const char* argv0) {
-	char b[MAX_BUFF];
-	std::string s = getBasePath(argv0)+"bridge.cfg";
-	FILE*f = fopen(s.c_str(), "r");
-
-	if (f == NULL) {
-		return ALLOW_ONE_INSTANCE_DEFAULT_VALUE;
-	}
-
-	while (fgets(b, MAX_BUFF, f) != NULL) {
-		if (startsWith(b, ALLOW_ONLY_ONE_INSTANCE_SIGNATURE)) {
-			s = pairFromBuffer(b).second;
-			fclose(f);
-			return atoi(s.c_str()) != 0;
-		}
-	}
-	fclose(f);
-	return ALLOW_ONE_INSTANCE_DEFAULT_VALUE;
+bool Config::getStringBySignature(const char*signature,std::string& s){
+	return getStringBySignature(std::string(signature),s);
 }
 
 bool Config::getStringBySignature(const std::string&signature,std::string& s){

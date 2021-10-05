@@ -627,19 +627,6 @@ bool think(){
 	return gdraw->think();
 }
 
-CSize getPixbufSize(const char*file){
-	GdkPixbuf* p = pixbuf(file);
-	assert(p);
-	int w,h;
-	getPixbufWH(p, w, h);
-	g_object_unref(p);
-	return {w,h};
-}
-
-CSize getPixbufSize(std::string const& file){
-	return getPixbufSize(file.c_str());
-}
-
 std::string getArrowFileName(int n,bool svg) {
 	return format("arrow%d.%s", n,svg?SVG:PNG);
 }

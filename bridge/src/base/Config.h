@@ -73,12 +73,9 @@ private:
 	void loadIntArray(int*a, int size, const char* signature);
 	void reset();
 	void loadCss(); //load css and setup font
-	static std::string getBasePath(const char *argv0);//TODO remove
 
-	bool getStringBySignature(const char*signature,std::string& s){//TODO
-		return getStringBySignature(std::string(signature),s);
-	}
-	bool getStringBySignature(const std::string& signature,std::string& s);//TODO
+	bool getStringBySignature(const char*signature,std::string& s);
+	bool getStringBySignature(const std::string& signature,std::string& s);
 
 	static bool loadLanguage(std::string filename,VIntString& v);
 public:
@@ -240,7 +237,7 @@ public:
 		return m_workareaRect.height() - m_frameDelta;
 	}
 
-	static bool allowOnlyOneInstance(const char* argv0);
+	static bool allowOnlyOneInstance();
 
 	void writeAndLoadCss(REWRITE_CSS_OPTION o);
 

@@ -71,8 +71,7 @@ static void toggle_radio(GtkWidget *w, gpointer) {
 
 DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 		ButtonsDialog(isDeck?MENU_SELECT_DECK:MENU_SELECT_ARROW) {
-	int i,j,n;
-	CSize c;
+	int i,j,n,w,h;
 	std::string s;
 	GtkWidget *radio, *vbox[2],*border[2],*box;
 	GtkRadioButton *rb = NULL;
@@ -153,12 +152,13 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 		s = getString(m_isDeck?STRING_DECK:STRING_ARROW)+format(" #%d ", j + 1);
 		if (!isScalable(i)) {
 			if(m_isDeck){
-				c=RASTER_DECK_CARD_SIZE[i];
+				w=RASTER_DECK_CARD_SIZE[i].cx;
+				h=RASTER_DECK_CARD_SIZE[i].cy;
 			}
 			else{
-				c=getPixbufSize(getArrowFileName(i,false));
+				getPixbufWH(getArrowFileName(i,false),w,h);
 			}
-			s+=format("%dx%d", c.cx, c.cy);
+			s+=format("%dx%d", w, h);
 		}
 		const gchar * p = s.c_str();
 		if (n == 0) {

@@ -286,13 +286,8 @@ bool selectFont(const char* s, PangoFontDescription** font);
 
 bool think();
 
-CSize getPixbufSize(std::string const& file);
-CSize getPixbufSize(const char*file);
-
 std::string getArrowFileName(int n,bool svg=false);
-
 std::string getDeckFileName();
-
 std::string getDeckFileName(int n,bool svg=false);
 
 //language dependent thousand separator

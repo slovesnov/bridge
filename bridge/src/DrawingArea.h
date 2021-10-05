@@ -372,8 +372,6 @@ public:
 	}
 
 	void stopSolveAllDeclarersBridgeThreads();
-	//TODO
-	#define getMaxSolveAllFoeThreads getMaxRunThreads
 	/* count how many undos need to do if click on inner card
 	 * in case if event coordinates not over inner cards, function returns 0
 	 */

@@ -54,16 +54,14 @@ AboutDialog::AboutDialog() :
 	if (he % 2 == 1) {
 		he--; //should be even otherwise warning and bad drawing
 	}
+
+	getPixbufWH("suits.svg",w,h);
 	s = getImagePath("suits.svg");
-	pb = gdk_pixbuf_new_from_file(s.c_str(), NULL);//TODO 3oct21 free pb
-	assert(pb);
-	w = gdk_pixbuf_get_width(pb);
-	h = gdk_pixbuf_get_height(pb);
 
 	const double scale = double(he) / h / 2;
 
 	const int wi = w * he / h / 4; //width of np
-	pb = gdk_pixbuf_new_from_file_at_size(s.c_str(), 2 * wi, he / 2, NULL);//TODO 3oct21 free pb
+	pb = gdk_pixbuf_new_from_file_at_size(s.c_str(), 2 * wi, he / 2, NULL);
 
 	createNew(np,he,he);
 	gdk_pixbuf_fill(np, 0);
@@ -79,6 +77,7 @@ AboutDialog::AboutDialog() :
 				(i == 2 || i == 3 ? 3 : 1) * he / 4 + from - st[i],
 				i == 1 || i == 2 ? he / 2 : 0);
 	}
+	free(pb);
 
 	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 	gtk_container_add(GTK_CONTAINER(hbox), gtk_image_new_from_pixbuf(np));

@@ -2357,7 +2357,7 @@ void DrawingArea::solveAllFoe(bool createDialog) {
 	/* m_solveAllPtr[i].positions uses in m_solveAllFoeDialog
 	 * updataLabels()
 	 */
-	for (i = 0; i < getMaxSolveAllFoeThreads(); i++) {
+	for (i = 0; i < getMaxRunThreads(); i++) {
 		m_solveAllPtr[i].positions = 0;
 	}
 	if(createDialog){
@@ -2421,7 +2421,7 @@ void DrawingArea::solveAllFoe(bool createDialog) {
 	delete[]pi;
 	//end save permutations states
 
-	for (i = 0; i < getMaxSolveAllFoeThreads(); i++) {
+	for (i = 0; i < getMaxRunThreads(); i++) {
 		if (i > 0) {
 			m_solveAllPtr[i] = m_solveAllPtr[0];
 		}
@@ -2521,7 +2521,7 @@ void DrawingArea::solveAllFoeUpdateResult(gint64 id) {
 }
 
 void DrawingArea::stopSolveAllFoeThreads() {
-	stopSolveAllThreads(getMaxSolveAllFoeThreads());
+	stopSolveAllThreads(getMaxRunThreads());
 	/* some solveAllFoeUpdateResult() can be in loop, so make
 	 * m_solveAllFoeDialog=0 to indicate that dialog is closed
 	 */
