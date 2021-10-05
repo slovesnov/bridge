@@ -65,7 +65,6 @@ SuitsOrderDialog::SuitsOrderDialog() :
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radioButton), TRUE);
 		}
 
-		//TODO check
 		img = image( std::string(i == 0 ? "ascending" : "descending")+"32.png");
 		gtk_container_add(GTK_CONTAINER(hbox), img);
 

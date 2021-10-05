@@ -73,16 +73,12 @@ private:
 	void loadIntArray(int*a, int size, const char* signature);
 	void reset();
 	void loadCss(); //load css and setup font
-	static std::string getBasePath(const char *argv0);
-	static std::string getCfgPath(const std::string path) {//TODO remove
-		return path + "bridge.cfg";
-	}
+	static std::string getBasePath(const char *argv0);//TODO remove
 
-	static PairStringString pairFromBuffer(const char*b);
-	bool getStringBySignature(const char*signature,std::string& s){
+	bool getStringBySignature(const char*signature,std::string& s){//TODO
 		return getStringBySignature(std::string(signature),s);
 	}
-	bool getStringBySignature(const std::string& signature,std::string& s);
+	bool getStringBySignature(const std::string& signature,std::string& s);//TODO
 
 	static bool loadLanguage(std::string filename,VIntString& v);
 public:

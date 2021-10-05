@@ -908,30 +908,9 @@ std::string Config::getBasePath(const char* argv0) {
 	return localeToUtf8(s);
 }
 
-PairStringString Config::pairFromBuffer(const char*b){
-	char*w=strchr(b, '=');
-	if(!w){
-		return {"",""};
-	}
-	const char*p = w + 2;
-	char*f;
-	const char *search;
-	const char s[] = "\r\n";
-	for (search = s; *search != '\0'; search++) {
-		f = strrchr(p, *search);
-		if (f != NULL) {
-			*f = 0;
-		}
-	}
-	if(w>b && w[-1]==' '){
-		w--;
-	}
-	return {std::string(b,w-b),std::string(p)};
-}
-
 bool Config::allowOnlyOneInstance(const char* argv0) {
 	char b[MAX_BUFF];
-	std::string s = getCfgPath(getBasePath(argv0));
+	std::string s = getBasePath(argv0)+"bridge.cfg";
 	FILE*f = fopen(s.c_str(), "r");
 
 	if (f == NULL) {
