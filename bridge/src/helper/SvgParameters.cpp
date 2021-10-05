@@ -23,7 +23,7 @@ SvgParameters::SvgParameters() {
 }
 
 SvgParameters::~SvgParameters() {
-	destroy (p);
+	free (p);
 	g_mutex_clear(&mutex);
 }
 

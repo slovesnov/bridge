@@ -46,12 +46,6 @@ typedef std::vector<GtkWidget*> VGtkWidgetPtr;
 typedef VGtkWidgetPtr::const_iterator VGtkWidgetPtrCI;
 //======================== END TYPEDEFS ===========================================================
 
-//======================== BEGIN MACROS ===========================================================
-#define INDEX_OF_NO_CASE(a,id) indexOfNoCase(a,SIZE(a),id)
-
-
-//======================== END MACROS =============================================================
-
 //======================== BEGIN CONSTANTS ========================================================
 const int ESTIMATE_CLEAR = 50; //clear estimate
 const int N_RASTER_ARROWS =7;
@@ -190,16 +184,10 @@ std::string getStringNoDots(MENU_ID id);
 
 //TODO
 std::string getFileName(std::string filepath, bool withExtension); //[in] full path file name, returns only name of filepath
-
-//TODO
 std::string getLowerFileExtension(std::string file); //[in] full path file name, returns file extension
+
 FILE_TYPE getFileType(std::string filepath);
 
-//TODO
-int indexOfNoCase(const char* a[], const unsigned size,
-		const std::string item);
-int indexOfNoCase(const char* a[], const unsigned size,
-		const char* item);
 
 int indexOfPlayer(CARD_INDEX player);
 
@@ -255,10 +243,6 @@ std::string getBgImageName(int i);
  */
 std::string rgbaToString(const GdkRGBA c);
 
-//TODO
-void destroy(GdkPixbuf * p);
-void destroy(cairo_t* p);
-void destroy(cairo_surface_t * p);
 void copyFromPixbuf(GdkPixbuf* source, cairo_t * dest, CRect const& rect);
 
 VString readFileToVString(const std::string name);

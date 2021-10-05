@@ -288,7 +288,7 @@ void Menu::insertSubMenu(MenuString menuString) {
 			p = pixbuf(getBgImageName(menuString.first - MENU_SKIN0), 0, 0, 16, 16);
 		}
 		else {
-			p = gconfig->language_pixbuf(menuString.first);
+			p = gconfig->languagePixbuf(menuString.first);
 		}
 		w = createImageMenuItem(g, p);
 		g_object_unref(p);

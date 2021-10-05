@@ -226,10 +226,8 @@ public:
 	int m_frameDelta;
 	//[END STORING VARIABLES]
 	VMenuString m_vectorMenuString;
-	inline GdkPixbuf* language_pixbuf(int id) const {
-		return pixbuf(m_language[id - MENU_LANGUAGE_FIRST] + ".png");
-	}
 
+	GdkPixbuf* languagePixbuf(int id) const;
 	std::string getTitle();
 
 	//"bridge-studio.sourceforge.net" -> "net.sourceforge.bridge-studio"

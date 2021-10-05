@@ -10,6 +10,7 @@
 
 #include "Config.h"
 #include "Widget.h"
+#include "aslov.h"
 
 char LANGUAGE_EXTENSION[] = "lng";
 const char RECENT_FILES_SIGNATURE[] = "recent files";
@@ -849,6 +850,10 @@ PangoFontDescription* Config::getFont(int height) const {
 const gchar* Config::getPlayerString(CARD_INDEX player) const {
 	int i = indexOfPlayer(player);
 	return getString(static_cast<STRING_ID>(STRING_NORTH + i));
+}
+
+GdkPixbuf* Config::languagePixbuf(int id) const {
+	return pixbuf(m_language[id - MENU_LANGUAGE_FIRST] + ".png");
 }
 
 std::string Config::getTitle() {

@@ -223,7 +223,7 @@ DrawingArea::~DrawingArea() {
 	int i;
 
 	for (i = 0; i < SIZEI(m_totalTricksImage); i++) {
-		destroy(m_totalTricksImage[i]);
+		free(m_totalTricksImage[i]);
 	}
 
 	destroy(m_crEnd);

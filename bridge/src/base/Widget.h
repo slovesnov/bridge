@@ -288,6 +288,11 @@ public:
 	CSize countMaxCardSizeForY(int arrowSize,int y=MIN_COUNT_SIZE_Y);
 	int countMaxArrowSizeForY(int cardHeight,int y=MIN_COUNT_SIZE_Y);
 
+	static void createNew(GdkPixbuf*& dest, GdkPixbuf* source) {
+		free(dest);
+		dest = source;
+	}
+
 	template<class T> static void createNew(T*& dest, T* source) {
 		destroy(dest);
 		dest = source;

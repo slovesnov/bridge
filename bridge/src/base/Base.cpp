@@ -28,17 +28,6 @@ const char* VULNERABLE[] = { "None", "NS", "EW", "All" }; //same it's in pbn
 const char SVG[]="svg";
 const char PNG[]="png";
 
-/*
- int countOccurence(const std::string& subject, const std::string& a) {
- size_t pos = 0;
- int i=0;
- while ((pos = subject.find(a, pos)) != std::string::npos) {
- pos += a.length();
- i++;
- }
- return i;
- }
- */
 
 FILE_TYPE getFileType(std::string filepath) {
 	std::string ext = getLowerFileExtension(filepath);
@@ -234,17 +223,6 @@ bool isOuter(CARD_INDEX index) {
 
 int getIndentInsideSuit() {
 	return gconfig->getIndentInsideSuit();
-}
-
-int indexOfNoCase(const char* a[], const unsigned size,
-		const char* item) {
-	unsigned i;
-	for (i = 0; i < size; i++) {
-		if (cmpnocase(a[i], item)) {
-			return i;
-		}
-	}
-	return -1;
 }
 
 int getAreaMaxHeight() {
@@ -541,11 +519,6 @@ std::string getLowerFileExtension(std::string file) { //[in] full path file name
 	}
 }
 
-int indexOfNoCase(const char* a[], const unsigned size,
-		const std::string item) {
-	return indexOfNoCase(a, size, item.c_str());
-}
-
 int indexOfPlayer(CARD_INDEX player) {
 	assert(player >= CARD_INDEX_NORTH && player <= CARD_INDEX_WEST);
 	return player - CARD_INDEX_NORTH;
@@ -564,24 +537,7 @@ std::string getBgImageName(int i) {
 	return format("bg%d.jpg", i);
 }
 
-void destroy(GdkPixbuf * p) {
-	if (p != NULL) {
-		g_object_unref(p);
-	}
-}
-
-void destroy(cairo_t* p) {
-	if (p != NULL) {
-		cairo_destroy(p);
-	}
-}
-
-void destroy(cairo_surface_t * p) {
-	if (p != NULL) {
-		cairo_surface_destroy(p);
-	}
-}
-
+//using CRect so not aslov lib function
 void copyFromPixbuf(GdkPixbuf* source, cairo_t * dest,
 		CRect const& rect) {
 	const int destx = rect.left;
@@ -671,17 +627,15 @@ bool think(){
 	return gdraw->think();
 }
 
-//TODO
 CSize getPixbufSize(const char*file){
 	GdkPixbuf* p = pixbuf(file);
-	assert(p!=NULL);
-	int w = gdk_pixbuf_get_width(p);
-	int h = gdk_pixbuf_get_height(p);
+	assert(p);
+	int w,h;
+	getPixbufWH(p, w, h);
 	g_object_unref(p);
 	return {w,h};
 }
 
-//TODO
 CSize getPixbufSize(std::string const& file){
 	return getPixbufSize(file.c_str());
 }

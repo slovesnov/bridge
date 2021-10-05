@@ -142,20 +142,20 @@ ProblemSelector::~ProblemSelector() {
 		 */
 		GdkPixbuf *p = gdk_pixbuf_get_from_surface(m_deckSurface, 0, 0, c.cx, c.cy);
 		gdk_pixbuf_save(p, getImagePath(STORE_DECK_TO_PNG_FILE_NAME).c_str(), "png", NULL, NULL);
-		destroy(p);
+		free(p);
 	}
 
 	for (i = 0; i < SIZEI(m_arrow); i++) {
-		destroy(m_arrow[i]);
+		free(m_arrow[i]);
 	}
 
 	destroy(m_backgroundFullSurface);
 	destroy(m_backgroundFullCairo);
 	destroy(m_deckSurface);
 	destroy(m_deckCairo);
-	destroy(m_svgArrowPixbuf);
-	destroy(m_svgDeckPixbuf);
-	destroy(m_svgScaledPixbuf);
+	free(m_svgArrowPixbuf);
+	free(m_svgDeckPixbuf);
+	free(m_svgScaledPixbuf);
 }
 
 void ProblemSelector::setAreaProblem() {
