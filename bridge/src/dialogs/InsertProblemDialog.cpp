@@ -137,7 +137,7 @@ void InsertProblemDialog::toggle(GtkWidget* w) {
 	bool fromFile;
 	GtkWidget*w1;
 	if ((gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w)))) {
-		fromFile = INDEX_OF(m_radio,w) == 2;
+		fromFile = INDEX_OF(w,m_radio) == 2;
 		for (i = 0; i < 2; i++) {
 			w1 = gtk_grid_get_child_at(GTK_GRID(m_grid), 1, i);
 			if (fromFile) {

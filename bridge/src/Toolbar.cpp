@@ -248,7 +248,7 @@ void Toolbar::updateEdit() {
 GAME_TYPE Toolbar::getCurrentGameType() const {
 	GtkTreeModel *model = gtk_combo_box_get_model(GTK_COMBO_BOX(m_trump));
 	gint i = gtk_tree_model_iter_n_children(model, NULL);
-	i = INDEX_OF(TRUMP_MODEL_SIZE, i);
+	i = INDEX_OF(i,TRUMP_MODEL_SIZE);
 	assert(i != -1);
 	return GAME_TYPE(i);
 }

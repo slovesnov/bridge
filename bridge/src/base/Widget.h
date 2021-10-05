@@ -141,7 +141,7 @@ protected:
 
 	int indexOfPreferansPlayer(CARD_INDEX player) const {
 		//can't use INDEX_OF macro for pointer
-		return indexOf(getPreferansPlayer(), 3, player);
+		return indexOf(player,getPreferansPlayer(), 3 );
 	}
 
 	CARD_INDEX getPreferansPlayer(int i) const {

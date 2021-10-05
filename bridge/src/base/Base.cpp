@@ -377,7 +377,7 @@ AuctionTagParseResult parseAuctionTag(const std::string& auctionValue,
 	}
 
 	//need 'trump' for firstDeclarer
-	ntrump = INDEX_OF(SUITS_CHAR, SO[trump]);
+	ntrump = INDEX_OF(SO[trump],SUITS_CHAR );
 	assert(ntrump != -1);
 
 	s = format("%d", contract) + getTrumpString(ntrump);
@@ -475,7 +475,7 @@ CARD_INDEX getPlayerForArray(CARD_INDEX player, const CARD_INDEX*a,
 		ci = getOuter(player);
 	}
 
-	int i = indexOf(a, size, ci);
+	int i = indexOf(ci,a, size);
 
 	assert(i != -1);
 

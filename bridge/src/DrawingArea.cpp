@@ -2038,7 +2038,7 @@ void DrawingArea::endAnimation(bool stop){
 }
 
 int DrawingArea::getTricks(CARD_INDEX player) const {
-	int index = INDEX_OF(PLAYER, player);	//always PLAYER not PREFERANS_PLAYER
+	int index = INDEX_OF(player,PLAYER);	//always PLAYER not PREFERANS_PLAYER
 	assert(index != -1);
 	if (index != -1) {
 		return getState().m_tricks[index];

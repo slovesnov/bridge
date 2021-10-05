@@ -226,7 +226,7 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 					getCardRankString(a[i]) + "!" + SUIT_ARROW_CHAR[a[i] / 13]);
 		}
 	}
-	i = INDEX_OF(PLAYER, nextmove);
+	i = INDEX_OF(nextmove,PLAYER);
 	inner[a[i] ==-1 ? i + 4 : i] = format("!%c", SUIT_ARROW_CHAR[i + 4]);
 
 	inner[8] = "&nbsp;";
@@ -2058,14 +2058,14 @@ void Problem::adjustPbnInfo() {
 	else {
 		it = findPbnEntry(PBN_VULNERABLE_TAG);
 		assert(it != m_pbnEntry.end());
-		k = INDEX_OF_NO_CASE(VULNERABLE, it->value);
+		k = INDEX_OF_NO_CASE(it->value,VULNERABLE);
 
 		j = countScore(m_contract, m_trump, result, i, getDeclarerInt(), k);
 	}
 
 	it = findPbnEntry(PBN_SCORE_TAG);		//sometimes not found
 	if (it != m_pbnEntry.end()) {
-		i = INDEX_OF_NO_CASE(SCORE, it->value.substr(0, 2));
+		i = INDEX_OF_NO_CASE(it->value.substr(0, 2),SCORE );
 		assert(i>=0 && i<SIZEI(SCORE));
 		if (getDeclarerInt() % 2 != i) {
 			j = -j;
@@ -2184,7 +2184,7 @@ std::string Problem::getForBridgeTestDealClass(int n)const {
 	s+=", "+std::to_string(m_misere?NT+1:m_trump);
 
 	CARD_INDEX ci[]={CARD_INDEX_NORTH,CARD_INDEX_EAST,CARD_INDEX_WEST};
-	i=INDEX_OF(ci,state.m_firstmove);
+	i=INDEX_OF(state.m_firstmove,ci);
 	s+=", "+std::to_string(i);
 
 	s+=", \""+getFileName(m_filepath, false)+std::to_string(n)+"\"";

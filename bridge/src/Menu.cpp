@@ -268,7 +268,7 @@ void Menu::insertSubMenu(MenuString menuString) {
 		}
 	}
 
-	if (ONE_OF(SEPARATOR_ID, menuString.first)) {
+	if (ONE_OF(menuString.first,SEPARATOR_ID)) {
 		insertSeparator();
 	}
 
@@ -293,11 +293,11 @@ void Menu::insertSubMenu(MenuString menuString) {
 		w = createImageMenuItem(g, p);
 		g_object_unref(p);
 	}
-	else if ((i = INDEX_OF(MENU_ICON_ID, menuString.first)) == -1) {
-		if (ONE_OF(CHECKED_MENU, menuString.first)) {
+	else if ((i = INDEX_OF(menuString.first,MENU_ICON_ID)) == -1) {
+		if (ONE_OF(menuString.first,CHECKED_MENU)) {
 			w = gtk_check_menu_item_new_with_label(g);
 		}
-		else if (ONE_OF(RADIO_MENU_ID, menuString.first)) {
+		else if (ONE_OF(menuString.first,RADIO_MENU_ID)) {
 			if (menuString.first == RADIO_MENU_ID[0]) {
 				radioGroup = NULL;
 			}
@@ -428,7 +428,7 @@ void Menu::setItemAttributes(const MENU_ID id) {
 	GList *list;
 
 	//set check
-	if ((i = INDEX_OF(CHECKED_MENU, id)) != -1) {
+	if ((i = INDEX_OF(id,CHECKED_MENU)) != -1) {
 		blockSignals();
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(w),
 				gconfig->isChecked(i));
@@ -436,7 +436,7 @@ void Menu::setItemAttributes(const MENU_ID id) {
 	}
 
 	//set caption for variable text items
-	i = INDEX_OF(VARIABLE_TEXT_MENU, id);
+	i = INDEX_OF(id,VARIABLE_TEXT_MENU);
 	if (i != -1) {
 
 		if (id == MENU_GAME_TYPE) {
@@ -453,7 +453,7 @@ void Menu::setItemAttributes(const MENU_ID id) {
 
 	//set radio
 	b = false;
-	radio = INDEX_OF(RADIO_MENU_ID,id) != -1;
+	radio = INDEX_OF(id,RADIO_MENU_ID) != -1;
 	if (radio) {
 		if (id == MENU_ESTIMATE_NONE || id == MENU_ESTIMATE_BEST_LOCAL
 				|| id == MENU_ESTIMATE_BEST_TOTAL || id == MENU_ESTIMATE_ALL_LOCAL
@@ -515,13 +515,13 @@ void Menu::setItemAttributes(const MENU_ID id) {
 	}
 
 	//all think dependent became disabled
-	if(think() && id!=MENU_FIND_BEST_MOVE &&  ((id>=MENU_RECENT && id<MENU_RECENT+m_lastRecentSize) || ONE_OF(MENU_THINK_DEPENDENT, id)) ){
+	if(think() && id!=MENU_FIND_BEST_MOVE &&  ((id>=MENU_RECENT && id<MENU_RECENT+m_lastRecentSize) || ONE_OF(id,MENU_THINK_DEPENDENT)) ){
 		b=false;
 	}
 	gtk_widget_set_sensitive(w, b);
 
 	//set icon
-	i = INDEX_OF(TOOLBAR_MENU_ID, id);
+	i = INDEX_OF(id,TOOLBAR_MENU_ID);
 	if (i != -1) {
 		auto e=TOOLBAR_BUTTON_ARRAY[i];
 		w = gtk_bin_get_child(GTK_BIN(w));

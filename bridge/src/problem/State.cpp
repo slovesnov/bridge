@@ -248,7 +248,7 @@ void State::adjustBestLine(const int index){
 		sequence=i==rmax;
 	}
 	if(sequence){
-		int pos = indexOf(m_bestLine, index);
+		int pos = indexOf(index,m_bestLine );
 		m_bestLine[pos]=m_bestLine[0];
 		m_bestLine.erase(m_bestLine.begin());
 	}
@@ -258,10 +258,10 @@ void State::adjustBestLine(const int index){
 }
 
 int State::findInner(CARD_INDEX player) const {
-	return INDEX_OF(m_cid, getInner(player));
+	return INDEX_OF(getInner(player),m_cid );
 }
 
 void State::incrementTricks(CARD_INDEX ci) {
-	assert(INDEX_OF(PLAYER,ci)!=-1);
+	assert(INDEX_OF(ci,PLAYER)!=-1);
 	m_tricks[ci - CARD_INDEX_NORTH]++;
 }

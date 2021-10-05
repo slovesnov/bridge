@@ -323,7 +323,7 @@ void DeckArrowSelectionDialog::toggle(GtkWidget* w) {
 		return;
 	}
 
-	getNumber()=INDEX_OF(m_radio, w);
+	getNumber()=INDEX_OF(w,m_radio);
 	if(isScalable()){
 		/* if new maximum value is lower than new maximum correct it
 		 * If just call gtk_adjustment_set_upper then value is not changed
@@ -499,7 +499,7 @@ void DeckArrowSelectionDialog::setHideShowWidgets(){
 
 	m_hideV.clear();
 	for(auto b:a){
-		if(!oneOf(m_showV,b)){
+		if(!oneOf(b,m_showV)){
 			m_hideV.push_back(b);
 		}
 	}

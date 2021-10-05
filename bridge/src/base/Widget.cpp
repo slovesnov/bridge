@@ -225,7 +225,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 		s = p;
 		for (i = 0; i < STRING_FILTER_EXT_TO_SIZE; i++) {
 			v = split(STRING_FILTER_EXT_TO[i], " ");
-			if (oneOf(v, s)) {
+			if (oneOf(s,v)) {
 				break;
 			}
 		}
@@ -255,7 +255,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 			s = gconfig->m_allImageFormatString;
 		}
 		else {
-			i = INDEX_OF(STRING_FILTER_EXT_FROM, *vit);
+			i = INDEX_OF(*vit,STRING_FILTER_EXT_FROM);
 			assert(i != -1);
 			s = STRING_FILTER_EXT_TO[i];
 		}
@@ -266,7 +266,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 		 */
 		if (option != CHOOSER_OPTION_DEFAULT && !openAll
 				&& *vit == STRING_FILE_FILTER_ALL_SUPPORTED) {
-			i = INDEX_OF(STRING_FILTER_EXT_FROM, STRING_FILE_FILTER_HTML);
+			i = INDEX_OF(STRING_FILE_FILTER_HTML,STRING_FILTER_EXT_FROM);
 			assert(i != -1);
 			s += " ";
 			s += STRING_FILTER_EXT_TO[i];
@@ -324,7 +324,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 				gtkFilter = gtk_file_chooser_get_filter(GTK_FILE_CHOOSER(dialog));
 				assert(gtkFilter!=NULL);
 				s = gtk_file_filter_get_name(gtkFilter);
-				it = find(fname, s);
+				it = find(s,fname);
 				assert(it != fname.end());
 
 				sid = vid[int(it - fname.begin())];
@@ -338,7 +338,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 								isBridge() ? FILE_TYPE_BRIDGE : FILE_TYPE_PREFERANS;
 					}
 					else {
-						i = INDEX_OF(STRING_FILTER_EXT_FROM, sid);
+						i = INDEX_OF(sid,STRING_FILTER_EXT_FROM);
 						assert(i != -1);
 						v = split(STRING_FILTER_EXT_TO[i], " ");
 						defaultFiletype = getFileType("a." + v[0]);
@@ -686,7 +686,7 @@ GdkPixbuf* Widget::getToolbarPixbuf(TOOLBAR_BUTTON id, bool small,
 
 void Widget::staticInit() {
 	int i;
-	i = INDEX_OF(STRING_FILTER_EXT_FROM, STRING_IMAGE_FILES); //cann't move this code to Config G_N_ELEMENTS doesn't work for extern
+	i = INDEX_OF(STRING_IMAGE_FILES,STRING_FILTER_EXT_FROM); //cann't move this code to Config G_N_ELEMENTS doesn't work for extern
 	assert(i != -1);
 	STRING_FILTER_EXT_TO[i] = gconfig->m_storeImageFormatString.c_str();
 
@@ -907,7 +907,7 @@ void Widget::showAllExclude(GtkWidget*w , VGtkWidgetPtr const&v){
 		}
 		g_list_free(children);
 	}
-	if(!oneOf(v,w)){
+	if(!oneOf(w,v)){
 		gtk_widget_show(w);
 	}
 }

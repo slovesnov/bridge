@@ -112,7 +112,7 @@ void ButtonsDialog::show(GtkWidget* w, bool before) {
 }
 
 void ButtonsDialog::clickButton(GtkWidget* w) {
-	int i = indexOf(m_button, w);
+	int i = indexOf(w,m_button);
 	if (click(i)) {
 		//response code
 		gtk_dialog_response(GTK_DIALOG(getWidget()), RESPONSE[m_type][i]);

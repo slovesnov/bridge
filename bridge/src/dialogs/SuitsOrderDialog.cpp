@@ -109,7 +109,7 @@ bool SuitsOrderDialog::click(int index) {
 }
 
 void SuitsOrderDialog::comboChanged(GtkWidget* w) {
-	int n = INDEX_OF(m_combo, w);
+	int n = INDEX_OF(w,m_combo);
 	int suit = gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[n]));
 	int i, notFound = 0;
 	bool found[4];

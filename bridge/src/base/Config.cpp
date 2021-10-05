@@ -350,7 +350,7 @@ void Config::load() {
 		}
 		m_language.push_back(std::string(filename, b - filename));
 	}
-	it = find(m_language, std::string("english"));
+	it = find(std::string("english"),m_language );
 	if (it != m_language.end()) {
 		std::iter_swap(m_language.begin(), it);
 	}
@@ -568,7 +568,7 @@ int Config::getLanguageIndex() const {
 	std::string s = m_languageFileName.substr(pos + 1,
 			m_languageFileName.length() - pos - 5);
 
-	return indexOf(m_language, s);
+	return indexOf(s,m_language);
 }
 
 /* load language file to vector
@@ -973,5 +973,5 @@ int Config::recentSize(){
 }
 
 bool Config::isWritableImage(std::string const& s) const {
-	return oneOf(m_storeImageFormat, s);
+	return oneOf(s,m_storeImageFormat);
 }

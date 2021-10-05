@@ -368,7 +368,7 @@ void Frame::menuClick(MENU_ID id) {
 			//recent click
 			openFiles(gconfig->m_recent[id - MENU_RECENT]);
 		}
-		else if ((i = INDEX_OF(CHECKED_MENU, id)) != -1) {
+		else if ((i = INDEX_OF(id,CHECKED_MENU)) != -1) {
 			gconfig->switchOption(i);  //NOT id
 			m_menu.setItemAttributes(id);
 			if (id == MENU_LAST_TRICK_GAME_ANLYSIS) {
@@ -764,7 +764,7 @@ void Frame::explorePbn(const char* dir, const char* filename) { //checks score c
 				assert(w);
 				declarer = w - DECLARER;
 
-				vulnerable = INDEX_OF(VULNERABLE, value[3]);
+				vulnerable = INDEX_OF(value[3],VULNERABLE );
 				assert(vulnerable != -1);
 
 				if (valid) {
