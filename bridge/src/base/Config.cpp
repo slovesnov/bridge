@@ -29,7 +29,7 @@ Config* gconfig;
 const int Config::INDENT_INSIDE_SUIT[] = { 13, 13, 13, 13, 13, 17, 20,20 };
 const int Config::ESTIMATION_INDENT[] = { 32, 28, 28, 26, 32, 42, 35,45 };
 
-Config::Config(const char *argv0) {
+Config::Config() {
 	int i;
 	GSList *formats;
 	GSList* elem;
@@ -47,11 +47,6 @@ Config::Config(const char *argv0) {
 
 	static_assert(N_RASTER_DECKS==SIZE(INDENT_INSIDE_SUIT));
 	static_assert(N_RASTER_DECKS==SIZE(ESTIMATION_INDENT));
-	m_exePath = argv0;//TODO
-	m_path = getBasePath(argv0);
-	sprintf(m_cfgFilePath, getCfgPath(m_path).c_str());
-	sprintf(m_languageDir, "%s",getResourcePath("lng").c_str() );
-	sprintf(m_imagePath, "%simages%c", m_path.c_str(), G_DIR_SEPARATOR);
 
 	GdkDisplay *display = gdk_display_get_default();
 	GdkMonitor *monitor = gdk_display_get_monitor(display, 0);
@@ -336,23 +331,20 @@ void Config::load() {
 	std::string s;
 	VString vs;
 	VStringCI itString;
-	FILE*f;
 	GDir *dir;
 	const gchar *filename;
-	gchar name[PATH_MAX + 2];	//+2 remove gcc warning 5.02
 	VMenuString v_language;
 	const char*b;
 	VStringI it;
-	char bu[MAX_BUFF];
 
 	//load m_language before possible reset() because reset() use setLanguageFileName(0);
-	dir = g_dir_open(m_languageDir, 0, 0);
+	auto LS=getLanguageDir();
+	dir = g_dir_open(LS.c_str(), 0, 0);
 	assert(dir);
 	while ((filename = g_dir_read_name(dir))) {
-		sprintf(name, "%s%c%s", m_languageDir, G_DIR_SEPARATOR, filename);
 		b = strrchr(filename, '.');
 		//skip subdirs, files without extension and file with not LANGUAGE_EXTENSION
-		if (isDir(name) || b == NULL || !cmp(b + 1, LANGUAGE_EXTENSION)) {
+		if (isDir(LS+G_DIR_SEPARATOR+filename) || b == NULL || !cmp(b + 1, LANGUAGE_EXTENSION)) {
 			continue;
 		}
 		m_language.push_back(std::string(filename, b - filename));
@@ -366,16 +358,7 @@ void Config::load() {
 	//reset anyway to setup parameters which don't exist in cfg file
 	reset();
 
-	f = open(m_cfgFilePath, "r+");
-	if (!f) {
-		return;
-	}
-
-	//order of strings in file is not important
-	while (fgets(bu, MAX_BUFF, f) ) {
-		m_map.insert(pairFromBuffer(bu));
-	}
-	fclose(f);
+	loadConfig(m_map);
 
 	/* for version 5.2 "deck" -> "deck number",
 	 * "big arrow" -> "arrow number" big arrow=1 means arrow number=0 and
@@ -399,7 +382,7 @@ void Config::load() {
 		itStringPtr++;
 	}
 
-#define LOAD_ARRAY(a,signature) loadIntArray(f,a,SIZEI(a),signature);
+#define LOAD_ARRAY(a,signature) loadIntArray(a,SIZEI(a),signature);
 	LOAD_ARRAY(m_suitsOrder, SUITSORDER_SIGNATURE)
 	LOAD_ARRAY(m_innerCardMargin, INNERCARDMARGIN_SIGNATURE)
 	LOAD_ARRAY(m_indentInsideSuit, INDENTINSIDESUIT_SIGNATURE)
@@ -432,7 +415,7 @@ void Config::load() {
 
 }
 
-void Config::loadIntArray(FILE*f, int*a, int size, const char* signature) {
+void Config::loadIntArray(int*a, int size, const char* signature) {
 	int i;
 	std::string s;
 	if (!getStringBySignature(signature, s)){
@@ -456,8 +439,8 @@ void Config::save(GAME_TYPE gt,int x,int y) {
 	m_gameType = gt;
 	m_startPosition = CPoint(x, y);
 
-	FILE* f = open(m_cfgFilePath, "w+");
-	assert(f!=NULL);
+	auto f = open(getConfigPath(), "w+");//TODO
+	assert(f);
 	if (!f) {
 		return;
 	}
@@ -569,10 +552,13 @@ void Config::setLanguageFileName(int index) {
 	m_languageFileName = getLanguageFileNameByIndex(index);
 }
 
+std::string Config::getLanguageDir()const{
+	return getResourcePath("lng");
+}
+
 std::string Config::getLanguageFileNameByIndex(int index) const {
 	assert(index >= 0 && index < int(m_language.size()));
-	return format("%s%c%s.%s", m_languageDir, G_DIR_SEPARATOR,
-			m_language[index].c_str(), LANGUAGE_EXTENSION);
+	return getLanguageDir()+ G_DIR_SEPARATOR+m_language[index]+"."+LANGUAGE_EXTENSION;
 }
 
 int Config::getLanguageIndex() const {
@@ -634,7 +620,9 @@ void Config::loadLanguageFile() {
 	auto se = "english"+std::string(".")+LANGUAGE_EXTENSION;
 	auto sr = "russian"+std::string(".")+LANGUAGE_EXTENSION;
 
-	auto s = format("%s%cenglish.%s", m_languageDir,G_DIR_SEPARATOR, LANGUAGE_EXTENSION);
+	//auto s = getLanguageDir()+G_DIR_SEPARATOR+"english."+LANGUAGE_EXTENSION;
+	auto s = getLanguageDir()+format("%cenglish.%s",G_DIR_SEPARATOR, LANGUAGE_EXTENSION);
+	//auto s = format("%s%cenglish.%s", m_languageDir,G_DIR_SEPARATOR, LANGUAGE_EXTENSION);
 	i=0;
 	if(!endsWith(m_languageFileName,se) && !endsWith(m_languageFileName,sr) ){
 		i=1;

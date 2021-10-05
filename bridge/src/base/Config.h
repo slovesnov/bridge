@@ -33,10 +33,6 @@ class Config {
 	static const char SLASH = '/';
 	static const int MAX_BUFF=4096;
 
-	gchar m_cfgFilePath[PATH_MAX];
-	gchar m_languageDir[PATH_MAX];
-	gchar m_imagePath[PATH_MAX];
-
 	VIntPtr storeVariablesInt;
 	VString storeVariablesIntNote;
 	VStringPtr storeVariablesString;
@@ -48,7 +44,6 @@ class Config {
 	MapStringString m_map;
 
 public:
-	std::string m_path;
 	VString m_language;
 	std::string m_storeImageFormatString;
 	VString m_storeImageFormat;
@@ -63,9 +58,9 @@ public:
 	std::string m_customBackgroundImage; //stored in bridge-1.css
 	CARD_INDEX m_absent;
 	int m_bridgeSolveAllFoeAbsentNS;
-	std::string m_exePath;
 	std::string m_thousandsSeparatorString;
 private:
+	std::string getLanguageDir()const;
 	std::string getLanguageFileNameByIndex(int index) const;
 
 	static const char* getFontFamily(const PangoFontDescription *desc) {
@@ -75,11 +70,11 @@ private:
 
 	void initVarables();
 	void load();
-	void loadIntArray(FILE*f, int*a, int size, const char* signature);
+	void loadIntArray(int*a, int size, const char* signature);
 	void reset();
 	void loadCss(); //load css and setup font
 	static std::string getBasePath(const char *argv0);
-	static std::string getCfgPath(const std::string path) {
+	static std::string getCfgPath(const std::string path) {//TODO remove
 		return path + "bridge.cfg";
 	}
 
@@ -91,7 +86,7 @@ private:
 
 	static bool loadLanguage(std::string filename,VIntString& v);
 public:
-	Config(const char *argv0);
+	Config();
 	virtual ~Config();
 
 	void setSkin(int skin, REWRITE_CSS_OPTION o) {

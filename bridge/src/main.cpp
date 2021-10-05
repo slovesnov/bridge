@@ -36,8 +36,7 @@ static void application_open(GtkApplication *application, GFile **files, gint n_
 		gtk_window_present(GTK_WINDOW(list->data));
 	}
 	else {
-		//in gtk 3.20.6 allow load config only after application is created
-		Config config((const char*) data);
+		Config config;
 		//Frame constructor & g_signal_emit_by_name call the same function which do check for empty string
 		Frame(application, s.c_str());
 	}

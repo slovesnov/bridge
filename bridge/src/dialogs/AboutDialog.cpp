@@ -10,7 +10,6 @@
 
 #include "../Frame.h"
 #include "AboutDialog.h"
-#include <glib/gstdio.h>
 
 static gboolean label_clicked(GtkWidget *label, const gchar *uri,
 		AboutDialog*d) {
@@ -42,9 +41,7 @@ AboutDialog::AboutDialog() :
 	__GNUC_MINOR__, __GNUC_PATCHLEVEL__,
 	GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION));
 
-	GStatBuf b;
-	g_stat(gconfig->m_exePath.c_str(), &b);
-	v.push_back("executable file size " + intToString(b.st_size));
+	v.push_back("executable file size " + intToString(getApplicationFileSize()));
 	m_labels = v.size();
 	m_label = new GtkWidget*[m_labels];
 
