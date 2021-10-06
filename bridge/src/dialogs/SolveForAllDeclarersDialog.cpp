@@ -99,7 +99,7 @@ SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int*r) :
 			s = getString(STRING_FIRST_MOVE);
 			s += " - ";
 			s1 = getPlayerString(getPreferansPlayer(l));
-			s += utfLower(s1);
+			s += utf8ToLowerCase(s1);
 			border = gtk_frame_new(s.c_str());
 			gtk_frame_set_label_align(GTK_FRAME(border), 0.2, 0.5);
 			gtk_container_add(GTK_CONTAINER(border), w1);

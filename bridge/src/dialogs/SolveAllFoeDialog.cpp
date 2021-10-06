@@ -135,7 +135,7 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 		s1=getString(i==0 ? STRING_NORTH:STRING_EAST);
 		s1+=" / ";
 		s1+=getString(i==0 ? STRING_SOUTH:STRING_WEST);
-		s+=utfLower(s1);
+		s+=utf8ToLowerCase(s1);
 	}
 	else {
 		s=getString(STRING_PLAYER_TRICKS);
@@ -205,7 +205,7 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 			s=getString(i==0 ? STRING_NORTH:STRING_EAST);
 			s+=" / ";
 			s+=getString(i==0 ? STRING_SOUTH:STRING_WEST);
-			v.push_back(utfLower(s));
+			v.push_back(utf8ToLowerCase(s));
 		}
 		m_combo = createTextCombobox(v);
 		gtk_combo_box_set_active(GTK_COMBO_BOX(m_combo), !isBridgeFoeAbsentNS() );

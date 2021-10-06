@@ -33,7 +33,7 @@ CalculatorDialog::CalculatorDialog() :
 	v.clear();
 	for (i = 0; i < 4; i++) {
 		s = getString(VS[i]);
-		m_player[i] = utfLower(s);
+		m_player[i] = utf8ToLowerCase(s);
 		v.push_back(m_player[i]);
 	}
 	m_combo[CALCULATORDIALOG_DECLARER] = createTextCombobox(v);
@@ -52,7 +52,7 @@ CalculatorDialog::CalculatorDialog() :
 	v.push_back("");
 	for (i = 0; i < 2; i++) {
 		s = format("%s / %s", getString(VS[i]), getString(VS[i + 2]));
-		v.push_back(utfLower(s));
+		v.push_back(utf8ToLowerCase(s));
 	}
 	v.push_back(getString(STRING_ALL));
 	m_combo[CALCULATORDIALOG_VULNERABLE] = createTextCombobox(v);

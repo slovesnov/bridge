@@ -641,7 +641,7 @@ void Widget::showToolTip(STRING_ID id) {
 	std::string s = getString(id);
 	if(id==STRING_CLICK_TO_ROTATE_BY_90_DEGREES){
 		//lower string & and remove dot at the end of the string
-		s=utfLower(s.substr(0, s.length()-1));
+		s=utf8ToLowerCase(s.substr(0, s.length()-1));
 	}
 	if (gconfig->m_showToolTips) {
 		getToolbar().showToolTip(s.c_str());
