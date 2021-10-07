@@ -11,13 +11,7 @@
 #ifndef BASE_H_
 #define BASE_H_
 
-#include <gtk/gtk.h>
-#include <string>
-#include <vector>
 #include <set>
-#include <algorithm>
-#include <cstring>
-#include <cassert>
 
 #include "../helper/Enums.h"
 #include "../helper/CRect.h"

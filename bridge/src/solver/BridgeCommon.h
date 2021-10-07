@@ -17,9 +17,6 @@
 #include <sstream>
 #include "aslov.h"
 
-//TODO remove
-#ifndef BRIDGECONSTANTS_H_
-
 const int NT = 4;
 const int MISERE = NT + 1;
 const int UNKNOWN_ESTIMATE = 100;
@@ -48,41 +45,27 @@ enum CARD_INDEX {
 
 const char SUITS_CHAR[] = "shdcn";
 const char RANK[] = "akqjt98765432";
-#endif
 
 typedef void (*SET_ESTIMATION_FUNCTION)(int index, int value);
 
 //======================== BEGIN MACROS ===========================================================
-/* uses in CONSOLE and WINDOW projects, also use #ifdef FINAL_RELEASE not #ifdef NDEBUG because
- * sometimes need use debug print when NDEBUG is defined
- */
 #ifdef FINAL_RELEASE
-
 #define START_TIMER ((void)0);
 #define OUT_TIMER ((void)0);
-
 #else
-
 #define START_TIMER clock_t __begin=clock();
 #define OUT_TIMER println("time%.3lf",double(clock()-__begin)/CLOCKS_PER_SEC);
-
 #endif
-
 //======================== END MACROS =============================================================
 
-
-//please do not use default separator because it depends on language
-VString split(const std::string& subject, const std::string& separator);
 std::string secondsToString(double seconds);
 std::string secondsToString(clock_t end,clock_t begin);
-
 bool eastOrWest(CARD_INDEX i);
 bool east(CARD_INDEX i);
 bool west(CARD_INDEX i);
 bool northOrSouth(CARD_INDEX i);
 bool north(CARD_INDEX i);
 bool south(CARD_INDEX i);
-
 std::string binaryCodeString(int c);
 
 #endif /* SOLVER_BRIDGECOMMON_H_ */

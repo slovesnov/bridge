@@ -11,6 +11,8 @@
 #ifndef PROBLEM_AUCTIONTAGPARSERESULT_H_
 #define PROBLEM_AUCTIONTAGPARSERESULT_H_
 
+#include <string>
+
 struct AuctionTagParseResult {
 	STRING_ID id;
 	std::string s;
