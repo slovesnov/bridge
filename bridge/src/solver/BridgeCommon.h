@@ -58,18 +58,10 @@ typedef void (*SET_ESTIMATION_FUNCTION)(int index, int value);
  */
 #ifdef FINAL_RELEASE
 
-#define println(f, ...) ((void)0);
-#define printl(f, ...) ((void)0);
-#define printinfo ((void)0);
-#define printlog(f, ...) ((void)0);
-#define printlo(f, ...) ((void)0);
-#define printloginfo ((void)0);
-
 #define START_TIMER ((void)0);
 #define OUT_TIMER ((void)0);
 
 #else
-
 
 #define START_TIMER clock_t __begin=clock();
 #define OUT_TIMER println("time%.3lf",double(clock()-__begin)/CLOCKS_PER_SEC);
