@@ -82,8 +82,8 @@
 									<listOptionValue builtIn="false" value="C:/soft/msys64/mingw64/lib"/>
 								</option>
 								<option id="gnu.cpp.link.option.flags.1981316122" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="-Wl,-luuid -mwindows" valueType="string"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.link.option.userobjs.190340676" superClass="gnu.cpp.link.option.userobjs" useByScannerDiscovery="false" valueType="userObjs">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/bridge/images/icon/app.o}&quot;"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.link.option.userobjs.190340676" name="Other objects" superClass="gnu.cpp.link.option.userobjs" useByScannerDiscovery="false" valueType="userObjs">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/bridge/icon/app.o}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1416256363" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

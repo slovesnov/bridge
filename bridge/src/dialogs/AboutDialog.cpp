@@ -41,7 +41,7 @@ AboutDialog::AboutDialog() :
 	__GNUC_MINOR__, __GNUC_PATCHLEVEL__,
 	GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION));
 
-	v.push_back("executable file size " + intToString(getApplicationFileSize()));
+	v.push_back("executable file size " + intToString(getApplicationFileSize(),','));
 	m_labels = v.size();
 	m_label = new GtkWidget*[m_labels];
 

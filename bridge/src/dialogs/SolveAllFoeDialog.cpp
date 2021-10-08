@@ -244,14 +244,14 @@ void SolveAllFoeDialog::updateLabels() {
 
 	for (i = 0; i < resultSize(); i++) {
 		gtk_label_set_text(GTK_LABEL(m_label[i][0]),
-				intToString(m_result[i]).c_str());
+				intToStringLocaled(m_result[i]).c_str());
 
 		gtk_label_set_text(GTK_LABEL(m_label[i][1]),
 				m_total == 0 ? "?.?%" : format("%.1lf%%", m_result[i] * 100. / m_total).c_str());
 	}
 
 	auto a=[](double v){
-		return v==0?"?":(v>100 ? intToString(int(v)) : format("%.3lf",v));
+		return v==0?"?":(v>100 ? intToStringLocaled(int(v)) : format("%.3lf",v));
 	};
 
 	va=0;
@@ -279,7 +279,7 @@ void SolveAllFoeDialog::updateLabels() {
 	g_mutex_unlock(&gdraw->m_solveAllMutex);
 
 
-	gtk_label_set_text(GTK_LABEL(m_labelTotal), intToString(m_total).c_str());
+	gtk_label_set_text(GTK_LABEL(m_labelTotal), intToStringLocaled(m_total).c_str());
 
 	gtk_label_set_text(GTK_LABEL(m_labelTotalTime),getTotalTimeLabelString().c_str());
 
@@ -388,5 +388,5 @@ std::string SolveAllFoeDialog::getTotalTimeLabelString() {
 
 std::string SolveAllFoeDialog::getProgressBarString(bool b) {
 	return format(isBridge() ? "%.3lf%%" : "%.0lf%%", m_fraction * 100) + (b?"   ":" ")
-			+ intToString(m_total) + "/" + intToString(m_positions);
+			+ intToStringLocaled(m_total) + "/" + intToStringLocaled(m_positions);
 }

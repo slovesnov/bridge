@@ -274,7 +274,6 @@ std::string getArrowFileName(int n,bool svg=false);
 std::string getDeckFileName();
 std::string getDeckFileName(int n,bool svg=false);
 
-//language dependent thousand separator
-std::string intToString(int v);
+std::string intToStringLocaled(int v);
 
 #endif /* BASE_H_ */

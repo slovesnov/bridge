@@ -162,10 +162,6 @@ public:
 	typedef std::vector<FS> VFS;
 	typedef VFS::const_iterator VFSCI;
 
-	static std::string intToString(int i) {
-		return ::intToString(i, ',');
-	}
-
 	/* helper functions for pbn files exploration
 	 * 1 searching possible tag as set
 	 * 2 check
