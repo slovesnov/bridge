@@ -57,6 +57,7 @@ Source: "{#GTKPATH}lib\gdk-pixbuf-2.0\2.10.0\loaders.cache"; DestDir: "{app}\lib
 Source: "{#GTKPATH}lib\gdk-pixbuf-2.0\2.10.0\loaders\*.dll"; DestDir: "{app}\lib\gdk-pixbuf-2.0\2.10.0\loaders"; Flags: ignoreversion
 
 Source: "Release\{#APPNAME}.exe"; DestDir: "{app}\bin"; Flags: ignoreversion
+//TODO app.css
 Source: "*.css"; DestDir: "{app}\bin"; Flags: ignoreversion
 Source: "{#APPNAME}\images\*"; Excludes: "*.txt"; DestDir: "{app}\bin\{#APPNAME}\images"; Flags: onlyifdoesntexist
 Source: "{#APPNAME}\lng\*"; DestDir: "{app}\bin\{#APPNAME}\lng"; Flags: ignoreversion

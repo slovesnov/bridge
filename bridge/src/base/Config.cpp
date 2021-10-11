@@ -691,7 +691,9 @@ void Config::writeAndLoadCss(REWRITE_CSS_OPTION o) {
 	FILE*f;
 	std::string s;
 
+	printinfo
 	if (o & REWRITE_CSS_MAIN_FILE) {
+		printinfo
 		s = getCssFilePath();
 		v = readFileToVString(s);
 
@@ -752,7 +754,9 @@ void Config::writeAndLoadCss(REWRITE_CSS_OPTION o) {
 	if ((o & REWRITE_CSS_CUSTOM_FILE_FONT_COLOR)
 			|| (o & REWRITE_CSS_CUSTOM_FILE_BACKGROUND_COLOR)
 			|| (o & REWRITE_CSS_CUSTOM_FILE_BACKGROUND_IMAGE)) {
+		printinfo
 		s = getCssFilePath(m_skin);
+		printl(s)
 		v = readFileToVString(s);
 
 		const char DEFINE_COLOR[]="@define-color";
@@ -785,8 +789,9 @@ void Config::writeAndLoadCss(REWRITE_CSS_OPTION o) {
 		}
 		fclose(f);
 	}
-
+printinfo
 	loadCss();
+printinfo
 }
 
 int Config::getFontHeight(const PangoFontDescription*desc) {

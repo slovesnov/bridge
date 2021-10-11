@@ -342,8 +342,11 @@ void Frame::menuClick(MENU_ID id) {
 	case MENU_SKIN5:
 	case MENU_SKIN6:
 	case MENU_SKIN7:
+		printinfo
 		gconfig->setSkin(id - MENU_SKIN0, REWRITE_CSS_MAIN_FILE);
+		printinfo
 		updateSkin();
+		printinfo
 		break;
 
 	case MENU_CUSTOM_SKIN:
