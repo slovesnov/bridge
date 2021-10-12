@@ -63,12 +63,12 @@ void CustomSkinDialog::clickButton(int i) {
 		}
 		//background-image:url('file:///D:/fun1.png')
 		c = g_filename_to_uri(r.file().c_str(), NULL, NULL);
-		gconfig->m_customBackgroundImage = c;
+		gconfig->m_customSkinBackgroundImagePath = c;
 		g_free(c);
 	}
 	else {
 		if (!selectColor(getString(STRING_SELECT_COLOR),
-				&gconfig->m_customBackgroundColor)) {
+				&gconfig->m_customSkinBackgroundColor)) {
 			return;
 		}
 	}

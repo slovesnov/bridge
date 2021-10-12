@@ -24,6 +24,10 @@ const char ALLOW_ONLY_ONE_INSTANCE_SIGNATURE[] = "allow only one instance";
 const char SVGDECKPARAMETERS_SIGNATURE[] = "svg deck parameters";
 const bool ALLOW_ONE_INSTANCE_DEFAULT_VALUE = true;
 const char ENGLISH_THOUSANDS_SEPARATOR = ',';
+const char CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE[] = "custom skin background color";
+const char SKIN_FONT_COLOR_SIGNATURE[] = "skin font color";
+const char CUSTOM_SKIN_FONT_COLOR_SIGNATURE[] = "custom skin font color";
+const char FONT_SIGNATURE[] = "font";
 
 Config* gconfig;
 
@@ -193,10 +197,10 @@ Config::Config() {
 			q = strchr(p, ';');
 			assert(q);
 			*q = 0;
-			i = gdk_rgba_parse(&m_customBackgroundColor, p);
+			i = gdk_rgba_parse(&m_customSkinBackgroundColor, p);
 			if (!i) {	//if error background-image is set
-				m_customBackgroundColor.red = m_customBackgroundColor.green = m_customBackgroundColor.blue = 0;
-				m_customBackgroundColor.alpha = 1;
+				m_customSkinBackgroundColor.red = m_customSkinBackgroundColor.green = m_customSkinBackgroundColor.blue = 0;
+				m_customSkinBackgroundColor.alpha = 1;
 			}
 			break;
 		}
@@ -282,6 +286,8 @@ void Config::initVarables() {
 			&m_frameDelta,
 			(int*) &m_absent,
 			&m_bridgeSolveAllFoeAbsentNS,
+			&m_customSkinBackgroundIsColor,
+			&m_skin,
 	};
 
 	storeVariablesIntNote = {
@@ -320,11 +326,13 @@ void Config::initVarables() {
 			"frame delta (system variable)",
 			"absent player (preferans)",
 			"bridge solve all foe absent north/south",
+			"custom background is color",
+			"skin",
 	};
 	assert(storeVariablesInt.size()==storeVariablesIntNote.size());
 
-	storeVariablesString = { &m_version, &m_languageFileName };
-	storeVariablesStringNote = { "version", "language file" };
+	storeVariablesString = { &m_version, &m_languageFileName, &m_customSkinBackgroundImagePath };
+	storeVariablesStringNote = { "version", "language file", "custom skin background image path" };
 	assert(storeVariablesString.size()==storeVariablesStringNote.size());
 }
 
@@ -337,6 +345,8 @@ void Config::load() {
 	VMenuString v_language;
 	const char*b;
 	VStringI it;
+	unsigned u;
+	int i;
 
 	//load m_language before possible reset() because reset() use setLanguageFileName(0);
 	auto LS=getLanguageDir();
@@ -414,6 +424,29 @@ void Config::load() {
 		}
 	}
 
+	if (getStringBySignature(FONT_SIGNATURE, s)) {
+		m_font=pango_font_description_from_string(s.c_str());
+	}
+	if (getStringBySignature(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE, s) && stringParse(s,u,16) ) {
+		unsignedToGdkRGBA(u, m_customSkinBackgroundColor);
+	}
+
+	if (getStringBySignature(CUSTOM_SKIN_FONT_COLOR_SIGNATURE, s) && stringParse(s,u,16) ) {
+		unsignedToGdkRGBA(u, m_customSkinFontColor);
+	}
+
+	if (getStringBySignature(SKIN_FONT_COLOR_SIGNATURE, s) ) {
+		vs=split(s," ");
+		if(vs.size()==N_SKINS){
+			i=0;
+			for(auto a:vs){
+				if(stringParse(a,u,16)){
+					unsignedToGdkRGBA(u, m_skinFontColor[i++]);
+				}
+			}
+		}
+
+	}
 }
 
 void Config::loadIntArray(int*a, int size, const char* signature) {
@@ -483,8 +516,21 @@ void Config::save(GAME_TYPE gt,int x,int y) {
 	}
 	fprintf(f, "\n");
 
-	fclose(f);
+	fprintf(f, "%s = %s\n", FONT_SIGNATURE,pango_font_description_to_string(m_font));
+	fprintf(f, "%s = %x\n", CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE,rgbaToUnsigned(m_customSkinBackgroundColor));
+	fprintf(f, "%s = %x\n", CUSTOM_SKIN_FONT_COLOR_SIGNATURE,rgbaToUnsigned(m_customSkinFontColor));
+	fprintf(f, "%s = ", SKIN_FONT_COLOR_SIGNATURE);
+	i=0;
+	for(auto a:m_skinFontColor){
+		if(i){
+			fprintf(f, " ");
+		}
+		fprintf(f, "%x", rgbaToUnsigned(a));
+		i=1;
+	}
+	fprintf(f, "\n");
 
+	fclose(f);
 }
 
 void Config::reset() {
@@ -547,6 +593,16 @@ void Config::reset() {
 	m_bridgeSolveAllFoeAbsentNS=0;
 	m_thousandsSeparatorString=ENGLISH_THOUSANDS_SEPARATOR;
 
+	//m_skin, m_font - is set
+	m_customSkinBackgroundColor={232/255.,232/255.,232/255.,1};
+	m_customSkinBackgroundImagePath="";
+	const GdkRGBA black{0,0,0,1};
+	const GdkRGBA white{1,1,1,1};
+	m_customSkinFontColor=black;
+	for(i=0;i<N_SKINS;i++){
+		m_skinFontColor[i]=i>=2 && i<=5 ? white:black;
+	}
+	m_customSkinBackgroundIsColor=1;
 }
 
 void Config::setLanguageFileName(int index) {
@@ -776,10 +832,10 @@ void Config::writeAndLoadCss(REWRITE_CSS_OPTION o) {
 					assert(m_skin == CONFIG_CUSTOM_SKIN);
 					s="GtkDialog,dialog{";
 					if (o & REWRITE_CSS_CUSTOM_FILE_BACKGROUND_COLOR) {
-						s+="background:"+rgbaToString(m_customBackgroundColor);
+						s+="background:"+rgbaToString(m_customSkinBackgroundColor);
 					}
 					else {
-						s+="background-image:url('"+m_customBackgroundImage+"')";
+						s+="background-image:url('"+m_customSkinBackgroundImagePath+"')";
 					}
 					s+=";}";
 				}
@@ -816,6 +872,7 @@ void Config::loadCss() {
 	display = gdk_display_get_default();
 	screen = gdk_display_get_default_screen(display);
 
+	//TODO 12oct2021
 	provider = gtk_css_provider_new();
 	gtk_style_context_add_provider_for_screen(screen,
 			GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
@@ -831,6 +888,11 @@ void Config::loadCss() {
 	gtk_style_context_set_path(context, path);
 	gtk_style_context_get_color(context, GTK_STATE_FLAG_NORMAL, &m_fontColor);
 
+}
+
+void Config::setSkin(int skin, REWRITE_CSS_OPTION o) {
+	m_skin = skin;
+	writeAndLoadCss(o);
 }
 
 std::string Config::getCssFilePath(int skin /*= -2*/) {

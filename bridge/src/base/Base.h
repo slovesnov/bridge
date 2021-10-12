@@ -79,6 +79,7 @@ const MENU_ID TOOLBAR_MENU_ID[] = {
 		MENU_UNDO,
 		MENU_REDO,
 		MENU_REDOALL };
+const int N_SKINS = 8;
 const int CONFIG_CUSTOM_SKIN = -1;
 const int MAX_BRIDGE_HAND_CARDS = 13;
 const int MAX_PREFERANS_HAND_CARDS = 10;
@@ -227,6 +228,8 @@ std::string getBgImageName(int i);
  */
 std::string rgbaToString(const GdkRGBA c);
 
+unsigned rgbaToUnsigned(const GdkRGBA c);
+
 void copyFromPixbuf(GdkPixbuf* source, cairo_t * dest, CRect const& rect);
 
 VString readFileToVString(const std::string name);
@@ -275,5 +278,6 @@ std::string getDeckFileName();
 std::string getDeckFileName(int n,bool svg=false);
 
 std::string intToStringLocaled(int v);
+void unsignedToGdkRGBA(unsigned v,GdkRGBA&c);
 
 #endif /* BASE_H_ */

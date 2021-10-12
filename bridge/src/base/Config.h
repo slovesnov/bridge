@@ -50,12 +50,17 @@ public:
 	std::string m_allImageFormatString;
 	CRect m_workareaRect;
 
-	//css varables (stored in css files)
+	//TODO begin css varables (stored in css files){
 	PangoFontDescription*m_font; //font for drawing area stored in bridge.css
 	GdkRGBA m_fontColor; //text color on screen & dialog, stored in bridge*.css
 	int m_skin; //stored in bridge.css
-	GdkRGBA m_customBackgroundColor; //stored in bridge-1.css
-	std::string m_customBackgroundImage; //stored in bridge-1.css
+	GdkRGBA m_customSkinBackgroundColor; //stored in bridge-1.css
+	std::string m_customSkinBackgroundImagePath; //stored in bridge-1.css
+	//} end css variables
+	GdkRGBA m_customSkinFontColor;
+	GdkRGBA m_skinFontColor[N_SKINS];
+	int m_customSkinBackgroundIsColor;//true is color as background for custom skin is used, otherwise image is used
+
 	CARD_INDEX m_absent;
 	int m_bridgeSolveAllFoeAbsentNS;
 	std::string m_thousandsSeparatorString;
@@ -82,11 +87,7 @@ public:
 	Config();
 	virtual ~Config();
 
-	void setSkin(int skin, REWRITE_CSS_OPTION o) {
-		m_skin = skin;
-		writeAndLoadCss(o);
-	}
-
+	void setSkin(int skin, REWRITE_CSS_OPTION o);
 	std::string getCssFilePath(int skin = -2);
 
 	PangoFontDescription* getFont(int height) const;

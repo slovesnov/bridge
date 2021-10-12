@@ -403,6 +403,11 @@ std::string rgbaToString(const GdkRGBA c) {
 			int(c.blue * 255), int(c.alpha * 255));
 }
 
+unsigned rgbaToUnsigned(const GdkRGBA c){
+	return unsigned(c.red * 255)<<24 | unsigned(c.green * 255)<<16 |
+			unsigned(c.blue * 255)<<8 | unsigned(c.alpha * 255);
+}
+
 VString readFileToVString(const std::string name) {
 	const int size = 1024;
 	char b[size];
@@ -633,4 +638,11 @@ GdkPixbuf* getSuitPixbuf(int suit, int size) {
 
 std::string intToStringLocaled(int v){
 	return intToString(v,gconfig->m_thousandsSeparatorString[0]);
+}
+
+void unsignedToGdkRGBA(unsigned v, GdkRGBA &c) {
+	c.alpha = (v & 0xff) / 255.;
+	c.blue = ((v >> 8) & 0xff) / 255.;
+	c.green = ((v >> 16) & 0xff) / 255.;
+	c.red = ((v >> 24) & 0xff) / 255.;
 }
