@@ -13,6 +13,8 @@
 #include "aslov.h"
 
 char LANGUAGE_EXTENSION[] = "lng";
+const char PATH_FORBIDDEN_CHAR='|';
+const char VERSION_SIGNATURE[] = "version";
 const char RECENT_FILES_SIGNATURE[] = "recent files";
 const char START_POSITION_SIGNATURE[] = "start position";
 const char SUITSORDER_SIGNATURE[] = "suits order";
@@ -277,7 +279,7 @@ void Config::initVarables() {
 	assert(storeVariablesInt.size()==storeVariablesIntNote.size());
 
 	storeVariablesString = { &m_version, &m_languageFileName, &m_customSkinBackgroundImagePath };
-	storeVariablesStringNote = { "version", "language file", "custom skin background image path" };
+	storeVariablesStringNote = { VERSION_SIGNATURE, "language file", "custom skin background image path" };
 	assert(storeVariablesString.size()==storeVariablesStringNote.size());
 }
 
@@ -320,7 +322,14 @@ void Config::load() {
 	 * "big arrow" -> "arrow number" big arrow=1 means arrow number=0 and
 	 * big arrow=0 means arrow number=1
 	 */
-	if(getStringBySignature("version",s) && std::stod(s)<5.2 ){
+	const double INVALID_VERSION=1000;
+	double readedVersion=INVALID_VERSION;
+	if(getStringBySignature(VERSION_SIGNATURE,s) ){
+		setlocale(LC_NUMERIC, "C");
+		readedVersion=std::stod(s);
+	}
+
+	if(readedVersion!=INVALID_VERSION && readedVersion<5.2 ){
 		if (getStringBySignature("deck", s)) {
 			m_map.insert( { "deck number", s });
 		}
@@ -361,8 +370,10 @@ void Config::load() {
 	}
 
 	//load recent files
-	if (getStringBySignature(RECENT_FILES_SIGNATURE, s) && !s.empty()) {
-		m_recent = split(s, G_SEARCHPATH_SEPARATOR_S);
+	if(readedVersion!=INVALID_VERSION && readedVersion>=5.2 ){
+		if (getStringBySignature(RECENT_FILES_SIGNATURE, s) && !s.empty()) {
+			m_recent = split(s, PATH_FORBIDDEN_CHAR);
+		}
 	}
 
 	if (getStringBySignature(FONT_SIGNATURE, s)) {
@@ -446,7 +457,7 @@ void Config::save(GAME_TYPE gt,int x,int y) {
 	}
 
 	//save recent files
-	S(RECENT_FILES_SIGNATURE,joinV(m_recent,G_SEARCHPATH_SEPARATOR));
+	S(RECENT_FILES_SIGNATURE,joinV(m_recent,PATH_FORBIDDEN_CHAR));
 
 	S(FONT_SIGNATURE,pango_font_description_to_string(m_font));
 	S(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE,format("%x",rgbaToUnsigned(m_customSkinBackgroundColor)));
