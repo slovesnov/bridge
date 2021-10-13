@@ -55,6 +55,8 @@ menuitem:disabled{
 menubar label{
 	font-size: 10pt;
 	font-family: Tahoma;
+	font-style:normal;
+	font-weight:400;
 }
 
 .smallFont{/*toottip smallfont*/
