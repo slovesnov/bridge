@@ -287,16 +287,16 @@ void Frame::menuClick(MENU_ID id) {
 		break;
 
 	case MENU_SELECT_FONT:
-		if (selectFont(getString(id), &(gconfig->m_font))) {
-			gconfig->writeAndLoadCss(REWRITE_CSS_MAIN_FILE);
+		if (selectFont(getString(id), &gconfig->m_font)) {
+			gconfig->updateCSS();
 			//new font redraw window
 			updateLanguage();  //same reaction on change font and change
 		}
 		break;
 
 	case MENU_SELECT_FONT_COLOR:
-		if (selectColor(getString(id), &(gconfig->m_fontColor))) {
-			gconfig->writeAndLoadCss(REWRITE_CSS_CUSTOM_FILE_FONT_COLOR);
+		if (selectColor(getString(id), getFontColorPointer())) {
+			gconfig->updateCSS();
 			//new font redraw window
 			updateLanguage();  //same reaction on change font and change language
 		}
@@ -342,11 +342,7 @@ void Frame::menuClick(MENU_ID id) {
 	case MENU_SKIN5:
 	case MENU_SKIN6:
 	case MENU_SKIN7:
-		printinfo
-		gconfig->setSkin(id - MENU_SKIN0, REWRITE_CSS_MAIN_FILE);
-		printinfo
-		updateSkin();
-		printinfo
+		setSkin(id - MENU_SKIN0);
 		break;
 
 	case MENU_CUSTOM_SKIN:
@@ -1528,48 +1524,6 @@ void Frame::correctLngFiles() {
 
 	if (!atLeast1FileFound) {
 		println("ERROR no files to proceed found");
-	}
-}
-#endif
-
-#ifndef NDEBUG
-
-void Frame::resetCssFiles() {
-	int i, j;
-	FILE*f;
-	char b[128];
-	VString v;
-	VStringCI it;
-	std::string s;
-	printinfo
-
-	s = gconfig->getCssFilePath();
-	v = readFileToVString(s);
-	assert(startsWith(v[0], "@import url"));
-	f = fopen(s.c_str(), "w+");
-	assert(f);
-	fprintf(f, "@import url(\"bridge0.css\");\n");
-	for (it = v.begin() + 1; it != v.end(); it++) {
-		fprintf(f, "%s", it->c_str());
-	}
-	fclose(f);
-
-	for (i = -1; i < 8; i++) {
-		sprintf(b, gconfig->getCssFilePath(i).c_str());
-		f = fopen(b, "w+");
-		assert(f);
-		j = (i >= 2 && i <= 5) ? 255 : 0;
-		fprintf(f, "@define-color font_color rgb(%d,%d,%d);\n", j, j, j);
-		fprintf(f, "GtkDialog,dialog{");
-		if (i == -1) {
-			fprintf(f, "background:rgb(232,232,232)");
-		}
-		else {
-			fprintf(f, "background-image:url('../images/%s')",
-					getBgImageName(i).c_str());
-		}
-		fprintf(f, ";}");
-		fclose(f);
 	}
 }
 #endif

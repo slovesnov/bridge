@@ -14,9 +14,6 @@
 #include <map>
 #include "Base.h"
 
-typedef std::map<std::string, std::string> MapStringString;
-typedef std::pair<std::string,std::string> PairStringString;
-
 typedef std::pair<int, std::string> PairIntString;
 typedef std::vector<PairIntString> VIntString;
 
@@ -50,16 +47,15 @@ public:
 	std::string m_allImageFormatString;
 	CRect m_workareaRect;
 
-	//TODO begin css varables (stored in css files){
-	PangoFontDescription*m_font; //font for drawing area stored in bridge.css
-	GdkRGBA m_fontColor; //text color on screen & dialog, stored in bridge*.css
-	int m_skin; //stored in bridge.css
-	GdkRGBA m_customSkinBackgroundColor; //stored in bridge-1.css
-	std::string m_customSkinBackgroundImagePath; //stored in bridge-1.css
-	//} end css variables
+	//begin css varables
+	PangoFontDescription*m_font;
+	int m_skin;
+	GdkRGBA m_customSkinBackgroundColor;
+	std::string m_customSkinBackgroundImagePath;
 	GdkRGBA m_customSkinFontColor;
 	GdkRGBA m_skinFontColor[N_SKINS];
-	int m_customSkinBackgroundIsColor;//true is color as background for custom skin is used, otherwise image is used
+	int m_customSkinBackgroundIsColor;//1 if color as background for custom skin is used, otherwise image is used
+	//end css variables
 
 	CARD_INDEX m_absent;
 	int m_bridgeSolveAllFoeAbsentNS;
@@ -77,7 +73,6 @@ private:
 	void load();
 	void loadIntArray(int*a, int size, const char* signature);
 	void reset();
-	void loadCss(); //load css and setup font
 
 	bool getStringBySignature(const char*signature,std::string& s);
 	bool getStringBySignature(const std::string& signature,std::string& s);
@@ -87,8 +82,9 @@ public:
 	Config();
 	virtual ~Config();
 
-	void setSkin(int skin, REWRITE_CSS_OPTION o);
-	std::string getCssFilePath(int skin = -2);
+	void loadCSS();
+	void updateCSS();//if some css parameters are changed
+	void setSkin(int skin);
 
 	PangoFontDescription* getFont(int height) const;
 
@@ -240,8 +236,6 @@ public:
 
 	static bool allowOnlyOneInstance();
 
-	void writeAndLoadCss(REWRITE_CSS_OPTION o);
-
 	ESTIMATE getEstimateType() const {
 		return m_estimateType;
 	}
@@ -265,6 +259,8 @@ public:
 	void setArrowParameters(int arrow,int arrowSize);
 	void setDeckParameters(int deck,bool resizeOnDeckChanged,CSize cardSize);
 	int recentSize();
+	GdkRGBA& getFontColor();
+
 };
 
 extern Config* gconfig;

@@ -221,7 +221,6 @@ public:
 
 	void correctLngFiles();
 
-	void resetCssFiles();
 #endif
 
 };

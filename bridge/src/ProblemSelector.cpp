@@ -130,7 +130,7 @@ ProblemSelector::ProblemSelector() :
 ProblemSelector::~ProblemSelector() {
 	int i;
 	if(m_arrowChanged && isScalableArrow()){
-		gdk_pixbuf_save(m_arrow[0], getImagePath(STORE_ARROW_TO_PNG_FILE_NAME).c_str(), "png", NULL, NULL);
+		gdk_pixbuf_save(m_arrow[0], getWritableFilePath(STORE_ARROW_TO_PNG_FILE_NAME).c_str(), "png", NULL, NULL);
 	}
 	if(m_deckChanged && isScalableDeck()){
 		CSize c=getCardSize();
@@ -141,7 +141,7 @@ ProblemSelector::~ProblemSelector() {
 		 * manipulations and press cancel
 		 */
 		GdkPixbuf *p = gdk_pixbuf_get_from_surface(m_deckSurface, 0, 0, c.cx, c.cy);
-		gdk_pixbuf_save(p, getImagePath(STORE_DECK_TO_PNG_FILE_NAME).c_str(), "png", NULL, NULL);
+		gdk_pixbuf_save(p, getWritableFilePath(STORE_DECK_TO_PNG_FILE_NAME).c_str(), "png", NULL, NULL);
 		free(p);
 	}
 
@@ -669,7 +669,7 @@ void ProblemSelector::setDeck() {
 		createNew(m_deckCairo,m_deckSurface, c);
 
 		if(start){
-			m_svgDeckPixbuf=pixbuf(STORE_DECK_TO_PNG_FILE_NAME);
+			m_svgDeckPixbuf=writablePixbuf(STORE_DECK_TO_PNG_FILE_NAME);
 		}
 		copyFromPixbuf(m_svgDeckPixbuf, m_deckCairo,CRect(CPoint(0,0),c));
 	}
@@ -690,7 +690,7 @@ void ProblemSelector::setArrows() {
 	int i=getArrowNumber();
 	if(isScalableArrow(i)){
 		if(start){
-			createNew(m_arrow[0], pixbuf(STORE_ARROW_TO_PNG_FILE_NAME ));
+			createNew(m_arrow[0], writablePixbuf(STORE_ARROW_TO_PNG_FILE_NAME ));
 		}
 		else{
 			i=getArrowSize();

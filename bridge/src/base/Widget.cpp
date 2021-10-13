@@ -811,7 +811,11 @@ bool Widget::isScalableDeck(int deck){
 }
 
 GdkRGBA Widget::getTextColor() const {
-	return gconfig->m_fontColor;
+	return gconfig->getFontColor();
+}
+
+GdkRGBA* Widget::getFontColorPointer(){
+	return &gconfig->getFontColor();
 }
 
 PangoLayout* Widget::createPangoLayout(TextWithAttributes text,cairo_t *cr) {
@@ -920,3 +924,7 @@ cairo_surface_t * Widget::getBackgroundFullSurface() {
 	return getProblemSelector().m_backgroundFullSurface;
 }
 
+void Widget::setSkin(int skin){
+	gconfig->setSkin(skin);
+	gframe->updateSkin();
+}
