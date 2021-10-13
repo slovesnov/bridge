@@ -47,7 +47,8 @@ CustomSkinDialog::~CustomSkinDialog() {
 
 bool CustomSkinDialog::click(int index) {
 	if (index == 0) {
-		setSkin(CONFIG_CUSTOM_SKIN);
+		gconfig->setSkin(CONFIG_CUSTOM_SKIN, REWRITE_CSS_MAIN_FILE);
+		gframe->updateSkin();
 	}
 	return true;
 }
@@ -63,7 +64,6 @@ void CustomSkinDialog::clickButton(int i) {
 		//background-image:url('file:///D:/fun1.png')
 		c = g_filename_to_uri(r.file().c_str(), NULL, NULL);
 		gconfig->m_customSkinBackgroundImagePath = c;
-		gconfig->m_customSkinBackgroundIsColor=0;
 		g_free(c);
 	}
 	else {
@@ -71,10 +71,15 @@ void CustomSkinDialog::clickButton(int i) {
 				&gconfig->m_customSkinBackgroundColor)) {
 			return;
 		}
-		gconfig->m_customSkinBackgroundIsColor=1;
 	}
 
-	setSkin(CONFIG_CUSTOM_SKIN);
+	gconfig->setSkin(CONFIG_CUSTOM_SKIN,
+			REWRITE_CSS_OPTION(
+					REWRITE_CSS_MAIN_FILE
+							| (i == 0 ?
+									REWRITE_CSS_CUSTOM_FILE_BACKGROUND_IMAGE :
+									REWRITE_CSS_CUSTOM_FILE_BACKGROUND_COLOR)));
+	gframe->updateSkin();
 	gtk_dialog_response(GTK_DIALOG(getWidget()), GTK_RESPONSE_OK);
 }
 

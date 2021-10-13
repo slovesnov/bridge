@@ -1,3 +1,4 @@
+@import url("bridge1.css");
 @define-color selected_bg_color #d0d0d0;
 
 menuitem, menubar, window > grid > label{
@@ -17,7 +18,7 @@ window > grid > box > box {
 	border-top: solid 1px @font_color;
 }
 
-/*visited link same color with unvisited*/
+/*5.02 visited link same color with unvisited*/
 dialog label link{
 	color:#2a76c6;
 }
@@ -57,6 +58,13 @@ menubar label{
 	font-family: Tahoma;
 }
 
+textview, entry, label, progressbar, scale{
+	font-size:14pt;/*##1 special string is used to change font where user choose 'select font' menu item */
+	font-family:Times New Roman;/*##1*/
+	font-style:normal;/*##1*/
+	font-weight:400;/*##1*/
+}
+
 .smallFont{/*toottip smallfont*/
 	font-size: 11pt;
 }
@@ -87,8 +95,8 @@ dialog frame border{
 	border-color: @font_color;
 }
 
-/*?? GtkLabel Config::loadCss()*/
-label.fontcolor /*game analisys label. staus bar*/
+GtkLabel /*Config::loadCss()*/
+,label.fontcolor /*game analisys label. staus bar*/
 ,textview text
 ,dialog label
 ,scale
