@@ -31,8 +31,8 @@ public:
 	Menu m_menu;
 	Toolbar m_toolbar;
 	DrawingArea m_area;
-	ProblemSelector m_problemSelector;
 	LastTrick m_lastTrick;
+	ProblemSelector m_problemSelector;
 
 private:
 
