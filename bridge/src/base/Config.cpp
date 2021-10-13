@@ -35,17 +35,12 @@ const int Config::INDENT_INSIDE_SUIT[] = { 13, 13, 13, 13, 13, 17, 20,20 };
 const int Config::ESTIMATION_INDENT[] = { 32, 28, 28, 26, 32, 42, 35,45 };
 
 Config::Config() {
-	int i;
 	GSList *formats;
 	GSList* elem;
 	GdkPixbufFormat*pf;
 	GdkRectangle rect;
 	FILE*f;
-	const int size = 1024;
-	char b[size];
-	char*p, *q;
-	GtkStyleContext *context;
-	GtkWidgetPath *path;
+	char*p;
 	CSize sz;
 
 	gconfig = this;
@@ -155,57 +150,7 @@ Config::Config() {
 	//load language (needed variables was set in loadConfig)
 	loadLanguageFile();
 
-	loadCss();
-
-	//load global css variables
-	f = open(getCssFilePath(), "r");
-	assert(f);
-	while (fgets(b, size, f) != NULL) {
-		if (strstr(b, "@import") != NULL && (p = strstr(b, "bridge")) != NULL) {
-			p += strlen("bridge");
-			m_skin = atoi(p);
-			break;
-		}
-	}
-	fclose(f);
-
-	/* takes "label" font from css
-	 *
-	 * this way works for "GtkLabel" in css
-	 * path = gtk_widget_path_new ();
-	 * gtk_widget_path_append_type (path, GTK_TYPE_LABEL);
-	 * context=gtk_style_context_new();
-	 * gtk_style_context_set_path(context, path);
-	 *
-	 */
-	path = gtk_widget_get_path(gtk_label_new(""));
-	context = gtk_style_context_new();
-	gtk_style_context_set_path(context, path);
-	gtk_style_context_get(context, GTK_STATE_FLAG_NORMAL, GTK_STYLE_PROPERTY_FONT,
-			&m_font, NULL);
-
-	/* if user select 'custom skin' menu option need to setup m_customBackgroundColor for color selection dialog
-	 * m_customBackgroundColor variable is in only one file so it can be managed as global variables m_font & m_skin
-	 */
-	f = open(getCssFilePath(CONFIG_CUSTOM_SKIN), "r");
-	assert(f);
-	while (fgets(b, size, f) != NULL) {
-		if ((p = strstr(b, "background")) != NULL) {
-			p = strchr(p, ':');
-			assert(p);
-			p++;
-			q = strchr(p, ';');
-			assert(q);
-			*q = 0;
-			i = gdk_rgba_parse(&m_customSkinBackgroundColor, p);
-			if (!i) {	//if error background-image is set
-				m_customSkinBackgroundColor.red = m_customSkinBackgroundColor.green = m_customSkinBackgroundColor.blue = 0;
-				m_customSkinBackgroundColor.alpha = 1;
-			}
-			break;
-		}
-	}
-	fclose(f);
+	loadCSS();
 
 	formats = gdk_pixbuf_get_formats();
 	for (elem = formats; elem; elem = elem->next) {
@@ -384,11 +329,10 @@ void Config::load() {
 		}
 	}
 
-
 	auto itStringPtr = storeVariablesString.begin();
 	for(auto& signature:storeVariablesStringNote){
 		if(getStringBySignature(signature,s)){
-			*(*itStringPtr) = localeToUtf8(s);
+			*(*itStringPtr) = s;
 		}
 		itStringPtr++;
 	}
@@ -418,10 +362,7 @@ void Config::load() {
 
 	//load recent files
 	if (getStringBySignature(RECENT_FILES_SIGNATURE, s) && !s.empty()) {
-		vs = split(s, G_SEARCHPATH_SEPARATOR_S);
-		for (itString = vs.begin(); itString != vs.end(); itString++) {
-			m_recent.push_back(localeToUtf8(*itString));
-		}
+		m_recent = split(s, G_SEARCHPATH_SEPARATOR_S);
 	}
 
 	if (getStringBySignature(FONT_SIGNATURE, s)) {
@@ -453,12 +394,16 @@ void Config::loadIntArray(int*a, int size, const char* signature) {
 	int i;
 	std::string s;
 	if (!getStringBySignature(signature, s)){
+#ifndef NDEBUG
 		println("signature not found [%s]",signature)
+#endif
 		return;
 	}
 	VString vs = split(s, " ");
 	if (int(vs.size()) != size) {
+#ifndef NDEBUG
 		println("invalid length %d %d",int(vs.size()), size)
+#endif
 		return;
 	}
 	for (i = 0; i < size; i++) {
@@ -468,69 +413,72 @@ void Config::loadIntArray(int*a, int size, const char* signature) {
 
 void Config::save(GAME_TYPE gt,int x,int y) {
 	int i;
-	VStringI itString;
+	VStringCI itString;
 
 	m_gameType = gt;
 	m_startPosition = CPoint(x, y);
 
-	auto f = open(getConfigPath(), "w+");//TODO
-	assert(f);
-	if (!f) {
-		return;
-	}
-
 	//at first setup first variable
 	m_version = CURRENT_VERSION_STR;
 
+#define A(a) f<<a<<" = "
+#define S(a,b) A(a)<<b<<"\n";
+
+	std::ofstream f(getConfigPath());
+	if(!f.is_open()){
+		return;
+	}
+
 	itString = storeVariablesStringNote.begin();
-	for (std::string* itStringPtr : storeVariablesString){
-		fprintf(f, "%s = %s\n", itString->c_str(), utf8ToLocale(*itStringPtr).c_str());
+	for (std::string *itStringPtr : storeVariablesString) {
+		S( *itString , *itStringPtr);
 		itString++;
 	}
 
-#define SAVE_ARRAY(a,signature) fprintf(f,"%s =",signature);for(i=0;i<SIZEI(a);i++){fprintf(f," %d",a[i]);}fprintf(f,"\n");
+#define SAVE_ARRAY(a,signature) f<<signature<<" =";for(i=0;i<SIZEI(a);i++){f<<" "<<a[i];}f<<"\n";
 	SAVE_ARRAY(m_suitsOrder, SUITSORDER_SIGNATURE)
 	SAVE_ARRAY(m_innerCardMargin, INNERCARDMARGIN_SIGNATURE)
 	SAVE_ARRAY(m_indentInsideSuit, INDENTINSIDESUIT_SIGNATURE)
 	SAVE_ARRAY(m_estimationIndent, ESTIMATIONINDENT_SIGNATURE)
 #undef SAVE_ARRAY
 
-	fprintf(f, "%s = %d %d\n", START_POSITION_SIGNATURE, m_startPosition.x,
-			m_startPosition.y);
+	A(START_POSITION_SIGNATURE)<<m_startPosition.x<<" "<<m_startPosition.y<<"\n";
 
 	itString = storeVariablesIntNote.begin();
 	for (int* itIntPtr : storeVariablesInt){
-		fprintf(f, "%s = %d\n", itString->c_str(), *itIntPtr );
+		S(*itString,*itIntPtr);
 		itString++;
 	}
 
 	//save recent files
-	fprintf(f, "%s = ", RECENT_FILES_SIGNATURE);
+	A(RECENT_FILES_SIGNATURE);
 	i=0;
 	for (auto s : m_recent) {
 		if (i) {
-			fprintf(f, G_SEARCHPATH_SEPARATOR_S);
+			f<<G_SEARCHPATH_SEPARATOR_S;
 		}
-		fprintf(f, "%s", utf8ToLocale(s).c_str());
+		f<<s;
 		i=1;
 	}
-	fprintf(f, "\n");
+	f<<"\n";
 
-	fprintf(f, "%s = %s\n", FONT_SIGNATURE,pango_font_description_to_string(m_font));
-	fprintf(f, "%s = %x\n", CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE,rgbaToUnsigned(m_customSkinBackgroundColor));
-	fprintf(f, "%s = %x\n", CUSTOM_SKIN_FONT_COLOR_SIGNATURE,rgbaToUnsigned(m_customSkinFontColor));
-	fprintf(f, "%s = ", SKIN_FONT_COLOR_SIGNATURE);
+
+	S(FONT_SIGNATURE,pango_font_description_to_string(m_font));
+	S(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE,format("%x",rgbaToUnsigned(m_customSkinBackgroundColor)));
+	S(CUSTOM_SKIN_FONT_COLOR_SIGNATURE,format("%x",rgbaToUnsigned(m_customSkinFontColor)));
+	A(SKIN_FONT_COLOR_SIGNATURE);
 	i=0;
 	for(auto a:m_skinFontColor){
 		if(i){
-			fprintf(f, " ");
+			f<<" ";
 		}
-		fprintf(f, "%x", rgbaToUnsigned(a));
+		f<<format("%x", rgbaToUnsigned(a));
 		i=1;
 	}
-	fprintf(f, "\n");
+	f<<"\n";
 
-	fclose(f);
+#undef A
+#undef S
 }
 
 void Config::reset() {
@@ -737,8 +685,9 @@ void Config::loadLanguageFile() {
 
 	m_thousandsSeparatorString=S[STRING_THOUSANDS_SEPARATOR];
 }
-
+/*TODO
 void Config::writeAndLoadCss(REWRITE_CSS_OPTION o) {
+
 	const int size = 1024;
 	char b[size], c[size];
 	char *p1, *p2;
@@ -845,11 +794,9 @@ void Config::writeAndLoadCss(REWRITE_CSS_OPTION o) {
 		}
 		fclose(f);
 	}
-printinfo
 	loadCss();
-printinfo
 }
-
+*/
 int Config::getFontHeight(const PangoFontDescription*desc) {
 	if (pango_font_description_get_size_is_absolute(desc)) {//this type of fonts is not checked
 		assert(0);
@@ -862,45 +809,60 @@ int Config::getFontHeight(const PangoFontDescription*desc) {
 	}
 }
 
-void Config::loadCss() {
-	GtkCssProvider *provider;
-	GdkScreen *screen;
-	GtkStyleContext *context;
-	GtkWidgetPath *path;
-	GdkDisplay* display;
+void Config::loadCSS(){
 
-	display = gdk_display_get_default();
-	screen = gdk_display_get_default_screen(display);
-
-	//TODO 12oct2021
-	provider = gtk_css_provider_new();
-	gtk_style_context_add_provider_for_screen(screen,
-			GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-	gtk_css_provider_load_from_path(provider,
-			g_filename_to_utf8(getCssFilePath().c_str(), getCssFilePath().length(),
-			NULL, NULL, NULL), NULL);
-	g_object_unref(provider);
-
-	//set font color
-	path = gtk_widget_path_new();
-	gtk_widget_path_append_type(path, GTK_TYPE_LABEL);
-	context = gtk_style_context_new();
-	gtk_style_context_set_path(context, path);
-	gtk_style_context_get_color(context, GTK_STATE_FLAG_NORMAL, &m_fontColor);
-
-}
-
-void Config::setSkin(int skin, REWRITE_CSS_OPTION o) {
-	m_skin = skin;
-	writeAndLoadCss(o);
-}
-
-std::string Config::getCssFilePath(int skin /*= -2*/) {
-	std::string s = getWorkingDirectory()+G_DIR_SEPARATOR+"bridge";
-	if (skin != -2) {
-		s += std::to_string(skin);
+	std::string p,t;
+	PangoStyle ps = pango_font_description_get_style(m_font);
+	switch (ps) {
+	case PANGO_STYLE_NORMAL:
+		t = "normal";
+		break;
+	case PANGO_STYLE_OBLIQUE:
+		t = "oblique";
+		break;
+	case PANGO_STYLE_ITALIC:
+		t = "italic";
+		break;
 	}
-	return s + ".css";
+
+	auto fc=rgbaToString(m_skin==CONFIG_CUSTOM_SKIN ?m_customSkinFontColor : m_skinFontColor[m_skin]);
+	bool b=true;
+	if(m_skin==CONFIG_CUSTOM_SKIN){
+		if(m_customSkinBackgroundIsColor){
+			p="background:"+rgbaToString(m_customSkinBackgroundColor);
+			b=false;
+		}
+		else{
+			p=m_customSkinBackgroundImagePath;
+		}
+	}
+	else{
+		p="bridge/images/bg"+std::to_string(m_skin)+".jpg";
+	}
+	if(b){
+		p="background-image:url('"+p+"')";
+	}
+
+	std::string s ="@define-color font_color "+fc+";"
+			+"GtkDialog,dialog{"+p+";}"
+			+"textview, entry, label, progressbar, scale{"+
+			+"font-size:"+std::to_string(getFontHeight(m_font))+"pt;"
+			+"font-family:"+pango_font_description_get_family(m_font)+";"
+			+"font-style:"+t+";"
+			+"font-weight:"+std::to_string(int(pango_font_description_get_weight(m_font)))+";"
+			+"}";
+	//printl(s)
+
+	::loadCSS(s);
+}
+
+void Config::updateCSS(){
+	loadCSS();
+}
+
+void Config::setSkin(int skin) {
+	m_skin = skin;
+	updateCSS();
 }
 
 PangoFontDescription* Config::getFont(int height) const {
@@ -1041,4 +1003,8 @@ int Config::recentSize(){
 
 bool Config::isWritableImage(std::string const& s) const {
 	return oneOf(s,m_storeImageFormat);
+}
+
+GdkRGBA& Config::getFontColor(){
+	return m_skinFontColor[m_skin];
 }

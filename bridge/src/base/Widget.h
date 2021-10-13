@@ -325,7 +325,8 @@ public:
 	void drawTextToCairo(cairo_t* ct, TextWithAttributes text, CRect r, bool centerx,
 			bool centery);
 
-	GdkRGBA getTextColor() const;
+	GdkRGBA getTextColor()const;
+	GdkRGBA* getFontColorPointer();
 	PangoLayout* createPangoLayout(TextWithAttributes text,cairo_t *cr);
 
 	CSize getMaxSize()const;
@@ -372,6 +373,10 @@ public:
 		cairo_paint(dest);
 	}
 
+	void setSkin(int skin);
+
+	void setBestLineHeight(int v);
+	int getBestLineHeight()const;
 };
 
 

@@ -57,6 +57,7 @@ public:
 
 	virtual void updateFontSelection() {
 	}
+
 };
 
 typedef void (FrameItem::*FrameItemFunction)();
