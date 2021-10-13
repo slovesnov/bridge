@@ -17,6 +17,8 @@
 const char STORE_DECK_TO_PNG_FILE_NAME[]="tmpdeck.png";
 const char STORE_ARROW_TO_PNG_FILE_NAME[]="tmparrow.png";
 
+ProblemSelector* gproblemselector;
+
 static void button_click(GtkToolItem* w, ProblemSelector* p) {
 	p->clickToolbar(w);
 }
@@ -48,6 +50,7 @@ ProblemSelector::ProblemSelector() :
 		FrameItemArea(gtk_scrolled_window_new(NULL, NULL)) {
 	unsigned i;
 
+	gproblemselector=this;
 	m_current = 0;
 	m_lastClickTime = 0;
 	m_visible = false;
@@ -72,6 +75,9 @@ ProblemSelector::ProblemSelector() :
 	m_backgroundFullCairo = NULL;
 	m_backgroundFullSurface = NULL;
 	createNew(m_backgroundFullCairo, m_backgroundFullSurface, getMaxSize());
+
+	//after m_backgroundFullCairo is created
+	setBestLineHeight();
 
 	/* need to create background image here when Frame calls
 	 * updateAfterCreation() first item is ProblemSelector (because it manages
@@ -194,7 +200,7 @@ CSize ProblemSelector::getSize() const {
 
 #ifdef TOOLTIP_IN_STATUSBAR
 	if(gconfig->m_showToolTips){
-		h+=getBestLineHeight();
+		h+=m_bestLineHeight;
 	}
 #endif
 
@@ -282,11 +288,8 @@ void ProblemSelector::updateDeckSelection() {
 }
 
 void ProblemSelector::updateFontSelection() {
-	//setBestLineHeight();
-	//TODO
-	TextWithAttributes text("1");
-	setBestLineHeight (getTextExtents(text).cy);
-
+	//if cairo has size 1x1 the measurement of text is ok
+	setBestLineHeight();
 	initResizeRedraw();
 }
 
@@ -687,6 +690,13 @@ void ProblemSelector::setDeck() {
 		getCardWidth() = cairo_image_surface_get_width(m_deckSurface) / 13;
 		getCardHeight() = cairo_image_surface_get_height(m_deckSurface) / 4;
 	}
+}
+
+void ProblemSelector::setBestLineHeight(){
+	//use m_backgroundFullCairo because m_cr isn't created on constructor
+	//to create it we need LastTrick size which use m_bestLineHeight
+	TextWithAttributes text("1");
+	m_bestLineHeight=getTextExtents(text,m_backgroundFullCairo).cy;
 }
 
 void ProblemSelector::init() {

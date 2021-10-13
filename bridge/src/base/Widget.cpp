@@ -706,7 +706,7 @@ int& Widget::getCardHeight(){
 }
 
 ProblemSelector& Widget::getProblemSelector() const {
-	return gframe->m_problemSelector;
+	return *gproblemselector;
 }
 
 Problem& Widget::getProblem() const {
@@ -929,11 +929,7 @@ void Widget::setSkin(int skin){
 	gframe->updateSkin();
 }
 
-void Widget::setBestLineHeight(int v){
-	gconfig->m_bestLineHeight=v;
-}
-
 int Widget::getBestLineHeight()const{
-	return gconfig->m_bestLineHeight;
+	return gproblemselector->m_bestLineHeight;
 }
 

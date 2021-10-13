@@ -375,7 +375,6 @@ public:
 
 	void setSkin(int skin);
 
-	void setBestLineHeight(int v);
 	int getBestLineHeight()const;
 };
 

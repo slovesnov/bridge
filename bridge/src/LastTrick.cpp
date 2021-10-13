@@ -44,10 +44,6 @@ LastTrick::LastTrick() :
 	glasttrick=this;
 	m_rows=m_columns=0;
 
-	init();//need call FrameItemArea::init() before getTextExtents
-	TextWithAttributes text("1");
-	setBestLineHeight (getTextExtents(text).cy);
-
 	for (i = 0; i < SIZEI(m_suitPixbuf); i++) {
 		m_suitPixbuf[i] = getSuitPixbuf(i, getFontHeight());
 	}
@@ -358,7 +354,7 @@ void LastTrick::drawBestLine(){
 }
 
 void LastTrick::drawGridBackground(cairo_t *cr){
-	auto& p=getProblemSelector();
+	auto& p=getProblemSelector();//DO NOT change "auto&" to "auto"
 	int sourcex = getArea().getSize().cx;
 	int sourcey = p.getSize().cy;
 	int h = std::max(getBestLineHeight()*13,getVisibleSize().cy);

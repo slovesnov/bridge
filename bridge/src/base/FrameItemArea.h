@@ -105,6 +105,7 @@ protected:
 
 public:
 	CSize getTextExtents(TextWithAttributes text);
+	CSize getTextExtents(TextWithAttributes text, cairo_t *cr);
 protected:
 
 	cairo_surface_t * getDeckSurface() const;

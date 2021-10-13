@@ -40,6 +40,8 @@ public:
 	SvgParameters m_svgDeckParameters[N_VECTOR_DECKS];
 	SvgParameters m_svgArrowParameters[N_VECTOR_ARROWS];
 	bool m_deckChanged,m_arrowChanged;
+	int m_bestLineHeight;
+
 private:
 	bool m_visible;
 	guint32 m_lastClickTime;
@@ -54,6 +56,7 @@ private:
 
 	void setSkin();
 	void setDeck();
+	void setBestLineHeight();
 public:
 	void createNewGame(GAME_TYPE t, CARD_INDEX a);
 	void updateToolbar();
@@ -159,5 +162,7 @@ public:
 	virtual void updateThink();
 
 };
+
+extern ProblemSelector* gproblemselector;
 
 #endif /* PROBLEMSELECTOR_H_ */

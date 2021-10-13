@@ -54,12 +54,17 @@ void FrameItemArea::changeShowOption() {
 }
 
 CSize FrameItemArea::getTextExtents(TextWithAttributes text) {
+	return getTextExtents(text,m_cr);
+}
+
+CSize FrameItemArea::getTextExtents(TextWithAttributes text, cairo_t *cr) {
 	CSize sz;
-	PangoLayout *layout = createPangoLayout(text,m_cr);
+	PangoLayout *layout = createPangoLayout(text,cr);
 	pango_layout_get_pixel_size(layout, &sz.cx, &sz.cy);
 	g_object_unref(layout);
 	return sz;
 }
+
 
 cairo_surface_t* FrameItemArea::getDeckSurface() const {
 	return getProblemSelector().m_deckSurface;

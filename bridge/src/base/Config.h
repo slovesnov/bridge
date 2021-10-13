@@ -61,9 +61,6 @@ public:
 	int m_bridgeSolveAllFoeAbsentNS;
 	std::string m_thousandsSeparatorString;
 
-	//not storable value
-	int m_bestLineHeight;
-
 private:
 	std::string getLanguageDir()const;
 	std::string getLanguageFileNameByIndex(int index) const;
