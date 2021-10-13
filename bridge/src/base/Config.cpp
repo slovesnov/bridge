@@ -412,8 +412,8 @@ void Config::loadIntArray(int*a, int size, const char* signature) {
 }
 
 void Config::save(GAME_TYPE gt,int x,int y) {
-	int i;
 	VStringCI itString;
+	VString v;
 
 	m_gameType = gt;
 	m_startPosition = CPoint(x, y);
@@ -421,8 +421,7 @@ void Config::save(GAME_TYPE gt,int x,int y) {
 	//at first setup first variable
 	m_version = CURRENT_VERSION_STR;
 
-#define A(a) f<<a<<" = "
-#define S(a,b) A(a)<<b<<"\n";
+#define S(a,b) f<<a<<" = "<<b<<"\n";
 
 	std::ofstream f(getConfigPath());
 	if(!f.is_open()){
@@ -431,53 +430,34 @@ void Config::save(GAME_TYPE gt,int x,int y) {
 
 	itString = storeVariablesStringNote.begin();
 	for (std::string *itStringPtr : storeVariablesString) {
-		S( *itString , *itStringPtr);
-		itString++;
+		S( *itString++ , *itStringPtr);
 	}
 
-#define SAVE_ARRAY(a,signature) f<<signature<<" =";for(i=0;i<SIZEI(a);i++){f<<" "<<a[i];}f<<"\n";
-	SAVE_ARRAY(m_suitsOrder, SUITSORDER_SIGNATURE)
-	SAVE_ARRAY(m_innerCardMargin, INNERCARDMARGIN_SIGNATURE)
-	SAVE_ARRAY(m_indentInsideSuit, INDENTINSIDESUIT_SIGNATURE)
-	SAVE_ARRAY(m_estimationIndent, ESTIMATIONINDENT_SIGNATURE)
-#undef SAVE_ARRAY
+	S( SUITSORDER_SIGNATURE , JOIN(m_suitsOrder) )
+	S( INNERCARDMARGIN_SIGNATURE , JOIN(m_innerCardMargin) )
+	S( INDENTINSIDESUIT_SIGNATURE , JOIN(m_indentInsideSuit) )
+	S( ESTIMATIONINDENT_SIGNATURE , JOIN(m_estimationIndent) )
 
-	A(START_POSITION_SIGNATURE)<<m_startPosition.x<<" "<<m_startPosition.y<<"\n";
+	S(START_POSITION_SIGNATURE,forma(m_startPosition.x,m_startPosition.y));
 
 	itString = storeVariablesIntNote.begin();
 	for (int* itIntPtr : storeVariablesInt){
-		S(*itString,*itIntPtr);
-		itString++;
+		S(*itString++,*itIntPtr);
 	}
 
 	//save recent files
-	A(RECENT_FILES_SIGNATURE);
-	i=0;
-	for (auto s : m_recent) {
-		if (i) {
-			f<<G_SEARCHPATH_SEPARATOR_S;
-		}
-		f<<s;
-		i=1;
-	}
-	f<<"\n";
-
+	S(RECENT_FILES_SIGNATURE,joinV(m_recent,G_SEARCHPATH_SEPARATOR));
 
 	S(FONT_SIGNATURE,pango_font_description_to_string(m_font));
 	S(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE,format("%x",rgbaToUnsigned(m_customSkinBackgroundColor)));
 	S(CUSTOM_SKIN_FONT_COLOR_SIGNATURE,format("%x",rgbaToUnsigned(m_customSkinFontColor)));
-	A(SKIN_FONT_COLOR_SIGNATURE);
-	i=0;
-	for(auto a:m_skinFontColor){
-		if(i){
-			f<<" ";
-		}
-		f<<format("%x", rgbaToUnsigned(a));
-		i=1;
-	}
-	f<<"\n";
 
-#undef A
+	//v.clear();
+	for(auto a:m_skinFontColor){
+		v.push_back(format("%x", rgbaToUnsigned(a)));
+	}
+	S(SKIN_FONT_COLOR_SIGNATURE,joinV(v));
+
 #undef S
 }
 
