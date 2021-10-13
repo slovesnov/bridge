@@ -1,3 +1,0 @@
-/*Note use rgba not rgb colors because for 'scale' font color is changed for example black color became gray, seems wrong opacity*/
-@define-color font_color rgba(255,255,255,255);
-GtkDialog,dialog{background-image:url('bridge/images/bg3.jpg');}
