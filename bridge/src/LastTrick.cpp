@@ -44,9 +44,13 @@ LastTrick::LastTrick() :
 	glasttrick=this;
 	m_rows=m_columns=0;
 
-	init();//need call FrameItemArea::init() before getTextExtents
+	printinfo
+	init();
 	TextWithAttributes text("1");
 	m_bestLineHeight = getTextExtents(text).cy;
+//	printl(m);
+//	getProblemSelector().m_bestLineHeight=m;
+	printinfo
 
 	for (i = 0; i < SIZEI(m_suitPixbuf); i++) {
 		m_suitPixbuf[i] = getSuitPixbuf(i, getFontHeight());
@@ -76,6 +80,7 @@ LastTrick::LastTrick() :
 	//prevents destroy after gtk_container_remove on change show option
 	g_object_ref (m_full);
 
+	printinfo
 }
 
 LastTrick::~LastTrick() {
@@ -94,6 +99,7 @@ CSize LastTrick::getSize() const {
 CSize LastTrick::getVisibleSize() const{
 	CSize a=getCardSize();
 	return {std::max(2*a.cx,MIN_LAST_TRICK_WIDTH), std::max(2*a.cy,m_bestLineHeight*10)};
+//	return {std::max(2*a.cx,MIN_LAST_TRICK_WIDTH), std::max(2*a.cy,getProblemSelector().m_bestLineHeight*10)};
 }
 
 CSize LastTrick::getFullVisibleSize() const{
@@ -358,9 +364,10 @@ void LastTrick::drawBestLine(){
 }
 
 void LastTrick::drawGridBackground(cairo_t *cr){
+	auto p=getProblemSelector();
 	int sourcex = getArea().getSize().cx;
-	int sourcey = getProblemSelector().getSize().cy;
-	int h = m_bestLineHeight*13;
+	int sourcey = p.getSize().cy;
+	int h = std::max(m_bestLineHeight*13,getVisibleSize().cy);
 
 	/* more than GRID_SIZE width / height because of scrolling
 	 * visible 13 tricks need m_bestLineHeight*13
@@ -412,5 +419,9 @@ void LastTrick::gridMouseEnter(int n) {
 }
 
 void LastTrick::updateDeckSelection(){
+	initResizeRedraw();
+}
+
+void LastTrick::updateFontSelection(){
 	initResizeRedraw();
 }

@@ -2064,6 +2064,10 @@ void DrawingArea::updateDeckSelection() {
 	initResizeRedraw();
 }
 
+void DrawingArea::updateFontSelection() {
+	initResizeRedraw();
+}
+
 void DrawingArea::rotate(bool clockwise, bool likeBridge) {
 	if (think()) {
 		return;

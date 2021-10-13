@@ -46,6 +46,7 @@ public:
 
 	virtual void updateEdit();
 	virtual void updateDeckSelection();
+	virtual void updateFontSelection();
 
 	virtual void setDeal(bool random);
 

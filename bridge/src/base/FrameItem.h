@@ -54,6 +54,9 @@ public:
 
 	virtual void updateThink() {
 	}
+
+	virtual void updateFontSelection() {
+	}
 };
 
 typedef void (FrameItem::*FrameItemFunction)();

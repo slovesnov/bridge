@@ -251,6 +251,7 @@ public:
 	virtual void updateEstimationType();
 	virtual void updateLanguage();
 	virtual void updateDeckSelection();
+	virtual void updateFontSelection();
 	virtual void updateArrowSize() {
 		initResizeRedraw();
 	}

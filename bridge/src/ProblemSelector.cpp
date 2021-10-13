@@ -59,6 +59,12 @@ ProblemSelector::ProblemSelector() :
 	m_deckChanged=false;
 	m_arrowChanged=false;
 
+	//init();
+	//setBestLineHeight();
+	//m_bestLineHeight=14;
+	//printl(m_bestLineHeight);
+	printinfo
+
 	fillSvgParameters();
 	//Frame::Frame() add m_label to menu bar, so here just create
 	m_label = gtk_label_new("");
@@ -125,6 +131,9 @@ ProblemSelector::ProblemSelector() :
 			G_CALLBACK(mouse_press_event), this);
 	g_signal_connect(m_commentView, "key_release_event",
 			G_CALLBACK(key_release_event), this);
+
+	printinfo
+
 }
 
 ProblemSelector::~ProblemSelector() {
@@ -195,6 +204,7 @@ CSize ProblemSelector::getSize() const {
 #ifdef TOOLTIP_IN_STATUSBAR
 	if(gconfig->m_showToolTips){
 		h+=getLastTrick().m_bestLineHeight;
+		//h+=m_bestLineHeight;
 	}
 #endif
 
@@ -278,6 +288,11 @@ void ProblemSelector::updateSkin() {
 
 void ProblemSelector::updateDeckSelection() {
 	setDeck();
+	initResizeRedraw();
+}
+
+void ProblemSelector::updateFontSelection() {
+	setBestLineHeight();
 	initResizeRedraw();
 }
 
@@ -795,4 +810,10 @@ void ProblemSelector::updateThink(){
 	if (size() > 1) {
 		updateToolbarButtons();
 	}
+}
+
+void ProblemSelector::setBestLineHeight(){
+//	assert(m_cr);
+//	TextWithAttributes text("1");
+//	m_bestLineHeight = getTextExtents(text).cy;
 }

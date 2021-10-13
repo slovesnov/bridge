@@ -69,6 +69,8 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 	srand((unsigned) time( NULL)); //for random functions randomDeal(), solveAllFoe()
 	setlocale(LC_NUMERIC, "C");  //dot interpret as decimal separator, 2may2021 for all threads
 
+	printinfo
+
 	m_vbox1 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add(GTK_CONTAINER(m_vbox1), m_area.getWidget());
 #ifdef TOOLTIP_IN_STATUSBAR
@@ -165,6 +167,7 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 //resetCssFiles();
 #endif
 
+	printinfo
 	gtk_main();
 }
 
@@ -290,7 +293,11 @@ void Frame::menuClick(MENU_ID id) {
 		if (selectFont(getString(id), &gconfig->m_font)) {
 			gconfig->updateCSS();
 			//new font redraw window
-			updateLanguage();  //same reaction on change font and change
+			updateFontSelection();
+//			m_lastTrick.init();
+//			m_problemSelector.initResizeRedraw();
+//			m_area.initResizeRedraw();
+//			m_lastTrick.initResizeRedraw();
 		}
 		break;
 

@@ -40,6 +40,7 @@ public:
 	SvgParameters m_svgDeckParameters[N_VECTOR_DECKS];
 	SvgParameters m_svgArrowParameters[N_VECTOR_ARROWS];
 	bool m_deckChanged,m_arrowChanged;
+//	int m_bestLineHeight;
 private:
 	bool m_visible;
 	guint32 m_lastClickTime;
@@ -68,6 +69,7 @@ public:
 	virtual void updateLanguage();
 	virtual void updateSkin();
 	virtual void updateDeckSelection();
+	virtual void updateFontSelection();
 
 	virtual void updateArrowSize() {
 		setArrows();
@@ -156,6 +158,8 @@ public:
 	SvgParameters& getSvgParameters(int n,bool isDeck);
 
 	virtual void updateThink();
+
+	void setBestLineHeight();
 
 };
 
