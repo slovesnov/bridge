@@ -12,7 +12,6 @@
 #include "Frame.h"
 #include "dialogs/EditDescriptionDialog.h"
 
-
 //USE_PIXBUF_TO_LOAD_SVG_DECK_AT_START
 const char STORE_DECK_TO_PNG_FILE_NAME[]="tmpdeck.png";
 const char STORE_ARROW_TO_PNG_FILE_NAME[]="tmparrow.png";

@@ -375,7 +375,7 @@ int ProblemVector::save(std::string filepath, bool split) {
 
 void ProblemVector::showError(){
 	std::string s=getString(STRING_ERROR_COULD_NOT_OPEN_FILE_FOR_WRITING);
-	message(MESSAGE_ICON_ERROR,s+" "+strerror(errno));
+	message(MESSAGE_ICON_ERROR,s+". "+strerror(errno)+".");
 }
 
 std::string ProblemVector::getFileFormat(int size) {
