@@ -77,11 +77,11 @@ static void setEstimateFunction(int index, int estimate) { //callback function
 }
 
 static gpointer solve_all_declarers_bridge_thread(gpointer data) {
-#ifdef FINAL_RELEASE
-	gdraw->solveAllDeclarersBridgeThread();
-#else
-	gdraw->solveAllDeclarersBridgeThread(GP2INT(data));
+	gdraw->solveAllDeclarersBridgeThread(
+#ifndef FINAL_RELEASE
+			GP2INT(data)
 #endif
+			);
 	return NULL;
 }
 
@@ -170,8 +170,7 @@ DrawingArea::DrawingArea() :
 
 	gdraw = this;
 	m_solveThread=0;
-	m_pThread = new GThread*[getMaxRunThreads()];
-	m_solveAllPtr = new SolveAll[getMaxRunThreads()];
+	m_vSolveAll.resize(getMaxRunThreads());
 
 	for (i = 0; i < SIZEI(m_totalTricksImage); i++) {
 		m_totalTricksImage[i] = NULL;
@@ -234,8 +233,6 @@ DrawingArea::~DrawingArea() {
 
 	g_mutex_clear(&m_solveAllMutex);
 
-	delete[] m_pThread;
-	delete[] m_solveAllPtr;
 	freePState();
 }
 
@@ -1427,7 +1424,7 @@ void DrawingArea::edit() {
 	//sometimes we cann't do undo because problem was loaded and has no history
 	for (i = 0; i < 52; ++i) {
 		if (isInner(i)) {
-			getState().m_cid[i] = getOuter(getState().m_cid[i]);
+			getState().m_cid[i] = getOuter(i);
 		}
 	}
 
@@ -1518,9 +1515,8 @@ void DrawingArea::showEstimation(cairo_t* ct, int index, int x, int y) {
 	else if (estimation != ESTIMATE_CLEAR) {
 		if ((e == ESTIMATE_ALL_LOCAL || e == ESTIMATE_ALL_TOTAL)
 				&& getProblem().m_currentState > 0) {
-			const CARD_INDEX player =
-					isOuter(getState().m_cid[index]) ?
-							getState().m_cid[index] : getOuter(getState().m_cid[index]);
+			auto c = getState().m_cid[index];
+			const CARD_INDEX player = isOuter(c) ? c : getOuter(c);
 			estimation += getPreviousStateTricks(player);
 			if (isBridge() || (isPreferans() && player != getProblem().m_player)) {
 				estimation += getPreviousStateTricks(getPartner(player));
@@ -2089,72 +2085,43 @@ void DrawingArea::rotate(bool clockwise, bool likeBridge) {
 }
 
 void DrawingArea::solveAllDeclarersPreferansThread() {
-	int i, v, first;
+	int v, first;
 	Preferans p;
 	int trump;
 	bool misere;
 	CARD_INDEX c[52], player;
-	CARD_INDEX ci;
+	const int MAXV = m_maxv;
 
 	g_mutex_lock(&m_solveAllMutex);
-	for (i = 0; i < 52; i++) {
-		ci = getState().m_cid[i];
-		if (isInner(ci)) {
-			ci = getOuter(ci);
-		}
-		c[i] = ci;
-	}
-	const int MAXV = getMaxSolveAllThreads();
+	getOuterState(c);
 	g_mutex_unlock(&m_solveAllMutex);
 
-	while (1) {
-		g_mutex_lock(&m_solveAllMutex);
-		v = m_solveAllNumber++;
-		g_mutex_unlock(&m_solveAllMutex);
-
-		if (v >= MAXV) {
-			return;
-		}
-
+	while ((v = m_solveAllNumber++) < MAXV) {
 		parsePreferansSolveAllDeclarersParameters(v, trump, misere, player);
 		for (first = 0; first < 3; first++) {
-			p.solveEstimateOnly(c, trump, getPreferansPlayer(first), player, misere,
-					getPreferansPlayer(), first == 0);
-			m_solveAllDeclarersPreferansResult[v * 3 + first] = p.m_playerTricks;
+			p.solveEstimateOnly(c, trump, getPreferansPlayer(first), player,
+					misere, getPreferansPlayer(), first == 0);
+			m_solveAllDeclarersPreferansResult[v * 3 + first] =
+					p.m_playerTricks;
 		}
-
 	}
 }
 
-#ifdef FINAL_RELEASE
-	void DrawingArea::solveAllDeclarersBridgeThread() {
-#else
-	void DrawingArea::solveAllDeclarersBridgeThread(int thread) {
+void DrawingArea::solveAllDeclarersBridgeThread(
+#ifndef FINAL_RELEASE
+	int thread
 #endif
-
-	int trump;
-	int i,v;
-	CARD_INDEX c[52],ci;
+	) {
+	int i,v,trump;
+	CARD_INDEX c[52];
 	Bridge b;
+	const int MAXV = m_maxv;
 
-	const int MAXV = getMaxSolveAllThreads();
-	for (i = 0; i < 52; i++) {
-		ci = getState().m_cid[i];	//use current state
-		assert(ci != CARD_INDEX_INVALID);
-		if (isInner(ci)) {
-			ci = getOuter(ci);
-		}
-		c[i]=ci;
-	}
+	g_mutex_lock(&m_solveAllMutex);
+	getOuterState(c);
+	g_mutex_unlock(&m_solveAllMutex);
 
-	while (1) {
-		g_mutex_lock(&m_solveAllMutex);
-		v = m_solveAllNumber++;
-		g_mutex_unlock(&m_solveAllMutex);
-
-		if (v >= MAXV) {
-			return;
-		}
+	while ((v = m_solveAllNumber++) < MAXV) {
 
 		trump = v == 0 ? NT : v - 1;
 #ifndef FINAL_RELEASE
@@ -2198,55 +2165,59 @@ int DrawingArea::getFoeSteps(Permutations const& p){
 }
 
 void DrawingArea::solveAllFoeThread(int index) {
-	int i, j,k;
-	const int sz=getMaxHandCards()+1;
-	int* result=new int[sz];
-	bool trumpChanged = true;
-	SolveAll& sa = m_solveAllPtr[index];
-	CARD_INDEX*ptr = sa.cid;
-	int*o = sa.o;
-	clock_t t,lastUpdate=clock();
-	Permutations p(sa.k, sa.n, COMBINATION);
-	const int steps=getFoeSteps(p);
-	bool ur;
-	const bool b=isBridge();
-
 	g_mutex_lock(&m_solveAllMutex);
-	sa.begin=clock();
+	const bool bridge=isBridge();
+	const int sz=getMaxHandCards()+1;
 	g_mutex_unlock(&m_solveAllMutex);
+
+	int* result=new int[sz];
 
 	/* Bridge object allocate memory for hash table so create
 	 * bridge object only if solve bridge deals. The same true
 	 * for preferans
 	 */
-	Bridge*pb=0;
-	Preferans*pp=0;
+	Bridge*pb=nullptr;
+	Preferans*pp=nullptr;
 
-	if(b){
+	if(bridge){
 		pb=new Bridge();
 	}
 	else{
 		pp=new Preferans(false);
 	}
 
-	while (1) {
-		g_mutex_lock(&m_solveAllMutex);
-		k = m_solveAllNumber++;
-		g_mutex_unlock(&m_solveAllMutex);
-		if (k >= steps) {
-			if(b){
-				gdk_threads_add_idle(solve_all_foe_update_result, gpointer(m_solveAllFoeDialog->m_id));
-			}
-			//println("allfoe exit %d",index)
-			//use break to clear memory
-			break;
-		}
+	solveAllFoeThreadInner(index, bridge, sz, result, pb, pp);
 
+	if(bridge){
+		delete pb;
+	}
+	else{
+		delete pp;
+	}
+	delete[]result;
+}
+
+void DrawingArea::solveAllFoeThreadInner(int index, const bool bridge,const int sz,
+		int *result, Bridge *pb, Preferans *pp) {
+	int i, j, v;
+	SolveAll &sa = m_vSolveAll[index];
+	Permutations p(sa.k, sa.n, COMBINATION);
+	g_mutex_lock(&m_solveAllMutex);
+	const int MAXV = getFoeSteps(p);
+	g_mutex_unlock(&m_solveAllMutex);
+	sa.begin = clock();
+	bool trumpChanged = true;
+	CARD_INDEX *ptr = sa.cid;
+	int *o = sa.o;
+	clock_t t, lastUpdate = clock();
+	bool ur;
+
+	while ((v = m_solveAllNumber++) < MAXV) {
 		for (i = 0; i < sz; i++) {
 			result[i] = 0;
 		}
 
-		auto&state=m_pstate[k];
+		auto&state=m_pstate[v];
 		p.loadState(state);
 
 		for (j = 0; j < state.parameter; j++, p.next()) {
@@ -2258,7 +2229,7 @@ void DrawingArea::solveAllFoeThread(int index) {
 				ptr[o[v]] = sa.p[0];
 			}
 
-			if(b){
+			if(bridge){
 				pb->solveEstimateOnly(ptr,sa.trump,sa.first,trumpChanged);
 				i=sa.ns ? pb->m_ns:pb->m_ew;
 			}
@@ -2273,25 +2244,24 @@ void DrawingArea::solveAllFoeThread(int index) {
 			assert(i >= 0 && i < sz);
 			result[i]++;
 			//check only preferans, bridge in solve() function file bi.h
-			if(!b && j % 50 == 0 ){
-				if (needStopThread()) {
-					//println("allfoe exit (user break) %d",index)
-					//use goto (because need to break two cycles) to clear memory
-					goto l2169;
-				}
+			if(!bridge && j % 50 == 0 && needStopThread() ){
+				//println("allfoe exit (user break) %d",index)
+				return;
 			}
 		}
 
-		g_mutex_lock(&m_solveAllMutex);
 		for (i = 0; i < sz; i++) {
 			sa.positions+=result[i];
+		}
+		g_mutex_lock(&m_solveAllMutex);
+		for (i = 0; i < sz; i++) {
 			m_solveAllFoeDialog->m_result[i] += result[i];
 		}
-		sa.end=clock();
 		g_mutex_unlock(&m_solveAllMutex);
+		sa.end=clock();
 
 		ur=true;
-		if(b){
+		if(bridge){
 			t=clock();
 			if( double(t-lastUpdate)/CLOCKS_PER_SEC < 1.5 ){
 				ur=false;
@@ -2305,15 +2275,10 @@ void DrawingArea::solveAllFoeThread(int index) {
 		}
 	}
 
-	l2169:
-	if(b){
-		delete pb;
+	if(bridge){
+		gdk_threads_add_idle(solve_all_foe_update_result, gpointer(m_solveAllFoeDialog->m_id));
 	}
-	else{
-		delete pp;
-	}
-	delete[]result;
-
+	//println("allfoe exit %d",index)
 }
 
 void DrawingArea::solveAllFoe(bool createDialog) {
@@ -2358,11 +2323,11 @@ void DrawingArea::solveAllFoe(bool createDialog) {
 
 	//println("%d %d %d",k,n,steps)
 
-	/* m_solveAllPtr[i].positions uses in m_solveAllFoeDialog
+	/* m_vSolveAll[i].positions uses in m_solveAllFoeDialog
 	 * updataLabels()
 	 */
 	for (i = 0; i < getMaxRunThreads(); i++) {
-		m_solveAllPtr[i].positions = 0;
+		m_vSolveAll[i].positions = 0;
 	}
 	if(createDialog){
 		m_solveAllFoeDialog = new SolveAllFoeDialog(p.number());
@@ -2371,7 +2336,7 @@ void DrawingArea::solveAllFoe(bool createDialog) {
 		m_solveAllFoeDialog->setPositions(p.number());
 	}
 
-	SolveAll& s = m_solveAllPtr[0];
+	SolveAll& s = m_vSolveAll[0];
 	s.init(k,n,first,getTrump(),c,cid,m_solveAllFoeDialog->m_id);
 
 	if(isBridge()){
@@ -2425,16 +2390,19 @@ void DrawingArea::solveAllFoe(bool createDialog) {
 	delete[]pi;
 	//end save permutations states
 
+	m_vThread.clear();
 	for (i = 0; i < getMaxRunThreads(); i++) {
 		if (i > 0) {
-			m_solveAllPtr[i] = m_solveAllPtr[0];
+			m_vSolveAll[i] = m_vSolveAll[0];
 		}
-		m_pThread[i] = g_thread_new("", solve_all_foe_thread, GP(i));
+		m_vThread.push_back( g_thread_new("", solve_all_foe_thread, GP(i)));
 	}
 }
 
 void DrawingArea::solveAllDeclarers() {
 	int i;
+
+	m_vThread.clear();
 
 	if (isPreferans()) {
 		/* #ifdef SOLVEALLDECLARERSPREFERANS_USE_THREADS use many threads gives
@@ -2445,13 +2413,14 @@ void DrawingArea::solveAllDeclarers() {
 
 #ifdef SOLVEALLDECLARERSPREFERANS_USE_THREADS
 		m_solveAllNumber = 0;
+		m_maxv=getMaxSolveAllThreads();
 		for (i = 0; i < getMaxRunThreads(); i++) {
-			m_pThread[i] = g_thread_new("", solve_all_declarers_preferans_thread,
-					gpointer(0));
+			m_vThread.push_back ( g_thread_new("", solve_all_declarers_preferans_thread,
+					gpointer(0)));
 		}
 
-		for (i = 0; i < getMaxRunThreads(); i++) {
-			g_thread_join(m_pThread[i]);
+		for (auto a:m_vThread) {
+			g_thread_join(a);
 		}
 
 #else
@@ -2488,15 +2457,16 @@ void DrawingArea::solveAllDeclarers() {
 	else {
 		m_solveAllDeclarersDialog = new SolveForAllDeclarersDialog();
 		m_solveAllNumber = 0;
+		m_maxv=getMaxSolveAllThreads();
 
-		for (i = 0; i < getBridgeSolveAllDeclarersThreads(); i++) {
-			m_pThread[i] = g_thread_new("", solve_all_declarers_bridge_thread, GP(i));
+		for (i = 0; i < getSolveAllDeclarersThreads(); i++) {
+			m_vThread.push_back( g_thread_new("", solve_all_declarers_bridge_thread, GP(i)));
 		}
 	}
 
 }
 
-int DrawingArea::getBridgeSolveAllDeclarersThreads(){
+int DrawingArea::getSolveAllDeclarersThreads(){
 	return std::min(getMaxRunThreads(),getMaxSolveAllThreads());
 }
 
@@ -2525,7 +2495,7 @@ void DrawingArea::solveAllFoeUpdateResult(gint64 id) {
 }
 
 void DrawingArea::stopSolveAllFoeThreads() {
-	stopSolveAllThreads(getMaxRunThreads());
+	stopSolveAllThreads();
 	/* some solveAllFoeUpdateResult() can be in loop, so make
 	 * m_solveAllFoeDialog=0 to indicate that dialog is closed
 	 */
@@ -2533,19 +2503,19 @@ void DrawingArea::stopSolveAllFoeThreads() {
 }
 
 void DrawingArea::stopSolveAllDeclarersBridgeThreads() {
-	stopSolveAllThreads(getBridgeSolveAllDeclarersThreads());
+	stopSolveAllThreads();
 	/* some solveAllBridgeSetLabels() can be in loop, so make
 	 * m_solveAllDeclarersDialog=0 to indicate that dialog is closed
 	 */
 	m_solveAllDeclarersDialog=0;
 }
 
-void DrawingArea::stopSolveAllThreads(int threads){
+void DrawingArea::stopSolveAllThreads(){
 	g_atomic_int_set(&BridgePreferansBase::m_stop, 1);
 
 //	clock_t begin=clock();
-	for (int i = 0; i < threads; i++) {
-		g_thread_join(m_pThread[i]);
+	for (auto a:m_vThread) {
+		g_thread_join(a);
 	}
 //	println("%.3lf",double(clock()-begin)/CLOCKS_PER_SEC);
 

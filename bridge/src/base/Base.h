@@ -24,7 +24,6 @@ typedef VString::const_iterator VStringCI;
 
 typedef std::vector<bool> VBool;
 typedef VBool::iterator VBoolI;
-typedef VBool::const_iterator VBoolCI;
 
 typedef std::vector<int> VInt;
 
@@ -37,7 +36,7 @@ typedef std::set<int> SInt;
 typedef std::vector<int*> VIntPtr;
 typedef std::vector<std::string*> VStringPtr;
 typedef std::vector<GtkWidget*> VGtkWidgetPtr;
-typedef VGtkWidgetPtr::const_iterator VGtkWidgetPtrCI;
+typedef std::vector<GThread*> VGThreadPtr;
 //======================== END TYPEDEFS ===========================================================
 
 //======================== BEGIN CONSTANTS ========================================================

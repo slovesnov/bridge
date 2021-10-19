@@ -10,6 +10,7 @@
 
 #include "ProblemVector.h"
 
+#include <cerrno>
 #include "../dialogs/MessageDialog.h"
 #include "../Frame.h"
 #include <mz_compat.h>
@@ -298,7 +299,7 @@ void ProblemVector::splitAndParse(FILE* f, FILE_TYPE type) {
 	}
 }
 
-bool ProblemVector::save(std::string filepath, bool split) {
+int ProblemVector::save(std::string filepath, bool split) {
 	FILE*f = NULL;
 	std::string s, b;
 	FILE_TYPE t = getFileType(filepath);
@@ -317,8 +318,11 @@ bool ProblemVector::save(std::string filepath, bool split) {
 			}
 
 			if (split) {
-				f = open(fileName(filepath, b, i).c_str(), "w+");
-				assert(f);
+				f = open(fileName(filepath, b, i), "w+");
+				if(!f){
+					showError();
+					return SAVE_ERROR;
+				}
 				fprintf(f, "%s", s.c_str());
 				fclose(f);
 			}
@@ -327,8 +331,11 @@ bool ProblemVector::save(std::string filepath, bool split) {
 				 * if have some bridge problems file will be created
 				 */
 				if (!f) {
-					f = open(filepath.c_str(), "w+");
-					assert(f);
+					f = open(filepath, "w+");
+					if(!f){
+						showError();
+						return SAVE_ERROR;
+					}
 					if (t == FILE_TYPE_HTML) {
 						fprintf(f, PROBLEM_HTML_BEGIN);
 					}
@@ -363,7 +370,12 @@ bool ProblemVector::save(std::string filepath, bool split) {
 	if (warning) {
 		message(MESSAGE_ICON_MESSAGE, STRING_WARNING_STORE_PREF_TO_DF_PBN);
 	}
-	return warning;
+	return warning?SAVE_WARNING:SAVE_OK;
+}
+
+void ProblemVector::showError(){
+	std::string s=getString(STRING_ERROR_COULD_NOT_OPEN_FILE_FOR_WRITING);
+	message(MESSAGE_ICON_ERROR,s+" "+strerror(errno));
 }
 
 std::string ProblemVector::getFileFormat(int size) {
@@ -432,7 +444,9 @@ void ProblemVector::addSave(const VString& v, const std::string& filepath,
 		b = getFileFormat(v.size());
 		for (i = start, it = v.begin(); it != v.end(); it++, i++) {
 			pv.set(*it, false);
-			pv.save(fileName(filepath, b, i), false);
+			if(pv.save(fileName(filepath, b, i), false)==SAVE_ERROR){
+				break;
+			}
 		}
 
 	}

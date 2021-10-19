@@ -265,3 +265,13 @@ void State::incrementTricks(CARD_INDEX ci) {
 	assert(INDEX_OF(ci,PLAYER)!=-1);
 	m_tricks[ci - CARD_INDEX_NORTH]++;
 }
+
+void State::getOuterState(CARD_INDEX cid[52]) const {
+	for (int i = 0; i < 52; i++) {
+		auto ci = m_cid[i];
+		if (isInner(ci)) {
+			ci = getOuter(ci);
+		}
+		cid[i] = ci;
+	}
+}

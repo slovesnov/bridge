@@ -11,6 +11,7 @@
 #ifndef DRAWINGAREA_H_
 #define DRAWINGAREA_H_
 
+#include <atomic>
 #include "base/Config.h"
 #include "base/FrameItemArea.h"
 #include "base/Widget.h"
@@ -24,6 +25,8 @@
 
 class SolveForAllDeclarersDialog;
 class SolveAllFoeDialog;
+class Bridge;
+class Preferans;
 
 class DrawingArea: public FrameItemArea {
 public:
@@ -69,14 +72,14 @@ public:
 
 	//solve all foe
 	SolveAllFoeDialog *m_solveAllFoeDialog;
-	GThread**m_pThread;
+	VGThreadPtr m_vThread;
 	Permutations::State*m_pstate;
 	int m_pstateSize;
 
 	//solve for all declarers & solve all foe
 	GMutex m_solveAllMutex;
-	gint m_solveAllNumber;
-	SolveAll* m_solveAllPtr;
+	std::atomic_int m_solveAllNumber,m_maxv;
+	std::vector<SolveAll> m_vSolveAll;
 
 	void startWaitFunction(GSourceFunc function, gpointer data);
 	void finishWaitFunction();
@@ -275,6 +278,8 @@ public:
 
 	void solveAllFoe(bool createDialog=true);
 	void solveAllFoeThread(int index);
+	void solveAllFoeThreadInner(int index, const bool bridge, const int sz,
+			int *result, Bridge *pb, Preferans *pp);
 	void solveAllBridgeSetLabels(int trump);
 	void solveThread(Problem* problem); //problem=NULL solve current problem, otherwise solve for html
 	void makeMove(int index,bool estimateBeforeBest=false);
@@ -378,8 +383,8 @@ public:
 	 */
 	int countUndos(GdkEventButton* event);
 
-	int getBridgeSolveAllDeclarersThreads();
-	void stopSolveAllThreads(int threads);
+	int getSolveAllDeclarersThreads();
+	void stopSolveAllThreads();
 	int getFoeSteps(Permutations const& p);
 
 	void freePState(){

@@ -11,6 +11,7 @@
 #ifndef DECKARROWSELECTIONDIALOG_H_
 #define DECKARROWSELECTIONDIALOG_H_
 
+#include <atomic>
 #include "../helper/SvgParameters.h"
 #include "ButtonsDialog.h"
 
@@ -30,9 +31,8 @@ class DeckArrowSelectionDialog: public ButtonsDialog {
 	GtkWidget *m_label;
 	GtkWidget *m_scale;
 	GtkAdjustment *m_adjustment;
-	GThread**m_thread;
-	GMutex m_mutex;
-	int m_number;
+	VGThreadPtr m_vThread;
+	std::atomic_int m_number,m_maxv;
 	int m_maxCardHeight;
 	int m_maxCardWidth;
 	int m_maxArrowSize;
@@ -47,7 +47,7 @@ public:
 	void toggle(GtkWidget *w);
 
 	void onObjectLoaded(int i);
-	void loadThread(int n);
+	void loadThread(const int n);
 	void valueChanged();
 	gdouble getValue();
 	int getValueUpperBound();

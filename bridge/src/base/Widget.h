@@ -54,19 +54,23 @@ protected:
 		return getGameType() == PREFERANS && getProblem().m_misere;
 	}
 
-	inline State const& getState() const {
+	State const& getState() const {
 		return getProblem().getState();
 	}
 
-	inline State& getState() {
+	State& getState() {
 		return getProblem().getState();
 	}
 
-	inline int minContract() const {
+	void getOuterState(CARD_INDEX cid[52]) {
+		return getState().getOuterState(cid);
+	}
+
+	int minContract() const {
 		return getProblem().minContract();
 	}
 
-	inline int maxContract() const {
+	int maxContract() const {
 		return getProblem().maxContract();
 	}
 

@@ -86,13 +86,12 @@ void ButtonsDialog::show(GtkWidget *w, bool before,VGtkWidgetPtr const& v){
 	gtk_widget_set_margin_top(b, 5);
 	gtk_widget_set_margin_bottom(b, 5);
 
-	VGtkWidgetPtrCI it;
 	if (w != NULL && before) {
 		gtk_box_pack_start(GTK_BOX(b), w, TRUE, TRUE, margin);
 	}
 
-	for (it = m_button.begin(); it != m_button.end(); it++) {
-		gtk_box_pack_start(GTK_BOX(b), *it, TRUE, TRUE, margin);
+	for (auto a:m_button) {
+		gtk_box_pack_start(GTK_BOX(b), a, TRUE, TRUE, margin);
 	}
 
 	if (w != NULL && !before) {

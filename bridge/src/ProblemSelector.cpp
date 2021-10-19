@@ -496,7 +496,10 @@ void ProblemSelector::save(std::string filepath, bool split) {
 		m_vproblemOriginal[m_current] = m_vproblem[m_current];	//save changes
 		m_modified[m_current] = false;
 	}
-	bool m = m_vproblem.save(filepath, split);
+	int m = m_vproblem.save(filepath, split);
+	if(m==ProblemVector::SAVE_ERROR){
+		return;
+	}
 	if (!split) {
 		if (m) {
 			//if some of preferans problems were omitted
@@ -518,24 +521,24 @@ void ProblemSelector::save(std::string filepath, bool split) {
 }
 
 bool ProblemSelector::isModified() const {
-	VBoolCI it;
-	int i;
-
 	assert(m_current >= 0 && m_current < m_vproblem.size());
 
 	if (m_vproblem.size() != m_vproblemOriginal.size()) {
 		return true;
 	}
 
-	for (i = 0, it = m_modified.begin(); it != m_modified.end(); it++, i++) {
+	int i=0;
+	for(auto a:m_modified){
 		if (i == m_current) {
 			if (m_vproblemOriginal[i] != m_vproblem[i]) {
 				return true;
 			}
 		}
-		else if (*it) {
+		else if (a) {
 			return true;
 		}
+
+		i++;
 	}
 	return false;
 }

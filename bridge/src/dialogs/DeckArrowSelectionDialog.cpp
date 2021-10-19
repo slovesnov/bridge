@@ -92,17 +92,14 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 	}
 
 	//begin init svg
-	g_mutex_init(&m_mutex);
-
 	getProblemSelector().createSvgPixbufs(m_isDeck);
 
 	//Note svg files are loading quite long, so use threads for loading
 	m_number=0;
-	n=getThreadsNumber();
-	m_thread = new GThread*[n];
-	j=getNumber();
-	for(i=0;i<n;i++){
-		m_thread[i] = g_thread_new("", load_thread, GP(j));
+	m_maxv=getVectorSize();
+	j=getNumber()-getRasterSize();
+	for(i=0;i<getThreadsNumber();i++){
+		m_vThread.push_back( g_thread_new("", load_thread, GP(j)));
 	}
 
 	gdouble lower=m_isDeck ? MIN_CARD_WIDTH:MIN_ARROW_SIZE;
@@ -230,12 +227,9 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 }
 
 DeckArrowSelectionDialog::~DeckArrowSelectionDialog() {
-	int i;
-	for (i = 0; i < getThreadsNumber(); i++) {
-		g_thread_join(m_thread[i]);
+	for (auto a:m_vThread) {
+		g_thread_join(a);
 	}
-	delete[] m_thread;
-	g_mutex_clear(&m_mutex);
 }
 
 bool DeckArrowSelectionDialog::click(int index) {
@@ -358,25 +352,21 @@ void DeckArrowSelectionDialog::onObjectLoaded(int i){
 	}
 }
 
-void DeckArrowSelectionDialog::loadThread(int n){
+void DeckArrowSelectionDialog::loadThread(const int n){
 	/* Note run user selected deck first thread not needed
 	 * because this deck already loaded in ProblemSelector
 	 */
-	int i,j=n-getRasterSize();
+	int i;
+	const int MAXV=m_maxv;
 	std::string s;
-	while (1) {
-		g_mutex_lock(&m_mutex);
-		i = m_number++;
-		g_mutex_unlock(&m_mutex);
-		if (i >= getVectorSize()) {
-			break;
-		}
+
+	while ( (i = m_number++)<MAXV) {
 #ifdef SVG_LOAD_SLEEP
 		usleep(sleepSeconds*1000*1000);
 #endif
 		//load current deck first swap i=0 & i=j if j>0
-		if( (i==0 || i==j) && j>0){
-			i = i == 0 ? j : 0;
+		if( (i==0 || i==n) && n>0){
+			i = i == 0 ? n : 0;
 		}
 
 		s=getObjectFileName(i,true);

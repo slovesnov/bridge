@@ -257,7 +257,7 @@ void SolveAllFoeDialog::updateLabels() {
 	va=0;
 	j=0;
 	for(i=0;i<getMaxRunThreads();i++){
-		auto p=gdraw->m_solveAllPtr[i];
+		auto p=gdraw->m_vSolveAll[i];
 		//println("%d",p.positions)
 		if(p.positions==0){
 			v=0;

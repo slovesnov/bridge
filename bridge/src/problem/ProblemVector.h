@@ -101,8 +101,12 @@ public:
 	//returns true if at least one problem recognized without errors
 	bool set(const VString& v, bool append);
 
-	//returns true is was warning message
-	bool save(std::string filepath, bool split); //filepath utf8
+	static const int SAVE_OK=0;
+	static const int SAVE_WARNING=1;
+	static const int SAVE_ERROR=2;
+	int save(std::string filepath, bool split); //filepath utf8
+
+	void showError();
 
 	static void addSave(const VString& v, const std::string& filepath,
 			bool split); //filepath utf8

@@ -234,3 +234,5 @@ menu
 233 "play tag not found"
 234 "number of turns exceeds number of first moves"
 235 "unrecognized absent player"
+"could not open file for writing"
+

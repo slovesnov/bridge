@@ -129,13 +129,11 @@ void ProblemVectorModified::deleteAllBeforeAfter(bool before) {
 	assert(size() > 1);
 
 	if (before) {
-		printinfo
 		m_vproblem.m_problems.erase(m_vproblem.begin(),
 				m_vproblem.begin() + m_current);
 		m_current = 0;
 	}
 	else {
-		printinfo
 		m_vproblem.m_problems.erase(m_vproblem.begin() + m_current + 1,
 				m_vproblem.end());
 	}

@@ -50,6 +50,7 @@ public:
 	void setBestLine(VInt const& v);
 	void adjustBestLine(const int index);
 
+	void getOuterState(CARD_INDEX cid[52])const;
 #ifndef FINAL_RELEASE
 	void printcids() const;
 #endif
