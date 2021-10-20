@@ -12,9 +12,6 @@
 #define SOLVER_BRIDGECOMMON_H_
 
 #include <cstdarg>
-#include <vector>
-#include <string>
-#include <sstream>
 #include "aslov.h"
 
 const int NT = 4;
