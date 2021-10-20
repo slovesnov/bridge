@@ -32,11 +32,6 @@ static void open_files(GtkWidget*, const char* data) {
 	gframe->openFiles(data);
 }
 
-static gpointer check_new_version_thread(gpointer) {
-	gframe->checkNewVersion();
-	return NULL;
-}
-
 static gboolean new_version_message(gpointer) {
 	gframe->newVesionMessage();
 	return G_SOURCE_REMOVE;
@@ -125,8 +120,8 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 	 * & before gtk_main() otherwise works wrong
 	 * sometimes take a long time so use thread
 	 */
-
-	m_newVersionThread = g_thread_new("", check_new_version_thread, NULL);
+	m_newVersion.start(VERSION_FILE_URL, CURRENT_VERSION,
+			new_version_message);
 
 	g_signal_new(OPEN_FILE_SIGNAL_NAME, G_TYPE_OBJECT, G_SIGNAL_RUN_FIRST, 0,
 	NULL, NULL, g_cclosure_marshal_VOID__POINTER, G_TYPE_NONE, 1,
@@ -540,29 +535,11 @@ void Frame::updateRecent(std::string filepath) {
 	m_menu.updateRecent();
 }
 
-void Frame::checkNewVersion() {
-	GFile * f = g_file_new_for_uri(VERSION_TXT_URL);  //f is always not null
-	gsize length;
-	char* content = NULL;
-	if ( g_file_load_contents(f, NULL, &content, &length, NULL, NULL) ) {
-		std::string s(content, length); //content is not null terminated so create std::string
-		VString vs = split(s, "\n");
-
-		const double version = atof(vs[0].c_str());
-		const double current_version = atof(CURRENT_VERSION_STR.c_str());
-
-		if (version > current_version) {
-			m_newVersionMessage = getString(STRING_NEW_VERSION_FOUND)+("\n"+ localeToUtf8(s));
-			gdk_threads_add_idle(new_version_message, NULL);
-		}
-	}
-	g_free(content);
-	g_object_unref(f);
-}
-
 void Frame::newVesionMessage() {
-	if (message(MESSAGE_ICON_NONE, m_newVersionMessage,
-			BUTTONS_DIALOG_YES_NO_CANCEL) == GTK_RESPONSE_YES) {
+	std::string s = getString(STRING_NEW_VERSION_FOUND);
+	s += "\n" + m_newVersion.m_message;
+	if (message(MESSAGE_ICON_NONE, s, BUTTONS_DIALOG_YES_NO_CANCEL)
+			== GTK_RESPONSE_YES) {
 		//download new version
 		openURL(DOWNLOAD_URL);
 	}
@@ -1658,10 +1635,6 @@ gboolean Frame::exit() {
 	gconfig->save(getGameType(),x,y);
 
 	gdraw->stopCountThread();
-
-	if (m_newVersionThread) {
-		g_thread_join(m_newVersionThread);
-	}
 
 	return TRUE;
 }

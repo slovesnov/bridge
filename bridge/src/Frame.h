@@ -17,16 +17,16 @@
 #include "DrawingArea.h"
 #include "LastTrick.h"
 #include "ProblemSelector.h"
+#include "CheckNewVersion.h"
 
 const gchar OPEN_FILE_SIGNAL_NAME[] = "bridge_open_file";
 
 class Frame: public FrameItem {
 	VFrameItemPointer m_childs;
-	GThread* m_newVersionThread;
-	std::string m_newVersionMessage;
 	gulong m_sizeAllocateSignal;
 	std::string m_saveImagePath;
 	GtkWidget*m_vbox1,*m_vbox2;
+	CheckNewVersion m_newVersion;
 public:
 	Menu m_menu;
 	Toolbar m_toolbar;
@@ -79,7 +79,6 @@ public:
 		updateTitle();
 	}
 
-	void checkNewVersion();
 	void newVesionMessage();
 
 	void changeGameType();

@@ -83,13 +83,20 @@ const int CONFIG_CUSTOM_SKIN = -1;
 const int MAX_BRIDGE_HAND_CARDS = 13;
 const int MAX_PREFERANS_HAND_CARDS = 10;
 
-const std::string CURRENT_VERSION_STR = "5.2";
+#define DECLARE_VERSION(a) \
+	const double CURRENT_VERSION = a;\
+	const std::string CURRENT_VERSION_STR = #a;
+DECLARE_VERSION(5.2)
+#undef DECLARE_VERSION
+
+//const std::string CURRENT_VERSION_STR = "5.2";
+
 const std::string BASE_ADDRESS = "http://bridge-studio.sourceforge.net/";
 const std::string DOWNLOAD_URL = "http://sourceforge.net/projects/bridge-studio/files/latest/download";
 #ifdef FINAL_RELEASE
-	const char VERSION_TXT_URL[] = "http://slovesnov.users.sourceforge.net/bridge/version.txt";
+	const char VERSION_FILE_URL[] = "http://slovesnov.users.sourceforge.net/bridge/version.txt";
 #else
-	const char VERSION_TXT_URL[]="file:///C:/slovesno/site/bridge/version.txt";
+	const char VERSION_FILE_URL[]="file:///C:/slovesno/site/bridge/version.txt";
 #endif
 
 const char HTML_IMAGE_DIRECTORY[] = "http://slovesnov.users.sourceforge.net/img/bridge";
