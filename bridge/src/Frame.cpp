@@ -542,12 +542,9 @@ void Frame::updateRecent(std::string filepath) {
 
 void Frame::checkNewVersion() {
 	GFile * f = g_file_new_for_uri(VERSION_TXT_URL);  //f is always not null
-	GError *error = NULL;
 	gsize length;
 	char* content = NULL;
-	gboolean r = g_file_load_contents(f, NULL, &content, &length, NULL, &error);
-
-	if (r) {
+	if ( g_file_load_contents(f, NULL, &content, &length, NULL, NULL) ) {
 		std::string s(content, length); //content is not null terminated so create std::string
 		VString vs = split(s, "\n");
 
@@ -555,13 +552,7 @@ void Frame::checkNewVersion() {
 		const double current_version = atof(CURRENT_VERSION_STR.c_str());
 
 		if (version > current_version) {
-			VStringI it;
-			m_newVersionMessage = getString(STRING_NEW_VERSION_FOUND);
-			for (it = vs.begin(); it != vs.end(); it++) {
-				if (it != vs.begin()) {
-					m_newVersionMessage += localeToUtf8("\n" + *it);
-				}
-			}
+			m_newVersionMessage = getString(STRING_NEW_VERSION_FOUND)+("\n"+ localeToUtf8(s));
 			gdk_threads_add_idle(new_version_message, NULL);
 		}
 	}

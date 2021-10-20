@@ -8,20 +8,17 @@
  *         homepage: slovesnov.users.sourceforge.net
  */
 
-#include "ProblemVector.h"
-
 #include <cerrno>
+#include <mz_compat.h>
+#include "ProblemVector.h"
 #include "../dialogs/MessageDialog.h"
 #include "../Frame.h"
-#include <mz_compat.h>
 
 //this definition is differ with Problem.h
 #define throwOnError(_Expression,error) if(!(_Expression))throw ParseException(#_Expression,error,__FILE__,__LINE__,__func__,"","");
 
 //show all errors only one time
 bool ProblemVector::set(const VString& v, bool append) {
-	VStringCI itv;
-	VParseExceptionCI it;
 	VProblem p;
 
 	if (!append) {
@@ -32,8 +29,8 @@ bool ProblemVector::set(const VString& v, bool append) {
 	const unsigned psz = m_problems.size();
 	const unsigned esz = m_errors.size();
 
-	for (itv = v.begin(); itv != v.end(); itv++) {
-		add(*itv);
+	for (auto& a:v) {
+		add(a);
 	}
 
 	//returns true if at least one problem recognized without errors
@@ -375,7 +372,7 @@ int ProblemVector::save(std::string filepath, bool split) {
 
 void ProblemVector::showError(){
 	std::string s=getString(STRING_ERROR_COULD_NOT_OPEN_FILE_FOR_WRITING);
-	message(MESSAGE_ICON_ERROR,s+". "+strerror(errno)+".");
+	message(MESSAGE_ICON_ERROR,s+".\n"+strerror(errno)+".");
 }
 
 std::string ProblemVector::getFileFormat(int size) {

@@ -54,7 +54,8 @@ MessageDialog::MessageDialog(MESSAGE_ICON_TYPE iconType, const char* s,
 
 	w = gtk_scrolled_window_new(NULL, NULL);
 	gtk_container_add(GTK_CONTAINER(w), w1);
-	gtk_widget_set_size_request(w, width, height);
+	//+1 somehow ProblemVector::showError() not fully showed don't know why
+	gtk_widget_set_size_request(w, width+1, height);
 
 	if (iconType == MESSAGE_ICON_NONE) {
 		w1 = w;
@@ -76,7 +77,6 @@ MessageDialog::MessageDialog(const VParseException& e, BUTTONS_DIALOG_TYPE type,
 		ButtonsDialog(MENU_INVALID, type, parent) {
 	GtkWidget *w, *g;
 	int i, j;
-	VParseExceptionCI it;
 
 	pd = this;
 
@@ -103,15 +103,16 @@ MessageDialog::MessageDialog(const VParseException& e, BUTTONS_DIALOG_TYPE type,
 	w = gtk_label_new(getString(MENU_VIEW));
 	gtk_grid_attach(GTK_GRID(g), w, i++, 1, 1, 1);
 
-	for (j = 2, it = e.begin(); it != e.end(); it++, j++) {
+	j=2;
+	for ( auto& a: e) {
 		i = 0;
-		w = gtk_label_new(getFileInfo(it->m_parseFile, FILEINFO::NAME).c_str());
+		w = gtk_label_new(getFileInfo(a.m_parseFile, FILEINFO::NAME).c_str());
 		gtk_grid_attach(GTK_GRID(g), w, i++, j, 1, 1);
 
-		w = gtk_label_new(it->getErrorString().c_str());
+		w = gtk_label_new(a.getErrorString().c_str());
 		gtk_grid_attach(GTK_GRID(g), w, i++, j, 1, 1);
 
-		w = gtk_label_new(it->getPlaceInfo().c_str());
+		w = gtk_label_new(a.getPlaceInfo().c_str());
 		gtk_grid_attach(GTK_GRID(g), w, i++, j, 1, 1);
 
 		w = createButton("add24.png", "");
@@ -120,7 +121,8 @@ MessageDialog::MessageDialog(const VParseException& e, BUTTONS_DIALOG_TYPE type,
 		g_signal_connect(w, "clicked", G_CALLBACK(button_clicked),
 				gpointer(m_content.size()));
 
-		m_content.push_back(it->m_content);
+		m_content.push_back(a.m_content);
+		j++;
 	}
 
 	if (e.size() > 13) {

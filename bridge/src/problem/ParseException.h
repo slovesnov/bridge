@@ -42,6 +42,5 @@ public:
 
 typedef std::vector<ParseException> VParseException;
 typedef VParseException::iterator VParseExceptionI;
-typedef VParseException::const_iterator VParseExceptionCI;
 
 #endif /* PROBLEM_PARSEEXCEPTION_H_ */
