@@ -31,17 +31,9 @@ AboutDialog::AboutDialog() :
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	v = split(getString(STRING_ABOUT), "\n");
 
-	/* Note date&time will be when compiler compile this file "AboutDialog.cpp" last time,
-	 * so it's time no last compilation time
-	 */
-	//__DATE__="Dec 15 2016" we need "15 Dec 2016"
-	i = __DATE__[4] == ' '; //day<10, avoid two spaces after 'build'
-	v.push_back(format("build %.*s %.*s %s %s, gcc %d.%d.%d, gtk %d.%d.%d", 2 - i,
-	__DATE__ + 4 + i, 3, __DATE__, __DATE__ + 7, __TIME__, __GNUC__,
-	__GNUC_MINOR__, __GNUC_PATCHLEVEL__,
-	GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION));
+	v.push_back(getBuildVersionString(false));
 
-	v.push_back("executable file size " + intToString(getApplicationFileSize(),','));
+	v.push_back("executable file size " + toString(getApplicationFileSize(),','));
 	m_labels = v.size();
 	m_label = new GtkWidget*[m_labels];
 

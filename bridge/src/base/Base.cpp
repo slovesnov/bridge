@@ -637,7 +637,7 @@ GdkPixbuf* getSuitPixbuf(int suit, int size) {
 }
 
 std::string intToStringLocaled(int v){
-	return intToString(v,gconfig->m_thousandsSeparatorString[0]);
+	return toString(v,gconfig->m_thousandsSeparatorString[0]);
 }
 
 void unsignedToGdkRGBA(unsigned v, GdkRGBA &c) {

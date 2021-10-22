@@ -379,11 +379,11 @@ void Config::load() {
 	if (getStringBySignature(FONT_SIGNATURE, s)) {
 		m_font=pango_font_description_from_string(s.c_str());
 	}
-	if (getStringBySignature(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE, s) && stringParse(s,u,16) ) {
+	if (getStringBySignature(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE, s) && parseString(s,u,16) ) {
 		unsignedToGdkRGBA(u, m_customSkinBackgroundColor);
 	}
 
-	if (getStringBySignature(CUSTOM_SKIN_FONT_COLOR_SIGNATURE, s) && stringParse(s,u,16) ) {
+	if (getStringBySignature(CUSTOM_SKIN_FONT_COLOR_SIGNATURE, s) && parseString(s,u,16) ) {
 		unsignedToGdkRGBA(u, m_customSkinFontColor);
 	}
 
@@ -392,7 +392,7 @@ void Config::load() {
 		if(vs.size()==N_SKINS){
 			i=0;
 			for(auto a:vs){
-				if(stringParse(a,u,16)){
+				if(parseString(a,u,16)){
 					unsignedToGdkRGBA(u, m_skinFontColor[i++]);
 				}
 			}
