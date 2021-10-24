@@ -197,14 +197,12 @@ menu
 "Use plus/minus keys to inscrease/decrease arrow size. To increase the maximum size of the arrows, which depends on the set size of the cards, you must first decrease the size of the cards in the <i>view/select deck</i> menu and then return to the arrow setting menu."
 "," thousands separator
 "whist"
-"pass"
 "half-whist"
 "whist option"
 "players"
-"<i>Note.</i> Whist option 'pass' means that someone else is whisting, and current player said pass."
 "player score"
-"whister score"
-
+"whisters score"
+"catchers score"
 
 200 "unknown error"
 201 "duplicate tag found"

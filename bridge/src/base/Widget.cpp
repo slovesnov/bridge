@@ -537,11 +537,8 @@ GtkWidget* Widget::createTextCombobox(const VString& text) {
 	return w;
 }
 
-GtkWidget* Widget::createTextCombobox(const STRING_ID i1, const STRING_ID i2,const STRING_ID i3 /*= STRING_INVALID*/) {
+GtkWidget* Widget::createTextCombobox(const STRING_ID i1, const STRING_ID i2) {
 	VString vs={getString(i1),getString(i2)};
-	if(i3!=STRING_INVALID){
-		vs.push_back(getString(i3));
-	}
 	return createTextCombobox(vs);
 }
 

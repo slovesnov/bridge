@@ -33,7 +33,12 @@ enum {
 
 const int WO_WHIST=0;
 const int WO_HALF_WHIST=1;
-const int WO_PASS=2;
+
+#define BC(a) m_combo[BRIDGE_CALCULATOR_DIALOG_##a]
+#define CB(a) getComboPosition(BC(a))
+
+#define PC(a) m_combo[PREFERANS_CALCULATOR_DIALOG_##a]
+#define CP(a) getComboPosition(PC(a))
 
 static gboolean combo_changed(GtkWidget *w, CalculatorDialog* d) {
 	d->comboChanged(w);
@@ -43,7 +48,7 @@ static gboolean combo_changed(GtkWidget *w, CalculatorDialog* d) {
 CalculatorDialog::CalculatorDialog() :
 		BaseDialog(MENU_CALCULATOR) {
 	int i;
-	GtkWidget*w, *w1,*g;
+	GtkWidget *w, *w1, *w2;
 	std::string s;
 	VString v, v1;
 	VStringID l;
@@ -80,81 +85,86 @@ CalculatorDialog::CalculatorDialog() :
 				createTextCombobox(v1), createTextCombobox(DOUBLE_REDOUBLE,
 						SIZE(DOUBLE_REDOUBLE)) };
 
-		gtk_combo_box_set_model(GTK_COMBO_BOX(m_combo[BRIDGE_CALCULATOR_DIALOG_TRUMP]),
+		gtk_combo_box_set_model(GTK_COMBO_BOX(BC(TRUMP)),
 				createTrumpModel(false, true, BRIDGE));
-		gtk_combo_box_set_active(GTK_COMBO_BOX(m_combo[BRIDGE_CALCULATOR_DIALOG_TRUMP]), 0);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(BC(TRUMP)), 0);
 
-		gtk_combo_box_set_active(GTK_COMBO_BOX(m_combo[BRIDGE_CALCULATOR_DIALOG_TRICKS]), 7);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(BC(TRICKS)), 7);
 
-		l = {
-				STRING_DECLARER,
-				STRING_CONTRACT,
-				STRING_NUMBER_OF_TRICKS,
+		l = { STRING_DECLARER, STRING_CONTRACT, STRING_NUMBER_OF_TRICKS,
 				STRING_VULNERABLE };
 		w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, margin);
-		gtk_container_add(GTK_CONTAINER(w), m_combo[BRIDGE_CALCULATOR_DIALOG_CONTRACT]);
-		gtk_container_add(GTK_CONTAINER(w), m_combo[BRIDGE_CALCULATOR_DIALOG_TRUMP]);
-		gtk_container_add(GTK_CONTAINER(w),
-				m_combo[BRIDGE_CALCULATOR_DIALOG_DOUBLE_REDOUBLE]);
+		gtk_container_add(GTK_CONTAINER(w), BC(CONTRACT));
+		gtk_container_add(GTK_CONTAINER(w), BC(TRUMP));
+		gtk_container_add(GTK_CONTAINER(w), BC(DOUBLE_REDOUBLE));
 
-		wv = {
-				m_combo[BRIDGE_CALCULATOR_DIALOG_DECLARER],
-				w,
-				m_combo[BRIDGE_CALCULATOR_DIALOG_TRICKS],
-				m_combo[BRIDGE_CALCULATOR_DIALOG_VULNERABLE] };
+		wv = { BC(DECLARER), w, BC(TRICKS), BC(VULNERABLE) };
 
 	}
 	else{
+		//STRING_PASS
 		m_combo =
 				{ createTextCombobox(6, 10, 1, getString(STRING_MISERE)),
 						createTextCombobox(0, 10), createTextCombobox(3, 4),
-						createTextCombobox(STRING_WHIST, STRING_HALF_WHIST,
-								STRING_PASS) };
+				createTextCombobox(STRING_WHIST, STRING_HALF_WHIST) };
 
 		l = { STRING_CONTRACT, STRING_TRICKS, STRING_PLAYERS,
 				STRING_WHIST_OPTION };
-		setComboPosition(m_combo[PREFERANS_CALCULATOR_DIALOG_TRICKS], 6);
+		setComboPosition(PC(TRICKS), 6);
 	}
 
-	g = gtk_grid_new();
-	gtk_grid_set_column_spacing(GTK_GRID(g), margin);
-	gtk_grid_set_row_spacing(GTK_GRID(g), margin);
-	gtk_widget_set_margin_start(g, hmargin);
-	gtk_widget_set_margin_end(g, hmargin);
-	gtk_widget_set_margin_top(g, 5);
-	gtk_widget_set_margin_bottom(g, 5);
-	gtk_widget_set_halign(g, GTK_ALIGN_CENTER);
+	w2 = gtk_grid_new();
+	gtk_grid_set_column_spacing(GTK_GRID(w2), margin);
+	gtk_grid_set_row_spacing(GTK_GRID(w2), margin);
+	gtk_widget_set_margin_start(w2, hmargin);
+	gtk_widget_set_margin_end(w2, hmargin);
+	gtk_widget_set_margin_top(w2, 5);
+	gtk_widget_set_margin_bottom(w2, 5);
+	gtk_widget_set_halign(w2, GTK_ALIGN_CENTER);
 
 	auto &r = bridge ? wv : m_combo;
 	assert(l.size() == r.size());
 	i=0;
 	for (auto a:l) {
-		gtk_grid_attach(GTK_GRID(g), gtk_label_new(getString(a)), 0, i, 1, 1);
-		gtk_grid_attach(GTK_GRID(g), r[i], 1, i, 1, 1);
+		w=gtk_label_new(getString(a));
+		if(isPreferans()){
+			m_label[i]=w;
+		}
+		gtk_grid_attach(GTK_GRID(w2), w, 0, i, 1, 1);
+		gtk_grid_attach(GTK_GRID(w2), r[i], 1, i, 1, 1);
 		i++;
 	}
 
 	w = gtk_grid_new();
-	gtk_grid_attach(GTK_GRID(w), g, 0, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(w), w2, 0, 0, 1, 1);
 
 	w1 = gtk_label_new(""); //use label instead of frame to make upper/left corner rounded
 	addClass(w1, ROUND_CORNER_CLASS);
 
 	gtk_grid_attach(GTK_GRID(w), w1, 0, 0, 1, 1);
 
-	w1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-	for (auto a:m_score) {
-		gtk_box_pack_start(GTK_BOX(w1), a, TRUE, TRUE, 6);
+	if(bridge){
+		w1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+		for (auto a:m_score) {
+			gtk_box_pack_start(GTK_BOX(w1), a, TRUE, TRUE, 6);
+		}
 	}
+	else{
+		m_label[4]=gtk_label_new(0);
+		setPreferansLabel();
+		w1 = gtk_grid_new();
+		for(i=0;i<2;i++){
+			w2= i==0? gtk_label_new(getString(STRING_PLAYER_SCORE)):m_label[4];
+			gtk_widget_set_halign(w2, GTK_ALIGN_END);
+			gtk_grid_attach(GTK_GRID(w1), w2, 0, i, 1, 1);
+			gtk_widget_set_halign(m_score[i], GTK_ALIGN_START);
+			gtk_grid_attach(GTK_GRID(w1), m_score[i], 1, i, 1, 1);
+		}
+	}
+
 	gtk_grid_attach(GTK_GRID(w), w1, 0, 1, 1, 1);
 
-	if(!bridge){
-		w1 = createMarkupLabel(STRING_PREFERANS_CALCULATOR_NOTES, 42);
-		gtk_grid_attach(GTK_GRID(w), w1, 0, 2, 1, 1);
-	}
-
 	gtk_container_add(GTK_CONTAINER(getContentArea()), w);
-
 
 	for (auto a:m_combo) {
 		g_signal_connect(a, "changed", G_CALLBACK(combo_changed),
@@ -166,59 +176,48 @@ CalculatorDialog::CalculatorDialog() :
 }
 
 void CalculatorDialog::updateScore() {
-	int i;
-	std::string s,v[2];
+	int i,j;
+	std::string s, v[2];
 
 	if(isBridge()){
-#define C(a)  getComboPosition(m_combo[BRIDGE_CALCULATOR_DIALOG_##a])
 		/* contract 1-7
 		 * result - tricks 0-13
 		 * zone=true if playing pair in a zone in pbn tag (vulnerable=NS && (declare 'N' or 'S') || vulnerable=EW && (declare 'E' or 'W') )
 		 * doubleRedouble=0 simple game; =1 double; =2 redouble
 		 */
-		const int declarer = C(DECLARER);
+		const int declarer = CB(DECLARER);
 
-		int r = countBridgeScore(C(CONTRACT) + 1,
-				C(TRUMP),
-				C(TRICKS),
-				C(DOUBLE_REDOUBLE), declarer,
-				C(VULNERABLE));
-#undef C
+		int r = countBridgeScore(CB(CONTRACT) + 1,
+				CB(TRUMP),
+				CB(TRICKS),
+				CB(DOUBLE_REDOUBLE), declarer,
+				CB(VULNERABLE));
 		for (i = 0; i < 2; i++) {
 			v[i]= format("%s/%s %d", m_player[i].c_str(), m_player[i + 2].c_str(),
 					declarer % 2 == i % 2 ? r : -r);
 		}
 	}
 	else{
-#define C(a)  getComboPosition(m_combo[PREFERANS_CALCULATOR_DIALOG_##a])
-		const int players = C(PLAYERS)+3;
-		const int c = C(CONTRACT) + 6;
-		const int contract = c == 11 ? 0 : c;
-		const int tricks = C(TRICKS);
-		const int wo = C(WHIST_OPTION);
-		const bool halfwhist = wo == WO_HALF_WHIST;
-/*
-		const int WO_WHIST=0;
-		const int WO_HALF_WHIST=1;
-		const int WO_PASS=2;
-*/
-		//printl(players, contract, tricks,halfwhist)
-#undef C
+		const int players = CP(PLAYERS)+3;
+		const int contract = getPrerefansContract();
+		const int tricks = CP(TRICKS);
 		PreferansScore p;
-		if(halfwhist){
+		if(isHalfWhist() && contract!=0){
 			p.setHalfWhistGame(players, contract);
 		}
 		else{
 			p.setGame(players, contract, tricks);
 		}
-
-		double score[] = { p.playerScore(), wo==WO_PASS ?p.passScore() :p.whisterScore() };
+		auto sc=p.score();
 		for (i = 0; i < 2; i++) {
-			v[i]=
-					getString(
-							i == 0 ? STRING_PLAYER_SCORE : STRING_WHISTER_SCORE)
-							+ normalize(format(" %.2lf", score[i]));
+			s ="";
+			for (j = i; j < (i == 0 ? 1 : players); j++) {
+				s+=' '+normalize(format("%.2lf", sc[j]));
+			}
+			v[i] = s ;
+
 		}
+
 	}
 
 	i=0;
@@ -228,6 +227,36 @@ void CalculatorDialog::updateScore() {
 	}
 }
 
+void CalculatorDialog::setPreferansLabel() {
+	gtk_label_set_text(GTK_LABEL(m_label[4]),
+			getString(
+					isMisere() ?
+							STRING_CATCHERS_SCORE : STRING_WHISTERS_SCORE));
+}
+
+int CalculatorDialog::getPrerefansContract() {
+	const int c = CP(CONTRACT) + 6;
+	return c == 11 ? 0 : c;
+}
+
+bool CalculatorDialog::isMisere() {
+	return getPrerefansContract()==0;
+}
+
+bool CalculatorDialog::isHalfWhist() {
+	return CP(WHIST_OPTION)==WO_HALF_WHIST;
+}
+
+void CalculatorDialog::showHideRow(int row,bool show){
+	showHideWidget(m_label[row], show);
+	showHideWidget(m_combo[row], show);
+}
+
 void CalculatorDialog::comboChanged(GtkWidget* w) {
 	updateScore();
+	if(isPreferans()){
+		setPreferansLabel();
+		showHideRow(1,isMisere() || !isHalfWhist());//tricks
+		showHideRow(3,!isMisere());//whist option
+	}
 }
