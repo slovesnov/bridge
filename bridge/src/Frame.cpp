@@ -12,8 +12,8 @@
 #include <glib/gstdio.h>
 #include "Frame.h"
 #include "dialogs/AboutDialog.h"
-#include "dialogs/ConverterDialog.h"
 #include "dialogs/CalculatorDialog.h"
+#include "dialogs/ConverterDialog.h"
 #include "dialogs/EditDescriptionDialog.h"
 #include "dialogs/EditListDialog.h"
 #include "dialogs/PbnEditorDialog.h"
@@ -577,11 +577,11 @@ void Frame::selectDeck() {
 }
 
 void Frame::suitsOrder() {
-	SuitsOrderDialog dialog;
+	SuitsOrderDialog d;
 }
 
 void Frame::calculator() {
-	CalculatorDialog dialog;
+	CalculatorDialog d;
 }
 
 #ifndef NDEBUG
@@ -740,7 +740,7 @@ void Frame::explorePbn(const char* dir, const char* filename) { //checks score c
 					 * doubleRedouble=0 simple game; =1 double; =2 redouble
 					 */
 					assert(score != -1);
-					countscore = countScore(contract, trump, result, doubleRedouble,
+					countscore = countBridgeScore(contract, trump, result, doubleRedouble,
 							declarer, vulnerable);
 					if (declarer % 2 == 1) {
 						countscore = -countscore;

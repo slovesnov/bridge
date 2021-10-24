@@ -2060,7 +2060,7 @@ void Problem::adjustPbnInfo() {
 		assert(it != m_pbnEntry.end());
 		k = INDEX_OF_NO_CASE(it->value,VULNERABLE);
 
-		j = countScore(m_contract, m_trump, result, i, getDeclarerInt(), k);
+		j = countBridgeScore(m_contract, m_trump, result, i, getDeclarerInt(), k);
 	}
 
 	it = findPbnEntry(PBN_SCORE_TAG);		//sometimes not found

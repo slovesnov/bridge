@@ -144,11 +144,10 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 	VString v;
 	VString fname;
 	VStringI it;
-	int i;
+	int i,j;
 	STRING_ID sid;
 	const char*p;
 	VStringID vid;
-	VStringIDI vit;
 
 	assert(SIZE(STRING_FILTER_EXT_FROM)==SIZE(STRING_FILTER_EXT_TO));
 
@@ -249,13 +248,14 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 		}
 	}
 
-	for (vit = vid.begin(); vit != vid.end(); vit++) {
+	j=0;
+	for (auto vit : vid) {
 		if (filetype == FILE_TYPE_IMAGE && menu == MENU_OPEN
-				&& vit == vid.begin()) {
+				&& j == 0) {
 			s = gconfig->m_allImageFormatString;
 		}
 		else {
-			i = INDEX_OF(*vit,STRING_FILTER_EXT_FROM);
+			i = INDEX_OF(vit,STRING_FILTER_EXT_FROM);
 			assert(i != -1);
 			s = STRING_FILTER_EXT_TO[i];
 		}
@@ -265,7 +265,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 		 * if 'save' option all supported formats (*.bts *.pts *.pbn *.txt *.dat *.htm *.html)
 		 */
 		if (option != CHOOSER_OPTION_DEFAULT && !openAll
-				&& *vit == STRING_FILE_FILTER_ALL_SUPPORTED) {
+				&& vit == STRING_FILE_FILTER_ALL_SUPPORTED) {
 			i = INDEX_OF(STRING_FILE_FILTER_HTML,STRING_FILTER_EXT_FROM);
 			assert(i != -1);
 			s += " ";
@@ -274,7 +274,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 
 		v = split(s, " ");
 		s = " (*." + replaceAll(s, " ", " *.") + ")";
-		fname.push_back(getString(*vit) + s);
+		fname.push_back(getString(vit) + s);
 
 		gtkFilter = gtk_file_filter_new();
 		gtk_file_filter_set_name(gtkFilter, fname.back().c_str());
@@ -289,6 +289,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 			gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), gtkFilter);
 		}
 
+		j++;
 	}
 
 	if (filepath.length() > 0) {
@@ -536,10 +537,11 @@ GtkWidget* Widget::createTextCombobox(const VString& text) {
 	return w;
 }
 
-GtkWidget* Widget::createTextCombobox(const STRING_ID i1, const STRING_ID i2) {
-	VString vs;
-	vs.push_back(getString(i1));
-	vs.push_back(getString(i2));
+GtkWidget* Widget::createTextCombobox(const STRING_ID i1, const STRING_ID i2,const STRING_ID i3 /*= STRING_INVALID*/) {
+	VString vs={getString(i1),getString(i2)};
+	if(i3!=STRING_INVALID){
+		vs.push_back(getString(i3));
+	}
 	return createTextCombobox(vs);
 }
 

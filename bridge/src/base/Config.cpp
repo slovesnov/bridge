@@ -318,25 +318,13 @@ void Config::load() {
 
 	loadConfig(m_map);
 
-	/* for version 5.2 "deck" -> "deck number",
-	 * "big arrow" -> "arrow number" big arrow=1 means arrow number=0 and
-	 * big arrow=0 means arrow number=1
-	 */
-	const double INVALID_VERSION=1000;
-	double readedVersion=INVALID_VERSION;
-	if(getStringBySignature(VERSION_SIGNATURE,s) ){
-		setlocale(LC_NUMERIC, "C");
-		readedVersion=std::stod(s);
-	}
-
-	if(readedVersion!=INVALID_VERSION && readedVersion<5.2 ){
-		if (getStringBySignature("deck", s)) {
-			m_map.insert( { "deck number", s });
-		}
-		if (getStringBySignature("big arrow", s)) {
-			m_map.insert( { "arrow number", s == "0" ? "1" : "0" });
-		}
-	}
+//Since version 5.2 config file if moved to another directory so don't need check older versions
+//	const double INVALID_VERSION=1000;
+//	double readedVersion=INVALID_VERSION;
+//	if(getStringBySignature(VERSION_SIGNATURE,s) ){
+//		setlocale(LC_NUMERIC, "C");
+//		readedVersion=std::stod(s);
+//	}
 
 	auto itStringPtr = storeVariablesString.begin();
 	for(auto& signature:storeVariablesStringNote){
@@ -370,10 +358,8 @@ void Config::load() {
 	}
 
 	//load recent files
-	if(readedVersion!=INVALID_VERSION && readedVersion>=5.2 ){
-		if (getStringBySignature(RECENT_FILES_SIGNATURE, s) && !s.empty()) {
-			m_recent = split(s, PATH_FORBIDDEN_CHAR);
-		}
+	if (getStringBySignature(RECENT_FILES_SIGNATURE, s) && !s.empty()) {
+		m_recent = split(s, PATH_FORBIDDEN_CHAR);
 	}
 
 	if (getStringBySignature(FONT_SIGNATURE, s)) {

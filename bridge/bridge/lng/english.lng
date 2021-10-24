@@ -23,7 +23,7 @@ menu
  815 "solve for all declarers and trumps"
  816 "clear deal"
  817 "generate random deal"
- 818 "score calculator (bridge)"
+ 818 "score calculator"
  819 "solve all opponents deals"
  820 "rotate table by 90° clockwise"
  821 "rotate table by 90° counterclockwise"
@@ -196,6 +196,14 @@ menu
 "Use plus/minus keys to inscrease/decrease card size. At some scales the cards may not look good, in which case you need to make the size a little bigger or a little smaller. To increase the maximum size of the cards, which depends on the set size of the arrows, you must first decrease the size of the arrows in the <i>view/select arrow</i> menu, and then return to the deck setup menu."
 "Use plus/minus keys to inscrease/decrease arrow size. To increase the maximum size of the arrows, which depends on the set size of the cards, you must first decrease the size of the cards in the <i>view/select deck</i> menu and then return to the arrow setting menu."
 "," thousands separator
+"whist"
+"pass"
+"half-whist"
+"whist option"
+"players"
+"<i>Note.</i> Whist option 'pass' means that someone else is whisting, and current player said pass."
+"player score"
+"whister score"
 
 
 200 "unknown error"

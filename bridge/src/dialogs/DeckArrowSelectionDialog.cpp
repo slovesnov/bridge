@@ -199,11 +199,9 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add(GTK_CONTAINER(box), m_hbox);
 
-	m_label=gtk_label_new(0);
-	gtk_label_set_markup (GTK_LABEL (m_label), getString(m_isDeck?STRING_DECK_SELECTION_HELP:STRING_ARROW_SELECTION_HELP));
-	gtk_label_set_justify(GTK_LABEL (m_label),GTK_JUSTIFY_FILL);
-	gtk_label_set_line_wrap(GTK_LABEL (m_label),TRUE);
-	gtk_label_set_max_width_chars(GTK_LABEL(m_label),40);
+	m_label = createMarkupLabel(
+			m_isDeck ? STRING_DECK_SELECTION_HELP : STRING_ARROW_SELECTION_HELP,
+			40);
 	gtk_container_add(GTK_CONTAINER(box), m_label);
 
 	gtk_container_add(GTK_CONTAINER(getContentArea()), box);

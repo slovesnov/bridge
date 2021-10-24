@@ -28,7 +28,6 @@ typedef VBool::iterator VBoolI;
 typedef std::vector<int> VInt;
 
 typedef std::vector<STRING_ID> VStringID;
-typedef VStringID::iterator VStringIDI;
 
 typedef std::set<std::string> SString;
 typedef std::set<int> SInt;
@@ -179,8 +178,10 @@ std::string getStringNoDots(MENU_ID id);
 FILE_TYPE getFileType(std::string filepath);
 int indexOfPlayer(CARD_INDEX player);
 CARD_INDEX playerFromChar(char c);
-int countScore(const int contract, const int trump, const int tricks,
+int countBridgeScore(const int contract, const int trump, const int tricks,
 		const int doubleRedouble, const int declarer, const int vulnerable);
+double countPreferansScore(bool playerScore,const int contract, const int tricks, const int players,
+		const int whistOption);
 std::string getSuitString(int suit);
 std::string getContractString(int n);
 const std::string getNTString();
@@ -280,4 +281,5 @@ std::string getDeckFileName(int n,bool svg=false);
 std::string intToStringLocaled(int v);
 void unsignedToGdkRGBA(unsigned v,GdkRGBA&c);
 
+GtkWidget* createMarkupLabel(STRING_ID id,int maxChars);
 #endif /* BASE_H_ */

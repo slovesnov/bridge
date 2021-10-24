@@ -85,7 +85,7 @@ void PbnEditorDialog::updateScore() {
 	}
 	else {
 		i = getProblem().getDeclarerInt(); //north east south west
-		j = countScore(getProblem().m_contract, getProblem().m_trump,
+		j = countBridgeScore(getProblem().m_contract, getProblem().m_trump,
 				getComboPosition(m_combo[PBN_EDITOR_COMBO_RESULT]),
 				getComboPosition(m_combo[PBN_EDITOR_COMBO_DOUBLE_REDOUBLE]), i,
 				getComboPosition(m_combo[PBN_EDITOR_COMBO_VULNERABLE]));

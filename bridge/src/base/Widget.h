@@ -252,7 +252,8 @@ public:
 	GtkWidget* createTextCombobox(const char* text[], guint size) {
 		return createTextCombobox(createStringVector(text, size));
 	}
-	GtkWidget* createTextCombobox(const STRING_ID i1, const STRING_ID i2);
+	GtkWidget* createTextCombobox(const STRING_ID i1, const STRING_ID i2,
+			const STRING_ID i3 = STRING_INVALID);
 
 	GtkWidget* createTextCombobox(int from, int to, int step = 1,
 			const char* additionalString = NULL);
