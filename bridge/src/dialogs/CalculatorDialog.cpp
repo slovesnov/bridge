@@ -9,6 +9,7 @@
  */
 
 #include "CalculatorDialog.h"
+#include "../helper/PreferansScore.h"
 
 enum {
 	BRIDGE_CALCULATOR_DIALOG_DECLARER,
@@ -29,6 +30,10 @@ enum {
 
 //	PREFERANS_CALCULATOR_DIALOG_SIZE
 };
+
+const int WO_WHIST=0;
+const int WO_HALF_WHIST=1;
+const int WO_PASS=2;
 
 static gboolean combo_changed(GtkWidget *w, CalculatorDialog* d) {
 	d->comboChanged(w);
@@ -108,6 +113,7 @@ CalculatorDialog::CalculatorDialog() :
 
 		l = { STRING_CONTRACT, STRING_TRICKS, STRING_PLAYERS,
 				STRING_WHIST_OPTION };
+		setComboPosition(m_combo[PREFERANS_CALCULATOR_DIALOG_TRICKS], 6);
 	}
 
 	g = gtk_grid_new();
@@ -117,6 +123,7 @@ CalculatorDialog::CalculatorDialog() :
 	gtk_widget_set_margin_end(g, hmargin);
 	gtk_widget_set_margin_top(g, 5);
 	gtk_widget_set_margin_bottom(g, 5);
+	gtk_widget_set_halign(g, GTK_ALIGN_CENTER);
 
 	auto &r = bridge ? wv : m_combo;
 	assert(l.size() == r.size());
@@ -160,42 +167,63 @@ CalculatorDialog::CalculatorDialog() :
 
 void CalculatorDialog::updateScore() {
 	int i;
-	std::string s;
-	VString v;
+	std::string s,v[2];
 
 	if(isBridge()){
+#define C(a)  getComboPosition(m_combo[BRIDGE_CALCULATOR_DIALOG_##a])
 		/* contract 1-7
 		 * result - tricks 0-13
 		 * zone=true if playing pair in a zone in pbn tag (vulnerable=NS && (declare 'N' or 'S') || vulnerable=EW && (declare 'E' or 'W') )
 		 * doubleRedouble=0 simple game; =1 double; =2 redouble
 		 */
-		const int declarer = getComboPosition(m_combo[BRIDGE_CALCULATOR_DIALOG_DECLARER]);
-		const int contract = getComboPosition(m_combo[BRIDGE_CALCULATOR_DIALOG_CONTRACT]) + 1;
+		const int declarer = C(DECLARER);
 
-		int r = countBridgeScore(contract,
-				getComboPosition(m_combo[BRIDGE_CALCULATOR_DIALOG_TRUMP]),
-				getComboPosition(m_combo[BRIDGE_CALCULATOR_DIALOG_TRICKS]),
-				getComboPosition(m_combo[BRIDGE_CALCULATOR_DIALOG_DOUBLE_REDOUBLE]), declarer,
-				getComboPosition(m_combo[BRIDGE_CALCULATOR_DIALOG_VULNERABLE]));
-
+		int r = countBridgeScore(C(CONTRACT) + 1,
+				C(TRUMP),
+				C(TRICKS),
+				C(DOUBLE_REDOUBLE), declarer,
+				C(VULNERABLE));
+#undef C
 		for (i = 0; i < 2; i++) {
-			v.push_back( format("%s/%s %d", m_player[i].c_str(), m_player[i + 2].c_str(),
-					declarer % 2 == i % 2 ? r : -r));
+			v[i]= format("%s/%s %d", m_player[i].c_str(), m_player[i + 2].c_str(),
+					declarer % 2 == i % 2 ? r : -r);
 		}
 	}
 	else{
-		double score[] = { 1.333, -4.0 };
+#define C(a)  getComboPosition(m_combo[PREFERANS_CALCULATOR_DIALOG_##a])
+		const int players = C(PLAYERS)+3;
+		const int c = C(CONTRACT) + 6;
+		const int contract = c == 11 ? 0 : c;
+		const int tricks = C(TRICKS);
+		const int wo = C(WHIST_OPTION);
+		const bool halfwhist = wo == WO_HALF_WHIST;
+/*
+		const int WO_WHIST=0;
+		const int WO_HALF_WHIST=1;
+		const int WO_PASS=2;
+*/
+		//printl(players, contract, tricks,halfwhist)
+#undef C
+		PreferansScore p;
+		if(halfwhist){
+			p.setHalfWhistGame(players, contract);
+		}
+		else{
+			p.setGame(players, contract, tricks);
+		}
+
+		double score[] = { p.playerScore(), wo==WO_PASS ?p.passScore() :p.whisterScore() };
 		for (i = 0; i < 2; i++) {
-			v.push_back(
+			v[i]=
 					getString(
 							i == 0 ? STRING_PLAYER_SCORE : STRING_WHISTER_SCORE)
-							+ normalize(format(" %.2lf", score[i])));
+							+ normalize(format(" %.2lf", score[i]));
 		}
 	}
 
 	i=0;
-	for (auto a:v) {
-		gtk_label_set_text(GTK_LABEL(m_score[i]), v[i].c_str());
+	for (auto a:m_score) {
+		gtk_label_set_text(GTK_LABEL(a), v[i].c_str());
 		i++;
 	}
 }
