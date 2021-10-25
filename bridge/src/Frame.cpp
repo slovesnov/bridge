@@ -135,6 +135,9 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 			G_CALLBACK(size_allocate), NULL);
 
 #ifndef NDEBUG
+	//TODO remove
+	menuClick(MENU_SOLVE_ALL_FOE);
+
 //	explorePbn("D:\\pbns","pbnStat.txt");
 
 //exploreCpp("D:\\slovesno\\MyProjects\\eclipse\\bridge_cpp\\bridge\\src","dirStat.txt",false);

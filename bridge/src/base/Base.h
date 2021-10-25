@@ -180,8 +180,6 @@ int indexOfPlayer(CARD_INDEX player);
 CARD_INDEX playerFromChar(char c);
 int countBridgeScore(const int contract, const int trump, const int tricks,
 		const int doubleRedouble, const int declarer, const int vulnerable);
-double countPreferansScore(bool playerScore,const int contract, const int tricks, const int players,
-		const int whistOption);
 std::string getSuitString(int suit);
 std::string getContractString(int n);
 const std::string getNTString();
@@ -281,5 +279,7 @@ std::string getDeckFileName(int n,bool svg=false);
 std::string intToStringLocaled(int v);
 void unsignedToGdkRGBA(unsigned v,GdkRGBA&c);
 
-GtkWidget* createMarkupLabel(STRING_ID id,int maxChars);
+GtkWidget* createMarkupLabel(std::string const& s,int maxChars=0);
+GtkWidget* createMarkupLabel(STRING_ID id,int maxChars=0);
+GtkWidget* createBoldLabel(STRING_ID id);
 #endif /* BASE_H_ */

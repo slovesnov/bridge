@@ -23,24 +23,33 @@ public:
 	GtkWidget* m_labelTotal;
 	GtkWidget* m_labelTotalTime;
 	GtkWidget* m_progressBar;
-	GtkWidget** m_labelThread;
+	VGtkWidgetPtr m_labelThread;
 	int m_result[MAX_RESULT_SIZE];
 	GtkWidget *m_loading;
-	GtkWidget* m_copyButton;
+	GtkWidget* m_button;
 	GtkWidget *m_combo;
+	//all widgets on 2nd tab has postfix 1 to avoid confusion
+	GtkWidget *m_combo1;
+	GtkWidget *m_label1;
+	GtkWidget *m_check1;
+	GtkWidget *m_notebook;
 	gint64 m_id;//read help in SolveAllFoeDialog.cpp
+	bool m_calculationsEnd;
 
 	SolveAllFoeDialog(int positons);
 	~SolveAllFoeDialog();
 	int resultSize()const;
 	void clickButton(GtkWidget *w);
-	void comboChanged();
+	void comboChanged(GtkWidget *w);
 	void updateLabels();
 	void reset();
 	void setPositions(int positions);
 	void setResults();
 	std::string getTotalTimeLabelString();
 	std::string getProgressBarString(bool b=true);
+	void addContractsScoringTab();
+	void toggle(GtkWidget *w);
+	void recountScores();
 };
 
 #endif /* DIALOGS_SOLVEALLFOEDIALOG_H_ */

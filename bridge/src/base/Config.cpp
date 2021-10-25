@@ -710,7 +710,7 @@ void Config::loadCSS(){
 	}
 
 	std::string s ="@define-color font_color "+fc+";"
-			+"GtkDialog,dialog{"+p+";}"
+			+"GtkDialog,dialog,notebook stack{"+p+";}"
 			+"textview, entry, label, progressbar, scale{"+
 			+"font-size:"+std::to_string(getFontHeight(m_font))+"pt;"
 			+"font-family:"+pango_font_description_get_family(m_font)+";"

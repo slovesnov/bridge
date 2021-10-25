@@ -387,6 +387,18 @@ public:
 	 */
 	Widget(const Widget&) = delete;
 
+	GtkWidget* label(STRING_ID id){
+		return gtk_label_new(getString(id));
+	}
+
+	GtkWidget* label(){
+		return gtk_label_new("");
+	}
+
+	GtkWidget* label(std::string s){
+		return gtk_label_new(s.c_str());
+	}
+
 };
 
 

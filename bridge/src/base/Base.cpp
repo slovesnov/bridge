@@ -165,21 +165,6 @@ int countBridgeScore(const int contract, const int trump, const int tricks,
 	return res;
 }
 
-/* playerScore=true count player score, otherwise count whister score
- * contract 6-10, 0 - if mizer
- * tricks 0-10
- * players 3,4
- * whistOption - {
- * 0 - player say whist all others say pass
- * 1 - player say pass and someone say whist so count consolation
- * 2 - player say half-whist and all other players say pass (in this case tricks doesn't matter)
- * }
- */
-double countPreferansScore(bool playerScore,const int contract, const int tricks, const int players,
-		const int whistOption){
-	return 0;
-}
-
 const std::string getNTString() {
 	std::string s = getString(STRING_NT);
 	return g_utf8_strup(s.c_str(), s.length()); //to upper case
@@ -662,12 +647,25 @@ void unsignedToGdkRGBA(unsigned v, GdkRGBA &c) {
 	c.red = ((v >> 24) & 0xff) / 255.;
 }
 
-GtkWidget* createMarkupLabel(STRING_ID id, int maxChars) {
+GtkWidget* createMarkupLabel(std::string const& s,int maxChars/*=0*/){
 	auto l = gtk_label_new(0);
 	auto a = GTK_LABEL(l);
-	gtk_label_set_markup(a, getString(id));
+	gtk_label_set_markup(a, s.c_str());
 	gtk_label_set_justify(a, GTK_JUSTIFY_FILL);
 	gtk_label_set_line_wrap(a, TRUE);
-	gtk_label_set_max_width_chars(a, maxChars);
+	if(maxChars){
+		gtk_label_set_max_width_chars(a, maxChars);
+	}
 	return l;
 }
+
+GtkWidget* createMarkupLabel(STRING_ID id, int maxChars/*=0*/) {
+	std::string s=getString(id);
+	return createMarkupLabel(s,maxChars);
+}
+
+GtkWidget* createBoldLabel(STRING_ID id){
+	std::string s=getString(id);
+	return createMarkupLabel("<b>"+s+"</b>");
+}
+
