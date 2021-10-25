@@ -489,7 +489,18 @@ void SolveAllFoeDialog::recountScores() {
 	auto players = getComboPosition(m_combo1) + 3;
 	bool halfWhist = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(m_check1))
 			== 1;
-
+	int contract,tricks;
 	PreferansScore p;
-	printl(players,halfWhist)
+
+	for (tricks = 0; tricks <= 10; tricks++) {
+		for (contract = 6; contract <= 10; contract++) {
+			if (halfWhist) {
+				p.setHalfWhistGame(players, contract);
+			} else {
+				p.setGame(players, contract, tricks);
+			}
+		}
+	}
+
+
 }
