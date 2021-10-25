@@ -13,9 +13,15 @@
 
 typedef std::vector<double> VDouble;
 
+enum WHIST_OPTION{
+	WHIST_OPTION_WHIST,/*first player whist, others pass*/
+	WHIST_OPTION_HALFWHIST,/*first player half whist, others pass*/
+	WHIST_OPTION_ALL_PASS,/*all players pass*/
+};
+
 class PreferansScore {
 	int m_players,m_contract,m_tricks;
-	bool m_halfwhist;
+	WHIST_OPTION m_whistOption;
 	int m_pg[4];
 	double m_score[4];
 	int m_whist[16];
@@ -23,11 +29,10 @@ class PreferansScore {
 	void check(int player);
 	//from,to 0-players-1
 	int& whist(int from,int to);
-	void setGame(int players, int contract, int tricks,bool halfwhist);
+	void setGame(int players, int contract, int tricks,WHIST_OPTION whistOption);
 public:
 	static const int player=0;
 	static const int whister=1;
-	static const int pass=2;
 
 	/* players 3,4
 	 * contract 6-10,0-misere
@@ -36,10 +41,10 @@ public:
 	 * assume player is always first player, active whister(only one) second player
 	 */
 	void setGame(int players, int contract, int tricks){
-		setGame(players, contract, tricks,false);
+		setGame(players, contract, tricks,WHIST_OPTION_WHIST);
 	}
-	void setHalfWhistGame(int players, int contract){
-		setGame(players, contract, contract,true);
+	void setNonPlayingGame(int players, int contract,bool halfwhist){
+		setGame(players, contract, contract,halfwhist?WHIST_OPTION_HALFWHIST:WHIST_OPTION_ALL_PASS);
 	}
 
 	PreferansScore() {
@@ -49,8 +54,8 @@ public:
 		setGame(players, contract, tricks);
 	}
 
-	PreferansScore(int players, int contract) {
-		setHalfWhistGame(players, contract);
+	PreferansScore(int players, int contract,bool halfwhist) {
+		setNonPlayingGame(players, contract,halfwhist);
 	}
 
 	VDouble score();
@@ -62,10 +67,6 @@ public:
 	//active whister
 	double whisterScore(){
 		return m_score[whister];
-	}
-
-	double passScore(){
-		return m_score[pass];
 	}
 
 	void print();

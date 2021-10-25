@@ -27,10 +27,6 @@ static gboolean combo_changed(GtkWidget *w, gpointer) {
 	return TRUE;
 }
 
-static void toggle_check(GtkWidget *w, gpointer) {
-	d->toggle(w);
-}
-
 SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 		ButtonsDialogWithProblem(MENU_SOLVE_ALL_FOE, false,
 				BUTTONS_DIALOG_NONE),m_positions(positons) {
@@ -343,7 +339,7 @@ int SolveAllFoeDialog::resultSize()const{
 }
 
 void SolveAllFoeDialog::comboChanged(GtkWidget *w){
-	if(w==m_combo1){
+	if(w==m_combo1[0] || w==m_combo1[1]){
 		recountScores();
 		return;
 	}
@@ -415,7 +411,7 @@ std::string SolveAllFoeDialog::getProgressBarString(bool b) {
 }
 
 void SolveAllFoeDialog::addContractsScoringTab() {
-	int i,j,k;
+	int i,j;
 	GtkWidget*g,*w,*w1;
 	std::string s;
 
@@ -425,39 +421,54 @@ void SolveAllFoeDialog::addContractsScoringTab() {
 
 	j=0;
 	const int columns=3;
+	const int trump=getTrump();
 
-	for(k=0;k<2;k++){
-		gtk_grid_attach(GTK_GRID(g), createBoldLabel(STRING_CONTRACT), 0, j, 1, 1);
-		gtk_grid_attach(GTK_GRID(g), createBoldLabel(STRING_PLAYER_SCORE), 1, j, 1, 1);
-		gtk_grid_attach(GTK_GRID(g), createBoldLabel(k?STRING_CATCHERS_SCORE:STRING_WHISTERS_SCORE), 2, j, 1, 1);
-		j++;
+	gtk_grid_attach(GTK_GRID(g), createBoldLabel(STRING_CONTRACT), 0, j, 1, 1);
+	gtk_grid_attach(GTK_GRID(g), createBoldLabel(STRING_PLAYER_SCORE), 1, j, 1, 1);
+	gtk_grid_attach(GTK_GRID(g),
+			createBoldLabel(
+					isMisere() ? STRING_CATCHERS_SCORE : STRING_WHISTERS_SCORE),
+			2, j, 1, 1);
+	j++;
 
-		if (!k) {
-			for (i = 6; i <= 10; i++) {
-				s = std::to_string(i);
-				gtk_grid_attach(GTK_GRID(g), label(s), 0, j++, 1, 1);
+	if(isMisere()){
+		gtk_grid_attach(GTK_GRID(g), label(STRING_MISERE), 0, j++, 1, 1);
+	}
+	else{
+		for (i = 6; i <= 10; i++) {
+			s = std::to_string(i);
+			if(trump==NT){
+				s+=" "+getNTString();
+				w=label(s);
 			}
+			else{
+				w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+				gtk_container_add(GTK_CONTAINER(w), label(s));
+				gtk_container_add(GTK_CONTAINER(w),
+						gtk_image_new_from_pixbuf(m_suitPixbuf[trump]));
+				gtk_widget_set_halign(w, GTK_ALIGN_CENTER);
+
+			}
+			gtk_grid_attach(GTK_GRID(g), w, 0, j++, 1, 1);
 		}
 	}
 
-	gtk_grid_attach(GTK_GRID(g), label(STRING_MISERE), 0, j++, 1, 1);
 
 	w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-	m_combo1=createTextCombobox(3, 4);
-	g_signal_connect(m_combo1, "changed", G_CALLBACK(combo_changed),
-			gpointer(0));
-	m_check1 = gtk_check_button_new_with_label(getString(STRING_HALF_WHIST_IS_POSSIBLE));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(m_check1), TRUE);
-	g_signal_connect(m_check1, "toggled", G_CALLBACK (toggle_check),
-			gpointer(0));
+	m_combo1[0]=createTextCombobox(3, 4);
+	m_combo1[1]=createTextCombobox(STRING_WHIST, 3);
 
-	w1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-	gtk_container_add(GTK_CONTAINER(w1), label(STRING_PLAYERS));
-	gtk_container_add(GTK_CONTAINER(w1), m_combo1);
+	i=0;
+	for(auto a:m_combo1){
+		w1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+		gtk_container_add(GTK_CONTAINER(w1), label(i==0?STRING_PLAYERS:STRING_WHIST_OPTION));
+		gtk_container_add(GTK_CONTAINER(w1), a);
+		gtk_widget_set_halign(w1, GTK_ALIGN_CENTER);
+		gtk_box_pack_start(GTK_BOX(w), w1, TRUE, TRUE, 0);
 
-	for(auto& a:{w1,m_check1}){
-		gtk_widget_set_halign(a, GTK_ALIGN_CENTER);
-		gtk_box_pack_start(GTK_BOX(w), a, TRUE, TRUE, 0);
+		g_signal_connect(a, "changed", G_CALLBACK(combo_changed),
+				gpointer(0));
+		i++;
 	}
 
 	auto f= gtk_frame_new(getString(STRING_OPTIONS));
@@ -481,26 +492,21 @@ void SolveAllFoeDialog::addContractsScoringTab() {
 	gtk_notebook_next_page(GTK_NOTEBOOK(m_notebook));
 }
 
-void SolveAllFoeDialog::toggle(GtkWidget *w) {
-	recountScores();
-}
-
 void SolveAllFoeDialog::recountScores() {
-	auto players = getComboPosition(m_combo1) + 3;
-	bool halfWhist = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(m_check1))
-			== 1;
+	auto players = getComboPosition(m_combo1[0]) + 3;
+	WHIST_OPTION wo=WHIST_OPTION(getComboPosition(m_combo1[1]));
 	int contract,tricks;
 	PreferansScore p;
 
+	printl(players,wo)
+
 	for (tricks = 0; tricks <= 10; tricks++) {
 		for (contract = 6; contract <= 10; contract++) {
-			if (halfWhist) {
-				p.setHalfWhistGame(players, contract);
-			} else {
+			if (wo==WHIST_OPTION_WHIST) {
 				p.setGame(players, contract, tricks);
+			} else {
+				p.setNonPlayingGame(players, contract,wo==WHIST_OPTION_HALFWHIST);
 			}
 		}
 	}
-
-
 }

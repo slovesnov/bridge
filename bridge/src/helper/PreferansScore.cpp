@@ -21,7 +21,7 @@ int& PreferansScore::whist(int from, int to) {
 }
 
 void PreferansScore::setGame(int players, int contract, int tricks,
-		bool halfwhist) {
+		WHIST_OPTION whistOption) {
 	assert(players == 3 || players == 4);
 	assert(contract == 0 || (contract >= 6 && contract <= 10));
 	assert(tricks >= 0 && tricks <= 10);
@@ -30,9 +30,9 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 	double v;
 
 	m_players = players;
-	m_contract=contract;
-	m_tricks=tricks;
-	m_halfwhist=halfwhist;
+	m_contract = contract;
+	m_tricks = tricks;
+	m_whistOption = whistOption;
 
 	for (auto &a : m_pg) {
 		a = 0;
@@ -41,8 +41,9 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 		a = 0;
 	}
 
+	const int c = 2 * (contract - 5);
+
 	if (contract == 0) {
-		assert(!halfwhist);
 		m_pg[player] = tricks == 0 ? 10 : -10 * tricks;
 	}
 	else{
@@ -50,29 +51,36 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 		const int whistertricks = 10 - tricks;
 		const int MIN_WHISTER_TRICKS[]={4,2,1,1,0};
 		const bool contractDone = undertricks <= 0;
-		const int c = 2 * (contract - 5);
 		const int minwhistertricks=MIN_WHISTER_TRICKS[contract-6];
 
+		if(m_whistOption==WHIST_OPTION_HALFWHIST || m_whistOption==WHIST_OPTION_ALL_PASS){
+			assert(tricks==contract);
+		}
 		m_pg[player] = c * (contractDone ? 1 : -undertricks);
 
-		//http://pref-bridge.ru/PrefRulesCommon3.htm
-		if(contractDone){
-			if (whistertricks < minwhistertricks) {
-				m_pg[whister] = c * (whistertricks - minwhistertricks);
-			}
-		}
-		else{
-			//[en] consolation - penalty whists [ru] консол€ци€
-			for (i = 0; i < m_players; i++) {
-				if (i != player) {
-					whist(i, player) = c * undertricks;
-				}
-			}
+		if(m_whistOption==WHIST_OPTION_ALL_PASS){
 
 		}
-		whist(1, player) += c * whistertricks;
-		if(halfwhist){
-			whist(1, player)/=2;
+		else{
+			//http://pref-bridge.ru/PrefRulesCommon3.htm
+			if(contractDone){
+				if (whistertricks < minwhistertricks) {
+					m_pg[whister] = c * (whistertricks - minwhistertricks);
+				}
+			}
+			else{
+				//[en] consolation - penalty whists [ru] консол€ци€
+				for (i = 0; i < m_players; i++) {
+					if (i != player) {
+						whist(i, player) = c * undertricks;
+					}
+				}
+
+			}
+			whist(1, player) += c * whistertricks;
+			if(m_whistOption==WHIST_OPTION_HALFWHIST){
+				whist(1, player)/=2;
+			}
 		}
 	}
 
@@ -100,7 +108,7 @@ VDouble PreferansScore::score() {
 void PreferansScore::print() {
 	int i, j, k;
 	printzn("players = ", m_players, ", contract = ", m_contract, ", tricks = ",
-			m_tricks, ", halfwhist = ", m_halfwhist);
+			m_tricks, ", whist option = ", m_whistOption);
 	for (i = 0; i < m_players; i++) {
 		if (m_pg[i]) {
 			printzn("pg", i + 1, " = ", m_pg[i]);

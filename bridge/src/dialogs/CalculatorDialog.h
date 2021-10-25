@@ -22,7 +22,6 @@ class CalculatorDialog: public BaseDialog {
 	void setPreferansLabel();
 	int getPrerefansContract();
 	bool isMisere();
-	bool isHalfWhist();
 	void showHideRow(int row,bool show);
 public:
 	CalculatorDialog();

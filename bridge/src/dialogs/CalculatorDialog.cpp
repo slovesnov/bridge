@@ -31,9 +31,6 @@ enum {
 //	PREFERANS_CALCULATOR_DIALOG_SIZE
 };
 
-const int WO_WHIST=0;
-const int WO_HALF_WHIST=1;
-
 #define BC(a) m_combo[BRIDGE_CALCULATOR_DIALOG_##a]
 #define CB(a) getComboPosition(BC(a))
 
@@ -102,11 +99,10 @@ CalculatorDialog::CalculatorDialog() :
 
 	}
 	else{
-		//STRING_PASS
 		m_combo =
 				{ createTextCombobox(6, 10, 1, getString(STRING_MISERE)),
 						createTextCombobox(0, 10), createTextCombobox(3, 4),
-				createTextCombobox(STRING_WHIST, STRING_HALF_WHIST) };
+				createTextCombobox(STRING_WHIST, 3) };
 
 		l = { STRING_CONTRACT, STRING_TRICKS, STRING_PLAYERS,
 				STRING_WHIST_OPTION };
@@ -201,12 +197,13 @@ void CalculatorDialog::updateScore() {
 		const int players = CP(PLAYERS)+3;
 		const int contract = getPrerefansContract();
 		const int tricks = CP(TRICKS);
+		WHIST_OPTION wo=WHIST_OPTION(CP(WHIST_OPTION));
 		PreferansScore p;
-		if(isHalfWhist() && contract!=0){
-			p.setHalfWhistGame(players, contract);
+		if(isMisere() || wo==WHIST_OPTION_WHIST ){
+			p.setGame(players, contract, tricks);
 		}
 		else{
-			p.setGame(players, contract, tricks);
+			p.setNonPlayingGame(players, contract,wo==WHIST_OPTION_HALFWHIST);
 		}
 		auto sc=p.score();
 		for (i = 0; i < 2; i++) {
@@ -243,10 +240,6 @@ bool CalculatorDialog::isMisere() {
 	return getPrerefansContract()==0;
 }
 
-bool CalculatorDialog::isHalfWhist() {
-	return CP(WHIST_OPTION)==WO_HALF_WHIST;
-}
-
 void CalculatorDialog::showHideRow(int row,bool show){
 	showHideWidget(m_label[row], show);
 	showHideWidget(m_combo[row], show);
@@ -256,7 +249,7 @@ void CalculatorDialog::comboChanged(GtkWidget* w) {
 	updateScore();
 	if(isPreferans()){
 		setPreferansLabel();
-		showHideRow(1,isMisere() || !isHalfWhist());//tricks
+		showHideRow(1,isMisere() || CP(WHIST_OPTION)==WHIST_OPTION_WHIST);//tricks
 		showHideRow(3,!isMisere());//whist option
 	}
 }

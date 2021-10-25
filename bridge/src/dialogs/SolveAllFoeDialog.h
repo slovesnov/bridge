@@ -29,9 +29,8 @@ public:
 	GtkWidget* m_button;
 	GtkWidget *m_combo;
 	//all widgets on 2nd tab has postfix 1 to avoid confusion
-	GtkWidget *m_combo1;
+	GtkWidget *m_combo1[2];
 	GtkWidget *m_label1;
-	GtkWidget *m_check1;
 	GtkWidget *m_notebook;
 	gint64 m_id;//read help in SolveAllFoeDialog.cpp
 	bool m_calculationsEnd;
@@ -48,7 +47,6 @@ public:
 	std::string getTotalTimeLabelString();
 	std::string getProgressBarString(bool b=true);
 	void addContractsScoringTab();
-	void toggle(GtkWidget *w);
 	void recountScores();
 };
 
