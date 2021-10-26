@@ -29,9 +29,9 @@ public:
 	GtkWidget* m_button[2];
 	GtkWidget *m_combo[3];
 	GtkWidget *m_grid;
+	GtkWidget *m_labelPercentTab2;
 	GtkWidget *m_notebook;
 	gint64 m_id;//read help in SolveAllFoeDialog.cpp
-	bool m_calculationsEnd;//TODO not need any more
 
 	SolveAllFoeDialog(int positons);
 	~SolveAllFoeDialog();
@@ -44,12 +44,13 @@ public:
 	void setResults();
 	std::string getTotalTimeLabelString();
 	std::string getProgressBarString(bool b=true);
-	void addContractsScoringTab();
-	void recountScores();
+	GtkWidget* createTab2();
+	void updateTab2();
 	void addGridRow(GtkWidget *w,int row);
 	void setGridLabels(int contract,const VDouble& v);
 	int getPreferansPlayers();
-	void updateNumberOfPlayers();
+	void updateNumberOfPlayersTab2();
+	std::string getPercentString();
 };
 
 #endif /* DIALOGS_SOLVEALLFOEDIALOG_H_ */

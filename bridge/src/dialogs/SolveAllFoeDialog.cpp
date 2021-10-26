@@ -55,19 +55,21 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 	const int leftMargin=20;
 
 	d=this;
-	m_calculationsEnd=false;
 
 	reset();
 	m_labelTotal = gtk_label_new("");
 	m_labelTotalTime = gtk_label_new("");
 	m_progressBar = gtk_progress_bar_new();
 	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(m_progressBar), TRUE);
-	m_loading[TAB1] =gtk_spinner_new ();
-	gtk_spinner_start (GTK_SPINNER(m_loading[TAB1]));
-
-	m_button[TAB1]=createButton(NULL, STRING_COPY_TO_CLIPBOARD);
-	g_signal_connect(m_button[TAB1], "clicked", G_CALLBACK(button_clicked),
-			gpointer(0));
+	for(auto& a:m_loading){
+		a =gtk_spinner_new ();
+		gtk_spinner_start (GTK_SPINNER(a));
+	}
+	for(auto& a:m_button){
+		a=createButton(NULL, STRING_COPY_TO_CLIPBOARD);
+		g_signal_connect(a, "clicked", G_CALLBACK(button_clicked),
+				gpointer(0));
+	}
 
 	/* for long preferans problems, leave m_copyButton is active,
 	 * because user may be want to save intermediate results
@@ -245,12 +247,25 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 	m_notebook = gtk_notebook_new();
 	gtk_notebook_append_page(GTK_NOTEBOOK(m_notebook), g1,
 			label(STRING_CALCULATIONS));
+
+	gtk_notebook_append_page(GTK_NOTEBOOK(m_notebook), createTab2(),
+			label(STRING_CONTRACTS_SCORING));
+
 	gtk_container_add(GTK_CONTAINER(getContentArea()), m_notebook);
 
 	updateLabels();
 	setInnerTable(getProblem());
 	g_signal_connect(getWidget(), "response", G_CALLBACK(close_dialog), NULL);
+
+	updateTab2();
+
 	show();
+
+	updateNumberOfPlayersTab2();
+
+	//TODO remove
+	//gtk_notebook_set_current_page(GTK_NOTEBOOK(m_notebook),1);
+	gtk_notebook_next_page(GTK_NOTEBOOK(m_notebook));
 }
 
 SolveAllFoeDialog::~SolveAllFoeDialog(){
@@ -308,16 +323,16 @@ void SolveAllFoeDialog::updateLabels() {
 
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(m_progressBar), m_fraction);
 
-	//somehow call many times with m_total == m_positions
-	//not helps if (m_total == m_positions && gtk_notebook_get_n_pages(GTK_NOTEBOOK(m_notebook))) {
-	if (m_total == m_positions && !m_calculationsEnd) {
-		m_calculationsEnd=true;
-		gtk_spinner_stop (GTK_SPINNER(m_loading[TAB1]));
-		addContractsScoringTab();
+	if (m_total == m_positions) {
+		for(auto a:m_loading){
+			gtk_spinner_stop (GTK_SPINNER(a));
+		}
 		//gtk_widget_set_sensitive(m_copyButton, TRUE);
 	}
 
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(m_progressBar), getProgressBarString().c_str());
+
+	updateTab2();
 }
 
 void SolveAllFoeDialog::clickButton(GtkWidget* w) {
@@ -375,9 +390,9 @@ int SolveAllFoeDialog::resultSize()const{
 void SolveAllFoeDialog::comboChanged(GtkWidget *w){
 	if(w==m_combo[PREFERANS_PLAYERS_COMBO] || w==m_combo[PREFERANS_WHIST_OPTION_COMBO]){
 		if(w==m_combo[PREFERANS_PLAYERS_COMBO]){
-			updateNumberOfPlayers();
+			updateNumberOfPlayersTab2();
 		}
-		recountScores();
+		updateTab2();
 		return;
 	}
 	setBridgeFoeAbsentNS(!gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[TAB1])));
@@ -443,19 +458,22 @@ std::string SolveAllFoeDialog::getTotalTimeLabelString() {
 }
 
 std::string SolveAllFoeDialog::getProgressBarString(bool b) {
-	return format(isBridge() ? "%.3lf%%" : "%.0lf%%", m_fraction * 100) + (b?"   ":" ")
-			+ intToStringLocaled(m_total) + "/" + intToStringLocaled(m_positions);
+	return getPercentString() + (b ? "   " : " ") + intToStringLocaled(m_total)
+			+ "/" + intToStringLocaled(m_positions);
 }
 
-void SolveAllFoeDialog::addContractsScoringTab() {
+GtkWidget* SolveAllFoeDialog::createTab2() {
 	int i,j;
 	GtkWidget *w,*w1,*w2;
 	std::string s;
 	const int trump=getTrump();
 
+	//m_button,m_loading are created
+
 	m_combo[PREFERANS_PLAYERS_COMBO]=createTextCombobox(3, 4);
 	s=getString(STRING_WHIST_OPTIONS_COMBO);
 	m_combo[PREFERANS_WHIST_OPTION_COMBO]=createTextCombobox(split(s,'#'));
+	m_grid=gtk_grid_new();
 
 	w2=gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
 
@@ -464,7 +482,6 @@ void SolveAllFoeDialog::addContractsScoringTab() {
 					STRING_TABLE_EV_CAPTION_MISERE : STRING_TABLE_EV_CAPTION);
 	gtk_container_add(GTK_CONTAINER(w2), w);
 
-	m_grid=gtk_grid_new();
 	//gtk_grid_set_column_spacing(GTK_GRID(m_grid1), 4);
 	gtk_grid_set_row_spacing(GTK_GRID(m_grid), 4);
 	j=0;
@@ -508,12 +525,14 @@ void SolveAllFoeDialog::addContractsScoringTab() {
 	}
 	gtk_container_add(GTK_CONTAINER(w2), m_grid);
 
-	m_button[TAB2]=createButton(NULL, STRING_COPY_TO_CLIPBOARD);
-	g_signal_connect(m_button[TAB2], "clicked", G_CALLBACK(button_clicked),
-			gpointer(0));
-	w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 15);
 	gtk_container_add(GTK_CONTAINER(w), m_button[TAB2]);
+	gtk_widget_set_size_request(m_loading[TAB2], 32, 32);//otherwise small
+	gtk_container_add(GTK_CONTAINER(w), m_loading[TAB2]);
+	m_labelPercentTab2=label();
+	gtk_container_add(GTK_CONTAINER(w), m_labelPercentTab2);
 	gtk_container_add(GTK_CONTAINER(w2), w);
+
 
 	w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 	i=0;
@@ -542,19 +561,10 @@ void SolveAllFoeDialog::addContractsScoringTab() {
 	w = createMarkupLabel(STRING_CONTRACTS_SCORING_HELP,60);
 	gtk_container_add(GTK_CONTAINER(w2), w);
 
-	gtk_notebook_append_page(GTK_NOTEBOOK(m_notebook), w2,
-			label(STRING_CONTRACTS_SCORING));
-
-	gtk_widget_show_all(m_notebook);
-
-	updateNumberOfPlayers();
-	recountScores();
-
-	//TODO remove
-	//gtk_notebook_next_page(GTK_NOTEBOOK(m_notebook));
+	return w2;
 }
 
-void SolveAllFoeDialog::recountScores() {
+void SolveAllFoeDialog::updateTab2() {
 	int players = getPreferansPlayers();
 	int option = getComboPosition(m_combo[PREFERANS_WHIST_OPTION_COMBO]);
 	int contract, tricks, whisterstricks;
@@ -638,6 +648,10 @@ void SolveAllFoeDialog::recountScores() {
 			}
 		}
 	}
+
+	s=m_total == m_positions ?"":getPercentString();
+	gtk_label_set_text(GTK_LABEL(m_labelPercentTab2), s.c_str());
+
 }
 
 void SolveAllFoeDialog::addGridRow(GtkWidget *w, int row) {
@@ -650,9 +664,13 @@ void SolveAllFoeDialog::addGridRow(GtkWidget *w, int row) {
 void SolveAllFoeDialog::setGridLabels(int contract,const VDouble& v) {
 	std::string s;
 	int i=0;
+	g_mutex_lock(&gdraw->m_solveAllMutex);
+	const bool empty=m_total==0;
+	g_mutex_unlock(&gdraw->m_solveAllMutex);
+
 	for (auto a:v) {
 		auto w = gtk_grid_get_child_at(GTK_GRID(m_grid), i + 1, isMisere()?1:contract - 5);
-		s = normalize(format("%.2lf", a));
+		s = empty ? "?":normalize(format("%.2lf", a));
 		gtk_label_set_text(GTK_LABEL(w), s.c_str());
 		i++;
 	}
@@ -662,10 +680,14 @@ int SolveAllFoeDialog::getPreferansPlayers() {
 	return getComboPosition(m_combo[PREFERANS_PLAYERS_COMBO]) + 3;
 }
 
-void SolveAllFoeDialog::updateNumberOfPlayers() {
+void SolveAllFoeDialog::updateNumberOfPlayersTab2() {
 	int players = getPreferansPlayers();
 	for (int i = 0; i < (isMisere() ? 2 : 6); i++) {
 		auto w = gtk_grid_get_child_at(GTK_GRID(m_grid), 4, i);
 		showHideWidget(w, players == 4);
 	}
+}
+
+std::string SolveAllFoeDialog::getPercentString() {
+	return format(isBridge() ? "%.3lf%%" : "%.0lf%%", m_fraction * 100);
 }
