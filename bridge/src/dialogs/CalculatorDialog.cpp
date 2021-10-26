@@ -146,16 +146,15 @@ CalculatorDialog::CalculatorDialog() :
 		}
 	}
 	else{
-		m_label[4]=gtk_label_new(0);
-		setPreferansLabel();
 		w1 = gtk_grid_new();
 		for(i=0;i<2;i++){
-			w2= i==0? gtk_label_new(getString(STRING_PLAYER_SCORE)):m_label[4];
+			w2= m_label[i+4]=label();
 			gtk_widget_set_halign(w2, GTK_ALIGN_END);
 			gtk_grid_attach(GTK_GRID(w1), w2, 0, i, 1, 1);
 			gtk_widget_set_halign(m_score[i], GTK_ALIGN_START);
 			gtk_grid_attach(GTK_GRID(w1), m_score[i], 1, i, 1, 1);
 		}
+		setPreferansLabels();
 	}
 
 	gtk_grid_attach(GTK_GRID(w), w1, 0, 1, 1, 1);
@@ -217,11 +216,15 @@ void CalculatorDialog::updateScore() {
 	}
 }
 
-void CalculatorDialog::setPreferansLabel() {
+void CalculatorDialog::setPreferansLabels() {
 	gtk_label_set_text(GTK_LABEL(m_label[4]),
 			getString(
 					isMisere() ?
-							STRING_CATCHERS_SCORE : STRING_WHISTERS_SCORE));
+							STRING_MISERE_PLAYER : STRING_DECLARER));
+	gtk_label_set_text(GTK_LABEL(m_label[5]),
+			getString(
+					isMisere() ?
+							STRING_CATCHERS : STRING_WHISTERS));
 }
 
 int CalculatorDialog::getPrerefansContract() {
@@ -241,7 +244,7 @@ void CalculatorDialog::showHideRow(int row,bool show){
 void CalculatorDialog::comboChanged(GtkWidget* w) {
 	updateScore();
 	if(isPreferans()){
-		setPreferansLabel();
+		setPreferansLabels();
 		showHideRow(1,isMisere() || CP(WHIST_OPTION)==WHIST_OPTION_WHIST);//tricks
 		showHideRow(3,!isMisere());//whist option
 	}

@@ -30,7 +30,7 @@ public:
 	GtkWidget *m_combo;
 	//all widgets on 2nd tab has postfix 1 to avoid confusion
 	GtkWidget *m_combo1[2];
-	GtkWidget *m_label1,*m_grid1;
+	GtkWidget *m_label1,*m_grid1,* m_button1;
 	GtkWidget *m_notebook;
 	gint64 m_id;//read help in SolveAllFoeDialog.cpp
 	bool m_calculationsEnd;
