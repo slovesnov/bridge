@@ -351,9 +351,11 @@ void SolveAllFoeDialog::clickButton(GtkWidget* w) {
 
 		s+="\n";
 
+		g_mutex_lock(&gdraw->m_solveAllMutex);
 		for (i = 0; i < resultSize(); i++) {
 			s += format("%d %d\n", i, m_result[i]);
 		}
+		g_mutex_unlock(&gdraw->m_solveAllMutex);
 
 		if(m_total != m_positions){
 			s+=getTotalTimeLabelString()+"\n"+getProgressBarString(false);
@@ -400,8 +402,8 @@ void SolveAllFoeDialog::comboChanged(GtkWidget *w){
 void SolveAllFoeDialog::reset(){
 	m_id=g_get_real_time();
 	m_begin = clock();
-	for (int& q :m_result) {
-		q = 0;
+	for (int& a :m_result) {
+		a = 0;
 	}
 }
 
@@ -545,7 +547,7 @@ void SolveAllFoeDialog::addContractsScoringTab() {
 	recountScores();
 
 	//TODO remove
-	gtk_notebook_next_page(GTK_NOTEBOOK(m_notebook));
+	//gtk_notebook_next_page(GTK_NOTEBOOK(m_notebook));
 }
 
 void SolveAllFoeDialog::recountScores() {
@@ -561,9 +563,11 @@ void SolveAllFoeDialog::recountScores() {
 	double ev;
 	const int MIN_WHIST_TRICKS[] = { 4, 2, 1, 1, 0 };
 
+	g_mutex_lock(&gdraw->m_solveAllMutex);
 	for (i = 0; i < MAX_RESULT_SIZE; i++) {
 		probability[i] = double(m_result[i]) / m_total;
 	}
+	g_mutex_unlock(&gdraw->m_solveAllMutex);
 
 	for (tricks = 0; tricks <= 10; tricks++) {
 		for (auto c :{0,6,7,8,9,10}) {
