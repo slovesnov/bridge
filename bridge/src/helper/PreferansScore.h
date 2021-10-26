@@ -26,8 +26,6 @@ class PreferansScore {
 	int m_pg[4];
 	VDouble m_score;
 	int m_whist[16];
-	//player 0-players-1
-	void check(int player);
 	//from,to 0-players-1
 	int& whist(int from,int to);
 public:

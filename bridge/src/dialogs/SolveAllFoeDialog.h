@@ -25,15 +25,13 @@ public:
 	GtkWidget* m_progressBar;
 	VGtkWidgetPtr m_labelThread;
 	int m_result[MAX_RESULT_SIZE];
-	GtkWidget *m_loading;
-	GtkWidget* m_button;
-	GtkWidget *m_combo;
-	//all widgets on 2nd tab has postfix 1 to avoid confusion
-	GtkWidget *m_combo1[2];
-	GtkWidget *m_grid1,* m_button1;
+	GtkWidget *m_loading[2];
+	GtkWidget* m_button[2];
+	GtkWidget *m_combo[3];
+	GtkWidget *m_grid;
 	GtkWidget *m_notebook;
 	gint64 m_id;//read help in SolveAllFoeDialog.cpp
-	bool m_calculationsEnd;
+	bool m_calculationsEnd;//TODO not need any more
 
 	SolveAllFoeDialog(int positons);
 	~SolveAllFoeDialog();

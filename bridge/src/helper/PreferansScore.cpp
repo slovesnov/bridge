@@ -12,10 +12,6 @@
 #include "aslov.h"
 #include "PreferansScore.h"
 
-void PreferansScore::check(int player) {
-	assert(player>=0 && player<m_players);
-}
-
 int& PreferansScore::whist(int from, int to) {
 	return m_whist[from*4+to];
 }
