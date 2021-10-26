@@ -53,11 +53,13 @@ CalculatorDialog::CalculatorDialog() :
 	const bool bridge=isBridge();
 	const int margin = 4;
 	const int hmargin = 11;
+	const int topmargin=10;
 
 	for (auto& a:m_score) {
 		a = gtk_label_new("");
-		gtk_widget_set_margin_top(a, 10);
-		gtk_widget_set_margin_bottom(a, 10);
+		gtk_widget_set_margin_top(a, topmargin);
+		gtk_widget_set_halign(a, GTK_ALIGN_START);
+		gtk_widget_set_margin_start(a, 20);//horizontal space
 	}
 
 	if(bridge){
@@ -147,11 +149,11 @@ CalculatorDialog::CalculatorDialog() :
 	}
 	else{
 		w1 = gtk_grid_new();
-		for(i=0;i<2;i++){
+		for(i=0;i<4;i++){
 			w2= m_label[i+4]=label();
+			gtk_widget_set_margin_top(w2, topmargin);
 			gtk_widget_set_halign(w2, GTK_ALIGN_END);
 			gtk_grid_attach(GTK_GRID(w1), w2, 0, i, 1, 1);
-			gtk_widget_set_halign(m_score[i], GTK_ALIGN_START);
 			gtk_grid_attach(GTK_GRID(w1), m_score[i], 1, i, 1, 1);
 		}
 		setPreferansLabels();
@@ -167,12 +169,13 @@ CalculatorDialog::CalculatorDialog() :
 	}
 
 	updateScore();
-	show();
+	VGtkWidgetPtr ve={m_label[7],m_score[3]};
+	showExclude(ve);
 }
 
 void CalculatorDialog::updateScore() {
 	int i;
-	std::string v[2];
+	std::string v[4];
 
 	if(isBridge()){
 		/* contract 1-7
@@ -193,8 +196,8 @@ void CalculatorDialog::updateScore() {
 		}
 	}
 	else{
-		const int players = CP(PLAYERS)+3;
-		const int contract = getPrerefansContract();
+		const int players = getPreferansPlayers();
+		const int contract = getPreferansContract();
 		const int tricks = CP(TRICKS);
 		WHIST_OPTION wo=WHIST_OPTION(CP(WHIST_OPTION));
 		PreferansScore p;
@@ -204,8 +207,8 @@ void CalculatorDialog::updateScore() {
 		else{
 			p.setNonPlayingGame(players, contract,wo==WHIST_OPTION_HALFWHIST);
 		}
-		for (i = 0; i < 2; i++) {
-			v[i] = ' '+getScoreString(i, p.score()) ;
+		for (i = 0; i < 4; i++) {
+			v[i] = normalize(format("%.2lf",p.score()[i])) ;
 		}
 	}
 
@@ -217,23 +220,29 @@ void CalculatorDialog::updateScore() {
 }
 
 void CalculatorDialog::setPreferansLabels() {
+	int i;
+	std::string s;
 	gtk_label_set_text(GTK_LABEL(m_label[4]),
 			getString(
 					isMisere() ?
 							STRING_MISERE_PLAYER : STRING_DECLARER));
-	gtk_label_set_text(GTK_LABEL(m_label[5]),
-			getString(
-					isMisere() ?
-							STRING_CATCHERS : STRING_WHISTERS));
+	for (i = 0; i < 3; i++) {
+		s = getString(isMisere() ? STRING_CATCHER : STRING_WHISTER)+std::to_string(i+1);
+		gtk_label_set_text(GTK_LABEL(m_label[i + 5]), s.c_str());
+	}
 }
 
-int CalculatorDialog::getPrerefansContract() {
+int CalculatorDialog::getPreferansContract() {
 	const int c = CP(CONTRACT) + 6;
 	return c == 11 ? 0 : c;
 }
 
+int CalculatorDialog::getPreferansPlayers(){
+	return CP(PLAYERS)+3;
+}
+
 bool CalculatorDialog::isMisere() {
-	return getPrerefansContract()==0;
+	return getPreferansContract()==0;
 }
 
 void CalculatorDialog::showHideRow(int row,bool show){
@@ -243,9 +252,14 @@ void CalculatorDialog::showHideRow(int row,bool show){
 
 void CalculatorDialog::comboChanged(GtkWidget* w) {
 	updateScore();
-	if(isPreferans()){
+	if (isPreferans()) {
 		setPreferansLabels();
-		showHideRow(1,isMisere() || CP(WHIST_OPTION)==WHIST_OPTION_WHIST);//tricks
-		showHideRow(3,!isMisere());//whist option
+		showHideRow(1, isMisere() || CP(WHIST_OPTION) == WHIST_OPTION_WHIST); //tricks
+		showHideRow(3, !isMisere()); //whist option
+		if(w==m_combo[PREFERANS_CALCULATOR_DIALOG_PLAYERS]){
+			bool players4 = getPreferansPlayers() == 4;
+			showHideWidget(m_score[3], players4);
+			showHideWidget(m_label[3 + 4], players4);
+		}
 	}
 }

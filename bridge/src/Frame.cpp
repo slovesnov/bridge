@@ -136,7 +136,7 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 
 #ifndef NDEBUG
 	//TODO remove
-	menuClick(MENU_SOLVE_ALL_FOE);
+	//menuClick(MENU_SOLVE_ALL_FOE);
 
 //	explorePbn("D:\\pbns","pbnStat.txt");
 

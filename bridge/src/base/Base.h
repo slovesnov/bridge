@@ -283,6 +283,6 @@ void unsignedToGdkRGBA(unsigned v,GdkRGBA&c);
 GtkWidget* createMarkupLabel(std::string const& s,int maxChars=0);
 GtkWidget* createMarkupLabel(STRING_ID id,int maxChars=0);
 GtkWidget* createBoldLabel(STRING_ID id);
-std::string getScoreString(int n,VDouble const& score);
+GtkWidget* createBoldLabel(std::string const& s);
 
 #endif /* BASE_H_ */

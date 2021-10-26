@@ -15,12 +15,13 @@
 
 class CalculatorDialog: public BaseDialog {
 	VGtkWidgetPtr m_combo;
-	GtkWidget* m_score[2];
-	GtkWidget* m_label[6];
+	GtkWidget* m_score[4];
+	GtkWidget* m_label[8];
 	std::string m_player[4];
 	void updateScore();
 	void setPreferansLabels();
-	int getPrerefansContract();
+	int getPreferansContract();
+	int getPreferansPlayers();
 	bool isMisere();
 	void showHideRow(int row,bool show);
 public:

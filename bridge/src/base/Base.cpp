@@ -666,17 +666,9 @@ GtkWidget* createMarkupLabel(STRING_ID id, int maxChars/*=0*/) {
 
 GtkWidget* createBoldLabel(STRING_ID id){
 	std::string s=getString(id);
-	return createMarkupLabel("<b>"+s+"</b>");
+	return createBoldLabel(s);
 }
 
-std::string getScoreString(int n,VDouble const& score) {
-	std::string s;
-	int i;
-	for (i = n; i < (n ? int(score.size()) : 1); i++) {
-		if (!s.empty()) {
-			s += ' ';
-		}
-		s += normalize(format("%.2lf", score[i]));
-	}
-	return s;
+GtkWidget* createBoldLabel(std::string const& s){
+	return createMarkupLabel("<b>"+s+"</b>");
 }
