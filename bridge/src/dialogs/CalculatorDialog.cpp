@@ -172,8 +172,8 @@ CalculatorDialog::CalculatorDialog() :
 }
 
 void CalculatorDialog::updateScore() {
-	int i,j;
-	std::string s, v[2];
+	int i;
+	std::string v[2];
 
 	if(isBridge()){
 		/* contract 1-7
@@ -205,16 +205,9 @@ void CalculatorDialog::updateScore() {
 		else{
 			p.setNonPlayingGame(players, contract,wo==WHIST_OPTION_HALFWHIST);
 		}
-		auto sc=p.score();
 		for (i = 0; i < 2; i++) {
-			s ="";
-			for (j = i; j < (i == 0 ? 1 : players); j++) {
-				s+=' '+normalize(format("%.2lf", sc[j]));
-			}
-			v[i] = s ;
-
+			v[i] = ' '+getScoreString(i, p.score()) ;
 		}
-
 	}
 
 	i=0;

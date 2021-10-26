@@ -15,21 +15,21 @@ typedef std::vector<double> VDouble;
 
 enum WHIST_OPTION{
 	WHIST_OPTION_WHIST,/*first player whist, others pass*/
-	WHIST_OPTION_HALFWHIST,/*first player half whist, others pass*/
-	WHIST_OPTION_ALL_PASS,/*all players pass*/
+	WHIST_OPTION_HALFWHIST,/*first player half-whist, others pass*/
+	WHIST_OPTION_ALLPASS,/*all players pass*/
+	WHIST_OPTION_SIZE
 };
 
 class PreferansScore {
 	int m_players,m_contract,m_tricks;
 	WHIST_OPTION m_whistOption;
 	int m_pg[4];
-	double m_score[4];
+	VDouble m_score;
 	int m_whist[16];
 	//player 0-players-1
 	void check(int player);
 	//from,to 0-players-1
 	int& whist(int from,int to);
-	void setGame(int players, int contract, int tricks,WHIST_OPTION whistOption);
 public:
 	static const int player=0;
 	static const int whister=1;
@@ -40,11 +40,19 @@ public:
 	 *
 	 * assume player is always first player, active whister(only one) second player
 	 */
+	void setGame(int players, int contract, int tricks,WHIST_OPTION whistOption);
 	void setGame(int players, int contract, int tricks){
 		setGame(players, contract, tricks,WHIST_OPTION_WHIST);
 	}
-	void setNonPlayingGame(int players, int contract,bool halfwhist){
-		setGame(players, contract, contract,halfwhist?WHIST_OPTION_HALFWHIST:WHIST_OPTION_ALL_PASS);
+
+	void setNonPlayingGame(int players, int contract, bool halfwhist) {
+		setGame(players, contract, contract,
+				halfwhist ? WHIST_OPTION_HALFWHIST : WHIST_OPTION_ALLPASS);
+	}
+
+	VDouble getGameScore(int players, int contract, int tricks,WHIST_OPTION whistOption){
+		setGame(players, contract, tricks,whistOption);
+		return m_score;
 	}
 
 	PreferansScore() {
@@ -54,11 +62,13 @@ public:
 		setGame(players, contract, tricks);
 	}
 
-	PreferansScore(int players, int contract,bool halfwhist) {
-		setNonPlayingGame(players, contract,halfwhist);
+	PreferansScore(int players, int contract, bool halfwhist) {
+		setNonPlayingGame(players, contract, halfwhist);
 	}
 
-	VDouble score();
+	VDouble score(){
+		return m_score;
+	}
 
 	double playerScore(){
 		return m_score[player];

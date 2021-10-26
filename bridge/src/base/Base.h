@@ -26,6 +26,7 @@ typedef std::vector<bool> VBool;
 typedef VBool::iterator VBoolI;
 
 typedef std::vector<int> VInt;
+typedef std::vector<double> VDouble;
 
 typedef std::vector<STRING_ID> VStringID;
 
@@ -282,4 +283,6 @@ void unsignedToGdkRGBA(unsigned v,GdkRGBA&c);
 GtkWidget* createMarkupLabel(std::string const& s,int maxChars=0);
 GtkWidget* createMarkupLabel(STRING_ID id,int maxChars=0);
 GtkWidget* createBoldLabel(STRING_ID id);
+std::string getScoreString(int n,VDouble const& score);
+
 #endif /* BASE_H_ */

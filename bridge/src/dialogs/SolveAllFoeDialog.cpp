@@ -415,13 +415,19 @@ void SolveAllFoeDialog::addContractsScoringTab() {
 	GtkWidget*g,*w,*w1;
 	std::string s;
 
-	g=gtk_grid_new();
+	m_grid1=g=gtk_grid_new();
 	gtk_grid_set_column_spacing(GTK_GRID(g), 4);
 	gtk_grid_set_row_spacing(GTK_GRID(g), 4);
 
 	j=0;
 	const int columns=3;
 	const int trump=getTrump();
+
+	gtk_grid_attach(GTK_GRID(g),
+			createBoldLabel(
+					isMisere() ?
+							STRING_TABLE_EV_CAPTION_MISERE : STRING_TABLE_EV_CAPTION),
+			0, j++, columns, 1);
 
 	gtk_grid_attach(GTK_GRID(g), createBoldLabel(STRING_CONTRACT), 0, j, 1, 1);
 	gtk_grid_attach(GTK_GRID(g), createBoldLabel(STRING_PLAYER_SCORE), 1, j, 1, 1);
@@ -432,7 +438,8 @@ void SolveAllFoeDialog::addContractsScoringTab() {
 	j++;
 
 	if(isMisere()){
-		gtk_grid_attach(GTK_GRID(g), label(STRING_MISERE), 0, j++, 1, 1);
+		addGridRow(label(STRING_MISERE),j);
+		j++;
 	}
 	else{
 		for (i = 6; i <= 10; i++) {
@@ -449,19 +456,22 @@ void SolveAllFoeDialog::addContractsScoringTab() {
 				gtk_widget_set_halign(w, GTK_ALIGN_CENTER);
 
 			}
-			gtk_grid_attach(GTK_GRID(g), w, 0, j++, 1, 1);
+			addGridRow(w,j);
+			j++;
 		}
 	}
 
-
 	w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 	m_combo1[0]=createTextCombobox(3, 4);
-	m_combo1[1]=createTextCombobox(STRING_WHIST, 3);
+	s=getString(STRING_WHIST_OPTIONS_COMBO);
+	m_combo1[1]=createTextCombobox(split(s,'#'));
 
 	i=0;
 	for(auto a:m_combo1){
 		w1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-		gtk_container_add(GTK_CONTAINER(w1), label(i==0?STRING_PLAYERS:STRING_WHIST_OPTION));
+		if(i==0){
+			gtk_container_add(GTK_CONTAINER(w1), label(STRING_PLAYERS));
+		}
 		gtk_container_add(GTK_CONTAINER(w1), a);
 		gtk_widget_set_halign(w1, GTK_ALIGN_CENTER);
 		gtk_box_pack_start(GTK_BOX(w), w1, TRUE, TRUE, 0);
@@ -492,21 +502,96 @@ void SolveAllFoeDialog::addContractsScoringTab() {
 	gtk_notebook_next_page(GTK_NOTEBOOK(m_notebook));
 }
 
+enum{
+	WHIST_PROFITABLE_DEALS_ELSE_PASS
+	,WHIST_PROFITABLE_DEALS_ELSE_HALFWHIST
+	,ALWAYS_WHIST
+	,ALWAYS_HALFWHIST
+	,ALWAYS_PASS
+};
+
 void SolveAllFoeDialog::recountScores() {
 	auto players = getComboPosition(m_combo1[0]) + 3;
-	WHIST_OPTION wo=WHIST_OPTION(getComboPosition(m_combo1[1]));
+	int option=getComboPosition(m_combo1[1]);
 	int contract,tricks;
 	PreferansScore p;
+	WHIST_OPTION wo;
+	VDouble v[11][11][WHIST_OPTION_SIZE],r;
+	double probability[MAX_RESULT_SIZE];
+	GtkWidget*w;
+	int i,j;
+	std::string s;
+	double ev;
 
-	printl(players,wo)
-
+	for(i=0;i<MAX_RESULT_SIZE;i++){
+		probability[i]=double(m_result[i]) / m_total;
+	}
+/*
 	for (tricks = 0; tricks <= 10; tricks++) {
-		for (contract = 6; contract <= 10; contract++) {
-			if (wo==WHIST_OPTION_WHIST) {
-				p.setGame(players, contract, tricks);
-			} else {
-				p.setNonPlayingGame(players, contract,wo==WHIST_OPTION_HALFWHIST);
+		for(j=0;j<11;j++){
+			for(i=0;i<WHIST_OPTION_SIZE;i++){
+				v[tricks][j][i]={10e+100,10e+100,10e+100,10e+100};
 			}
 		}
+	}
+*/
+
+	for (tricks = 0; tricks <= 10; tricks++) {
+		for (auto c :{0,6,7,8,9,10}) {
+			for(i=0;i<WHIST_OPTION_SIZE;i++){
+				wo=WHIST_OPTION(i);
+				if(wo!=WHIST_OPTION_WHIST && c!=tricks){
+					continue;
+				}
+				v[tricks][c][i]=p.getGameScore(players, c, tricks,wo);
+			}
+		}
+	}
+
+	if(isMisere()){
+		w=gtk_grid_get_child_at(GTK_GRID(m_grid1), 1, 1);
+		gtk_label_set_text(GTK_LABEL(w), "misere");
+	}
+	else{
+/*
+		WHIST_PROFITABLE_DEALS_ELSE_PASS
+		,WHIST_PROFITABLE_DEALS_ELSE_HALFWHIST
+*/
+		if (option == ALWAYS_WHIST) {
+			for (contract = 6; contract <= 10; contract++) {
+				r.clear();
+				for(i=0;i<players;i++){
+					ev=0;
+					for (tricks = 0; tricks <= 10; tricks++) {
+						ev += probability[tricks]
+								* v[tricks][contract][WHIST_OPTION_WHIST][i];
+					}
+					r.push_back(ev);
+				}
+				setGridLabels(contract, r);
+			}
+		}
+		else if (option==ALWAYS_HALFWHIST || option==ALWAYS_PASS) {
+			wo = option == ALWAYS_HALFWHIST ?
+					WHIST_OPTION_HALFWHIST : WHIST_OPTION_ALLPASS;
+			for (contract = 6; contract <= 10; contract++) {
+				setGridLabels(contract, v[contract][contract][wo]);
+			}
+		}
+	}
+}
+
+void SolveAllFoeDialog::addGridRow(GtkWidget *w, int row) {
+	gtk_grid_attach(GTK_GRID(m_grid1), w, 0, row, 1, 1);
+	for(int k=1;k<3;k++){
+		gtk_grid_attach(GTK_GRID(m_grid1), label(), k, row, 1, 1);
+	}
+}
+
+void SolveAllFoeDialog::setGridLabels(int contract,const VDouble& v) {
+	for(int i=0;i<2;i++){
+		auto w=gtk_grid_get_child_at(GTK_GRID(m_grid1), i+1, contract-4);
+		auto s = getScoreString(i,v);
+		gtk_label_set_text(GTK_LABEL(w),s.c_str());
 	}
 }

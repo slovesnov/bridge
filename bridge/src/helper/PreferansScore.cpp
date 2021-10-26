@@ -53,12 +53,12 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 		const bool contractDone = undertricks <= 0;
 		const int minwhistertricks=MIN_WHISTER_TRICKS[contract-6];
 
-		if(m_whistOption==WHIST_OPTION_HALFWHIST || m_whistOption==WHIST_OPTION_ALL_PASS){
+		if(m_whistOption==WHIST_OPTION_HALFWHIST || m_whistOption==WHIST_OPTION_ALLPASS){
 			assert(tricks==contract);
 		}
 		m_pg[player] = c * (contractDone ? 1 : -undertricks);
 
-		if(m_whistOption==WHIST_OPTION_ALL_PASS){
+		if(m_whistOption==WHIST_OPTION_ALLPASS){
 
 		}
 		else{
@@ -85,6 +85,7 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 	}
 
 	//count m_score
+	m_score.clear();
 	for (p = 0; p < m_players; p++) {
 		v = m_players * m_pg[p];
 		for (i = 0; i < m_players; i++) {
@@ -96,13 +97,8 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 				v += whist(p, i) - whist(i, p);
 			}
 		}
-		m_score[p]=v;
+		m_score.push_back(v);
 	}
-}
-
-VDouble PreferansScore::score() {
-	VDouble r(m_score,m_score+m_players);
-	return r;
 }
 
 void PreferansScore::print() {

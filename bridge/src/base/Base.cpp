@@ -669,3 +669,14 @@ GtkWidget* createBoldLabel(STRING_ID id){
 	return createMarkupLabel("<b>"+s+"</b>");
 }
 
+std::string getScoreString(int n,VDouble const& score) {
+	std::string s;
+	int i;
+	for (i = n; i < (n ? int(score.size()) : 1); i++) {
+		if (!s.empty()) {
+			s += ' ';
+		}
+		s += normalize(format("%.2lf", score[i]));
+	}
+	return s;
+}
