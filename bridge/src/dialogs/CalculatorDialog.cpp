@@ -47,7 +47,7 @@ CalculatorDialog::CalculatorDialog() :
 	int i;
 	GtkWidget *w, *w1, *w2;
 	std::string s;
-	VString v, v1;
+	VString v;
 	VStringID l;
 	VGtkWidgetPtr wv;
 	const bool bridge=isBridge();
@@ -72,16 +72,9 @@ CalculatorDialog::CalculatorDialog() :
 			v.push_back(m_player[i]);
 		}
 
-		v1.push_back("");
-		for (i = 0; i < 2; i++) {
-			s = format("%s / %s", getString(VS[i]), getString(VS[i + 2]));
-			v1.push_back(utf8ToLowerCase(s));
-		}
-		v1.push_back(getString(STRING_ALL));
-
 		m_combo = { createTextCombobox(v), createTextCombobox(1, 7),
 				createImageCombobox(), createTextCombobox(0, 13),
-				createTextCombobox(v1), createTextCombobox(DOUBLE_REDOUBLE,
+				createTextCombobox(STRING_NO,STRING_YES), createTextCombobox(DOUBLE_REDOUBLE,
 						SIZE(DOUBLE_REDOUBLE)) };
 
 		gtk_combo_box_set_model(GTK_COMBO_BOX(BC(TRUMP)),
@@ -178,21 +171,10 @@ void CalculatorDialog::updateScore() {
 	std::string v[4];
 
 	if(isBridge()){
-		/* contract 1-7
-		 * result - tricks 0-13
-		 * zone=true if playing pair in a zone in pbn tag (vulnerable=NS && (declare 'N' or 'S') || vulnerable=EW && (declare 'E' or 'W') )
-		 * doubleRedouble=0 simple game; =1 double; =2 redouble
-		 */
-		const int declarer = CB(DECLARER);
-
-		int r = countBridgeScore(CB(CONTRACT) + 1,
-				CB(TRUMP),
-				CB(TRICKS),
-				CB(DOUBLE_REDOUBLE), declarer,
-				CB(VULNERABLE));
+		int r = countBridgeScore(CB(CONTRACT) + 1, CB(TRUMP), CB(TRICKS),
+				CB(DOUBLE_REDOUBLE), CB(VULNERABLE));
 		for (i = 0; i < 2; i++) {
-			v[i]= format("%s/%s %d", m_player[i].c_str(), m_player[i + 2].c_str(),
-					declarer % 2 == i % 2 ? r : -r);
+			v[i]= m_player[i]+"/"+m_player[i + 2]+" "+std::to_string(i==0 ? r : -r);
 		}
 	}
 	else{

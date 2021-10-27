@@ -89,12 +89,7 @@ std::string getStringNoDots(MENU_ID id) {
  */
 int countBridgeScore(const int contract, const int trump, const int tricks,
 		const int doubleRedouble, const int declarer, const int vulnerable) {
-	int i, j;
-	int res = 0;
-	int additionalTricks = tricks - contract - 6;
-	const int suitType = trump == NT ? 2 : (trump < 2 ? 1 : 0);
 	bool zone;
-
 	//checked!
 	if (vulnerable == 0 || vulnerable == 3) {
 		zone = vulnerable == 3;
@@ -102,6 +97,18 @@ int countBridgeScore(const int contract, const int trump, const int tricks,
 	else {
 		zone = declarer % 2 != vulnerable % 2;
 	}
+
+	return countBridgeScore(contract, trump, tricks,
+			doubleRedouble, zone);
+}
+
+int countBridgeScore(const int contract, const int trump, const int tricks,
+		const int doubleRedouble, const bool vulnerable){
+	int i, j;
+	int res = 0;
+	int additionalTricks = tricks - contract - 6;
+	const int suitType = trump == NT ? 2 : (trump < 2 ? 1 : 0);
+	const bool zone = vulnerable;
 
 	if (additionalTricks >= 0) {
 		//1 partial notation

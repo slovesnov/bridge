@@ -2253,11 +2253,7 @@ void DrawingArea::solveAllFoeThreadInner(int index, const bool bridge,const int 
 		for (i = 0; i < sz; i++) {
 			sa.positions+=result[i];
 		}
-		g_mutex_lock(&m_solveAllMutex);
-		for (i = 0; i < sz; i++) {
-			m_solveAllFoeDialog->m_result[i] += result[i];
-		}
-		g_mutex_unlock(&m_solveAllMutex);
+		m_solveAllFoeDialog->updateResult(result, sz);
 		sa.end=clock();
 
 		ur=true;
@@ -2482,11 +2478,11 @@ void DrawingArea::solveAllFoeUpdateResult(gint64 id) {
 	if (m_solveAllFoeDialog) {
 		/* check that signal goes from same foe dialog,
 		 * it's not a problem do not this check, because
-		 * just call updateLabels(), but it give more clarify code
+		 * just call updateData(), but it give more clarify code
 		 * so leave this checking. Also later some parameters can appear
 		 */
 		if(m_solveAllFoeDialog->m_id==id){
-			m_solveAllFoeDialog->updateLabels();
+			m_solveAllFoeDialog->updateData();
 		}
 		else{
 			//println("wrong id skip")

@@ -180,6 +180,8 @@ FILE_TYPE getFileType(std::string filepath);
 int indexOfPlayer(CARD_INDEX player);
 CARD_INDEX playerFromChar(char c);
 int countBridgeScore(const int contract, const int trump, const int tricks,
+		const int doubleRedouble, const bool vulnerable);
+int countBridgeScore(const int contract, const int trump, const int tricks,
 		const int doubleRedouble, const int declarer, const int vulnerable);
 std::string getSuitString(int suit);
 std::string getContractString(int n);

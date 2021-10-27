@@ -51,10 +51,11 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 	bool b;
 	Problem const&p = getProblem();
 	VString v;
-	m_labelThread.resize(getMaxRunThreads()+1);
 	const int leftMargin=20;
 
 	d=this;
+	m_labelThread.resize(getMaxRunThreads()+1);
+	g_mutex_init(&m_mutex);
 
 	reset();
 	m_labelTotal = gtk_label_new("");
@@ -148,7 +149,7 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 	gtk_grid_set_row_spacing(GTK_GRID(g), 2);
 
 	for (i = 0; i < resultSize(); i++) {
-		m_result[i] = 0;
+		m_result[i] = 0;//no multithread calls
 		for (j = 0; j < 2; j++) {
 			m_label[i][j] = gtk_label_new("");
 		}
@@ -253,15 +254,15 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 
 	gtk_container_add(GTK_CONTAINER(getContentArea()), m_notebook);
 
-	updateLabels();
+	updateData();
 	setInnerTable(getProblem());
 	g_signal_connect(getWidget(), "response", G_CALLBACK(close_dialog), NULL);
 
-	updateTab2();
-
-	show();
-
-	updateNumberOfPlayersTab2();
+	VGtkWidgetPtr e;
+	if(isPreferans()){
+		e=getLastWhisterWidgets();
+	}
+	showExclude(e);
 
 	//TODO remove
 	//gtk_notebook_set_current_page(GTK_NOTEBOOK(m_notebook),1);
@@ -269,23 +270,30 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 }
 
 SolveAllFoeDialog::~SolveAllFoeDialog(){
+	g_mutex_clear(&m_mutex);
 }
 
-void SolveAllFoeDialog::updateLabels() {
+void SolveAllFoeDialog::updateData() {
 	int i,j;
 	double v,va;
 	std::string s;
+	int result[MAX_RESULT_SIZE];
 
-	g_mutex_lock(&gdraw->m_solveAllMutex);
+	g_mutex_lock(&m_mutex);
+	std::copy(m_result,m_result+MAX_RESULT_SIZE,result);//multithread ok
+	g_mutex_unlock(&m_mutex);
 
-	setResults();
+	for (i =m_total= 0; i < resultSize(); i++) {
+		m_total += result[i];
+	}
+	m_fraction = double(m_total)/m_positions;
 
 	for (i = 0; i < resultSize(); i++) {
 		gtk_label_set_text(GTK_LABEL(m_label[i][0]),
-				intToStringLocaled(m_result[i]).c_str());
+				intToStringLocaled(result[i]).c_str());
 
 		gtk_label_set_text(GTK_LABEL(m_label[i][1]),
-				m_total == 0 ? "?.?%" : format("%.1lf%%", m_result[i] * 100. / m_total).c_str());
+				m_total == 0 ? "?.?%" : format("%.1lf%%", result[i] * 100. / m_total).c_str());
 	}
 
 	auto a=[](double v){
@@ -314,13 +322,8 @@ void SolveAllFoeDialog::updateLabels() {
 	s=a(va);
 	gtk_label_set_text(GTK_LABEL(m_labelThread[i]),s.c_str());
 
-	g_mutex_unlock(&gdraw->m_solveAllMutex);
-
-
 	gtk_label_set_text(GTK_LABEL(m_labelTotal), intToStringLocaled(m_total).c_str());
-
 	gtk_label_set_text(GTK_LABEL(m_labelTotalTime),getTotalTimeLabelString().c_str());
-
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(m_progressBar), m_fraction);
 
 	if (m_total == m_positions) {
@@ -369,11 +372,11 @@ void SolveAllFoeDialog::clickButton(GtkWidget* w) {
 
 		s+="\n";
 
-		g_mutex_lock(&gdraw->m_solveAllMutex);
+		g_mutex_lock(&m_mutex);
 		for (i = 0; i < resultSize(); i++) {
-			s += format("%d %d\n", i, m_result[i]);
+			s += format("%d %d\n", i, m_result[i]);//multithread ok
 		}
-		g_mutex_unlock(&gdraw->m_solveAllMutex);
+		g_mutex_unlock(&m_mutex);
 
 		if(m_total != m_positions){
 			s+=getTotalTimeLabelString()+"\n"+getProgressBarString(false);
@@ -390,7 +393,7 @@ int SolveAllFoeDialog::resultSize()const{
 void SolveAllFoeDialog::comboChanged(GtkWidget *w){
 	if(w==m_combo[PREFERANS_PLAYERS_COMBO] || w==m_combo[PREFERANS_WHIST_OPTION_COMBO]){
 		if(w==m_combo[PREFERANS_PLAYERS_COMBO]){
-			updateNumberOfPlayersTab2();
+			updateNumberOfPreferansPlayers();
 		}
 		updateTab2();
 		return;
@@ -420,22 +423,14 @@ void SolveAllFoeDialog::comboChanged(GtkWidget *w){
 void SolveAllFoeDialog::reset(){
 	m_id=g_get_real_time();
 	m_begin = clock();
-	for (int& a :m_result) {
+	for (int& a :m_result) {//no multithread calls
 		a = 0;
 	}
 }
 
 void SolveAllFoeDialog::setPositions(int positions){
 	m_positions=positions;
-	updateLabels();
-}
-
-void SolveAllFoeDialog::setResults() {
-	int i;
-	for (i =m_total= 0; i < resultSize(); i++) {
-		m_total += m_result[i];
-	}
-	m_fraction = double(m_total)/m_positions;
+	updateData();
 }
 
 std::string SolveAllFoeDialog::getTotalTimeLabelString() {
@@ -477,10 +472,8 @@ GtkWidget* SolveAllFoeDialog::createTab2() {
 
 	w2=gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
 
-	w = createBoldLabel(
-			isMisere() ?
-					STRING_TABLE_EV_CAPTION_MISERE : STRING_TABLE_EV_CAPTION);
-	gtk_container_add(GTK_CONTAINER(w2), w);
+	gtk_container_add(GTK_CONTAINER(w2),
+			createBoldLabel(STRING_EXPECTED_VALUE_TABLE));
 
 	//gtk_grid_set_column_spacing(GTK_GRID(m_grid1), 4);
 	gtk_grid_set_row_spacing(GTK_GRID(m_grid), 4);
@@ -577,11 +570,11 @@ void SolveAllFoeDialog::updateTab2() {
 	double ev;
 	const int MIN_WHIST_TRICKS[] = { 4, 2, 1, 1, 0 };
 
-	g_mutex_lock(&gdraw->m_solveAllMutex);
+	g_mutex_lock(&m_mutex);
 	for (i = 0; i < MAX_RESULT_SIZE; i++) {
-		probability[i] = double(m_result[i]) / m_total;
+		probability[i] = double(m_result[i]) / m_total;//multithread ok
 	}
-	g_mutex_unlock(&gdraw->m_solveAllMutex);
+	g_mutex_unlock(&m_mutex);
 
 	for (tricks = 0; tricks <= 10; tricks++) {
 		for (auto c :{0,6,7,8,9,10}) {
@@ -664,9 +657,7 @@ void SolveAllFoeDialog::addGridRow(GtkWidget *w, int row) {
 void SolveAllFoeDialog::setGridLabels(int contract,const VDouble& v) {
 	std::string s;
 	int i=0;
-	g_mutex_lock(&gdraw->m_solveAllMutex);
 	const bool empty=m_total==0;
-	g_mutex_unlock(&gdraw->m_solveAllMutex);
 
 	for (auto a:v) {
 		auto w = gtk_grid_get_child_at(GTK_GRID(m_grid), i + 1, isMisere()?1:contract - 5);
@@ -680,12 +671,27 @@ int SolveAllFoeDialog::getPreferansPlayers() {
 	return getComboPosition(m_combo[PREFERANS_PLAYERS_COMBO]) + 3;
 }
 
-void SolveAllFoeDialog::updateNumberOfPlayersTab2() {
+void SolveAllFoeDialog::updateNumberOfPreferansPlayers() {
 	int players = getPreferansPlayers();
-	for (int i = 0; i < (isMisere() ? 2 : 6); i++) {
-		auto w = gtk_grid_get_child_at(GTK_GRID(m_grid), 4, i);
-		showHideWidget(w, players == 4);
+	for(auto a:getLastWhisterWidgets()){
+		showHideWidget(a, players == 4);
 	}
+}
+
+VGtkWidgetPtr SolveAllFoeDialog::getLastWhisterWidgets() {
+	VGtkWidgetPtr v;
+	for (int i = 0; i < (isMisere() ? 2 : 6); i++) {
+		v.push_back( gtk_grid_get_child_at(GTK_GRID(m_grid), 4, i));
+	}
+	return v;
+}
+
+void SolveAllFoeDialog::updateResult(int *result, int size) {
+	g_mutex_lock(&m_mutex);
+	for (int i = 0; i < size; i++) {
+		m_result[i] += result[i];//multithread ok
+	}
+	g_mutex_unlock(&m_mutex);
 }
 
 std::string SolveAllFoeDialog::getPercentString() {

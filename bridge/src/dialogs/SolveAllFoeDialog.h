@@ -14,7 +14,6 @@
 #include "ButtonsDialogWithProblem.h"
 
 class SolveAllFoeDialog: public ButtonsDialogWithProblem {
-public:
 	static const int MAX_RESULT_SIZE = MAX_BRIDGE_HAND_CARDS + 1;
 	int m_positions, m_total;
 	double m_fraction;
@@ -31,6 +30,8 @@ public:
 	GtkWidget *m_grid;
 	GtkWidget *m_labelPercentTab2;
 	GtkWidget *m_notebook;
+	GMutex m_mutex;
+public:
 	gint64 m_id;//read help in SolveAllFoeDialog.cpp
 
 	SolveAllFoeDialog(int positons);
@@ -38,10 +39,10 @@ public:
 	int resultSize()const;
 	void clickButton(GtkWidget *w);
 	void comboChanged(GtkWidget *w);
-	void updateLabels();
+	void updateResult(int *result,int size);//multithread new data
+	void updateData();//multithread data changed
 	void reset();
 	void setPositions(int positions);
-	void setResults();
 	std::string getTotalTimeLabelString();
 	std::string getProgressBarString(bool b=true);
 	GtkWidget* createTab2();
@@ -49,7 +50,8 @@ public:
 	void addGridRow(GtkWidget *w,int row);
 	void setGridLabels(int contract,const VDouble& v);
 	int getPreferansPlayers();
-	void updateNumberOfPlayersTab2();
+	void updateNumberOfPreferansPlayers();
+	VGtkWidgetPtr getLastWhisterWidgets();
 	std::string getPercentString();
 };
 
