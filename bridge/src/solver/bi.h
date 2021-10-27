@@ -15,7 +15,7 @@
 
 #ifndef CONSOLE
 		if(m_depth == 8 && g_atomic_int_get (&m_stop)){
-			println("user break %llx base%llx",uint64_t(this),uint64_t(gBase));
+//			println("user break %llx base%llx",uint64_t(this),uint64_t(gBase));
 			//gBase=0 estimateAll wasn't called
 			if(gBase && this==gBase){
 				finishEstimateAll();

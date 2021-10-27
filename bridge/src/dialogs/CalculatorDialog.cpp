@@ -12,7 +12,6 @@
 #include "../helper/PreferansScore.h"
 
 enum {
-	BRIDGE_CALCULATOR_DIALOG_DECLARER,
 	BRIDGE_CALCULATOR_DIALOG_CONTRACT,
 	BRIDGE_CALCULATOR_DIALOG_TRUMP,
 	BRIDGE_CALCULATOR_DIALOG_TRICKS,
@@ -63,16 +62,8 @@ CalculatorDialog::CalculatorDialog() :
 	}
 
 	if(bridge){
-		const STRING_ID VS[] = { STRING_NORTH, STRING_EAST, STRING_SOUTH, STRING_WEST };
-
 		//create comboboxes
-		for (i = 0; i < 4; i++) {
-			s = getString(VS[i]);
-			m_player[i] = utf8ToLowerCase(s);
-			v.push_back(m_player[i]);
-		}
-
-		m_combo = { createTextCombobox(v), createTextCombobox(1, 7),
+		m_combo = { createTextCombobox(1, 7),
 				createImageCombobox(), createTextCombobox(0, 13),
 				createTextCombobox(STRING_NO,STRING_YES), createTextCombobox(DOUBLE_REDOUBLE,
 						SIZE(DOUBLE_REDOUBLE)) };
@@ -83,14 +74,13 @@ CalculatorDialog::CalculatorDialog() :
 
 		gtk_combo_box_set_active(GTK_COMBO_BOX(BC(TRICKS)), 7);
 
-		l = { STRING_DECLARER, STRING_CONTRACT, STRING_NUMBER_OF_TRICKS,
-				STRING_VULNERABLE };
+		l = { STRING_CONTRACT, STRING_NUMBER_OF_TRICKS, STRING_VULNERABLE };
 		w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, margin);
 		gtk_container_add(GTK_CONTAINER(w), BC(CONTRACT));
 		gtk_container_add(GTK_CONTAINER(w), BC(TRUMP));
 		gtk_container_add(GTK_CONTAINER(w), BC(DOUBLE_REDOUBLE));
 
-		wv = { BC(DECLARER), w, BC(TRICKS), BC(VULNERABLE) };
+		wv = { w, BC(TRICKS), BC(VULNERABLE) };
 
 	}
 	else{
@@ -134,21 +124,23 @@ CalculatorDialog::CalculatorDialog() :
 
 	gtk_grid_attach(GTK_GRID(w), w1, 0, 0, 1, 1);
 
-	if(bridge){
-		w1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-		for (auto a:m_score) {
-			gtk_box_pack_start(GTK_BOX(w1), a, TRUE, TRUE, 6);
+	w1 = gtk_grid_new();
+
+	for (i = 0; i < (isBridge() ? 2 : 4); i++) {
+		if(bridge){
+			s=getString(i==0?STRING_DECLARING_SIDE:STRING_DEFENDERS);
 		}
+		else{
+			s="";
+		}
+		w2= m_label[i+4]=label(s);
+		gtk_widget_set_margin_top(w2, topmargin);
+		gtk_widget_set_halign(w2, GTK_ALIGN_END);
+		gtk_grid_attach(GTK_GRID(w1), w2, 0, i, 1, 1);
+		gtk_grid_attach(GTK_GRID(w1), m_score[i], 1, i, 1, 1);
 	}
-	else{
-		w1 = gtk_grid_new();
-		for(i=0;i<4;i++){
-			w2= m_label[i+4]=label();
-			gtk_widget_set_margin_top(w2, topmargin);
-			gtk_widget_set_halign(w2, GTK_ALIGN_END);
-			gtk_grid_attach(GTK_GRID(w1), w2, 0, i, 1, 1);
-			gtk_grid_attach(GTK_GRID(w1), m_score[i], 1, i, 1, 1);
-		}
+
+	if(!bridge){
 		setPreferansLabels();
 	}
 
@@ -174,7 +166,7 @@ void CalculatorDialog::updateScore() {
 		int r = countBridgeScore(CB(CONTRACT) + 1, CB(TRUMP), CB(TRICKS),
 				CB(DOUBLE_REDOUBLE), CB(VULNERABLE));
 		for (i = 0; i < 2; i++) {
-			v[i]= m_player[i]+"/"+m_player[i + 2]+" "+std::to_string(i==0 ? r : -r);
+			v[i]= std::to_string(i==0 ? r : -r);
 		}
 	}
 	else{

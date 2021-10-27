@@ -16,6 +16,8 @@ static SolveAllFoeDialog* d;
 
 const int PREFERANS_PLAYERS_COMBO=1;
 const int PREFERANS_WHIST_OPTION_COMBO=2;
+const int BRIDGE_DOUBLE_REDOUBLE_COMBO=1;
+const int BRIDGE_VULNERABLE_COMBO=2;
 
 const int TAB1=0;
 const int TAB2=1;
@@ -237,8 +239,6 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 		}
 		m_combo[TAB1] = createTextCombobox(v);
 		gtk_combo_box_set_active(GTK_COMBO_BOX(m_combo[TAB1]), !isBridgeFoeAbsentNS() );
-		g_signal_connect(m_combo[TAB1], "changed", G_CALLBACK(combo_changed),
-				gpointer(0));
 
 		gtk_container_add(GTK_CONTAINER(w), m_combo[TAB1]);
 
@@ -257,6 +257,15 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 	updateData();
 	setInnerTable(getProblem());
 	g_signal_connect(getWidget(), "response", G_CALLBACK(close_dialog), NULL);
+
+	i=0;
+	for (auto a : m_combo) {
+		if(isBridge() || i!=TAB1){
+			g_signal_connect(a, "changed", G_CALLBACK(combo_changed),
+					gpointer(0));
+		}
+		i++;
+	}
 
 	VGtkWidgetPtr e;
 	if(isPreferans()){
@@ -330,7 +339,6 @@ void SolveAllFoeDialog::updateData() {
 		for(auto a:m_loading){
 			gtk_spinner_stop (GTK_SPINNER(a));
 		}
-		//gtk_widget_set_sensitive(m_copyButton, TRUE);
 	}
 
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(m_progressBar), getProgressBarString().c_str());
@@ -342,14 +350,25 @@ void SolveAllFoeDialog::clickButton(GtkWidget* w) {
 	int i,j;
 	std::string s;
 	if(w==m_button[TAB2]){
-		int players = getPreferansPlayers();
-		for (j = 0; j < (isMisere()?2:6); j++) {
+		int columns,rows,mincontract;
+		if(isBridge()){
+			rows=6;
+			columns = 3;
+			mincontract=1;
+		}
+		else{
+			rows=isMisere()?2:6;
+			columns = getPreferansPlayers()+1;
+			mincontract=6;
+		}
+
+		for (j = 0; j < rows; j++) {
 			if(j){
 				s += "\n";
 			}
-			for (i = 0; i < players+1; i++) {
+			for (i = 0; i < columns; i++) {
 				if(j>0 && i==0){
-					s+=std::to_string(j+5);
+					s+=std::to_string(j-1+mincontract);
 				}
 				else{
 					auto w = gtk_grid_get_child_at(GTK_GRID(m_grid), i, j);
@@ -391,32 +410,39 @@ int SolveAllFoeDialog::resultSize()const{
 }
 
 void SolveAllFoeDialog::comboChanged(GtkWidget *w){
-	if(w==m_combo[PREFERANS_PLAYERS_COMBO] || w==m_combo[PREFERANS_WHIST_OPTION_COMBO]){
-		if(w==m_combo[PREFERANS_PLAYERS_COMBO]){
+	int i,j;
+	i=INDEX_OF(w,m_combo);
+
+	if(i==TAB1){//only bridge
+		setBridgeFoeAbsentNS(!gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[TAB1])));
+		Problem const&p = getProblem();
+		for (i = 0; i < 4; i++) {
+			for (j = 0; j < 4; j++) {
+				gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]),
+						i % 2 == isBridgeFoeAbsentNS() ? p.getRow(j, PLAYER[i]).c_str() : " ?");
+			}
+		}
+
+
+		gdraw->stopSolveAllFoeThreads();
+
+		//Call reset() only after stopSolveAllFoeThreads, because need set m_id
+		reset();
+		for(auto a:m_loading){
+			gtk_spinner_start (GTK_SPINNER(a));
+		}
+
+		//stopSolveAllFoeThreads
+		gdraw->m_solveAllFoeDialog=this;
+		gdraw->solveAllFoe(false);//here new number of positions is set
+	}
+	else{
+		if(isPreferans() && i==PREFERANS_PLAYERS_COMBO){
 			updateNumberOfPreferansPlayers();
 		}
 		updateTab2();
-		return;
-	}
-	setBridgeFoeAbsentNS(!gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[TAB1])));
-	int i,j;
-	Problem const&p = getProblem();
-	for (i = 0; i < 4; i++) {
-		for (j = 0; j < 4; j++) {
-			gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]),
-					i % 2 == isBridgeFoeAbsentNS() ? p.getRow(j, PLAYER[i]).c_str() : " ?");
-		}
 	}
 
-
-	gdraw->stopSolveAllFoeThreads();
-
-	//Call reset() only after stopSolveAllFoeThreads, because need set m_id
-	reset();
-
-	//stopSolveAllFoeThreads
-	gdraw->m_solveAllFoeDialog=this;
-	gdraw->solveAllFoe(false);//here new number of positions is set
 }
 
 
@@ -461,45 +487,71 @@ GtkWidget* SolveAllFoeDialog::createTab2() {
 	int i,j;
 	GtkWidget *w,*w1,*w2;
 	std::string s;
+	VString vs;
+	STRING_ID id;
 	const int trump=getTrump();
+	const bool bridge=isBridge();
 
 	//m_button,m_loading are created
-
-	m_combo[PREFERANS_PLAYERS_COMBO]=createTextCombobox(3, 4);
-	s=getString(STRING_WHIST_OPTIONS_COMBO);
-	m_combo[PREFERANS_WHIST_OPTION_COMBO]=createTextCombobox(split(s,'#'));
 	m_grid=gtk_grid_new();
+	//gtk_grid_set_column_spacing(GTK_GRID(m_grid1), 4);
+	gtk_grid_set_row_spacing(GTK_GRID(m_grid), 4);
+	m_labelPercentTab2=label();
+
+	if(bridge){
+		m_combo[BRIDGE_DOUBLE_REDOUBLE_COMBO]=createTextCombobox(STRING_UNDOUBLED,3);
+		m_combo[BRIDGE_VULNERABLE_COMBO]=createTextCombobox(STRING_NO,STRING_YES);
+	}
+	else{
+		m_combo[PREFERANS_PLAYERS_COMBO]=createTextCombobox(3, 4);
+		s=getString(STRING_WHIST_OPTIONS_COMBO);
+		m_combo[PREFERANS_WHIST_OPTION_COMBO]=createTextCombobox(split(s,'#'));
+	}
 
 	w2=gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
 
 	gtk_container_add(GTK_CONTAINER(w2),
 			createBoldLabel(STRING_EXPECTED_VALUE_TABLE));
 
-	//gtk_grid_set_column_spacing(GTK_GRID(m_grid1), 4);
-	gtk_grid_set_row_spacing(GTK_GRID(m_grid), 4);
-	j=0;
-	VStringID vi={STRING_CONTRACT,isMisere() ? STRING_MISERE_PLAYER : STRING_DECLARER};
-	for (i = 0; i < 3; i++) {
-		vi.push_back(isMisere() ? STRING_CATCHER : STRING_WHISTER);
-	}
-	i=0;
-	for(auto a:vi){
-		s=getString(a);
-		if(i>1){
-			s+=std::to_string(i - 1);
+	vs.push_back(getString(STRING_CONTRACT));
+	if(bridge){
+		for(auto a:{STRING_DECLARING_SIDE,STRING_DEFENDERS}){
+			s=getString(a);
+			vs.push_back(s);
 		}
-		w=createBoldLabel(s);
+	}
+	else{
+		VStringID vi={isMisere() ? STRING_MISERE_PLAYER : STRING_DECLARER};
+		for (i = 0; i < 3; i++) {
+			vi.push_back(isMisere() ? STRING_CATCHER : STRING_WHISTER);
+		}
+
+		i=0;
+		for(auto a:vi){
+			s=getString(a);
+			if(i>0){
+				s+=std::to_string(i - 1);
+			}
+			vs.push_back(s);
+			i++;
+		}
+	}
+
+	j=0;
+	i=0;
+	for(auto a:vs){
+		w=createBoldLabel(a);
 		gtk_widget_set_hexpand(w, 1);//to stretch grid
 		gtk_grid_attach(GTK_GRID(m_grid), w, i, j, 1, 1);
 		i++;
 	}
 	j++;
 
-	if(isMisere()){
+	if(isMisere()){//game type checked inside
 		addGridRow(label(STRING_MISERE),j);
 	}
 	else{
-		for (i = 6; i <= 10; i++) {
+		for (i = (bridge?1:6); i <= (bridge?7:10); i++) {
 			s = std::to_string(i);
 			if(trump==NT){
 				s+=" "+getNTString();
@@ -522,48 +574,46 @@ GtkWidget* SolveAllFoeDialog::createTab2() {
 	gtk_container_add(GTK_CONTAINER(w), m_button[TAB2]);
 	gtk_widget_set_size_request(m_loading[TAB2], 32, 32);//otherwise small
 	gtk_container_add(GTK_CONTAINER(w), m_loading[TAB2]);
-	m_labelPercentTab2=label();
 	gtk_container_add(GTK_CONTAINER(w), m_labelPercentTab2);
 	gtk_container_add(GTK_CONTAINER(w2), w);
 
 
 	w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-	i=0;
-	for(auto ii:{PREFERANS_PLAYERS_COMBO,PREFERANS_WHIST_OPTION_COMBO}){
-		auto a=m_combo[ii];
+	for(i=1;i<3;i++){
+		auto a=m_combo[i];
 		if(isMisere() && i==PREFERANS_WHIST_OPTION_COMBO){
 			continue;
 		}
 		w1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-		if(i==0){
-			gtk_container_add(GTK_CONTAINER(w1), label(STRING_PLAYERS));
+		if(bridge || (!bridge && i==PREFERANS_PLAYERS_COMBO) ){
+			if(bridge){
+				id=i==BRIDGE_DOUBLE_REDOUBLE_COMBO? STRING_CONTRACT:STRING_VULNERABLE;
+			}
+			else{
+				id=STRING_PLAYERS;
+			}
+			gtk_container_add(GTK_CONTAINER(w1), label(id));
 		}
 		gtk_container_add(GTK_CONTAINER(w1), a);
 		gtk_widget_set_halign(w1, GTK_ALIGN_CENTER);
 		gtk_box_pack_start(GTK_BOX(w), w1, TRUE, TRUE, 0);
 
-		g_signal_connect(a, "changed", G_CALLBACK(combo_changed),
-				gpointer(0));
-		i++;
 	}
 	w1= gtk_frame_new(getString(STRING_OPTIONS));
 	gtk_container_add(GTK_CONTAINER(w1), w);
 	gtk_frame_set_label_align(GTK_FRAME(w1), 0.03, 0.5);
 	gtk_container_add(GTK_CONTAINER(w2), w1);
 
-	w = createMarkupLabel(STRING_CONTRACTS_SCORING_HELP,60);
-	gtk_container_add(GTK_CONTAINER(w2), w);
-
+	if(!bridge){
+		w = createMarkupLabel(STRING_CONTRACTS_SCORING_HELP,60);
+		gtk_container_add(GTK_CONTAINER(w2), w);
+	}
 	return w2;
 }
 
 void SolveAllFoeDialog::updateTab2() {
-	int players = getPreferansPlayers();
-	int option = getComboPosition(m_combo[PREFERANS_WHIST_OPTION_COMBO]);
-	int contract, tricks, whisterstricks;
-	PreferansScore p;
-	WHIST_OPTION wo;
-	VDouble v[11][11][WHIST_OPTION_SIZE], rv;
+	int contract, tricks;
+	VDouble rv;
 	double probability[MAX_RESULT_SIZE];
 	int i, t;
 	std::string s;
@@ -576,72 +626,95 @@ void SolveAllFoeDialog::updateTab2() {
 	}
 	g_mutex_unlock(&m_mutex);
 
-	for (tricks = 0; tricks <= 10; tricks++) {
-		for (auto c :{0,6,7,8,9,10}) {
-			for(i=0;i<WHIST_OPTION_SIZE;i++){
-				wo=WHIST_OPTION(i);
-				if(wo==WHIST_OPTION_WHIST || c==tricks){
-					v[tricks][c][i]=p.getGameScore(players, c, tricks,wo);
-				}
-			}
-		}
-	}
-
-	if(isMisere()){
-		contract=0;
-		rv.clear();
-		for(i=0;i<players;i++){
+	if(isBridge()){
+		const int trump=getTrump();
+		const int doubleRedouble=getComboPosition(m_combo[BRIDGE_DOUBLE_REDOUBLE_COMBO]);
+		const bool vulnerable=getComboPosition(m_combo[BRIDGE_VULNERABLE_COMBO]);
+		for (contract = 1; contract <= 7; contract++) {
 			ev=0;
 			for (tricks = 0; tricks <= 10; tricks++) {
-				wo = WHIST_OPTION_WHIST;
-				t = tricks;
-				assert(i < int(v[t][contract][wo].size()));
-				ev += probability[tricks] * v[t][contract][wo][i];
+				ev += probability[tricks]
+						* countBridgeScore(contract, trump, tricks,
+								doubleRedouble, vulnerable);
 			}
-			rv.push_back(ev);
+			rv={ev,-ev};
+			setGridLabels(contract, rv);
 		}
-		setGridLabels(contract, rv);
 	}
 	else{
-		if (option==ALWAYS_HALFWHIST || option==ALWAYS_PASS) {
-			wo = option == ALWAYS_HALFWHIST ?
-					WHIST_OPTION_HALFWHIST : WHIST_OPTION_ALLPASS;
-			for (contract = 6; contract <= 10; contract++) {
-				setGridLabels(contract, v[contract][contract][wo]);
+		const int players = getPreferansPlayers();
+		const int option = getComboPosition(m_combo[PREFERANS_WHIST_OPTION_COMBO]);
+		PreferansScore p;
+		VDouble v[11][11][WHIST_OPTION_SIZE];
+		WHIST_OPTION wo;
+		int whisterstricks;
+
+		for (tricks = 0; tricks <= 10; tricks++) {
+			for (auto c :{0,6,7,8,9,10}) {
+				for(i=0;i<WHIST_OPTION_SIZE;i++){
+					wo=WHIST_OPTION(i);
+					if(wo==WHIST_OPTION_WHIST || c==tricks){
+						v[tricks][c][i]=p.getGameScore(players, c, tricks,wo);
+					}
+				}
 			}
 		}
+
+		if(isMisere()){
+			contract=0;
+			rv.clear();
+			for(i=0;i<players;i++){
+				ev=0;
+				for (tricks = 0; tricks <= 10; tricks++) {
+					wo = WHIST_OPTION_WHIST;
+					t = tricks;
+					assert(i < int(v[t][contract][wo].size()));
+					ev += probability[tricks] * v[t][contract][wo][i];
+				}
+				rv.push_back(ev);
+			}
+			setGridLabels(contract, rv);
+		}
 		else{
-			for (contract = 6; contract <= 10; contract++) {
-				rv.clear();
-				for(i=0;i<players;i++){
-					ev=0;
-					for (tricks = 0; tricks <= 10; tricks++) {
-						wo = WHIST_OPTION_WHIST;
-						t = tricks;
-						if (option != ALWAYS_WHIST) {
-							whisterstricks = 10 - tricks;
-							if (whisterstricks
-									< MIN_WHIST_TRICKS[contract - 6]) {
-								wo =
-										option
-												== WHIST_PROFITABLE_DEALS_ELSE_HALFWHIST ?
-												WHIST_OPTION_HALFWHIST :
-												WHIST_OPTION_ALLPASS;
-								if (tricks > contract) {
-									t = contract;
+			if (option==ALWAYS_HALFWHIST || option==ALWAYS_PASS) {
+				wo = option == ALWAYS_HALFWHIST ?
+						WHIST_OPTION_HALFWHIST : WHIST_OPTION_ALLPASS;
+				for (contract = 6; contract <= 10; contract++) {
+					setGridLabels(contract, v[contract][contract][wo]);
+				}
+			}
+			else{
+				for (contract = 6; contract <= 10; contract++) {
+					rv.clear();
+					for(i=0;i<players;i++){
+						ev=0;
+						for (tricks = 0; tricks <= 10; tricks++) {
+							wo = WHIST_OPTION_WHIST;
+							t = tricks;
+							if (option != ALWAYS_WHIST) {
+								whisterstricks = 10 - tricks;
+								if (whisterstricks
+										< MIN_WHIST_TRICKS[contract - 6]) {
+									wo =
+											option
+													== WHIST_PROFITABLE_DEALS_ELSE_HALFWHIST ?
+													WHIST_OPTION_HALFWHIST :
+													WHIST_OPTION_ALLPASS;
+									if (tricks > contract) {
+										t = contract;
+									}
 								}
 							}
+							assert(i < int(v[t][contract][wo].size()));
+							ev += probability[tricks] * v[t][contract][wo][i];
 						}
-						assert(i < int(v[t][contract][wo].size()));
-						ev += probability[tricks] * v[t][contract][wo][i];
+						rv.push_back(ev);
 					}
-					rv.push_back(ev);
+					setGridLabels(contract, rv);
 				}
-				setGridLabels(contract, rv);
 			}
 		}
 	}
-
 	s=m_total == m_positions ?"":getPercentString();
 	gtk_label_set_text(GTK_LABEL(m_labelPercentTab2), s.c_str());
 
@@ -656,11 +729,18 @@ void SolveAllFoeDialog::addGridRow(GtkWidget *w, int row) {
 
 void SolveAllFoeDialog::setGridLabels(int contract,const VDouble& v) {
 	std::string s;
-	int i=0;
+	int i=0,r;
 	const bool empty=m_total==0;
 
+	if(isBridge()){
+		r=contract;
+	}
+	else{
+		r=isMisere()?1:contract - 5;
+	}
+
 	for (auto a:v) {
-		auto w = gtk_grid_get_child_at(GTK_GRID(m_grid), i + 1, isMisere()?1:contract - 5);
+		auto w = gtk_grid_get_child_at(GTK_GRID(m_grid), i + 1, r);
 		s = empty ? "?":normalize(format("%.2lf", a));
 		gtk_label_set_text(GTK_LABEL(w), s.c_str());
 		i++;

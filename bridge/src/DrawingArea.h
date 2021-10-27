@@ -77,9 +77,7 @@ public:
 	int m_pstateSize;
 
 	//solve for all declarers & solve all foe
-private:
 	GMutex m_solveAllMutex;
-public:
 	std::atomic_int m_solveAllNumber,m_maxv;
 	std::vector<SolveAll> m_vSolveAll;
 

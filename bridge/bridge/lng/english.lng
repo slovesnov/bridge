@@ -87,7 +87,7 @@ menu
 6 "bridge"
 7 "preferans"
 8 "clear"
-9 "all"
+9 "declaring side"
 10 "best move"
 11 "contract"
 12 "yes"
@@ -133,8 +133,8 @@ menu
 52 "image files"
 53 "declarer"
 54 "misere player"
-55 "defender" https://en.wikipedia.org/wiki/Preferans
-56 "whister"
+55 "catcher" 
+56 "defender" https://en.wikipedia.org/wiki/Preferans
 57 "click to switch player" tooltip
 58 "click to switch misere player" tooltip
 59 "tricks of whisters" tooltip
@@ -207,6 +207,10 @@ menu
 "options"
 "whist on the favorable hands, pass on the rest#whist on the favorable hands, half-whist on the rest#whist always#half-whist always#everybody always pass"
 "Expected value table."
+"undoubled" - https://en.wikipedia.org/wiki/Contract_bridge#Scoring
+"doubled" - https://en.wikipedia.org/wiki/Contract_bridge#Scoring
+"redoubled" - https://en.wikipedia.org/wiki/Contract_bridge#Scoring
+"defenders"
 
 200 "unknown error"
 201 "duplicate tag found"
