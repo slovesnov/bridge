@@ -49,9 +49,9 @@ italian.BeveledLabel=Italian
 Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\pan-up-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
 Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\pan-down-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
 Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\pan-end-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
-Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\list-add-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
-Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\list-remove-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
-Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\edit-find-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
+Source: "{#GTKPATH}share\icons\Adwaita\16x16\actions\list-add-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
+Source: "{#GTKPATH}share\icons\Adwaita\16x16\actions\list-remove-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
+Source: "{#GTKPATH}share\icons\Adwaita\16x16\actions\edit-find-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
 ;for select font option {list-add-symbolic.symbolic.png list-remove-symbolic.symbolic.png edit-find-symbolic.symbolic.png
 
 ;new gtk version so ignoreversion for dlls

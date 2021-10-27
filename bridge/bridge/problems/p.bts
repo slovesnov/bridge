@@ -1,57 +1,0 @@
-% bts version 5.2
-deal 1 A98.AT98..T87 QT7.KQJ.A.KQJ KJ.7.KQJT9.A9
-contract 6S
-play SQ
-turns 1
-player E
-absent S
-comment Накажите играющего,взяв все 10 взяток.
-
-deal 2 87.KQ.KQ.J QT.A8.A97. J9.97.8.87
-contract 6S
-play W
-turns 0
-player N
-absent S
-comment Сыграйте за вистующих,чтобы они взяли все взятки.
-
-deal 3 QJT.J9.A97.KJ K9.Q87.QT8.QT A.AKT.KJ.A987
-contract 7C
-play W
-turns 0
-player W
-absent S
-comment Задача Барбакару. Запад заказал семь треф,помогите ему реализовать контракт.
-
-deal 4 AJ98.87.87.87 .KT9.AQT.KQT9 KQT7.AQJ.KJ.A
-contract 6S
-play W
-turns 0
-player W
-absent S
-comment Задача Галактионова. Запад заказал 6 пик, сыграйте за вистующих, чтобы они взяли 6 взяток.
-
-deal 5 T987.98.987.8 AK.AKQT.J.QJT QJ.J7.AKQT.97
-contract mizer
-play DA D9 DJ
-turns 0
-player N
-absent S
-comment Мизер Ковалевской. Север хочет сыграть мизер,помешайте ему!
-
-deal 6 8.T987.987.98 AT9.KQ.K.AQJT J7.AJ.AQJT.K7
-contract mizer
-play W
-turns 0
-player N
-absent S
-comment Мизер Ласкера. Посадите играющегомизер на нескольковзяток.
-
-deal 7 A8.AJ7.AJ8.KT QT.KT8.KT7.Q8 KJ7.Q9.Q9.AJ7
-contract 6NT
-play W
-turns 0
-player N
-absent S
-comment Задача "Сложный расклад".
-
