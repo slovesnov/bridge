@@ -528,7 +528,7 @@ GtkWidget* SolveAllFoeDialog::createTab2() {
 		for(auto a:vi){
 			s=getString(a);
 			if(i>0){
-				s+=std::to_string(i - 1);
+				s+=std::to_string(i);
 			}
 			vs.push_back(s);
 			i++;

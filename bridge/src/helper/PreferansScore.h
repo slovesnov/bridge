@@ -38,10 +38,7 @@ public:
 	 *
 	 * assume player is always first player, active whister(only one) second player
 	 */
-	void setGame(int players, int contract, int tricks,WHIST_OPTION whistOption);
-	void setGame(int players, int contract, int tricks){
-		setGame(players, contract, tricks,WHIST_OPTION_WHIST);
-	}
+	void setGame(int players, int contract, int tricks,WHIST_OPTION whistOption=WHIST_OPTION_WHIST);
 
 	void setNonPlayingGame(int players, int contract, bool halfwhist) {
 		setGame(players, contract, contract,

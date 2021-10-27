@@ -491,13 +491,15 @@ void ProblemSelector::save(std::string filepath, bool split) {
 		return;
 	}
 
-	if (m_vproblem.size() == m_vproblemOriginal.size()) {
-		m_vproblemOriginal[m_current] = m_vproblem[m_current];	//save changes
-		m_modified[m_current] = false;
-	}
+	//check save error before set m_modified
 	int m = m_vproblem.save(filepath, split);
 	if(m==ProblemVector::SAVE_ERROR){
 		return;
+	}
+
+	if (m_vproblem.size() == m_vproblemOriginal.size()) {
+		m_vproblemOriginal[m_current] = m_vproblem[m_current];	//save changes
+		m_modified[m_current] = false;
 	}
 	if (!split) {
 		if (m) {
@@ -553,12 +555,11 @@ const Problem& ProblemSelector::getProblem() const {
 }
 
 void ProblemSelector::setOriginalModified() {
-	VBoolI it;
-
 	m_vproblemOriginal = m_vproblem;
 	m_modified.resize(size());
-	for (it = m_modified.begin(); it != m_modified.end(); it++) {
-		*it = false;
+	//(auto a:m_m_modified) changes m_modified, (auto& a) compiler error
+	for (auto&& a : m_modified) {
+		a = false;
 	}
 }
 

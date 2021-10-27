@@ -66,8 +66,8 @@ Source: "Release\{#APPNAME}.exe"; DestDir: "{app}\bin"; Flags: ignoreversion
 Source: "*.css"; DestDir: "{app}\bin"; Flags: ignoreversion
 Source: "{#APPNAME}\images\*"; Excludes: "*.txt"; DestDir: "{app}\bin\{#APPNAME}\images"; Flags: onlyifdoesntexist
 Source: "{#APPNAME}\lng\*"; DestDir: "{app}\bin\{#APPNAME}\lng"; Flags: ignoreversion
-Source: "{#APPNAME}\problems\*";  DestDir: "{app}\problems"; Flags: onlyifdoesntexist
-Source: "{#APPNAME}\problems\bts\*";  DestDir: "{app}\problems\bts"; Flags: onlyifdoesntexist
+Source: "{#APPNAME}\problems\*";  DestDir: "{app}\bin\problems"; Flags: onlyifdoesntexist
+Source: "{#APPNAME}\problems\bts\*";  DestDir: "{app}\bin\problems\bts"; Flags: onlyifdoesntexist
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 

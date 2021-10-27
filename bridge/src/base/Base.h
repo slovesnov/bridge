@@ -23,7 +23,6 @@ typedef VString::iterator VStringI;
 typedef VString::const_iterator VStringCI;
 
 typedef std::vector<bool> VBool;
-typedef VBool::iterator VBoolI;
 
 typedef std::vector<int> VInt;
 typedef std::vector<double> VDouble;
