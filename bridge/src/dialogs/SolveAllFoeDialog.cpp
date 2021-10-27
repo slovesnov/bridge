@@ -247,10 +247,10 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 
 	m_notebook = gtk_notebook_new();
 	gtk_notebook_append_page(GTK_NOTEBOOK(m_notebook), g1,
-			label(STRING_CALCULATIONS));
+			label(STRING_TRICKS1));
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(m_notebook), createTab2(),
-			label(STRING_CONTRACTS_SCORING));
+			label(STRING_CONTRACTS));
 
 	gtk_container_add(GTK_CONTAINER(getContentArea()), m_notebook);
 
@@ -630,7 +630,7 @@ void SolveAllFoeDialog::updateTab2() {
 		const bool vulnerable=getComboPosition(m_combo[BRIDGE_VULNERABLE_COMBO]);
 		for (contract = 1; contract <= 7; contract++) {
 			ev=0;
-			for (tricks = 0; tricks <= MAX_BRIDGE_HAND_CARDS; tricks++) {
+			for (tricks = 0; tricks <= 13; tricks++) {
 				ev += probability[tricks]
 						* countBridgeScore(contract, trump, tricks,
 								doubleRedouble, vulnerable);
@@ -663,7 +663,7 @@ void SolveAllFoeDialog::updateTab2() {
 			rv.clear();
 			for(i=0;i<players;i++){
 				ev=0;
-				for (tricks = 0; tricks <= MAX_PREFERANS_HAND_CARDS; tricks++) {
+				for (tricks = 0; tricks <= 10; tricks++) {
 					wo = WHIST_OPTION_WHIST;
 					t = tricks;
 					assert(i < int(v[t][contract][wo].size()));
