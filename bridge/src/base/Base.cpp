@@ -174,7 +174,12 @@ int countBridgeScore(const int contract, const int trump, const int tricks,
 
 const std::string getNTString() {
 	std::string s = getString(STRING_NT);
-	return g_utf8_strup(s.c_str(), s.length()); //to upper case
+	return utf8ToUpperCase(s);
+}
+
+std::string getLowercasedPlayerString(CARD_INDEX player){
+	std::string s=getPlayerString(player);
+	return utf8ToLowerCase(s);
 }
 
 const gchar* getPlayerString(CARD_INDEX player) {
@@ -376,7 +381,7 @@ AuctionTagParseResult parseAuctionTag(const std::string& auctionValue,
 	ntrump = INDEX_OF(SO[trump],SUITS_CHAR );
 	assert(ntrump != -1);
 
-	s = format("%d", contract) + getTrumpString(ntrump);
+	s = format("%d", contract) + getEnglishTrumpString(ntrump);
 	for (i = 0; i < doubleredouble; i++) {
 		s += 'X';
 	}
@@ -390,7 +395,28 @@ AuctionTagParseResult parseAuctionTag(const std::string& auctionValue,
 					PLAYER_CHAR[(p - PLAYER_CHAR + firstDeclarer[declarer % 2][trump]) % 4]));
 }
 
-std::string getTrumpString(int trump) {
+/*
+std::string getLowerTrumpString(int trump){
+	if(trump==NT){
+		return getString(STRING_NT);
+	}
+
+	std::string s=getString(STRING_ID(STRING_SPADES+trump));
+	return utf8Substring(s, 0, 1);
+}
+
+std::string getUpperTrumpString(int trump){
+	if(trump==NT){
+		return getNTString();
+	}
+
+	std::string s=getString(STRING_ID(STRING_SPADES+trump));
+	s=utf8Substring(s, 0, 1);
+	return utf8ToUpperCase(s);
+}
+*/
+
+std::string getEnglishTrumpString(int trump) {
 	std::string s;
 	s += toupper(SUITS_CHAR[trump]);
 	if (trump == NT) {
@@ -439,6 +465,8 @@ void exploreAllChildrenRecursive(GtkWidget* w) {
 
 	for (iter = children; iter != NULL; iter = g_list_next(iter)) {
 		w = GTK_WIDGET(iter->data);
+		println("%llx",w);
+		printl(gtk_widget_path_to_string(gtk_widget_get_path(w)));
 
 		if (GTK_IS_CONTAINER(w)) {
 			GList* ch = gtk_container_get_children(GTK_CONTAINER(w));
@@ -678,4 +706,36 @@ GtkWidget* createBoldLabel(STRING_ID id){
 
 GtkWidget* createBoldLabel(std::string const& s){
 	return createMarkupLabel("<b>"+s+"</b>");
+}
+
+GtkWidget* createUnderlinedLabel(STRING_ID id){
+	std::string s=getString(id);
+	return createUnderlinedLabel(s);
+}
+
+GtkWidget* createUnderlinedLabel(CARD_INDEX id){
+	std::string s=getPlayerString(id);
+	return createUnderlinedLabel(s);
+}
+
+GtkWidget* createUnderlinedLabel(std::string const& s){
+	return createMarkupLabel("<u>"+s+"</u>");
+}
+
+GtkWidget* containerGetChild(GtkWidget* w,int n){
+	assert(GTK_IS_CONTAINER(w));
+	int i=0;
+	GList *iter;
+	GtkWidget*r=nullptr;
+	GList *children = gtk_container_get_children(GTK_CONTAINER(w));
+	for(iter = children; iter != NULL; iter = g_list_next(iter)){
+		if(i==n){
+			r=GTK_WIDGET(iter->data);//store before g_list_free
+			break;
+		}
+		i++;
+	}
+	g_list_free(children);
+	assert(r);
+	return r;
 }

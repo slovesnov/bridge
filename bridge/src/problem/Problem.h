@@ -212,9 +212,7 @@ public:
 
 	void saveState();
 
-	std::string getTrumpString() const {
-		return ::getTrumpString(m_trump);
-	}
+	std::string getEnglishTrumpString() const;
 
 	std::string getValidTrumpStringDfPbn() const;
 	std::string getValidContractStringDfPbn() const;

@@ -28,6 +28,7 @@ typedef std::vector<int> VInt;
 typedef std::vector<double> VDouble;
 
 typedef std::vector<STRING_ID> VStringID;
+typedef std::vector<CARD_INDEX> VCardIndex;
 
 typedef std::set<std::string> SString;
 typedef std::set<int> SInt;
@@ -186,6 +187,7 @@ std::string getSuitString(int suit);
 std::string getContractString(int n);
 const std::string getNTString();
 
+std::string getLowercasedPlayerString(CARD_INDEX player);
 const gchar * getPlayerString(CARD_INDEX player);
 
 /* getCardRankString() call in EditListDialog & Problem::getHTMLContent
@@ -220,7 +222,13 @@ int countEndX(std::string const& s);
 
 AuctionTagParseResult parseAuctionTag(const std::string & auctionValue,
 		const std::string & auctionAdd);
-std::string getTrumpString(int trump);
+
+/*[en] s,h,d,c,nt
+[ru] ο,χ,α,ς,ακ
+*/
+//std::string getLowerTrumpString(int trump);
+//std::string getUpperTrumpString(int trump);
+std::string getEnglishTrumpString(int trump);
 
 std::string getBgImageName(int i);
 
@@ -285,5 +293,9 @@ GtkWidget* createMarkupLabel(std::string const& s,int maxChars=0);
 GtkWidget* createMarkupLabel(STRING_ID id,int maxChars=0);
 GtkWidget* createBoldLabel(STRING_ID id);
 GtkWidget* createBoldLabel(std::string const& s);
+GtkWidget* createUnderlinedLabel(STRING_ID id);
+GtkWidget* createUnderlinedLabel(CARD_INDEX id);
+GtkWidget* createUnderlinedLabel(std::string const& s);
 
+GtkWidget* containerGetChild(GtkWidget* w,int n);
 #endif /* BASE_H_ */

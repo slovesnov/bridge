@@ -135,32 +135,7 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 			G_CALLBACK(size_allocate), NULL);
 
 #ifndef NDEBUG
-	//TODO remove
-	//menuClick(MENU_SOLVE_ALL_FOE);
 
-//	explorePbn("D:\\pbns","pbnStat.txt");
-
-//exploreCpp("D:\\slovesno\\MyProjects\\eclipse\\bridge_cpp\\bridge\\src","dirStat.txt",false);
-//exploreCpp("D:\\downloads\\b","dirStat.txt",true);
-
-//two directories in one file
-//exploreCpp("D:\\slovesno\\MyProjects\\eclipse\\bridge_cpp\\bridge\\src","D:\\b","dirStat.txt");
-
-	/* it's possible to many calls in one run for example
-	 * removeMenuId(823);
-	 * insertMenuId(839);
-	 * insertMenuId(839);
-	 * insertMenuId(839);
-	 */
-
-//insertMenuId(820);
-//setBtsContracts();
-//optimalToFile();
-//getOptimal(1000,true);
-//loadHttpProblems();
-//correctLngFiles();
-//test();
-//resetCssFiles();
 #endif
 
 	gtk_main();

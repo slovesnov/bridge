@@ -83,17 +83,7 @@ GtkWidget* ButtonsDialogWithProblem::createPlayerBox(CARD_INDEX ci,
 	std::string s;
 
 	w = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-
-	if(underlined){
-		w2 = gtk_label_new("");
-		s="<u>";
-		s+=getPlayerString(ci);
-		s+="</u>";
-		gtk_label_set_markup (GTK_LABEL (w2), s.c_str());
-	}
-	else{
-		w2 = gtk_label_new(getPlayerString(ci));
-	}
+	w2=underlined ?createUnderlinedLabel(ci) : gtk_label_new(getPlayerString(ci));
 	gtk_label_set_xalign(GTK_LABEL(w2), 0);
 	gtk_label_set_yalign(GTK_LABEL(w2), 0.5);
 	gtk_container_add(GTK_CONTAINER(w), w2);

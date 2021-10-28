@@ -265,7 +265,7 @@ void PbnEditorDialog::redrawProblem() {
 				s = format("%d", getProblem().m_contract);
 				gtk_container_add(GTK_CONTAINER(w1), gtk_label_new(s.c_str()));
 				if (getProblem().m_trump == NT) {
-					w = gtk_label_new(getProblem().getTrumpString().c_str()); //language independent
+					w = gtk_label_new(getProblem().getEnglishTrumpString().c_str()); //language independent
 				}
 				else {
 					w = gtk_image_new_from_pixbuf(
@@ -429,7 +429,7 @@ bool PbnEditorDialog::storeProblem() {
 			else {
 				i = getComboPosition(m_combo[PBN_EDITOR_COMBO_DOUBLE_REDOUBLE]);
 				it->value = format("%d", getProblem().m_contract)
-						+ getProblem().getTrumpString() + DOUBLE_REDOUBLE[i];
+						+ getProblem().getEnglishTrumpString() + DOUBLE_REDOUBLE[i];
 			}
 		}
 		else {

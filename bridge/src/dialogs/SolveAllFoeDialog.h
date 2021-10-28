@@ -31,6 +31,7 @@ class SolveAllFoeDialog: public ButtonsDialogWithProblem {
 	GtkWidget *m_labelPercentTab2;
 	GtkWidget *m_notebook;
 	GMutex m_mutex;
+	bool m_declarerNorthOrSouth;
 public:
 	gint64 m_id;//read help in SolveAllFoeDialog.cpp
 
@@ -53,6 +54,10 @@ public:
 	void updateNumberOfPreferansPlayers();
 	VGtkWidgetPtr getLastWhisterWidgets();
 	std::string getPercentString();
+	void setPreferans2ndTitleRow();
+	void setGridLabel(std::string const&s,int left,int top);
+	int getTableRowsTab2();
+	std::string getNSEWString(bool ns);
 };
 
 #endif /* DIALOGS_SOLVEALLFOEDIALOG_H_ */

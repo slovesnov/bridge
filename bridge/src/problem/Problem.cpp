@@ -764,7 +764,7 @@ std::string Problem::getBtsContent(int nproblem, bool caption) {
 			s += NO_CONTRACT_OR_NO_TRUMP_CHAR;
 		}
 		else {
-			s += getTrumpString();
+			s += getEnglishTrumpString();
 		}
 
 	}
@@ -1450,6 +1450,10 @@ void Problem::saveState() {
 	m_states[m_currentState] = m_states[m_currentState - 1];
 }
 
+std::string Problem::getEnglishTrumpString() const {
+	return ::getEnglishTrumpString(m_trump);
+}
+
 void Problem::newDeal() {
 	m_maxState = m_currentState = 0;
 	m_states[0].newDeal(*this);
@@ -1639,10 +1643,10 @@ bool Problem::supportFileFormat(FILE_TYPE t) const {
 
 std::string Problem::getValidTrumpStringDfPbn() const {
 	if (m_trump == NO_TRUMP_SET) {
-		return ::getTrumpString(0);
+		return ::getEnglishTrumpString(0);
 	}
 	else {
-		return getTrumpString();
+		return getEnglishTrumpString();
 	}
 }
 
