@@ -46,13 +46,28 @@ italian.BeveledLabel=Italian
 [InstallDelete]
 
 [Files]
-Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\pan-up-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
-Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\pan-down-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
-Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\pan-end-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
-Source: "{#GTKPATH}share\icons\Adwaita\16x16\actions\list-add-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
-Source: "{#GTKPATH}share\icons\Adwaita\16x16\actions\list-remove-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
-Source: "{#GTKPATH}share\icons\Adwaita\16x16\actions\edit-find-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
+;pan-up-symbolic.symbolic.png, pan-down-symbolic.symbolic.png Arrow up/down. It's combobox arrow
+;pan-end-symbolic.symbolic.png right arrow for menu
+;list-add-symbolic.symbolic.png list-remove-symbolic.symbolic.png +/- for "font selection"
+;edit-find-symbolic.symbolic.png "search image" for "font selection"
 ;for select font option {list-add-symbolic.symbolic.png list-remove-symbolic.symbolic.png edit-find-symbolic.symbolic.png
+;spinner process-working-symbolic.svg
+;BEGIN file open
+;glib-2.0\schemas\gschemas.compiled - otherwise hangs
+;Adwaita\16x16\ different folder
+;Adwaita\index.theme
+;END file open 
+;Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\pan-up-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
+;Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\pan-down-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
+;Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\pan-end-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
+;Source: "{#GTKPATH}share\icons\Adwaita\16x16\actions\list-add-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
+;Source: "{#GTKPATH}share\icons\Adwaita\16x16\actions\list-remove-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
+;Source: "{#GTKPATH}share\icons\Adwaita\16x16\actions\edit-find-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
+Source: "{#GTKPATH}share\icons\Adwaita\16x16\*"; DestDir: "{app}\share\icons\Adwaita\16x16"; Flags: onlyifdoesntexist recursesubdirs
+Source: "{#GTKPATH}share\icons\Adwaita\index.theme"; DestDir: "{app}\share\icons\Adwaita"; Flags: ignoreversion
+Source: "{#GTKPATH}share\icons\Adwaita\scalable-up-to-32\status\process-working-symbolic.svg"; DestDir: "{app}\share\icons\Adwaita\scalable-up-to-32\status"; Flags: onlyifdoesntexist
+Source: "{#GTKPATH}share\glib-2.0\schemas\gschemas.compiled"; DestDir: "{app}\share\glib-2.0\schemas"; Flags: ignoreversion
+;c:\soft\msys64\mingw64\share\glib-2.0\schemas\gschemas.compiled
 
 ;new gtk version so ignoreversion for dlls
 Source: "{#GTKPATH}bin\*.dll"; DestDir: "{app}\bin"; Flags: ignoreversion
