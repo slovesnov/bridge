@@ -405,6 +405,8 @@ public:
 	bool isDeclarerNorthOrSouth()const;
 	CARD_INDEX getDeclarer() const;
 	int getSideTricks(CARD_INDEX player)const;
+	int languages();
+	bool isLanguage(MENU_ID id);
 };
 
 

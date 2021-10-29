@@ -561,7 +561,7 @@ bool Config::loadLanguage(std::string filename,VIntString& v){
 	FILE*f;
 
 	f = open(filename.c_str(), "r");
-	if (!f ) {
+	if (!f) {
 		return false;
 	}
 
@@ -571,7 +571,7 @@ bool Config::loadLanguage(std::string filename,VIntString& v){
 			i=++previous;
 		}
 		else{
-			i = int(strtol(buff, &b, 10));
+			i = strtol(buff, &b, 10);
 			if (b == buff) {	//no digits found
 				continue;
 			}
@@ -582,7 +582,9 @@ bool Config::loadLanguage(std::string filename,VIntString& v){
 		if (b != 0 && e != 0) {
 			b++;
 			*e = 0;
-			auto it = find_if(v.begin(), v.end(), [&i] (const PairIntString& a) { return a.first == i; } );
+			auto it = find_if(v.begin(), v.end(), [&i](const PairIntString &a) {
+				return a.first == i;
+			});
 			if(it==v.end()){
 				v.push_back({i,b});
 			}

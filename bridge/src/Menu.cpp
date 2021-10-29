@@ -16,6 +16,9 @@ Menu*gmenu;
 
 #define SET_ATTRIBUTES(a) setItemAttributes(a,SIZE(a));
 
+const MENU_ID TOP_MENU[] = { MENU_PROBLEM, MENU_ADDONS, MENU_VIEW, MENU_OPTIONS,
+		MENU_MOVE, MENU_LANGUAGE, MENU_SKIN, MENU_HELP };
+
 /*before this identifiers need to set separator in menu*/
 const MENU_ID SEPARATOR_ID[] = {
 		MENU_EDIT,
@@ -118,7 +121,7 @@ const MENU_ID MENU_ESTIMATE[] = {
 		MENU_ESTIMATE_ALL_LOCAL,
 		MENU_ESTIMATE_ALL_TOTAL };
 
-const MENU_ID MENU_SKIN[] = {
+const MENU_ID MENU_SKINS[] = {
 		MENU_SKIN0,
 		MENU_SKIN1,
 		MENU_SKIN2,
@@ -210,7 +213,7 @@ Menu::Menu() :
 
 	for (auto& m: gconfig->m_vectorMenuString) {
 		assert(m_map.find(m.first) == m_map.end());
-		if ( m.first >= MENU_PROBLEM && m.first < MENU_LANGUAGE_FIRST) {
+		if ( ONE_OF(m.first,TOP_MENU)) {
 			insertTopMenu(m);
 		}
 		else {
@@ -278,7 +281,7 @@ void Menu::insertSubMenu(MenuString menuString) {
 	//set up icon if needed
 	if (menuString.first == MENU_GAME_TYPE || menuString.first == MENU_CUSTOM_SKIN
 			|| (menuString.first >= MENU_SKIN0 && menuString.first <= MENU_SKIN7)
-			|| (menuString.first >= MENU_LANGUAGE_FIRST && menuString.first < MENU_NEW)) {
+			|| isLanguage(menuString.first)) {
 
 		if (menuString.first == MENU_GAME_TYPE) {
 			p = pixbuf("backv.gif");
@@ -351,18 +354,18 @@ void Menu::insertSubMenu(MenuString menuString) {
 
 void Menu::updateSkin() {
 	//disable active skin, enable all others
-	SET_ATTRIBUTES(MENU_SKIN)
+	SET_ATTRIBUTES(MENU_SKINS)
 }
 
 void Menu::updateLanguage() {
-	unsigned i;
+	int i;
 
 	for (auto& m:gconfig->m_vectorMenuString) {
 		updateMenu(m);
 	}
 
 	//disable active language
-	for (i = 0; i < gconfig->m_language.size(); i++) {
+	for (i = 0; i < languages(); i++) {
 		setItemAttributes(MENU_ID(MENU_LANGUAGE_FIRST + i));
 	}
 
@@ -493,7 +496,7 @@ void Menu::setItemAttributes(const MENU_ID id) {
 	else if (id >= MENU_SKIN0 && id <= MENU_SKIN7) {
 		b = MENU_SKIN0 + gconfig->m_skin != id;
 	}
-	else if (id >= MENU_LANGUAGE_FIRST && id < MENU_NEW) {
+	else if (isLanguage(id)) {
 		//if gconfig->getLanguageIndex()==-1 always enable
 		b = id != MENU_LANGUAGE_FIRST + gconfig->getLanguageIndex();
 	}

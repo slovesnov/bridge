@@ -332,7 +332,7 @@ void Frame::menuClick(MENU_ID id) {
 		break;
 
 	default:
-		if (id >= MENU_LANGUAGE_FIRST && id < MENU_NEW) {
+		if (isLanguage(id)) {
 			//language
 			setLanguage(id - MENU_LANGUAGE_FIRST);
 		}

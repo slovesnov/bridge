@@ -970,3 +970,11 @@ int Widget::getSideTricks(CARD_INDEX player) const {
 	assert(isBridge());
 	return getTricks(player)+getTricks(getBridgePartner(player));
 }
+
+int Widget::languages() {
+	return gconfig->m_language.size();
+}
+
+bool Widget::isLanguage(MENU_ID id) {
+	return id>=MENU_LANGUAGE_FIRST && id<MENU_LANGUAGE_FIRST+languages();
+}
