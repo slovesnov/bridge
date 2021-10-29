@@ -150,7 +150,6 @@ enum STRING_ID {
 	STRING_PLAYERS,
 	STRING_CONTRACTS,
 	STRING_CONTRACTS_SCORING_HELP,
-	STRING_OPTIONS,
 	STRING_WHIST_OPTIONS_COMBO,
 	STRING_EXPECTED_VALUE_TABLE,
 	STRING_UNDOUBLED,
@@ -207,11 +206,6 @@ enum MENU_ID {
 	//helpers menu id's
 	MENU_INVALID = 0,
 	MENU_RECENT = 1,
-
-	MENU_LANGUAGE_FIRST = 720, //language [720-799]
-	//variable menu items
-	MENU_GAME_TYPE = 1000,
-	MENU_FIND_BEST_MOVE = 1001,
 
 	//on insert/remove items in MENU_PROBLEM need to change Menu::m_firstRecentPosition
 	MENU_PROBLEM=600,//top
@@ -293,7 +287,17 @@ enum MENU_ID {
 
 	MENU_HELP,//top
 	MENU_HOMEPAGE,
-	MENU_ABOUT
+	MENU_ABOUT,
+
+	//all three items should goes after
+	//variable menu items
+	MENU_GAME_TYPE,
+	MENU_FIND_BEST_MOVE,
+
+	/* MENU_LANGUAGE_FIRST should goes last because
+	 * add MENU_LANGUAGE_FIRST, MENU_LANGUAGE_FIRST+1,...
+	 */
+	MENU_LANGUAGE_FIRST
 };
 
 enum TOOLBAR_BUTTON {

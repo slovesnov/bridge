@@ -618,7 +618,7 @@ GtkWidget* SolveAllFoeDialog::createTab2() {
 		gtk_box_pack_start(GTK_BOX(w), w1, TRUE, TRUE, 0);
 
 	}
-	w1= gtk_frame_new(getString(STRING_OPTIONS));
+	w1= gtk_frame_new(getString(MENU_OPTIONS));
 	gtk_container_add(GTK_CONTAINER(w1), w);
 	gtk_frame_set_label_align(GTK_FRAME(w1), 0.03, 0.5);
 	gtk_container_add(GTK_CONTAINER(w2), w1);

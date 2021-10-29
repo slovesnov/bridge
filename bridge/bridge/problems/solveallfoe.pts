@@ -1,21 +1,13 @@
-% bts version 5.1
-deal 1 T987.T987.98. AKQJ.AKQJ.T7. ..AKQJ.AKT987
-contract mizer
-play D9
-turns 1
-player N
-absent S
-comment 
-
-deal 2 T987.T987.8.J AKQJ.AKQJ.T7. ..AKQJ.AKT987
-contract mizer
+% bts version 5.2
+deal 1 T987.T987.8.J AKQJ.AKQJ.T7. ..AKQJ.AKT987
+contract misere
 play CJ
 turns 1
 player N
 absent S
 comment 
 
-deal 3 A.AKT.KJ.A987 KQJT9.QJ987.. ..AQT987.KQJT
+deal 2 A.AKT.KJ.A987 KQJT9.QJ987.. ..AQT987.KQJT
 contract 6C
 play SA
 turns 1
@@ -23,10 +15,27 @@ player N
 absent S
 comment 
 
-deal 4 AQJ8.KT8.KJ.9 K.AQ9.AQ87.A8 9.J7.T9.KQJT7
+deal 3 AQJ8.KT8.KJ.9 K.AQ9.AQ87.A8 9.J7.T9.KQJT7
 contract 6S
 play CQ
 turns 0
 player N
 absent S
 comment long counting problem solve all foe option
+
+deal 4 T987.T987.98. AKQJ.AKQJ.T7. ..AKQJ.AKT987
+contract misere
+play D9
+turns 1
+player N
+absent S
+comment 
+
+deal 5 A87.AQ7.Q7.98 T.KJ8.KJT8.T7 QJ9.T9.9.AKQJ
+contract misere
+play N
+turns 0
+player E
+absent S
+comment long counting misere
+
