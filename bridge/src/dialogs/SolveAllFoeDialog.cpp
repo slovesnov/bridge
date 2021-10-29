@@ -159,8 +159,7 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 		}
 	}
 	if (isBridge()) {
-		m_declarerNorthOrSouth=northOrSouth(p.getDeclarer());
-		s=getString(STRING_TRICKS1)+("\n"+getNSEWString(m_declarerNorthOrSouth));
+		s=getString(STRING_TRICKS1)+("\n"+getNSEWString(isDeclarerNorthOrSouth()));
 	}
 	else {
 		s=getString(STRING_PLAYER_TRICKS);
@@ -281,6 +280,7 @@ void SolveAllFoeDialog::updateData() {
 	g_mutex_lock(&m_mutex);
 	std::copy(m_result,m_result+MAX_RESULT_SIZE,result);//multithread ok
 	g_mutex_unlock(&m_mutex);
+
 
 	for (i =m_total= 0; i < resultSize(); i++) {
 		m_total += result[i];
@@ -485,6 +485,7 @@ GtkWidget* SolveAllFoeDialog::createTab2() {
 	std::string s;
 	VString vs;
 	STRING_ID id;
+	bool b;
 	const int trump=getTrump();
 	const bool bridge=isBridge();
 
@@ -538,7 +539,8 @@ GtkWidget* SolveAllFoeDialog::createTab2() {
 		else{//j==1
 			vs={""};
 			if(bridge){
-				for(auto a:{m_declarerNorthOrSouth,!m_declarerNorthOrSouth}){
+				b=isDeclarerNorthOrSouth();
+				for(auto a:{b,!b}){
 					vs.push_back(getNSEWString(a));
 				}
 
@@ -777,11 +779,34 @@ VGtkWidgetPtr SolveAllFoeDialog::getLastWhisterWidgets() {
 }
 
 void SolveAllFoeDialog::updateResult(int *result, int size) {
+	int a=getResultAdditionalTricks();
+	int i,j;
+//	for(int i=0;i<MAX_RESULT_SIZE;i++){
+//		result[i]+=add;
+//		assert(result[i]<=getMaxHandCards());
+//	}
+
 	g_mutex_lock(&m_mutex);
-	for (int i = 0; i < size; i++) {
-		m_result[i] += result[i];//multithread ok
+	for (i = 0; i < size; i++) {
+		j=i+a;
+		if(j>getMaxHandCards()){
+			assert(result[i]==0);
+#ifdef NDEBUG
+			break;
+#endif
+		}
+		else{
+			m_result[j] += result[i];//multithread ok
+		}
 	}
 	g_mutex_unlock(&m_mutex);
+
+
+//	g_mutex_lock(&m_mutex);
+//	for (int i = 0; i < size; i++) {
+//		m_result[i] += result[i];//multithread ok
+//	}
+//	g_mutex_unlock(&m_mutex);
 }
 
 std::string SolveAllFoeDialog::getPercentString() {

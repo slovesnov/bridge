@@ -82,6 +82,7 @@ const int N_SKINS = 8;
 const int CONFIG_CUSTOM_SKIN = -1;
 const int MAX_BRIDGE_HAND_CARDS = 13;
 const int MAX_PREFERANS_HAND_CARDS = 10;
+const int MAX_RESULT_SIZE = MAX_BRIDGE_HAND_CARDS + 1;
 
 const double CURRENT_VERSION = 5.2;
 const std::string CURRENT_VERSION_STR = forma(CURRENT_VERSION);

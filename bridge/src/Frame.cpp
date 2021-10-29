@@ -166,7 +166,8 @@ void Frame::menuClick(MENU_ID id) {
 		break;
 
 	case MENU_OPEN:
-		openAddFile();
+	case MENU_OPEN_FROM_LIBRARY:
+		openAddFile(id);
 		break;
 
 	case MENU_SAVE:
@@ -301,7 +302,7 @@ void Frame::menuClick(MENU_ID id) {
 		m_area.findBest(NULL);
 		break;
 
-	case MENU_OTHER_LANGUAGE:
+	case MENU_LOAD_LANGUAGE_FILE:
 		setCustomLanguage();
 		break;
 
@@ -461,12 +462,15 @@ void Frame::saveImage() {
 	}
 }
 
-void Frame::openAddFile() {
+void Frame::openAddFile(MENU_ID id) {
 	if (!saveIfModified()) {
 		return;
 	}
+	std::string path =
+			id == MENU_OPEN ?
+					"" : getApplicationName() + G_DIR_SEPARATOR_S + "problems";
 	FileChooserResult r = fileChooser(MENU_OPEN, FILE_TYPE_ANY,
-			CHOOSER_OPTION_OPEN_OR_ADD_ALL_SUPPORTED, "");
+			CHOOSER_OPTION_OPEN_OR_ADD_ALL_SUPPORTED, path);
 	if (r.ok()) {
 		assert(
 				r.m_response == GTK_RESPONSE_OK || r.m_response == GTK_RESPONSE_APPLY);

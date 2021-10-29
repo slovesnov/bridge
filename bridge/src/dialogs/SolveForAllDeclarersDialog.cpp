@@ -119,8 +119,15 @@ SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int*r) :
 		for (v = 0; v < MAX_THREADS[1]; v++) {
 			parsePreferansSolveAllDeclarersParameters(v, trump, misere, player);
 			for (first = 0; first < 3; first++) {
-				l = r[v * 3 + first];
-				s = format("%d", l);
+				/* if user make several turns/tricks and call "solve for all declarers" option
+				 * then need to add already taken tricks to make valid result for declarer
+				 * because we need sum of tricks
+				 *
+				 * after several turns/tricks for whisters this option is senselessly
+				 * so also add whister tricks to make this option common
+				 */
+				l = r[v * 3 + first]+getTricks(player);
+				s = std::to_string(l);
 				auto q = m_label[indexOfPreferansPlayer(player)][misere ? 5 : trump][first];
 				gtk_label_set_label(GTK_LABEL(q[0]), s.c_str());
 
@@ -147,12 +154,21 @@ void SolveForAllDeclarersDialog::setBridgeLabel(int trump) {
 	GtkWidget**w;
 
 	for (i = 0; i < SIZEI(PLAYER); i++) {
-		v=gdraw->m_solveAllDeclarersBridgeResult[trump][i];
-		CARD_INDEX ci = getPreviousBridgePlayer(PLAYER[i]);
-		w = m_label[indexOfPlayer(ci)][trump][0];
+		/* if user make several turns/tricks and call "solve for all declarers" option
+		 * then need to add already taken tricks to make valid result for declarer
+		 * because we need sum of tricks
+		 *
+		 * So if user setup beginning position calls "solve for all declarers" view tricks
+		 * If user does many moves from optimal line and again calls "solve for all declarers"
+		 * then tricks should be the same
+		 */
+		//PLAYER[i] - first move
+		CARD_INDEX declarer = getPreviousBridgePlayer(PLAYER[i]);
+		v=gdraw->m_solveAllDeclarersBridgeResult[trump][i]+getSideTricks(PLAYER[i]);
+		w = m_label[indexOfPlayer(declarer)][trump][0];
 		gtk_label_set_text(GTK_LABEL(w[0]), format("%d", v).c_str());
 		gtk_label_set_text(GTK_LABEL(w[1]),
-				v > 6 ? format("%d", v - 6).c_str() : "-");
+				v > 6 ? std::to_string(v - 6).c_str() : "-");
 
 	}
 	if (--m_searches == 0) {

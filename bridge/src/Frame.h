@@ -40,7 +40,7 @@ private:
 	void setCustomLanguage();
 
 	//if filepath.length()==0 then open file with filter otherwise open file=filepath
-	void openAddFile();
+	void openAddFile(MENU_ID id);
 
 	void save();
 	void saveAs();

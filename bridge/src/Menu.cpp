@@ -25,12 +25,13 @@ const MENU_ID SEPARATOR_ID[] = {
 		MENU_SHOW_HTML_OPTIONS,
 		MENU_SHOW_MODIFIED_WARNING,
 		MENU_FIND_BEST_MOVE,
-		MENU_OTHER_LANGUAGE,
+		MENU_LOAD_LANGUAGE_FILE,
 		MENU_CUSTOM_SKIN };
 
 const MENU_ID MENU_ICON_ID[] = {
 		MENU_NEW,
 		MENU_OPEN,
+		MENU_OPEN_FROM_LIBRARY,
 		MENU_SAVE,
 		MENU_SAVE_AS,
 		MENU_EDIT,
@@ -60,13 +61,14 @@ const MENU_ID MENU_ICON_ID[] = {
 		MENU_REDOALL,
 		MENU_FIND_BEST_MOVE, //move
 
-		MENU_OTHER_LANGUAGE, //language
+		MENU_LOAD_LANGUAGE_FILE, //language
 
 		MENU_HOMEPAGE,
 		MENU_ABOUT };
 
 const char* MENU_ICON_FILE[] = {
 		"new16.png",
+		"folder16.png",
 		"folder16.png",
 		"save16.png",
 		"saveas16.png",
@@ -140,6 +142,7 @@ const MENU_ID MENU_BEST_MOVE_DEPENDENT[] = {
 const MENU_ID MENU_THINK_DEPENDENT[] = {
 		MENU_NEW,
 		MENU_OPEN,
+		MENU_OPEN_FROM_LIBRARY,
 //		MENU_SAVE,
 //		MENU_SAVE_AS,
 		MENU_EDIT,
@@ -550,16 +553,13 @@ void Menu::updateAfterCreation() {
 }
 
 MenuString Menu::recentMenuString(int index) {
-	gchar buff[16];
 	std::string s = gconfig->m_recent[index];
 	if (s.length() > unsigned(gconfig->m_maxRecentLength)) {
 		const std::string dots = "..";
 		s = dots
 				+ s.substr(s.length() - gconfig->m_maxRecentLength + dots.length());
 	}
-
-	sprintf(buff, "%d ", index + 1);
-	return {MENU_ID(MENU_RECENT + index), buff + s}; //do not use Helper::encodeString, because we call addSubMenu() and this function do encoding
+	return {MENU_ID(MENU_RECENT + index), std::to_string(index+1)+" " + s}; //do not use Helper::encodeString, because we call addSubMenu() and this function do encoding
 }
 
 void Menu::updateRecent() {

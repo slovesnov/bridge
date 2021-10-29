@@ -2163,6 +2163,15 @@ void Problem::getClearCid(CARD_INDEX*cid) const {
 	}
 }
 
+CARD_INDEX Problem::getDeclarer() const {
+	if(m_gameType == BRIDGE){
+		return getPreviousPlayer(getVeryFirstMove());
+	}
+	else{
+		return m_player;
+	}
+}
+
 #ifndef FINAL_RELEASE
 std::string Problem::getForBridgeTestDealClass(int n)const {
 	int i,j,k;

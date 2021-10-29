@@ -14,7 +14,6 @@
 #include "ButtonsDialogWithProblem.h"
 
 class SolveAllFoeDialog: public ButtonsDialogWithProblem {
-	static const int MAX_RESULT_SIZE = MAX_BRIDGE_HAND_CARDS + 1;
 	int m_positions, m_total;
 	double m_fraction;
 	clock_t m_begin, m_end;
@@ -31,7 +30,6 @@ class SolveAllFoeDialog: public ButtonsDialogWithProblem {
 	GtkWidget *m_labelPercentTab2;
 	GtkWidget *m_notebook;
 	GMutex m_mutex;
-	bool m_declarerNorthOrSouth;
 public:
 	gint64 m_id;//read help in SolveAllFoeDialog.cpp
 

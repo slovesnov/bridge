@@ -277,14 +277,11 @@ public:
 	}
 
 	//0-3
-	inline int getDeclarerInt() const {
+	int getDeclarerInt() const {
 		return getDeclarer() - CARD_INDEX_NORTH;
 	}
 
-	inline CARD_INDEX getDeclarer() const {
-		assert(m_gameType == BRIDGE);
-		return getPreviousPlayer(getVeryFirstMove());
-	}
+	CARD_INDEX getDeclarer() const;
 
 	inline void setVeryFirstMove(CARD_INDEX index) {
 		m_states[0].m_firstmove = index;

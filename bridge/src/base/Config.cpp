@@ -41,7 +41,6 @@ Config::Config() {
 	GSList* elem;
 	GdkPixbufFormat*pf;
 	GdkRectangle rect;
-	FILE*f;
 	char*p;
 	CSize sz;
 
@@ -636,7 +635,7 @@ void Config::loadLanguageFile() {
 		}
 		else {
 			//insert before
-			if (i == MENU_OTHER_LANGUAGE) {
+			if (i == MENU_LOAD_LANGUAGE_FILE) {
 				j = 0;
 				for (auto& l : m_language) {
 					m_vectorMenuString.push_back( {

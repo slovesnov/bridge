@@ -43,7 +43,7 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 		m_pg[player] = tricks == 0 ? 10 : -10 * tricks;
 	}
 	else{
-		const int undertricks = contract - tricks; //недобранные взятки
+		const int undertricks = contract - tricks; //[ru] недобранные взятки
 		const int whistertricks = 10 - tricks;
 		const int MIN_WHISTER_TRICKS[]={4,2,1,1,0};
 		const bool contractDone = undertricks <= 0;

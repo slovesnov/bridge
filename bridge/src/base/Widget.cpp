@@ -12,6 +12,8 @@
 #include "../Frame.h"
 
 const GdkRGBA BLACK_COLOR = { 0., 0., 0., 1. };
+const int ARROW_K_IN_AREA_HEIGHT=2;
+const int CARDSIZE_K_IN_AREA_HEIGHT=5;
 
 const STRING_ID ALL_SUPPORTED[] = {
 		STRING_FILE_FILTER_ALL_SUPPORTED,
@@ -293,7 +295,12 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 	}
 
 	if (filepath.length() > 0) {
-		gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), filepath.c_str());
+		if(isDir(filepath)){
+			gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), filepath.c_str());
+		}
+		else{
+			gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), filepath.c_str());
+		}
 	}
 
 #ifndef NDEBUG
@@ -751,9 +758,6 @@ int Widget::countTableTop(int cardHeight){
 	return cardHeight + getActiveCardShift();
 }
 
-const int ARROW_K_IN_AREA_HEIGHT=2;
-const int CARDSIZE_K_IN_AREA_HEIGHT=5;
-
 int Widget::countAreaHeight(int cardHeight,int arrowSize,int y){
 	//Note result=cardHeight*CARDSIZE_K_IN_AREA_HEIGHT+arrowSize*ARROW_K_IN_AREA_HEIGHT+something
 	int tt=countTableTop(cardHeight);
@@ -942,3 +946,27 @@ int Widget::getBestLineHeight()const{
 	return gproblemselector->m_bestLineHeight;
 }
 
+int Widget::getTricks(CARD_INDEX player) const {
+	int index = INDEX_OF(player,PLAYER);	//always PLAYER not PREFERANS_PLAYER
+	assert(index != -1);
+	return getState().m_tricks[index];
+}
+
+int Widget::getResultAdditionalTricks() const{
+	CARD_INDEX ci=getDeclarer();
+	return isBridge() ? getSideTricks(ci) : getTricks(ci);
+}
+
+bool Widget::isDeclarerNorthOrSouth() const {
+	assert(isBridge());
+	return northOrSouth(getDeclarer());
+}
+
+CARD_INDEX Widget::getDeclarer() const {
+	return getProblem().getDeclarer();
+}
+
+int Widget::getSideTricks(CARD_INDEX player) const {
+	assert(isBridge());
+	return getTricks(player)+getTricks(getBridgePartner(player));
+}

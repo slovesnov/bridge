@@ -219,6 +219,7 @@ enum MENU_ID {
 	//on insert/remove items in MENU_PROBLEM need to change Menu::m_firstRecentPosition
 	MENU_NEW = 800,
 	MENU_OPEN,
+	MENU_OPEN_FROM_LIBRARY,
 	MENU_SAVE,
 	MENU_SAVE_AS,
 	MENU_EDIT,
@@ -274,7 +275,7 @@ enum MENU_ID {
 	//MENU_FIND_BEST_MOVE
 
 	//MENU_LANGUAGE_FIRST...
-	MENU_OTHER_LANGUAGE,
+	MENU_LOAD_LANGUAGE_FILE,
 
 	MENU_SKIN0,
 	MENU_SKIN1,

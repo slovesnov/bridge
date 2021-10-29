@@ -200,8 +200,6 @@ public:
 
 	int countInnerCards() const;
 
-	int getTricks(CARD_INDEX player) const;
-
 	bool think() const {
 		return m_timer != 0;
 	}

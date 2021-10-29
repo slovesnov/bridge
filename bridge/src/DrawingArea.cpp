@@ -364,7 +364,6 @@ void DrawingArea::updateTricks(CARD_INDEX index, bool paint) {
 	bool underline = isPreferans() && getProblem().m_player == index;
 	double x, y;
 	CSize sz;
-	std::string s;
 	CRect update;
 
 	i = 0;
@@ -2031,17 +2030,6 @@ void DrawingArea::endAnimation(bool stop){
 	updateRegion(id);
 
 	finishWaitFunction();
-}
-
-int DrawingArea::getTricks(CARD_INDEX player) const {
-	int index = INDEX_OF(player,PLAYER);	//always PLAYER not PREFERANS_PLAYER
-	assert(index != -1);
-	if (index != -1) {
-		return getState().m_tricks[index];
-	}
-	else {
-		return 0;
-	}
 }
 
 const gchar* DrawingArea::getPlayerString() const {
