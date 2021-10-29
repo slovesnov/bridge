@@ -14,6 +14,10 @@
 
 static SolveAllFoeDialog* d;
 
+//shdc
+const std::string utf8suits[] = { "\xe2\x99\xa0", "\xe2\x99\xa5",
+		"\xe2\x99\xa6", "\xe2\x99\xa3" };
+
 const int PREFERANS_PLAYERS_COMBO=1;
 const int PREFERANS_WHIST_OPTION_COMBO=2;
 const int BRIDGE_DOUBLE_REDOUBLE_COMBO=1;
@@ -337,8 +341,8 @@ void SolveAllFoeDialog::updateData() {
 }
 
 void SolveAllFoeDialog::clickButton(GtkWidget* w) {
-	int i,j,k;
-	std::string s,s1;
+	int i,j;
+	std::string s;
 	bool b;
 	const int trump = getTrump();
 	if(w==m_button[TAB2]){
@@ -359,13 +363,7 @@ void SolveAllFoeDialog::clickButton(GtkWidget* w) {
 				if(b){
 					//if(trump==NT) then b false
 					assert(trump!=NT);
-					s+=' ';
-
-					k=minContract()+j-TITLE_ROWS;
-					s1=getString(STRING_ID(STRING_SPADES1+trump));
-					auto v=split(s1);
-					assert(v.size()==3);
-					s+=v[k==1 ? 0 : (k<5 ?1:2)];
+					s+=utf8suits[trump];
 				}
 				/* in case of trump game "6 clubs"
 				 * in case of nt game "6 NT"
@@ -381,9 +379,7 @@ void SolveAllFoeDialog::clickButton(GtkWidget* w) {
 			s += getString(isMisere() ?  STRING_MISERE :STRING_NT);
 		}
 		else {
-			s+=getString(STRING_TRUMP);
-			s += ":";
-			s+=getString(STRING_ID(STRING_SPADES+i));
+			s+=getString(STRING_TRUMP)+ (" "+utf8suits[i]);
 		}
 		s+="\n";
 

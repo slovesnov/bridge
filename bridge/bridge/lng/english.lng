@@ -206,10 +206,6 @@
 "doubled" - https://en.wikipedia.org/wiki/Contract_bridge#Scoring
 "redoubled" - https://en.wikipedia.org/wiki/Contract_bridge#Scoring
 "defenders"
-"spade spades spades" cann't use ids 102-106 because first substring differs
-"heart hearts hearts"
-"diamond diamonds diamonds"
-"club clubs clubs"
 
 200 "unknown error"
 201 "duplicate tag found"

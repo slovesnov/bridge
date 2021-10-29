@@ -56,6 +56,7 @@ italian.BeveledLabel=Italian
 ;glib-2.0\schemas\gschemas.compiled - otherwise hangs
 ;Adwaita\16x16\ different folder
 ;Adwaita\index.theme
+;for russian char need use share/locale/ 54mb. Even share/locale/ru 2mb too big folder
 ;END file open 
 ;Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\pan-up-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
 ;Source: "{#GTKPATH}share\icons\Adwaita\16x16\ui\pan-down-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist

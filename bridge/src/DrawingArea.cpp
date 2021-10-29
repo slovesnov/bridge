@@ -1479,7 +1479,8 @@ void DrawingArea::saveHtml(std::string filepath, bool images,
 	fclose(f);
 
 	if (gconfig->m_htmlPreview) {
-		openURL(filepath);		//don't call openURL("file:///"+filepath) - it's error
+		//29oct2021 working
+		openURL("file:///"+filepath);
 	}
 
 }
