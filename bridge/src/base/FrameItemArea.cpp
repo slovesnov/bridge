@@ -65,7 +65,6 @@ CSize FrameItemArea::getTextExtents(TextWithAttributes text, cairo_t *cr) {
 	return sz;
 }
 
-
 cairo_surface_t* FrameItemArea::getDeckSurface() const {
 	return getProblemSelector().m_deckSurface;
 }
