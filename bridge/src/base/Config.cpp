@@ -754,7 +754,12 @@ GdkPixbuf* Config::languagePixbuf(int id) const {
 
 std::string Config::getTitle() {
 	std::string s = getString(STRING_ABOUT);
-	s = s.substr(0, s.find('\n'));
+	auto p=s.find('\n');
+	for(int i=0;i<2;i++){
+		p=s.rfind(' ',p-1);
+	}
+	s = s.substr(0, p);
+	printzi("[",s,"]")
 #ifndef FINAL_RELEASE
 	s += " FINAL_RELEASE not defined";
 #endif
