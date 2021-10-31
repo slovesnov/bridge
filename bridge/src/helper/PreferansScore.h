@@ -26,9 +26,10 @@ class PreferansScore {
 	int m_pg[4];
 	VDouble m_score;
 	int m_whist[16];
+public:
 	//from,to 0-players-1
 	int& whist(int from,int to);
-public:
+
 	static const int player=0;
 	static const int whister=1;
 
@@ -61,10 +62,21 @@ public:
 		setNonPlayingGame(players, contract, halfwhist);
 	}
 
-	VDouble score(){
-		return m_score;
+	double score(int i){
+		return m_score[i];
 	}
 
+	int pool(int i){
+		int v=m_pg[i];
+		return v>0 ? v:0;
+	}
+
+	int dump(int i){
+		int v=m_pg[i];
+		return v<0 ? -v:0;
+	}
+
+/*
 	double playerScore(){
 		return m_score[player];
 	}
@@ -73,6 +85,7 @@ public:
 	double whisterScore(){
 		return m_score[whister];
 	}
+*/
 
 	void print();
 };

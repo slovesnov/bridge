@@ -759,7 +759,6 @@ std::string Config::getTitle() {
 		p=s.rfind(' ',p-1);
 	}
 	s = s.substr(0, p);
-	printzi("[",s,"]")
 #ifndef FINAL_RELEASE
 	s += " FINAL_RELEASE not defined";
 #endif

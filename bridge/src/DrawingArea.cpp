@@ -1101,8 +1101,7 @@ void DrawingArea::init() {
 	createNew(m_crEnd, m_surfaceEnd, m_windowSize);
 
 	//TODO not set any time only if font changed
-	setFont(m_cr);
-	cairo_set_font_size(m_cr, getFontHeight());
+	setFont(m_cr, getFontHeight());
 
 	const int dx = getIndentInsideSuit() - 1;			//-1 because of card border
 	for (i = 2;

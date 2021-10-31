@@ -423,11 +423,12 @@ void Widget::openFiles(const char*files) {
 	getProblemSelector().openFiles(files);
 }
 
-void Widget::setFont(cairo_t* cairo) {
-	cairo_select_font_face(cairo, gconfig->getFontFamily(),
+void Widget::setFont(cairo_t* cr,int height) {
+	cairo_select_font_face(cr, gconfig->getFontFamily(),
 			cairo_font_slant_t(gconfig->getFontStyle()),
 			gconfig->getFontWeight() >= PANGO_WEIGHT_BOLD ?
 					CAIRO_FONT_WEIGHT_BOLD : CAIRO_FONT_WEIGHT_NORMAL);
+	cairo_set_font_size(cr, height); //height in pixels
 }
 
 GtkWidget* Widget::createImageCombobox() {
@@ -501,8 +502,7 @@ GdkPixbuf* Widget::getStringPixbuf(bool nt, int size) {
 	std::string p = nt ? getNTString() : getString(STRING_MISERE);
 	for (i = 0; i < 2; i++) { //i==0 get needed width,i=1 draw
 		createNew(cr,surface,CSize(i == 0 ? size : extents.width, size));
-		setFont(cr);
-		cairo_set_font_size(cr, nt ? size : size / 2);
+		setFont(cr,nt ? size : size / 2);
 		if (i == 0) {
 			cairo_text_extents(cr, p.c_str(), &extents);
 		}

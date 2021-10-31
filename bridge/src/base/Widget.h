@@ -192,7 +192,7 @@ public:
 	LastTrick& getLastTrick() const;
 	Toolbar& getToolbar() const;
 
-	void setFont(cairo_t* cairo);
+	void setFont(cairo_t* cr,int height);
 
 	void addFileExtension(std::string& filepath, FILE_TYPE filetype);
 	//correctFileExtension if need
