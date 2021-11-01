@@ -784,12 +784,12 @@ GdkPixbuf *& Widget::getSvgPixbuf(bool isDeck){
 	return isDeck? p.m_svgDeckPixbuf:p.m_svgArrowPixbuf;
 }
 
-void Widget::drawTextToCairo(cairo_t* ct, TextWithAttributes text, CRect rect,
+void Widget::drawTextToCairo(cairo_t* cr, TextWithAttributes text, CRect rect,
 		bool centerx, bool centery) {
 	const GdkRGBA rgba = text.isBlackColor() ? BLACK_COLOR : getTextColor();
 	int w, h;
-	gdk_cairo_set_source_rgba(ct, &rgba);
-	PangoLayout *layout = createPangoLayout(text,ct);
+	gdk_cairo_set_source_rgba(cr, &rgba);
+	PangoLayout *layout = createPangoLayout(cr,text);
 	pango_layout_get_pixel_size(layout, &w, &h);
 	double px = rect.left;
 	double py = rect.top;
@@ -800,9 +800,9 @@ void Widget::drawTextToCairo(cairo_t* ct, TextWithAttributes text, CRect rect,
 		py += (rect.height() - h) / 2;
 	}
 
-	cairo_move_to(ct, px, py);
-	pango_cairo_update_layout(ct, layout);
-	pango_cairo_show_layout(ct, layout);
+	cairo_move_to(cr, px, py);
+	pango_cairo_update_layout(cr, layout);
+	pango_cairo_show_layout(cr, layout);
 
 	g_object_unref(layout);
 }
@@ -831,10 +831,10 @@ GdkRGBA* Widget::getFontColorPointer(){
 	return &gconfig->getFontColor();
 }
 
-PangoLayout* Widget::createPangoLayout(TextWithAttributes text,cairo_t *cr) {
+PangoLayout* Widget::createPangoLayout(cairo_t *cr,TextWithAttributes text) {
 	std::string o;
 	PangoLayout *layout = pango_cairo_create_layout(cr);
-	PangoFontDescription*desc = getFont(text.getHeight());
+	PangoFontDescription*desc = createPangoFontDescription(gconfig->m_font,text.getHeight());
 	pango_layout_set_font_description(layout, desc);
 
 	if (text.isUnderline()) {

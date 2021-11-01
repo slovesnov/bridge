@@ -33,7 +33,7 @@ const char FONT_SIGNATURE[] = "font";
 
 Config* gconfig;
 
-const int Config::INDENT_INSIDE_SUIT[] = { 13, 13, 13, 13, 13, 17, 20,20 };
+const int Config::INDENT_INSIDE_SUIT[] = { 13, 13, 13, 13, 13, 17, 25,25 };
 const int Config::ESTIMATION_INDENT[] = { 32, 28, 28, 26, 32, 42, 35,45 };
 
 Config::Config() {
@@ -664,20 +664,11 @@ void Config::loadLanguageFile() {
 	m_thousandsSeparatorString=S[STRING_THOUSANDS_SEPARATOR];
 }
 
-int Config::getFontHeight(const PangoFontDescription*desc) {
-	if (pango_font_description_get_size_is_absolute(desc)) {//this type of fonts is not checked
-		assert(0);
-		//see pango_font_description_set_size () help
-		//return pango_font_description_get_size(desc)*96/72/PANGO_SCALE;//may be like this
-		return pango_font_description_get_size(desc) * 72 / 96 / PANGO_SCALE;
-	}
-	else {
-		return pango_font_description_get_size(desc) / PANGO_SCALE;
-	}
+int Config::getFontHeight()const {
+	return pango_font_description_get_size(m_font) / PANGO_SCALE;
 }
 
 void Config::loadCSS(){
-
 	std::string p,t;
 	PangoStyle ps = pango_font_description_get_style(m_font);
 	switch (ps) {
@@ -713,7 +704,7 @@ void Config::loadCSS(){
 	std::string s ="@define-color font_color "+fc+";"
 			+"GtkDialog,dialog,notebook stack{"+p+";}"
 			+"textview, entry, label, progressbar, scale{"+
-			+"font-size:"+std::to_string(getFontHeight(m_font))+"pt;"
+			+"font-size:"+std::to_string(getFontHeight())+"pt;"
 			+"font-family:"+pango_font_description_get_family(m_font)+";"
 			+"font-style:"+t+";"
 			+"font-weight:"+std::to_string(int(pango_font_description_get_weight(m_font)))+";"
@@ -730,17 +721,6 @@ void Config::updateCSS(){
 void Config::setSkin(int skin) {
 	m_skin = skin;
 	updateCSS();
-}
-
-PangoFontDescription* Config::getFont(int height) const {
-	char*p = pango_font_description_to_string(m_font);
-	std::string s(p);
-	g_free(p);
-	int h = getFontHeight(m_font);
-	if (h != height) {
-		s = replaceAll(s, format("%d", h), format("%d", height));
-	}
-	return pango_font_description_from_string(s.c_str());
 }
 
 const gchar* Config::getPlayerString(CARD_INDEX player) const {

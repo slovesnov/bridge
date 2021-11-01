@@ -41,10 +41,6 @@ typedef std::vector<GThread*> VGThreadPtr;
 
 //======================== BEGIN CONSTANTS ========================================================
 const int ESTIMATE_CLEAR = 50; //clear estimate
-const int N_RASTER_ARROWS =7;
-const int N_VECTOR_ARROWS=3;
-const int N_RASTER_DECKS = 8;
-const int N_VECTOR_DECKS=4;
 /* Note. Even if  DrawingArea::countSize(int y) called with y=-48 for deck5
  * need to use -49, because from DrawingArea::countSize(int y) description
  * next condition is true, but more nice view make window height a little
@@ -57,14 +53,25 @@ const int N_VECTOR_DECKS=4;
  * if(m_isDeck && !Widget::isScalableDeck(i) && m_maxCardHeight<gconfig->getRasterDeckCardHeight(k))
  * where m_maxCardHeight=countMaxCardSizeForY(getArrowSize()).cy;
  */
-const int MIN_COUNT_SIZE_Y=-49;
-const int MIN_ARROW_SIZE=48;
-const int MIN_CARD_WIDTH=54;
-const int MIN_CARD_HEIGHT=72;
-const CSize RASTER_DECK_CARD_SIZE[]={{71,96},{54,72},{54,72},{72,96},{71,96},{75,107},{89,120},{109,147}};
-const int RASTER_ARROW_SIZE[]={64,48,48,64,72,96,128};
-const CSize MAX_CARD_SIZE(109,147);
-const int PREFERANS_PLAYER_SIZE = 3;
+const int MIN_COUNT_SIZE_Y = -49;
+
+const CSize RASTER_DECK_CARD_SIZE[] = { { 71, 96 }, { 54, 72 }, { 54, 72 }, {
+		72, 96 }, { 71, 96 }, { 75, 107 }, { 95, 125 }, { 95, 125 } };
+const int N_RASTER_DECKS = SIZEI(RASTER_DECK_CARD_SIZE);
+static auto minmax61 = std::minmax_element(RASTER_DECK_CARD_SIZE,RASTER_DECK_CARD_SIZE+N_RASTER_DECKS,
+        [] (CSize const& a, CSize const& b) {return a.cx < b.cx;});
+const int MIN_CARD_WIDTH=minmax61.first->cx;
+const int MIN_CARD_HEIGHT=minmax61.first->cy;
+const CSize MAX_CARD_SIZE=*minmax61.second;
+
+const int N_VECTOR_DECKS=4;
+
+const int RASTER_ARROW_SIZE[] = { 64, 48, 48, 64, 72, 96, 128 };
+const int N_RASTER_ARROWS = SIZEI(RASTER_ARROW_SIZE);
+const int MIN_ARROW_SIZE = *std::min_element(RASTER_ARROW_SIZE,
+		RASTER_ARROW_SIZE + N_RASTER_ARROWS);
+const int N_VECTOR_ARROWS=3;
+
 //all arrays index is m_gameType, MIN_CONTRACT[m_gameType] MAX_CONTRACT[..] MAX_THREADS[..] TRUMP_MODEL_SIZE[..]
 const int MIN_CONTRACT[] = { 1, 6 };
 const int MAX_CONTRACT[] = { 7, 10 };
@@ -241,8 +248,6 @@ std::string rgbaToString(const GdkRGBA c);
 unsigned rgbaToUnsigned(const GdkRGBA c);
 
 void copyFromPixbuf(GdkPixbuf* source, cairo_t * dest, CRect const& rect);
-
-VString readFileToVString(const std::string name);
 
 #ifndef FINAL_RELEASE
 void exploreAllChildrenRecursive(GtkWidget* w);

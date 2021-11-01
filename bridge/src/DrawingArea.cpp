@@ -538,7 +538,7 @@ void DrawingArea::updateInsideRegion() {
 				j = getState().m_tricks[k] + getState().m_tricks[k + 2];
 			}
 			else {
-				for (j = k = 0; k < PREFERANS_PLAYER_SIZE; k++) {
+				for (j = k = 0; k < 3; k++) {
 					if ((i == 0 && getPreferansPlayer(k) == getProblem().m_player)
 							|| (i != 0 && getPreferansPlayer(k) != getProblem().m_player)) {
 						j += getTricks(getPreferansPlayer(k));
@@ -1226,6 +1226,8 @@ void DrawingArea::recalcRects() {
 		bool needAdd = true;
 		rid = isBridge() ? id : getRealRegion(id);
 
+		printl(getIndentInsideSuit())
+
 		for (k = 0; k < 4; ++k) {
 			for (j = 0; j < 13; j++) {
 				i = gconfig->getCard(k, j);
@@ -1652,13 +1654,13 @@ CARD_INDEX DrawingArea::getPartner(CARD_INDEX index) {
 	}
 	else {
 		assert(index != getProblem().m_player);
-		for (i = 0; i < PREFERANS_PLAYER_SIZE; i++) {
+		for (i = 0; i < 3; i++) {
 			if (getPreferansPlayer()[i] != getProblem().m_player
 					&& getPreferansPlayer()[i] != index) {
 				break;
 			}
 		}
-		assert(i < PREFERANS_PLAYER_SIZE);
+		assert(i < 3);
 		return getPreferansPlayer()[i];
 	}
 }

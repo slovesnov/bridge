@@ -441,19 +441,6 @@ unsigned rgbaToUnsigned(const GdkRGBA c){
 			unsigned(c.blue * 255)<<8 | unsigned(c.alpha * 255);
 }
 
-VString readFileToVString(const std::string name) {
-	const int size = 1024;
-	char b[size];
-	VString v;
-	FILE*f = open(name.c_str(), "r");
-	assert(f!=NULL);
-	while (fgets(b, size, f) != NULL) {
-		v.push_back(b);
-	}
-	fclose(f);
-	return v;
-}
-
 #ifndef FINAL_RELEASE
 void exploreAllChildrenRecursive(GtkWidget* w) {
 	std::string s, q;

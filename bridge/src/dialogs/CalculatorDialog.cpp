@@ -352,7 +352,7 @@ void CalculatorDialog::drawArea(cairo_t *cr) {
 			if (i % 2) {
 				cairo_rotate(cr, G_PI / 2);
 			}
-			::drawTextToCairo(cr, s, 0, 0, DRAW_TEXT_BEGIN, DRAW_TEXT_CENTER);
+			drawText(cr, s, 0, 0, DRAW_TEXT_BEGIN, DRAW_TEXT_CENTER);
 			cairo_restore(cr);
 		}
 	}
@@ -423,7 +423,7 @@ void CalculatorDialog::drawArea(cairo_t *cr) {
 			yo = i == 0 ? DRAW_TEXT_END : DRAW_TEXT_BEGIN;
 		}
 
-		::drawTextToCairo(cr, s, areaWidth / 2 + x, areaHeight / 2 + y, xo, yo);
+		drawText(cr, s, areaWidth / 2 + x, areaHeight / 2 + y, xo, yo);
 	}
 
 }

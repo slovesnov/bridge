@@ -68,7 +68,6 @@ private:
 	static const char* getFontFamily(const PangoFontDescription *desc) {
 		return pango_font_description_get_family(desc);
 	}
-	static int getFontHeight(const PangoFontDescription *desc);
 
 	void initVarables();
 	void load();
@@ -87,8 +86,6 @@ public:
 	void updateCSS();//if some css parameters are changed
 	void setSkin(int skin);
 
-	PangoFontDescription* getFont(int height) const;
-
 	PangoFontDescription* getFont() const {
 		return m_font;
 	}
@@ -105,9 +102,7 @@ public:
 		return pango_font_description_get_style(m_font);
 	}
 
-	int getFontHeight() const {
-		return getFontHeight(m_font);
-	}
+	int getFontHeight() const;
 
 	inline const gchar* getString(STRING_ID id) const {
 		return S[id].c_str();

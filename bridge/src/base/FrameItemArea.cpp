@@ -59,7 +59,7 @@ CSize FrameItemArea::getTextExtents(TextWithAttributes text) {
 
 CSize FrameItemArea::getTextExtents(TextWithAttributes text, cairo_t *cr) {
 	CSize sz;
-	PangoLayout *layout = createPangoLayout(text,cr);
+	PangoLayout *layout = createPangoLayout(cr,text);
 	pango_layout_get_pixel_size(layout, &sz.cx, &sz.cy);
 	g_object_unref(layout);
 	return sz;

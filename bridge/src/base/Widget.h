@@ -213,10 +213,6 @@ public:
 		return gtk_image_new_from_pixbuf(pixbuf);
 	}
 
-	inline PangoFontDescription* getFont(int height) {
-		return gconfig->getFont(height);
-	}
-
 	inline PangoFontDescription* getFont() {
 		return gconfig->getFont();
 	}
@@ -327,12 +323,12 @@ public:
 	 * if center=true then draw centered text in rectangle r
 	 * if center=false then draw text in point r.left,r.top. Parameters r.right, r.bottom ignore
 	 */
-	void drawTextToCairo(cairo_t* ct, TextWithAttributes text, CRect r, bool centerx,
+	void drawTextToCairo(cairo_t* cr, TextWithAttributes text, CRect r, bool centerx,
 			bool centery);
 
 	GdkRGBA getTextColor()const;
 	GdkRGBA* getFontColorPointer();
-	PangoLayout* createPangoLayout(TextWithAttributes text,cairo_t *cr);
+	PangoLayout* createPangoLayout(cairo_t *cr, TextWithAttributes text);
 
 	CSize getMaxSize()const;
 
