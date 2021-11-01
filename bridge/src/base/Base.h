@@ -54,6 +54,7 @@ const int ESTIMATE_CLEAR = 50; //clear estimate
  * where m_maxCardHeight=countMaxCardSizeForY(getArrowSize()).cy;
  */
 const int MIN_COUNT_SIZE_Y = -49;
+const CSize INNER_CARD_MARGIN = { 3, 3 };
 
 const CSize RASTER_DECK_CARD_SIZE[] = { { 71, 96 }, { 54, 72 }, { 54, 72 }, {
 		72, 96 }, { 71, 96 }, { 75, 107 }, { 95, 125 }, { 95, 125 } };

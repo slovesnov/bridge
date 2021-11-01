@@ -21,15 +21,6 @@ typedef std::pair<MENU_ID, std::string> MenuString;
 typedef std::vector<MenuString> VMenuString;
 
 class Config {
-
-	static constexpr int INNER_CARD_MARGIN[] = { 3, 3 };
-	static const int INDENT_INSIDE_SUIT[];
-	static const int ESTIMATION_INDENT[];
-	static const int SVG_DECK_DEFAULT_PARAMETERS[];
-
-	static const char SLASH = '/';
-	static const int MAX_BUFF=4096;
-
 	VIntPtr storeVariablesInt;
 	VString storeVariablesIntNote;
 	VStringPtr storeVariablesString;
@@ -141,7 +132,6 @@ public:
 	}
 
 	int getIndentInsideSuit() const;
-
 	int getEstimationIndent() const;
 
 	inline int getCard(int suit, int card) const {
@@ -156,10 +146,6 @@ public:
 		return m_arrowMargin;
 	}
 
-	CSize getInnerCardMargin() const {
-		return CSize(m_innerCardMargin[0], m_innerCardMargin[1]);
-	}
-
 	//[BEGIN STORING VARIABLES]order of storing/loading/reset in configuration file
 	//to store and load cann't use const std::string,so use additional variable
 	std::string m_version; //on save m_version=CURRENT_VERSION_STR,on load loaded from file
@@ -168,9 +154,6 @@ public:
 	VString m_recent;
 private:
 	int m_suitsOrder[4];
-	int m_innerCardMargin[SIZE(INNER_CARD_MARGIN)]; //margin of inside cards from center of table.
-	int m_indentInsideSuit[N_RASTER_DECKS];
-	int m_estimationIndent[N_RASTER_DECKS];
 public:
 	CPoint m_startPosition;  //Frame position
 

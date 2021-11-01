@@ -1110,6 +1110,7 @@ void DrawingArea::init() {
 							<= dx; i++)
 		;
 	m_estimateFontHeight = i - 1;
+//	printl(m_estimateFontHeight,getIndentInsideSuit())
 
 	recalcRects();
 }
@@ -1179,7 +1180,7 @@ void DrawingArea::countSize(int y) {
 		 * ( getInnerCardMargin().cy -k)>=i/2
 		 * k<=getInnerCardMargin().cy-i/2
 		 */
-		countSize(getInnerCardMargin().cy - i / 2);
+		countSize(INNER_CARD_MARGIN.cy - i / 2);
 	}
 
 }
@@ -1225,8 +1226,6 @@ void DrawingArea::recalcRects() {
 
 		bool needAdd = true;
 		rid = isBridge() ? id : getRealRegion(id);
-
-		printl(getIndentInsideSuit())
 
 		for (k = 0; k < 4; ++k) {
 			for (j = 0; j < 13; j++) {
@@ -1291,8 +1290,8 @@ CRect DrawingArea::getArrowRect(CARD_INDEX index) {
 
 #define M(A,B,C) p.A=(m_tableRect.C+getInsideRect(index).C-a)/2;p.B-=a/2;
 //+1 because arrow starts from p.A, so don't need to intersect line (tested on biggest deck & small arrow
-#define ML(A,B,C) M(A,B,C);if(p.A<m_tableRect.C+1){p.A=m_tableRect.C+getInnerCardMargin().c##A;}
-#define MH(A,B,C) M(A,B,C);if(p.A+a>m_tableRect.C){p.A=m_tableRect.C-a-getInnerCardMargin().c##A;}
+#define ML(A,B,C) M(A,B,C);if(p.A<m_tableRect.C+1){p.A=m_tableRect.C+INNER_CARD_MARGIN.c##A;}
+#define MH(A,B,C) M(A,B,C);if(p.A+a>m_tableRect.C){p.A=m_tableRect.C-a-INNER_CARD_MARGIN.c##A;}
 
 	/* if(p.A<m_tableRect.C){p.A=m_tableRect.C+getInnerCardMargin().c##A;} &&
 	 * if(p.A+a>m_tableRect.C){p.A=m_tableRect.C-a-getInnerCardMargin().c##A;}
@@ -2051,6 +2050,20 @@ void DrawingArea::updateDeckSelection() {
 }
 
 void DrawingArea::updateFontSelection() {
+	initResizeRedraw();
+}
+
+void DrawingArea::updateArrowSize() {
+	initResizeRedraw();
+}
+
+void DrawingArea::updateGameType() {
+	recalcRects();
+	initResizeRedraw();
+}
+
+void DrawingArea::newGame() {
+	recalcRects();
 	initResizeRedraw();
 }
 

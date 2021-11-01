@@ -60,10 +60,7 @@ public:
 	Frame(GtkApplication *application, const char* filepath);
 	virtual ~Frame();
 
-	void enableEdit(bool enable) {
-		m_toolbar.changeEnableEdit(enable); //set combo disabled. It's indicator
-		updateEdit();
-	}
+	void enableEdit(bool enable);
 
 	void menuClick(MENU_ID id);
 

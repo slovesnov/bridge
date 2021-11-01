@@ -18,9 +18,6 @@ const char VERSION_SIGNATURE[] = "version";
 const char RECENT_FILES_SIGNATURE[] = "recent files";
 const char START_POSITION_SIGNATURE[] = "start position";
 const char SUITSORDER_SIGNATURE[] = "suits order";
-const char INNERCARDMARGIN_SIGNATURE[] = "inner card margin";
-const char INDENTINSIDESUIT_SIGNATURE[] = "indent inside suit";
-const char ESTIMATIONINDENT_SIGNATURE[] = "estimation indent";
 const char SYSTEMVARIABLE_SIGNATURE[] = "system variables";
 const char ALLOW_ONLY_ONE_INSTANCE_SIGNATURE[] = "allow only one instance";
 const char SVGDECKPARAMETERS_SIGNATURE[] = "svg deck parameters";
@@ -33,8 +30,11 @@ const char FONT_SIGNATURE[] = "font";
 
 Config* gconfig;
 
-const int Config::INDENT_INSIDE_SUIT[] = { 13, 13, 13, 13, 13, 17, 25,25 };
-const int Config::ESTIMATION_INDENT[] = { 32, 28, 28, 26, 32, 42, 35,45 };
+//for INDENT_INSIDE_SUIT[.]=24 estimatefontsize=13, for INDENT_INSIDE_SUIT[.]=25 estimatefontsize=24,
+const int INDENT_INSIDE_SUIT[] = { 13, 13, 13, 13, 13, 17, 25,25 };
+const int ESTIMATION_INDENT[] = { 32, 28, 28, 26, 32, 42, 35,43 };
+static_assert(N_RASTER_DECKS==SIZE(INDENT_INSIDE_SUIT));
+static_assert(N_RASTER_DECKS==SIZE(ESTIMATION_INDENT));
 
 Config::Config() {
 	GSList *formats;
@@ -45,9 +45,6 @@ Config::Config() {
 	CSize sz;
 
 	gconfig = this;
-
-	static_assert(N_RASTER_DECKS==SIZE(INDENT_INSIDE_SUIT));
-	static_assert(N_RASTER_DECKS==SIZE(ESTIMATION_INDENT));
 
 	GdkDisplay *display = gdk_display_get_default();
 	GdkMonitor *monitor = gdk_display_get_monitor(display, 0);
@@ -335,9 +332,6 @@ void Config::load() {
 
 #define LOAD_ARRAY(a,signature) loadIntArray(a,SIZEI(a),signature);
 	LOAD_ARRAY(m_suitsOrder, SUITSORDER_SIGNATURE)
-	LOAD_ARRAY(m_innerCardMargin, INNERCARDMARGIN_SIGNATURE)
-	LOAD_ARRAY(m_indentInsideSuit, INDENTINSIDESUIT_SIGNATURE)
-	LOAD_ARRAY(m_estimationIndent, ESTIMATIONINDENT_SIGNATURE)
 #undef LOAD_ARRAY
 
 	if(getStringBySignature(START_POSITION_SIGNATURE,s)){
@@ -430,9 +424,6 @@ void Config::save(GAME_TYPE gt,int x,int y) {
 	}
 
 	S( SUITSORDER_SIGNATURE , JOIN(m_suitsOrder) )
-	S( INNERCARDMARGIN_SIGNATURE , JOIN(m_innerCardMargin) )
-	S( INDENTINSIDESUIT_SIGNATURE , JOIN(m_indentInsideSuit) )
-	S( ESTIMATIONINDENT_SIGNATURE , JOIN(m_estimationIndent) )
 
 	S(START_POSITION_SIGNATURE,forma(m_startPosition.x,m_startPosition.y));
 
@@ -470,12 +461,6 @@ void Config::reset() {
 	for (i = 0; i < 4; i++) {
 		m_suitsOrder[i] = i;
 	}
-
-#define M(a,b) for(i=0;i<SIZEI(a);i++){a[i]=b[i];}
-	M(m_innerCardMargin,INNER_CARD_MARGIN )
-	M(m_indentInsideSuit,INDENT_INSIDE_SUIT )
-	M(m_estimationIndent,ESTIMATION_INDENT )
-#undef M
 
 	m_startPosition = m_workareaRect.topLeft();
 
@@ -749,6 +734,8 @@ std::string Config::getTitle() {
 }
 
 std::string Config::getUniqueApplicationName() {
+	static const char SLASH = '/';
+
 	std::string s = BASE_ADDRESS.substr(0, BASE_ADDRESS.rfind(SLASH));
 	s = s.substr(s.rfind(SLASH) + 1);
 	const std::string SEPARATOR = ".";
@@ -791,11 +778,11 @@ bool Config::getStringBySignature(const std::string&signature,std::string& s){
 }
 
 int Config::getIndentInsideSuit() const {
-	return isScalableDeck()? getSvgIndentInsideSuit() : m_indentInsideSuit[m_deckNumber];
+	return isScalableDeck()? getSvgIndentInsideSuit() : INDENT_INSIDE_SUIT[m_deckNumber];
 }
 
 int Config::getEstimationIndent() const {
-	return isScalableDeck()? getSvgEstimationIndent() :m_estimationIndent[m_deckNumber];
+	return isScalableDeck()? getSvgEstimationIndent() :ESTIMATION_INDENT[m_deckNumber];
 }
 
 bool Config::isScalableArrow(int arrow){

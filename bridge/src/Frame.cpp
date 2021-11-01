@@ -144,6 +144,19 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 Frame::~Frame() {
 }
 
+void Frame::enableEdit(bool enable) {
+	/* 1nov2021
+	 * add check enable==isEditEnable()
+	 * because this function call many times
+	 * updateEdit() calls initResizeRedraw() fro drawing area
+	 */
+	if(enable==isEditEnable()){
+		return;
+	}
+	m_toolbar.changeEnableEdit(enable); //set combo disabled. It's indicator
+	updateEdit();
+}
+
 void Frame::setLanguage(int index) {
 	gconfig->setLanguageFileName(index);
 	updateLanguage();

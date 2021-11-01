@@ -253,19 +253,11 @@ public:
 	virtual void updateLanguage();
 	virtual void updateDeckSelection();
 	virtual void updateFontSelection();
-	virtual void updateArrowSize() {
-		initResizeRedraw();
-	}
+	virtual void updateArrowSize();
 
-	virtual void updateGameType() {
-		recalcRects();
-		initResizeRedraw();
-	}
+	virtual void updateGameType();
 
-	virtual void newGame() {
-		recalcRects();
-		initResizeRedraw();
-	}
+	virtual void newGame();
 
 #ifdef FINAL_RELEASE
 	void solveAllDeclarersBridgeThread();
@@ -295,7 +287,7 @@ public:
 	void invalidateRect(gint x, gint y, gint width, gint height);
 
 	void countSize() {
-		countSize(getInnerCardMargin().cy);
+		countSize(INNER_CARD_MARGIN.cy);
 	}
 
 	void countSize(int y);

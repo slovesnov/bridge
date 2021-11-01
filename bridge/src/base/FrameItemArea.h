@@ -35,11 +35,7 @@ public:
 		cairo_paint(cr);
 	}
 
-	inline void initResizeRedraw() {
-		init();
-		resize();
-		redraw();
-	}
+	void initResizeRedraw();
 
 	virtual CSize getSize() const=0;
 
@@ -50,9 +46,7 @@ protected:
 		gtk_widget_set_size_request(getWidget(), sz.cx, sz.cy);
 	}
 
-	virtual void updateEdit() {
-		initResizeRedraw();
-	}
+	virtual void updateEdit();
 
 	virtual void updateGameType() {
 		newGame();
@@ -123,10 +117,6 @@ protected:
 	}
 
 	CRect getInsideRect(const CRect& r, CARD_INDEX index);
-
-	inline CSize getInnerCardMargin() const {
-		return gconfig->getInnerCardMargin();
-	}
 
 };
 

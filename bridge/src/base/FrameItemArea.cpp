@@ -75,7 +75,7 @@ CRect FrameItemArea::getInsideRect(const CRect& r, CARD_INDEX index) {
 
 	const CSize cs = getCardSize();
 	const int d = -cs.cx * 15 / 71;
-	const CSize sz = isBridge() ? getInnerCardMargin() : CSize(d, d);
+	const CSize sz = isBridge() ? INNER_CARD_MARGIN : CSize(d, d);
 
 	if (northOrSouth(index)) {
 		x -= cs.cx / 2;
@@ -127,4 +127,14 @@ CRect FrameItemArea::getInsideRect(const CRect& r, CARD_INDEX index) {
 	}
 
 	return CRect(CPoint(x, y), getCardSize());
+}
+
+void FrameItemArea::initResizeRedraw() {
+	init();
+	resize();
+	redraw();
+}
+
+void FrameItemArea::updateEdit() {
+	initResizeRedraw();
 }
