@@ -57,6 +57,7 @@ const MENU_ID MENU_ICON_ID[] = {
 		MENU_SOLVE_ALL_FOE,
 		MENU_ROTATE_BY_90_DEGREES_CLOCKWISE,
 		MENU_ROTATE_BY_90_DEGREES_COUNTERCLOCKWISE,
+		MENU_RESET_SETTINGS,
 
 		MENU_UNDOALL,
 		MENU_UNDO,
@@ -95,6 +96,7 @@ const char* MENU_ICON_FILE[] = {
 		"settings16.png",
 		"clockwise16.png",
 		"counterclockwise16.png",
+		"settings16.png",
 		NULL,
 		NULL,
 		NULL,
@@ -104,6 +106,7 @@ const char* MENU_ICON_FILE[] = {
 		"language16.png",
 		"home16.png",
 		"bridge16.png" };
+static_assert(SIZE(MENU_ICON_ID)==SIZE(MENU_ICON_FILE));
 
 const MENU_ID RADIO_MENU_ID[] = {
 		MENU_ESTIMATE_NONE,
@@ -209,7 +212,6 @@ Menu::Menu() :
 	m_signals = false;
 	radioGroup = 0;
 #endif
-	assert(SIZE(MENU_ICON_ID)==SIZE(MENU_ICON_FILE));
 
 	for (auto& m: gconfig->m_vectorMenuString) {
 		assert(m_map.find(m.first) == m_map.end());
@@ -603,4 +605,7 @@ void Menu::updateThink(){
 	for(int i=0;i<m_lastRecentSize;i++){
 		setItemAttributes(MENU_ID(MENU_RECENT+i));
 	}
+}
+
+void Menu::updateResetSettings() {
 }

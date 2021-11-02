@@ -63,7 +63,6 @@ private:
 	void initVarables();
 	void load();
 	void loadIntArray(int*a, int size, const char* signature);
-	void reset();
 
 	bool getStringBySignature(const char*signature,std::string& s);
 	bool getStringBySignature(const std::string& signature,std::string& s);
@@ -72,6 +71,8 @@ private:
 public:
 	Config();
 	virtual ~Config();
+
+	void reset(bool fromMenu=false);
 
 	void loadCSS();
 	void updateCSS();//if some css parameters are changed

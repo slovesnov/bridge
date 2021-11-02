@@ -14,7 +14,7 @@
 "save to html file with images"
 "save as image"
 "exit"
- 
+
 "addons"
 "convert"
 "solve for all declarers and trumps"
@@ -24,7 +24,8 @@
 "solve all opponents deals"
 "rotate table by 90° clockwise"
 "rotate table by 90° counterclockwise"
- 
+"reset settings"
+
 "view"
 "last trick / game analysis"
 "animation"
@@ -36,7 +37,7 @@
 "select font (all skins)"
 "select font color (current skin)"
 "suits order"
- 
+
 "options"
 "don't rate turns"
 "rate only best turn (partial tricks)"
@@ -50,16 +51,16 @@
 "autoplay on sequences"
 "split every file"
 "allow only one application instance"
- 
+
 "move"
 "undo all"
 "undo"
 "redo"
 "redo all"
- 
+
 "language"
 "load language file"
- 
+
 "skin"
 "plaster"
 "red stone"
@@ -70,7 +71,7 @@
 "daub"
 "ice"
 "custom"
- 
+
 "help"
 "homepage"
 "about..." 

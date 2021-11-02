@@ -158,6 +158,7 @@ public:
 	SvgParameters& getSvgParameters(int n,bool isDeck);
 
 	virtual void updateThink();
+	void updateResetSettings() override;
 
 };
 

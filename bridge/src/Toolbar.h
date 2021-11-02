@@ -89,6 +89,8 @@ public:
 	GdkPixbuf * getPixbuf(TOOLBAR_BUTTON id, bool small, BUTTON_STATE state);
 	void drawTooltipBackground(cairo_t *cr);
 	void changeShowOption();
+
+	void updateResetSettings() override;
 };
 
 #endif /* TOOLBAR_H_ */

@@ -317,3 +317,6 @@ void Toolbar::changeShowOption(){
 		gtk_widget_hide(m_tooltip);
 	}
 }
+
+void Toolbar::updateResetSettings() {
+}

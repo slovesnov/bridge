@@ -453,7 +453,7 @@ void Config::save(GAME_TYPE gt,int x,int y) {
 #undef S
 }
 
-void Config::reset() {
+void Config::reset(bool fromMenu/*=false*/) {
 	int i;
 
 	//order is same with loadConfig & saveConfig & declarations in Frame.h.

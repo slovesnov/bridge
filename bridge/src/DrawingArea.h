@@ -388,6 +388,7 @@ public:
 	void endAnimation(bool stop);
 	void animationDraw(bool stop);
 	bool needStopThread();
+	void updateResetSettings() override;
 
 };
 extern DrawingArea* gdraw;

@@ -101,6 +101,8 @@ public:
 		CALL_FRAME_ITEM_FUNCTION(updateLanguage, 1);
 	}
 
+	void resetSettings();
+
 #define M(a) virtual void a(){CALL_FRAME_ITEM_FUNCTION(a,0);}
 	M(updateAfterCreation)
 	M(updateArrowSize)

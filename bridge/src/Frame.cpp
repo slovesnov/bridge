@@ -261,6 +261,9 @@ void Frame::menuClick(MENU_ID id) {
 		 case MENU_ROTATE_BY_90_DEGREES_CLOCKWISE:
 		 case MENU_ROTATE_BY_90_DEGREES_COUNTERCLOCKWISE:
 		 */
+	case MENU_RESET_SETTINGS:
+		resetSettings();
+		break;
 
 		//view (all check menu items see in default section of switch)
 	case MENU_SELECT_ARROW:
@@ -376,12 +379,9 @@ void Frame::menuClick(MENU_ID id) {
 }
 
 void Frame::callFrameItemFunction(FrameItemFunction f, int option) {
-	int i;
-
 	if (option == 0) {
-		for (VFrameItemPointer::iterator it = m_childs.begin();
-				it != m_childs.end(); it++) {
-			((*it)->*f)();
+		for (auto a : m_childs) {
+			(a->*f)();
 		}
 	}
 	else {
@@ -394,8 +394,8 @@ void Frame::callFrameItemFunction(FrameItemFunction f, int option) {
 				&m_problemSelector,
 				&m_toolbar,
 				&m_lastTrick };
-		for (i = 0; i < SIZEI(item); i++) {
-			(item[i]->*f)();
+		for (auto a:item) {
+			(a->*f)();
 		}
 	}
 }
@@ -498,6 +498,12 @@ void Frame::changeGameType() {
 	updateGameType();
 	updateFindBestState();
 	updateTitle();
+}
+
+void Frame::resetSettings(){
+	printi
+	//gconfig->reset(true);
+	CALL_FRAME_ITEM_FUNCTION(updateResetSettings, 0);
 }
 
 void Frame::updateRecent(std::string filepath) {
