@@ -66,9 +66,7 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 
 	m_vbox1 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add(GTK_CONTAINER(m_vbox1), m_area.getWidget());
-#ifdef TOOLTIP_IN_STATUSBAR
 	addWidget(gconfig->m_showToolTips,m_vbox1, m_toolbar.m_tooltip);
-#endif
 
 	m_vbox2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add(GTK_CONTAINER(m_vbox2), m_problemSelector.getWidget());
@@ -362,17 +360,10 @@ void Frame::menuClick(MENU_ID id) {
 				m_problemSelector.changeShowOption();
 			}
 			else if (id == MENU_TOOLTIPS) {
-#ifdef TOOLTIP_IN_STATUSBAR
 				addRemoveWidget(gconfig->m_showToolTips, m_vbox1, m_toolbar.m_tooltip);
 				m_toolbar.changeShowOption();
 				m_lastTrick.changeShowOption();
 				m_problemSelector.changeShowOption();
-
-#else
-				if (!gconfig->m_showToolTips) {
-					hideToolTip();
-				}
-#endif
 			}
 			else if (id == MENU_TOTAL_TRICKS || id == MENU_PLAYER_TRICKS) {
 				m_area.redraw();

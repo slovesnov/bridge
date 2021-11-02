@@ -202,11 +202,9 @@ void ProblemSelector::draw() {
 CSize ProblemSelector::getSize() const {
 	int h = getArea().getSize().cy;
 
-#ifdef TOOLTIP_IN_STATUSBAR
 	if(gconfig->m_showToolTips){
 		h+=m_bestLineSize.cy;
 	}
-#endif
 
 	auto& a=getLastTrick();
 	if (gconfig->m_showLastTrick) {

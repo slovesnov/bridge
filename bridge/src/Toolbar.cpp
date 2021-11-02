@@ -13,9 +13,6 @@
 
 const char TOOLBAR_IMAGE_STOP[] = "stop.png";
 const char* TOOLBAR_IMAGE[] = { "play.png", "undoall.png", "undo.png" };
-#ifndef TOOLTIP_IN_STATUSBAR
-const char SMALL_FONT[] = "smallFont";
-#endif
 
 static void combo_changed(GtkWidget *comboBox, Toolbar*p) {
 	p->comboboxChanged(comboBox);
@@ -25,12 +22,10 @@ static void button_click(GtkToolButton *toolbutton, Toolbar*p) {
 	p->click((GtkToolItem*) toolbutton);
 }
 
-#ifdef TOOLTIP_IN_STATUSBAR
 static gboolean draw_tooltip_background(GtkWidget *widget, cairo_t *cr, gpointer) {
 	gframe->getToolbar().drawTooltipBackground(cr);
 	return FALSE;
 }
-#endif
 
 Toolbar::Toolbar() :
 		FrameItem(gtk_toolbar_new()) {
@@ -95,19 +90,11 @@ Toolbar::Toolbar() :
 
 	m_tooltip = gtk_label_new("");
 
-#ifdef TOOLTIP_IN_STATUSBAR
 	gtk_label_set_xalign (GTK_LABEL(m_tooltip),0);
 	g_signal_connect(G_OBJECT (m_tooltip), "draw", G_CALLBACK (draw_tooltip_background), 0);
 
 	//prevents destroy after gtk_container_remove on change show option
 	g_object_ref (m_tooltip);
-#else
-	//gtk_label_set_line_wrap(GTK_LABEL(m_toolTip),TRUE);//Note. If allow multiple lines then not good for 'tricks of east& west' tooltip
-	GtkToolItem * item = gtk_tool_item_new();
-	gtk_tool_item_set_expand(GTK_TOOL_ITEM(item), TRUE); //expand tooltip window DONT REMOVE
-	gtk_container_add(GTK_CONTAINER(item), m_tooltip);
-	gtk_toolbar_insert(GTK_TOOLBAR(getWidget()), item, -1);
-#endif
 
 	gtk_widget_set_can_focus(GTK_WIDGET(getWidget()), FALSE);
 }
@@ -124,9 +111,7 @@ Toolbar::~Toolbar() {
 	for (i = 0; i < SIZEI(m_stopPixbuf); i++) {
 		g_object_unref(m_stopPixbuf[i]);
 	}
-#ifdef TOOLTIP_IN_STATUSBAR
 	g_object_unref (m_tooltip);
-#endif
 }
 
 void Toolbar::updateGameType() {
@@ -143,7 +128,6 @@ void Toolbar::updateGameType() {
 	setTrump(i); //restore old combobox position
 
 	setContract(minContract());
-	setToolTipFontSize();
 }
 
 void Toolbar::updateLanguage() {
@@ -258,22 +242,6 @@ void Toolbar::setGameType() {
 	gtk_combo_box_set_model(GTK_COMBO_BOX(m_trump), createTrumpModel(false));
 }
 
-void Toolbar::setToolTipFontSize() {
-#ifndef TOOLTIP_IN_STATUSBAR
-	/* 5.2 old condition
-	 * isPreferans() && isSmallArrow() && getCardSize().cx == 54
-	 * new condition to fit STRING_CLICK_TO_MAKE_MOVES
-	 * isPreferans() && getCardSize().cx == 54
-	 */
-	if (isPreferans() && getCardSize().cx == 54) {
-		addClass(m_tooltip, SMALL_FONT);
-	}
-	else {
-		removeClass(m_tooltip, SMALL_FONT);
-	}
-#endif
-}
-
 void Toolbar::newGame() {
 	setComboTrumpPosition(0);
 	setComboContractPosition(0);
@@ -333,7 +301,6 @@ GdkPixbuf * Toolbar::getPixbuf(TOOLBAR_BUTTON id, bool small,
 
 }
 
-#ifdef TOOLTIP_IN_STATUSBAR
 void Toolbar::drawTooltipBackground(cairo_t *cr){
 	auto sz=getArea().getSize();
 	int w = sz.cx;
@@ -350,4 +317,3 @@ void Toolbar::changeShowOption(){
 		gtk_widget_hide(m_tooltip);
 	}
 }
-#endif

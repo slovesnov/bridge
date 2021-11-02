@@ -13,8 +13,6 @@
 
 #include "base/FrameItem.h"
 
-#define TOOLTIP_IN_STATUSBAR
-
 class Toolbar: public FrameItem {
 	GtkToolItem * m_contractToolItem;
 	GtkWidget *m_contract;
@@ -38,7 +36,6 @@ private:
 	gint getComboContractPosition() const;
 	void setComboContractPosition(gint p) const;
 
-	void setToolTipFontSize();
 public:
 	bool isEditEnable() {
 		return gtk_widget_get_sensitive(GTK_WIDGET(m_trump));
@@ -56,14 +53,6 @@ public:
 	virtual void updateGameType();
 	virtual void updateLanguage();
 	virtual void newGame();
-
-	virtual void updateArrowSize() {
-		setToolTipFontSize();
-	}
-
-	virtual void updateDeckSelection() {
-		setToolTipFontSize();
-	}
 
 	//don't call function getGameType() already defined in Widget
 	GAME_TYPE getCurrentGameType() const;
@@ -98,10 +87,8 @@ public:
 	virtual void updateThink();
 
 	GdkPixbuf * getPixbuf(TOOLBAR_BUTTON id, bool small, BUTTON_STATE state);
-#ifdef TOOLTIP_IN_STATUSBAR
 	void drawTooltipBackground(cairo_t *cr);
 	void changeShowOption();
-#endif
 };
 
 #endif /* TOOLBAR_H_ */
