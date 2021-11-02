@@ -711,7 +711,7 @@ void ProblemSelector::setBestLineSize(){
 	TextWithAttributes text("10");//getTextExtents using layout so height is ok
 	m_bestLineSize=getTextExtents(text,m_backgroundFullCairo);
 	//getFontHeight() suit image size
-	m_bestLineSize.cx=MAX(4*(m_bestLineSize.cx+getFontHeight()),MIN_GRID_SIZE_WIDTH);
+	m_bestLineSize.cx=std::max(4*(m_bestLineSize.cx+getFontHeight()),MIN_GRID_SIZE_WIDTH);
 }
 
 void ProblemSelector::init() {

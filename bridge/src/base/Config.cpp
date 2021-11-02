@@ -511,7 +511,7 @@ void Config::reset() {
 	m_skin = 0;
 	m_firstSplitNumber = 0;
 	m_lastTrickMinimalMargin = 0;
-	m_frameDelta = 120;	//got from real measurement
+	m_frameDelta = 120;	//got from real measurement old notebook, new 156
 	m_absent = CARD_INDEX_SOUTH;
 	m_bridgeSolveAllFoeAbsentNS=0;
 	m_thousandsSeparatorString=ENGLISH_THOUSANDS_SEPARATOR;
@@ -527,10 +527,28 @@ void Config::reset() {
 	}
 	m_customSkinBackgroundIsColor=1;
 
-	//after m_frameDelta is set
-	CSize sz=countMaxCardSizeForY(m_arrowSize);
+	CSize sz,sz1;
+/*
+	m_frameDelta = 120;	//got from real measurement
+	sz=countMaxCardSizeForY(m_arrowSize);
+	printl(m_frameDelta,sz)
+
+	m_frameDelta = 156;	//got from real measurement
+	sz=countMaxCardSizeForY(m_arrowSize);
+	printl(m_frameDelta,sz)
+
 	i=6;
-	CSize sz1=RASTER_DECK_CARD_SIZE[i];
+	sz=RASTER_DECK_CARD_SIZE[i];
+	printl("deck",i,sz)
+	120 119x167                              Config.cpp:533 reset()
+	156 114x160                              Config.cpp:537 reset()
+	deck 6 95x125                            Config.cpp:541 reset()
+*/
+
+	//after m_frameDelta is set
+	sz=countMaxCardSizeForY(m_arrowSize);
+	i=6;
+	sz1=RASTER_DECK_CARD_SIZE[i];
 	if (sz1.cx <= sz.cx && sz1.cy <= sz.cy) {
 		m_deckNumber = i;
 	} else {

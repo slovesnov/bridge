@@ -40,9 +40,10 @@ LastTrick::LastTrick() :
 	glasttrick=this;
 	m_rows=m_columns=0;
 
-	for (i = 0; i < SIZEI(m_suitPixbuf); i++) {
-		m_suitPixbuf[i] = getSuitPixbuf(i, getFontHeight());
+	for (auto&a :m_suitPixbuf) {
+		a = nullptr;
 	}
+	setSuitPixbufs();
 
 	for(i=0;i<52;i++){
 		m_labelCard[i] = gtk_label_new("");
@@ -69,12 +70,8 @@ LastTrick::LastTrick() :
 }
 
 LastTrick::~LastTrick() {
-	int i;
-	for (i = 0; i < SIZEI(m_suitPixbuf); i++) {
-		g_object_unref(m_suitPixbuf[i]);
-	}
+	freeSuitPixbufs();
 	g_object_unref (m_full);
-
 }
 
 CSize LastTrick::getSize() const {
@@ -353,7 +350,6 @@ void LastTrick::drawGridBackground(cairo_t *cr){
 
 	/* more than GRID_SIZE width / height because of scrolling
 	 * visible 13 tricks need m_bestLineHeight*13
-	 * TODO getBestLineSize().cx*1.1 ??
 	 */
 	copy(getBackgroundFullSurface(),cr,0,0, getBestLineSize().cx, h,sourcex,sourcey);
 }
@@ -406,5 +402,21 @@ void LastTrick::updateDeckSelection(){
 }
 
 void LastTrick::updateFontSelection(){
+	setSuitPixbufs();
 	initResizeRedraw();
+}
+
+void LastTrick::setSuitPixbufs() {
+	int i=0;
+	for (auto&a :m_suitPixbuf) {
+		free(a);
+		a = getSuitPixbuf(i, getFontHeight());
+		i++;
+	}
+}
+
+void LastTrick::freeSuitPixbufs() {
+	for (auto&a :m_suitPixbuf) {
+		free(a);
+	}
 }

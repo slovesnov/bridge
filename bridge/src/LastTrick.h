@@ -57,6 +57,9 @@ public:
 	CSize getVisibleSize() const;
 	CSize getFullVisibleSize() const;
 
+	void setSuitPixbufs();
+	void freeSuitPixbufs();
+
 };
 
 extern LastTrick* glasttrick;
