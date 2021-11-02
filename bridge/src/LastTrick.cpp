@@ -11,10 +11,6 @@
 #include "LastTrick.h"
 #include "Frame.h"
 
-const int MIN_PROBLEM_SELECTOR_WIDTH = 4 * (63+6);
-const int MIN_LAST_TRICK_WIDTH = 118;
-const int GRID_SIZE_WIDTH=MIN_PROBLEM_SELECTOR_WIDTH-MIN_LAST_TRICK_WIDTH;
-
 LastTrick*glasttrick;
 
 static gboolean draw_grid_background(GtkWidget *widget, cairo_t *cr, gpointer) {
@@ -54,7 +50,6 @@ LastTrick::LastTrick() :
 	}
 
 	m_scrolled = gtk_scrolled_window_new(NULL, NULL);
-	gtk_widget_set_size_request(m_scrolled, GRID_SIZE_WIDTH, -1);
 
 	m_grid = gtk_grid_new();
 	g_signal_connect(G_OBJECT (m_grid), "draw", G_CALLBACK (draw_grid_background), 0);
@@ -71,7 +66,6 @@ LastTrick::LastTrick() :
 
 	//prevents destroy after gtk_container_remove on change show option
 	g_object_ref (m_full);
-
 }
 
 LastTrick::~LastTrick() {
@@ -89,12 +83,12 @@ CSize LastTrick::getSize() const {
 
 CSize LastTrick::getVisibleSize() const{
 	CSize a=getCardSize();
-	return {std::max(2*a.cx,MIN_LAST_TRICK_WIDTH), std::max(2*a.cy,getBestLineHeight()*10)};
+	return {std::max(2*a.cx,MIN_LAST_TRICK_WIDTH), std::max(2*a.cy,getBestLineSize().cy*10)};
 }
 
 CSize LastTrick::getFullVisibleSize() const{
 	CSize a=getVisibleSize();
-	a.cx+=GRID_SIZE_WIDTH;
+	a.cx+=getBestLineSize().cx;
 	return a;
 }
 
@@ -107,9 +101,8 @@ void LastTrick::draw() {
 	if (sz.cy == 0) {
 		return;
 	}
-
 	CARD_INDEX fm = getProblem().getLastTrick(moves);
-	j = GRID_SIZE_WIDTH + getArea().getSize().cx;
+	j = getBestLineSize().cx + getArea().getSize().cx;
 
 	i = getProblemSelector().getSize().cy;
 	copyFromBackground(0, 0, sz.cx, sz.cy, j, i);
@@ -201,7 +194,6 @@ void LastTrick::updateAfterCreation() {
 		resize();
 		redraw();
 	}
-
 }
 
 void LastTrick::updateEdit() {
@@ -357,12 +349,13 @@ void LastTrick::drawGridBackground(cairo_t *cr){
 	auto& p=getProblemSelector();//DO NOT change "auto&" to "auto"
 	int sourcex = getArea().getSize().cx;
 	int sourcey = p.getSize().cy;
-	int h = std::max(getBestLineHeight()*13,getVisibleSize().cy);
+	int h = std::max(getBestLineSize().cy*13,getVisibleSize().cy);
 
 	/* more than GRID_SIZE width / height because of scrolling
 	 * visible 13 tricks need m_bestLineHeight*13
+	 * TODO getBestLineSize().cx*1.1 ??
 	 */
-	copy(getBackgroundFullSurface(),cr,0,0, GRID_SIZE_WIDTH*1.1, h,sourcex,sourcey);
+	copy(getBackgroundFullSurface(),cr,0,0, getBestLineSize().cx, h,sourcex,sourcey);
 }
 
 void LastTrick::cellClick(int n){

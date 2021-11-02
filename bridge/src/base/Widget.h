@@ -368,7 +368,7 @@ public:
 
 	void setSkin(int skin);
 
-	int getBestLineHeight()const;
+	CSize getBestLineSize()const;
 
 	/* do not allow use copy constructor of class and all inheritance classes
 	 * so auto p=getProblemSelect(); isn't possible

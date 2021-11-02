@@ -76,7 +76,7 @@ ProblemSelector::ProblemSelector() :
 	createNew(m_backgroundFullCairo, m_backgroundFullSurface, getMaxSize());
 
 	//after m_backgroundFullCairo is created
-	setBestLineHeight();
+	setBestLineSize();
 
 	/* need to create background image here when Frame calls
 	 * updateAfterCreation() first item is ProblemSelector (because it manages
@@ -182,6 +182,7 @@ void ProblemSelector::setAreaProblem() {
 	if (b) {
 		gframe->updateEdit();
 	}
+
 /*
 #ifndef FINAL_RELEASE
 	static std::string sap;
@@ -203,7 +204,7 @@ CSize ProblemSelector::getSize() const {
 
 #ifdef TOOLTIP_IN_STATUSBAR
 	if(gconfig->m_showToolTips){
-		h+=m_bestLineHeight;
+		h+=m_bestLineSize.cy;
 	}
 #endif
 
@@ -292,7 +293,7 @@ void ProblemSelector::updateDeckSelection() {
 
 void ProblemSelector::updateFontSelection() {
 	//if cairo has size 1x1 the measurement of text is ok
-	setBestLineHeight();
+	setBestLineSize();
 	initResizeRedraw();
 }
 
@@ -525,6 +526,10 @@ void ProblemSelector::save(std::string filepath, bool split) {
 	}
 }
 
+void ProblemSelector::updateAfterCreation() {
+	fullUpdate();
+}
+
 bool ProblemSelector::isModified() const {
 	assert(m_current >= 0 && m_current < m_vproblem.size());
 
@@ -700,11 +705,13 @@ void ProblemSelector::setDeck() {
 	}
 }
 
-void ProblemSelector::setBestLineHeight(){
+void ProblemSelector::setBestLineSize(){
 	//use m_backgroundFullCairo because m_cr isn't created on constructor
 	//to create it we need LastTrick size which use m_bestLineHeight
-	TextWithAttributes text("1");
-	m_bestLineHeight=getTextExtents(text,m_backgroundFullCairo).cy;
+	TextWithAttributes text("10");//getTextExtents using layout so height is ok
+	m_bestLineSize=getTextExtents(text,m_backgroundFullCairo);
+	//getFontHeight() suit image size
+	m_bestLineSize.cx=MAX(4*(m_bestLineSize.cx+getFontHeight()),MIN_GRID_SIZE_WIDTH);
 }
 
 void ProblemSelector::init() {

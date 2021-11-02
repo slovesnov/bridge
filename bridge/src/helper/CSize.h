@@ -11,6 +11,8 @@
 #ifndef CSIZE_H_
 #define CSIZE_H_
 
+#include <string>
+
 class CSize {
 public:
 	int cx, cy;
@@ -30,6 +32,11 @@ public:
 	bool operator!=(const CSize& size) const {
 		return cx != size.cx || cy != size.cy;
 	}
+
+	std::string toString()const;
 };
+
+std::ostream& operator<<(std::ostream& os, const CSize& a);
+
 
 #endif /* CSIZE_H_ */

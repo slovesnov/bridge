@@ -828,7 +828,6 @@ void SolveAllFoeDialog::setPreferans2ndTitleRow(){
 			c = getBridgePlayer(pl, !b, i);
 		}
 		vc.push_back(c);
-		//vc.push_back(k == 3 ? getNextPlayer(ci) : getNextBridgePlayer(ci));
 	}
 
 	i = 0;

@@ -40,7 +40,7 @@ public:
 	SvgParameters m_svgDeckParameters[N_VECTOR_DECKS];
 	SvgParameters m_svgArrowParameters[N_VECTOR_ARROWS];
 	bool m_deckChanged,m_arrowChanged;
-	int m_bestLineHeight;
+	CSize m_bestLineSize;
 
 private:
 	bool m_visible;
@@ -56,7 +56,7 @@ private:
 
 	void setSkin();
 	void setDeck();
-	void setBestLineHeight();
+	void setBestLineSize();
 public:
 	void createNewGame(GAME_TYPE t, CARD_INDEX a);
 	void updateToolbar();
@@ -78,9 +78,7 @@ public:
 		initResizeRedraw();
 	}
 
-	virtual void updateAfterCreation() {
-		fullUpdate();
-	}
+	virtual void updateAfterCreation();
 
 	std::string getFile() const {
 		return m_filepath;

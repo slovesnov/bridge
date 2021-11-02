@@ -940,8 +940,8 @@ void Widget::setSkin(int skin){
 	gframe->updateSkin();
 }
 
-int Widget::getBestLineHeight()const{
-	return gproblemselector->m_bestLineHeight;
+CSize Widget::getBestLineSize()const{
+	return gproblemselector->m_bestLineSize;
 }
 
 int Widget::getTricks(CARD_INDEX player) const {

@@ -55,6 +55,9 @@ const int ESTIMATE_CLEAR = 50; //clear estimate
  */
 const int MIN_COUNT_SIZE_Y = -49;
 const CSize INNER_CARD_MARGIN = { 3, 3 };
+const int MIN_PROBLEM_SELECTOR_WIDTH = 4 * (63 + 6);
+const int MIN_LAST_TRICK_WIDTH = 118;
+const int MIN_GRID_SIZE_WIDTH = MIN_PROBLEM_SELECTOR_WIDTH - MIN_LAST_TRICK_WIDTH;
 
 const CSize RASTER_DECK_CARD_SIZE[] = { { 71, 96 }, { 54, 72 }, { 54, 72 }, {
 		72, 96 }, { 71, 96 }, { 75, 107 }, { 95, 125 }, { 95, 125 } };
