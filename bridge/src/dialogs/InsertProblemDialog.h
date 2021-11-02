@@ -38,7 +38,7 @@ public:
 	InsertProblemDialog(EditListDialog* eld);
 	virtual ~InsertProblemDialog();
 
-	virtual bool click(int index);
+	bool click(int index)override;
 	void toggle(GtkWidget *w);
 };
 

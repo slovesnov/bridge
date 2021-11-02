@@ -65,20 +65,20 @@ public:
 	ProblemSelector();
 	virtual ~ProblemSelector();
 
-	virtual void draw();
-	virtual void init();
-	virtual CSize getSize() const;
-	virtual void updateLanguage();
-	virtual void updateSkin();
-	virtual void updateDeckSelection();
-	virtual void updateFontSelection();
+	 void draw()override;
+	 void init()override;
+	 CSize getSize() const override;
+	 void updateLanguage()override;
+	 void updateSkin()override;
+	 void updateDeckSelection()override;
+	 void updateFontSelection()override;
 
-	virtual void updateArrowSize() {
+	 void updateArrowSize() override{
 		setArrows();
 		initResizeRedraw();
 	}
 
-	virtual void updateAfterCreation();
+	void updateAfterCreation()override;
 
 	std::string getFile() const {
 		return m_filepath;
@@ -90,15 +90,15 @@ public:
 
 	bool isModified() const;
 
-	virtual void newGame();
-	virtual void resize();
+	void newGame()override;
+	void resize()override;
 
-	virtual void setDeal(bool random) {
+	void setDeal(bool random)override {
 		getProblem().setDeal(random);
 		currentProblemChanged(false);
 	}
 
-	virtual void updateGameType() {
+	void updateGameType()override {
 		getProblem().changeGameType();
 		currentProblemChanged(true);
 	}
@@ -130,8 +130,8 @@ public:
 	void clickToolbar(GtkToolItem* w);
 	bool mouseClick(guint32 time);
 
-	virtual void changeShowOption();
-	virtual void openUris(char**uris); //=set
+	void changeShowOption()override;
+	void openUris(char**uris)override; //=set
 	void openFiles(const char*files); //=set
 
 	//set or add files
@@ -157,7 +157,7 @@ public:
 	double getSvgMaxWHRatio()const;
 	SvgParameters& getSvgParameters(int n,bool isDeck);
 
-	virtual void updateThink();
+	void updateThink()override;
 	void updateResetSettings() override;
 
 };

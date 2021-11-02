@@ -23,7 +23,7 @@ public:
 	CustomSkinDialog();
 	virtual ~CustomSkinDialog();
 
-	virtual bool click(int index);
+	bool click(int index)override;
 	void clickButton(int i);
 };
 

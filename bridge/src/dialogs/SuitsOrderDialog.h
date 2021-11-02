@@ -20,8 +20,7 @@ public:
 	SuitsOrderDialog();
 	virtual ~SuitsOrderDialog();
 	void comboChanged(GtkWidget* w);
-	virtual bool click(int index);
-	;
+	bool click(int index)override;
 
 };
 

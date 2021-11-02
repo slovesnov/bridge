@@ -29,7 +29,7 @@ public:
 	DeleteProblemDialog(EditListDialog* eld);
 	virtual ~DeleteProblemDialog();
 
-	virtual bool click(int index);
+	bool click(int index)override;
 };
 
 #endif /* DIALOGS_DELETEPROBLEMDIALOG_H_ */

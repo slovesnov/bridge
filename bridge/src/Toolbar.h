@@ -46,23 +46,23 @@ public:
 	Toolbar();
 	virtual ~Toolbar();
 
-	virtual void updateAfterCreation() {
+	void updateAfterCreation()override {
 		updateGameType();
 	}
 
-	virtual void updateGameType();
-	virtual void updateLanguage();
-	virtual void newGame();
+	void updateGameType()override;
+	void updateLanguage()override;
+	void newGame()override;
 
 	//don't call function getGameType() already defined in Widget
 	GAME_TYPE getCurrentGameType() const;
 	void setGameType();
 
-	inline void setTrumpChanged(bool changed) {
+	void setTrumpChanged(bool changed) {
 		m_trumpChanged = changed;
 	}
 
-	inline bool isTrumpChanged() {
+	bool isTrumpChanged() {
 		return m_trumpChanged;
 	}
 
@@ -79,12 +79,12 @@ public:
 	void setTrump(gint trump);
 	void setContract(gint contract);
 
-	virtual void updateEdit();
-	virtual void updateUndoRedo();
-	virtual void updateFindBestState();
+	void updateEdit()override;
+	void updateUndoRedo()override;
+	void updateFindBestState()override;
 	void changeEnableEdit(bool enable);
 
-	virtual void updateThink();
+	void updateThink()override;
 
 	GdkPixbuf * getPixbuf(TOOLBAR_BUTTON id, bool small, BUTTON_STATE state);
 	void drawTooltipBackground(cairo_t *cr);

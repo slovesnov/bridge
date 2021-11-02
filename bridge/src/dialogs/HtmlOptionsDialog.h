@@ -19,7 +19,7 @@ public:
 	HtmlOptionsDialog();
 	virtual ~HtmlOptionsDialog();
 
-	virtual bool click(int index);
+	bool click(int index)override;
 
 };
 

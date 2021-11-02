@@ -33,20 +33,20 @@ public:
 	LastTrick();
 	virtual ~LastTrick();
 
-	virtual void newGame();
+	void newGame() override;
 
 	bool isEmpty();
 
-	virtual void draw();
-	virtual CSize getSize() const;
+	void draw() override;
+	CSize getSize() const  override;
 
-	virtual void updateLanguage();
-	virtual void updateAfterCreation();
+	void updateLanguage() override;
+	void updateAfterCreation() override;
 
-	virtual void updateEdit();
-	virtual void updateDeckSelection();
-	virtual void updateFontSelection();
-	virtual void setDeal(bool random);
+	void updateEdit() override;
+	void updateDeckSelection() override;
+	void updateFontSelection() override;
+	void setDeal(bool random) override;
 
 	void drawGridBackground(cairo_t *cr);
 

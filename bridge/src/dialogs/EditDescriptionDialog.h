@@ -18,7 +18,7 @@ class EditDescriptionDialog: public ButtonsDialog {
 public:
 	EditDescriptionDialog();
 	virtual ~EditDescriptionDialog();
-	virtual bool click(int index);
+	bool click(int index)override;
 };
 
 #endif /* EDITDESCRIPTIONDIALOG_H_ */

@@ -22,19 +22,19 @@ class ConverterDialog: public ButtonsDialog {
 	DigitEntry m_firstSplitNumber;
 	VString m_files; //utf8 names
 
-	virtual void enableButtons();
+	void enableButtons()override;
 
 public:
 	ConverterDialog();
 	virtual ~ConverterDialog();
 	void update();
-	virtual void openUris(char**uris); //override open uris from base class
+	void openUris(char**uris)override;
 
 	bool save(bool many);
 
 	void saveParams();
 
-	virtual bool click(int index);
+	bool click(int index)override;
 
 };
 

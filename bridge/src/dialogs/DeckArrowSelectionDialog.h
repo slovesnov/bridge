@@ -42,7 +42,7 @@ class DeckArrowSelectionDialog: public ButtonsDialog {
 public:
 	DeckArrowSelectionDialog(bool isDeck);
 	virtual ~DeckArrowSelectionDialog();
-	virtual bool click(int index);
+	bool click(int index)override;
 	void draw(cairo_t *cr);
 	void toggle(GtkWidget *w);
 
@@ -72,7 +72,7 @@ public:
 	std::string getObjectFileName(int n,bool svg);
 	gchar* scaleFormat(gdouble value);
 	void setHideShowWidgets();
-	virtual void enableButtons();
+	void enableButtons()override;
 };
 
 #endif /* DECKSARROWELECTIONDIALOG_H_ */

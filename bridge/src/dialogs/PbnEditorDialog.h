@@ -59,7 +59,7 @@ class PbnEditorDialog: public ButtonsDialog, public ProblemVectorModified {
 	void updateDealLabel();
 	bool storeProblem();
 
-	virtual bool click(int index);
+	bool click(int index)override;
 
 public:
 	PbnEditorDialog();

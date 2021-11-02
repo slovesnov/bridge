@@ -105,17 +105,17 @@ public:
 	Menu();
 	virtual ~Menu();
 
-	virtual void updateAfterCreation();
-	virtual void updateEdit() {
+	 void updateAfterCreation()override;
+	 void updateEdit() override{
 		setItemAttributes(MENU_EDIT);
 	}
-	virtual void updateEstimationType();
-	virtual void updateFindBestState();
+	 void updateEstimationType()override;
+	 void updateFindBestState()override;
 
-	virtual void updateGameType();
-	virtual void updateLanguage();
-	virtual void updateSkin();
-	virtual void updateUndoRedo();
+	 void updateGameType()override;
+	 void updateLanguage()override;
+	 void updateSkin()override;
+	 void updateUndoRedo()override;
 
 	void updateNewGameState() {
 		setItemAttributes(MENU_NEW);
@@ -132,7 +132,7 @@ public:
 
 	void addAccelerators(bool add);
 
-	virtual void updateThink();
+	void updateThink()override;
 	void updateResetSettings() override;
 
 };

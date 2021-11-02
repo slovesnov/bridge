@@ -19,7 +19,7 @@ public:
 	SaveModifiedWarningDialog();
 	virtual ~SaveModifiedWarningDialog();
 
-	virtual bool click(int index);
+	bool click(int index)override;
 };
 
 #endif /* SAVEMODIFIEDWARNINGDIALOG_H_ */

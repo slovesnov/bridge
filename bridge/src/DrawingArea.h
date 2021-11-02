@@ -113,11 +113,11 @@ public:
 		return getProblem().getBasePlayer();
 	}
 
-	virtual void updateSkin() {
+	void updateSkin()override {
 		redraw();
 	}
 
-	virtual void updateAfterCreation() {
+	void updateAfterCreation()override {
 		init();
 		resize();
 		draw();
@@ -249,15 +249,13 @@ public:
 	DrawingArea();
 	virtual ~DrawingArea();
 
-	virtual void updateEstimationType();
-	virtual void updateLanguage();
-	virtual void updateDeckSelection();
-	virtual void updateFontSelection();
-	virtual void updateArrowSize();
-
-	virtual void updateGameType();
-
-	virtual void newGame();
+	void updateEstimationType() override;
+	void updateLanguage() override;
+	void updateDeckSelection() override;
+	void updateFontSelection() override;
+	void updateArrowSize() override;
+	void updateGameType() override;
+	void newGame() override;
 
 #ifdef FINAL_RELEASE
 	void solveAllDeclarersBridgeThread();
@@ -278,7 +276,7 @@ public:
 	gboolean animationStep(int index);
 	void updateLastTrick();
 
-	virtual CSize getSize() const;
+	CSize getSize() const  override;
 
 	void invalidateRect(CRect const& r) {
 		invalidateRect(r.left, r.top, r.width(), r.height());
@@ -292,7 +290,7 @@ public:
 
 	void countSize(int y);
 
-	virtual void init();
+	void init()override;
 	void recalcRects();
 	void mouseLeftButtonDown(GdkEventButton* event);
 	void mouseLeftButtonUp(GdkEventButton* event);
@@ -318,15 +316,15 @@ public:
 
 	void findBest(const Problem* problem); //problem=NULL solve current problem, otherwise solve for html
 
-	virtual void setDeal(bool random);
+	void setDeal(bool random)override;
 
-	virtual void copySurface(cairo_t* cr) {
+	void copySurface(cairo_t* cr) override{
 		cairo_set_source_surface(cr, m_currentId == -1 ? m_surface : m_surfaceEnd,
 				0, 0);
 		cairo_paint(cr);
 	}
 
-	virtual void draw();		//draw in memory
+	void draw()override;		//draw in memory
 
 	void updateAllRegions();
 	void updateRegion(CARD_INDEX index, bool paint = true);

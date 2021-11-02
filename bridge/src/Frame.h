@@ -80,11 +80,11 @@ public:
 
 	void changeGameType();
 
-	virtual void setDeal(bool random);
+	void setDeal(bool random)override;
 
 #define CALL_FRAME_ITEM_FUNCTION(a,p) callFrameItemFunction(&FrameItem::a,p);
 
-	virtual void newGame() {
+	void newGame() override{
 		if (!saveIfModified()) {
 			return;
 		}
@@ -95,7 +95,7 @@ public:
 		updateModified(); //also updates title
 	}
 
-	virtual void updateLanguage() {
+	void updateLanguage() override{
 		gconfig->loadLanguageFile();
 		updateTitle();
 		CALL_FRAME_ITEM_FUNCTION(updateLanguage, 1);
@@ -103,7 +103,7 @@ public:
 
 	void resetSettings();
 
-#define M(a) virtual void a(){CALL_FRAME_ITEM_FUNCTION(a,0);}
+#define M(a) void a()override{CALL_FRAME_ITEM_FUNCTION(a,0);}
 	M(updateAfterCreation)
 	M(updateArrowSize)
 	M(updateEdit)

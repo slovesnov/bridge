@@ -78,9 +78,9 @@ CSize LastTrick::getSize() const {
 	return gconfig->m_showLastTrick ? getVisibleSize():CSize(0, 0) ;
 }
 
-CSize LastTrick::getVisibleSize() const{
-	CSize a=getCardSize();
-	return {std::max(2*a.cx,MIN_LAST_TRICK_WIDTH), std::max(2*a.cy,getBestLineSize().cy*10)};
+CSize LastTrick::getVisibleSize() const {
+	CSize a = getCardSize();
+	return {std::max(2*a.cx,MIN_LAST_TRICK_WIDTH), std::max(2*a.cy,getBestLineSize().cy*getMaxHandCards())};
 }
 
 CSize LastTrick::getFullVisibleSize() const{
