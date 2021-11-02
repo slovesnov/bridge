@@ -245,6 +245,7 @@ public:
 	int countTableTop(int cardHeight);
 	int countAreaHeight(int cardHeight,int arrowSize,int y);
 	CSize countMaxCardSizeForY(int arrowSize,int y=MIN_COUNT_SIZE_Y);
+	void resetSettings();
 };
 
 extern Config* gconfig;

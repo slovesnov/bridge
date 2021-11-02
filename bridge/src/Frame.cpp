@@ -501,29 +501,30 @@ void Frame::changeGameType() {
 }
 
 void Frame::resetSettings(){
-	printi
-	//gconfig->reset(true);
-	CALL_FRAME_ITEM_FUNCTION(updateResetSettings, 0);
+	gconfig->resetSettings();
+	updateResetSettings();
 }
 
 void Frame::updateRecent(std::string filepath) {
-	VStringI it;
+	auto& r=gconfig->m_recent;
 
-	for (it = gconfig->m_recent.begin(); it != gconfig->m_recent.end(); it++) {
-		if (*it == filepath) {
+	int i=0;
+	for (auto a:r) {
+		if (a == filepath) {
 			break;
 		}
+		i++;
 	}
 
-	if (it == gconfig->m_recent.end()) {
-		if (gconfig->m_recent.size() + 1 > unsigned(gconfig->m_maxRecent)) {
-			gconfig->m_recent.pop_back();
+	if (i==int(r.size())) {
+		if (i + 1 > gconfig->m_maxRecent) {
+			r.pop_back();
 		}
 	}
 	else {
-		gconfig->m_recent.erase(it);
+		r.erase(r.begin()+i);
 	}
-	gconfig->m_recent.insert(gconfig->m_recent.begin(), filepath);
+	r.insert(r.begin(), filepath);
 	m_menu.updateRecent();
 }
 
@@ -557,7 +558,7 @@ void Frame::finishSaveFile(std::string filepath, bool split) {
 void Frame::selectArrow() {
 	DeckArrowSelectionDialog dialog(false);
 	if (dialog.getReturnCode() == GTK_RESPONSE_OK) {
-		updateArrowSize();
+		updateArrowSelection();
 	}
 }
 

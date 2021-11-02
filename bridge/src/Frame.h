@@ -82,7 +82,7 @@ public:
 
 	void setDeal(bool random)override;
 
-#define CALL_FRAME_ITEM_FUNCTION(a,p) callFrameItemFunction(&FrameItem::a,p);
+#define CALL_FRAME_ITEM_FUNCTION(a,p) callFrameItemFunction(&FrameItem::a,p)
 
 	void newGame() override{
 		if (!saveIfModified()) {
@@ -105,7 +105,7 @@ public:
 
 #define M(a) void a()override{CALL_FRAME_ITEM_FUNCTION(a,0);}
 	M(updateAfterCreation)
-	M(updateArrowSize)
+	M(updateArrowSelection)
 	M(updateEdit)
 	M(updateGameType)
 	M(updateFindBestState)

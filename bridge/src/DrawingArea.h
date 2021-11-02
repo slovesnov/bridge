@@ -253,7 +253,7 @@ public:
 	void updateLanguage() override;
 	void updateDeckSelection() override;
 	void updateFontSelection() override;
-	void updateArrowSize() override;
+	void updateArrowSelection() override;
 	void updateGameType() override;
 	void newGame() override;
 
@@ -386,7 +386,6 @@ public:
 	void endAnimation(bool stop);
 	void animationDraw(bool stop);
 	bool needStopThread();
-	void updateResetSettings() override;
 
 };
 extern DrawingArea* gdraw;

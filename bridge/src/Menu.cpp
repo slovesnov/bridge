@@ -53,6 +53,7 @@ const MENU_ID MENU_ICON_ID[] = {
 		MENU_SOLVE_FOR_ALL_DECLARERS,
 		MENU_CLEAR_DEAL,
 		MENU_RANDOM_DEAL,
+		MENU_GAME_TYPE,
 		MENU_CALCULATOR,
 		MENU_SOLVE_ALL_FOE,
 		MENU_ROTATE_BY_90_DEGREES_CLOCKWISE,
@@ -71,6 +72,7 @@ const MENU_ID MENU_ICON_ID[] = {
 		MENU_ABOUT };
 
 const char* MENU_ICON_FILE[] = {
+		 //problem
 		"new16.png",
 		"folder16.png",
 		"folder16.png",
@@ -81,17 +83,17 @@ const char* MENU_ICON_FILE[] = {
 		"edit-description16.png",
 		"pbn16.png",
 		"clockwise16.png",
-		"counterclockwise16.png", //problem
-
+		"counterclockwise16.png",
 		"html16.png",
 		"html16.png",
 		"img16.png",
-		"cancel16.png", //problem
+		"cancel16.png", //exit
 
 		"refresh16.png",
 		"settings16.png",
 		"new16.png",
 		"suitsorder16.png",
+		"settings16.png",//gametype
 		"calculator16.png",
 		"settings16.png",
 		"clockwise16.png",
@@ -281,15 +283,11 @@ void Menu::insertSubMenu(MenuString menuString) {
 	}
 
 	//set up icon if needed
-	if (menuString.first == MENU_GAME_TYPE || menuString.first == MENU_CUSTOM_SKIN
+	if (menuString.first == MENU_CUSTOM_SKIN
 			|| (menuString.first >= MENU_SKIN0 && menuString.first <= MENU_SKIN7)
 			|| isLanguage(menuString.first)) {
 
-		if (menuString.first == MENU_GAME_TYPE) {
-			p = pixbuf("backv.gif");
-			p = gdk_pixbuf_scale_simple(p, 12, 16, GDK_INTERP_BILINEAR);
-		}
-		else if (menuString.first == MENU_CUSTOM_SKIN) {
+		if (menuString.first == MENU_CUSTOM_SKIN) {
 			p = pixbuf("empty16.png");
 		}
 		else if (menuString.first >= MENU_SKIN0 && menuString.first <= MENU_SKIN7) {
@@ -605,7 +603,4 @@ void Menu::updateThink(){
 	for(int i=0;i<m_lastRecentSize;i++){
 		setItemAttributes(MENU_ID(MENU_RECENT+i));
 	}
-}
-
-void Menu::updateResetSettings() {
 }

@@ -470,7 +470,6 @@ void Config::reset(bool fromMenu/*=false*/) {
 	m_font = pango_font_description_from_string("Times New Roman, 22px");
 	setLanguageFileName(0);
 
-
 	m_recent.clear();
 
 	for (i = 0; i < 4; i++) {
@@ -492,7 +491,9 @@ void Config::reset(bool fromMenu/*=false*/) {
 	m_documentModifiedWarning = 1;
 	m_eastWestCardsMargin = 3;
 	m_estimateType = ESTIMATE_ALL_TOTAL;
-	m_gameType = BRIDGE;
+	if(!fromMenu){
+		m_gameType = BRIDGE;
+	}
 	m_htmlStoreWithImages = 1;
 	m_htmlStoreBestMove = 0;
 	m_htmlStoreNumberOfTricks = 0;
@@ -511,7 +512,9 @@ void Config::reset(bool fromMenu/*=false*/) {
 	m_skin = 0;
 	m_firstSplitNumber = 0;
 	m_lastTrickMinimalMargin = 0;
-	m_frameDelta = 120;	//got from real measurement old notebook, new 156
+	if(!fromMenu){
+		m_frameDelta = 120;	//got from real measurement old notebook, new notebook m_frameDelta = 156
+	}
 	m_absent = CARD_INDEX_SOUTH;
 	m_bridgeSolveAllFoeAbsentNS=0;
 	m_thousandsSeparatorString=ENGLISH_THOUSANDS_SEPARATOR;
@@ -903,8 +906,8 @@ int Config::countTableTop(int cardHeight){
 
 int Config::countAreaHeight(int cardHeight,int arrowSize,int y){
 	//Note result=cardHeight*CARDSIZE_K_IN_AREA_HEIGHT+arrowSize*ARROW_K_IN_AREA_HEIGHT+something
-	int tt=countTableTop(cardHeight);
-	int ts=countTableSize(cardHeight,arrowSize,y);
+	int tt = countTableTop(cardHeight);
+	int ts = countTableSize(cardHeight, arrowSize, y);
 	return 3 * (tt + 1) + ts - 1;
 }
 
@@ -914,4 +917,9 @@ CSize Config::countMaxCardSizeForY(int arrowSize,int y){
 
 	int m_maxCardWidth=int(m_maxCardHeight*MAX_SVG_WH_RATIO);
 	return {m_maxCardWidth,m_maxCardHeight};
+}
+
+void Config::resetSettings() {
+	reset(true);
+	updateCSS();
 }

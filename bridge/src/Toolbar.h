@@ -90,7 +90,6 @@ public:
 	void drawTooltipBackground(cairo_t *cr);
 	void changeShowOption();
 
-	void updateResetSettings() override;
 };
 
 #endif /* TOOLBAR_H_ */

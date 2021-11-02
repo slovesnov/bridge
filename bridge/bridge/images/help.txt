@@ -169,3 +169,7 @@ https://freesvg.org/arrow-pointing-up-vector-image9507
 
 [arrow2.svg] manually changed
 https://freesvg.org/vector-image-of-simple-green-download-icon
+
+[raster decks 7-8]
+cards from windows solitare game make screenshots & proceed images (gtktest project source on github)
+commit 2nov2021 commit message "create deck from stored pictures"

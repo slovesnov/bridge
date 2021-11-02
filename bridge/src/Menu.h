@@ -133,7 +133,6 @@ public:
 	void addAccelerators(bool add);
 
 	void updateThink()override;
-	void updateResetSettings() override;
 
 };
 

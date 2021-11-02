@@ -420,6 +420,3 @@ void LastTrick::freeSuitPixbufs() {
 		free(a);
 	}
 }
-
-void LastTrick::updateResetSettings() {
-}

@@ -18,3 +18,16 @@ FrameItem::FrameItem(GtkWidget*widget) :
 
 FrameItem::~FrameItem() {
 }
+
+void FrameItem::updateResetSettings() {
+	//updateGameType();
+	//updateFindBestState();
+	updateEstimationType();
+	updateLanguage();
+	updateSkin();
+	//updateUndoRedo();
+	updateDeckSelection();
+	updateArrowSelection();
+	//updateThink();
+	updateFontSelection();
+}

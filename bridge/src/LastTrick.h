@@ -60,7 +60,6 @@ public:
 	void setSuitPixbufs();
 	void freeSuitPixbufs();
 
-	void updateResetSettings() override;
 };
 
 extern LastTrick* glasttrick;

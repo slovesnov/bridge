@@ -829,6 +829,3 @@ void ProblemSelector::updateThink(){
 		updateToolbarButtons();
 	}
 }
-
-void ProblemSelector::updateResetSettings() {
-}

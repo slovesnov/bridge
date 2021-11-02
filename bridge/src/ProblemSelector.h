@@ -73,7 +73,7 @@ public:
 	 void updateDeckSelection()override;
 	 void updateFontSelection()override;
 
-	 void updateArrowSize() override{
+	 void updateArrowSelection() override{
 		setArrows();
 		initResizeRedraw();
 	}
@@ -158,7 +158,6 @@ public:
 	SvgParameters& getSvgParameters(int n,bool isDeck);
 
 	void updateThink()override;
-	void updateResetSettings() override;
 
 };
 

@@ -2054,7 +2054,7 @@ void DrawingArea::updateFontSelection() {
 	initResizeRedraw();
 }
 
-void DrawingArea::updateArrowSize() {
+void DrawingArea::updateArrowSelection() {
 	initResizeRedraw();
 }
 
@@ -2577,7 +2577,4 @@ void DrawingArea::stopTimer(guint& t){
 
 bool DrawingArea::needStopThread(){
 	return g_atomic_int_get(&BridgePreferansBase::m_stop);
-}
-
-void DrawingArea::updateResetSettings() {
 }

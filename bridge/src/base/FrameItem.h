@@ -49,7 +49,7 @@ public:
 	virtual void updateDeckSelection() {
 	}
 
-	virtual void updateArrowSize() {
+	virtual void updateArrowSelection() {
 	}
 
 	virtual void updateThink() {
@@ -58,8 +58,7 @@ public:
 	virtual void updateFontSelection() {
 	}
 
-	virtual void updateResetSettings() {
-	}
+	virtual void updateResetSettings()final;
 };
 
 typedef void (FrameItem::*FrameItemFunction)();
