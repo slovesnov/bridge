@@ -486,9 +486,9 @@ void Config::reset() {
 	setArrowParameters(0);//set m_arrowNumber & m_arrowSize
 	m_ascending = 0;
 	m_autoPlaySequence = 1;
-	//m_cardWidth=0;//set in problem selector
-	//m_cardHeight=0;//set in problem selector
-	m_deckNumber = 0;
+	//m_cardWidth set in problem selector
+	//m_cardHeight set in problem selector
+	//m_deckNumber set later in this function depends on monitor size
 	m_documentModifiedWarning = 1;
 	m_eastWestCardsMargin = 3;
 	m_estimateType = ESTIMATE_ALL_TOTAL;
@@ -528,10 +528,14 @@ void Config::reset() {
 	m_customSkinBackgroundIsColor=1;
 
 	//after m_frameDelta is set
-	//TODO
 	CSize sz=countMaxCardSizeForY(m_arrowSize);
-	printl(sz.cx,sz.cy)
-
+	i=6;
+	CSize sz1=RASTER_DECK_CARD_SIZE[i];
+	if (sz1.cx <= sz.cx && sz1.cy <= sz.cy) {
+		m_deckNumber = i;
+	} else {
+		m_deckNumber = 0;
+	}
 }
 
 void Config::setLanguageFileName(int index) {
