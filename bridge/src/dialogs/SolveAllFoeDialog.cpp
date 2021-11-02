@@ -811,11 +811,24 @@ std::string SolveAllFoeDialog::getPercentString() {
 
 void SolveAllFoeDialog::setPreferans2ndTitleRow(){
 	Problem const &p = getProblem();
-	VCardIndex vc = { p.m_player };
+	auto pl = p.m_player;
+	VCardIndex vc;
+	CARD_INDEX c;
+	bool b = getNextBridgePlayer(pl) == p.m_absent;
+
 	int i, k = getPreferansPlayers();
-	for (i = 1; i < k; i++) {
-		auto ci = vc[i - 1];
-		vc.push_back(k == 3 ? getNextPlayer(ci) : getNextBridgePlayer(ci));
+	for (i = 0; i < k; i++) {
+		if (k == 3) {
+			c = getPlayer(pl, true, i);
+		} else {
+			/* first whister 2nd table column should be always active
+			 * in case of four players if absent player is next after player (b=true)
+			 * he/she couldn't be active whister so invert whisters name order
+			 */
+			c = getBridgePlayer(pl, !b, i);
+		}
+		vc.push_back(c);
+		//vc.push_back(k == 3 ? getNextPlayer(ci) : getNextBridgePlayer(ci));
 	}
 
 	i = 0;
