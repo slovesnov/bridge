@@ -1104,6 +1104,7 @@ void DrawingArea::init() {
 	setFont(m_cr, getFontHeight());
 
 	const int dx = getIndentInsideSuit() - 1;			//-1 because of card border
+
 	for (i = 2;
 			i < 2 * dx
 					&& getTextExtents(TextWithAttributes::createEstimateText("13", i)).cx

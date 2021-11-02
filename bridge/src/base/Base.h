@@ -65,6 +65,7 @@ const int MIN_CARD_WIDTH=minmax61.first->cx;
 const int MIN_CARD_HEIGHT=minmax61.first->cy;
 const CSize MAX_CARD_SIZE=*minmax61.second;
 
+//need to change MAX_SVG_WH_RATIO in Config.cpp if do changes for vector decks
 const int N_VECTOR_DECKS=4;
 
 const int RASTER_ARROW_SIZE[] = { 64, 48, 48, 64, 72, 96, 128 };
@@ -88,6 +89,7 @@ const MENU_ID TOOLBAR_MENU_ID[] = {
 		MENU_REDOALL };
 const int N_SKINS = 8;
 const int CONFIG_CUSTOM_SKIN = -1;
+const int SKIP_ARROW_SIZE = -1;
 const int MAX_BRIDGE_HAND_CARDS = 13;
 const int MAX_PREFERANS_HAND_CARDS = 10;
 const int MAX_RESULT_SIZE = MAX_BRIDGE_HAND_CARDS + 1;
@@ -285,7 +287,7 @@ GdkPixbuf* getContractPixbuf(int n);
 
 //use same mechanism for selectColor & selectFont
 bool selectColor(const char* s, GdkRGBA* color);
-bool selectFont(const char* s, PangoFontDescription** font);
+bool selectFont(const char* s, PangoFontDescription*& font);
 
 bool think();
 

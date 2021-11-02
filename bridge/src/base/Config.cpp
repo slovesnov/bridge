@@ -30,11 +30,16 @@ const char FONT_SIGNATURE[] = "font";
 
 Config* gconfig;
 
-//for INDENT_INSIDE_SUIT[.]=24 estimatefontsize=13, for INDENT_INSIDE_SUIT[.]=25 estimatefontsize=24,
-const int INDENT_INSIDE_SUIT[] = { 13, 13, 13, 13, 13, 17, 25,25 };
+const int INDENT_INSIDE_SUIT[] = { 13, 13, 13, 13, 13, 17, 22,24 };
 const int ESTIMATION_INDENT[] = { 32, 28, 28, 26, 32, 42, 35,43 };
 static_assert(N_RASTER_DECKS==SIZE(INDENT_INSIDE_SUIT));
 static_assert(N_RASTER_DECKS==SIZE(ESTIMATION_INDENT));
+const int CARDSIZE_K_IN_AREA_HEIGHT=5;
+/* this return value by double ProblemSelector::getSvgMaxWHRatio()
+ * needs this value in config::reset to define default deck
+ * so make as constant need to be changed on add/remove svg decks
+ */
+const double MAX_SVG_WH_RATIO=0.716547;
 
 Config::Config() {
 	GSList *formats;
@@ -453,8 +458,18 @@ void Config::reset() {
 
 	//order is same with loadConfig & saveConfig & declarations in Frame.h.
 	//It's more convenient
-	m_font = pango_font_description_from_string("Times New Roman, 14");
+
+	/* use absolute font size "px"
+	 * createPangoFontDescription() calls
+	 * pango_font_description_set_absolute_size()
+	 * earlier used "Times New Roman, 14" which means 14pt, to convert to px
+	 * should be 14*getDPI()/72 but it's not correct dont know why
+	 * 14pt ~ 22px
+	 */
+
+	m_font = pango_font_description_from_string("Times New Roman, 22px");
 	setLanguageFileName(0);
+
 
 	m_recent.clear();
 
@@ -468,8 +483,7 @@ void Config::reset() {
 	m_allowOnlyOneInstance = ALLOW_ONE_INSTANCE_DEFAULT_VALUE;
 	m_animation = 1;
 	m_arrowMargin = 2;
-	m_arrowNumber=0;
-	//m_arrowSize = 0;//set in problem selector
+	setArrowParameters(0);//set m_arrowNumber & m_arrowSize
 	m_ascending = 0;
 	m_autoPlaySequence = 1;
 	//m_cardWidth=0;//set in problem selector
@@ -512,6 +526,12 @@ void Config::reset() {
 		m_skinFontColor[i]=i>=2 && i<=5 ? white:black;
 	}
 	m_customSkinBackgroundIsColor=1;
+
+	//after m_frameDelta is set
+	//TODO
+	CSize sz=countMaxCardSizeForY(m_arrowSize);
+	printl(sz.cx,sz.cy)
+
 }
 
 void Config::setLanguageFileName(int index) {
@@ -686,10 +706,11 @@ void Config::loadCSS(){
 		p="background-image:url('"+p+"')";
 	}
 
+	bool a=pango_font_description_get_size_is_absolute(m_font);
 	std::string s ="@define-color font_color "+fc+";"
 			+"GtkDialog,dialog,notebook stack{"+p+";}"
 			+"textview, entry, label, progressbar, scale{"+
-			+"font-size:"+std::to_string(getFontHeight())+"pt;"
+			+"font-size:"+std::to_string(getFontHeight())+(a?"px":"")+";"
 			+"font-family:"+pango_font_description_get_family(m_font)+";"
 			+"font-style:"+t+";"
 			+"font-weight:"+std::to_string(int(pango_font_description_get_weight(m_font)))+";"
@@ -823,9 +844,12 @@ int Config::getSvgEstimationIndent()const{
 	return m_cardHeight/3.5;
 }
 
-void Config::setArrowParameters(int arrow,int arrowSize){
-	m_arrowNumber=arrow;
-	m_arrowSize=arrowSize;
+void Config::setArrowParameters(int arrow,int arrowSize/*=SKIP_ARROW_SIZE*/){
+	//for non raster arrows size should be set
+	assert(arrow < N_RASTER_ARROWS || arrowSize != SKIP_ARROW_SIZE);
+	m_arrowNumber = arrow;
+	m_arrowSize =
+			arrowSize == SKIP_ARROW_SIZE ? RASTER_ARROW_SIZE[arrow] : arrowSize;
 }
 
 void Config::setDeckParameters(int deck,bool resizeOnDeckChanged,CSize cardSize){
@@ -845,4 +869,27 @@ bool Config::isWritableImage(std::string const& s) const {
 
 GdkRGBA& Config::getFontColor(){
 	return m_skinFontColor[m_skin];
+}
+
+int Config::countTableSize(int cardHeight,int arrowSize,int y){
+	return (cardHeight + y + 2 * getArrowMargin() + arrowSize) * 2 + 1;	//+1 size includes line
+}
+
+int Config::countTableTop(int cardHeight){
+	return cardHeight + getActiveCardShift();
+}
+
+int Config::countAreaHeight(int cardHeight,int arrowSize,int y){
+	//Note result=cardHeight*CARDSIZE_K_IN_AREA_HEIGHT+arrowSize*ARROW_K_IN_AREA_HEIGHT+something
+	int tt=countTableTop(cardHeight);
+	int ts=countTableSize(cardHeight,arrowSize,y);
+	return 3 * (tt + 1) + ts - 1;
+}
+
+CSize Config::countMaxCardSizeForY(int arrowSize,int y){
+	int i=countAreaHeight(0,arrowSize,y);
+	int m_maxCardHeight=(getAreaMaxHeight()-i)/CARDSIZE_K_IN_AREA_HEIGHT;
+
+	int m_maxCardWidth=int(m_maxCardHeight*MAX_SVG_WH_RATIO);
+	return {m_maxCardWidth,m_maxCardHeight};
 }

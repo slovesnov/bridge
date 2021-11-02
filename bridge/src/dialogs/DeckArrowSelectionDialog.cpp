@@ -238,7 +238,7 @@ bool DeckArrowSelectionDialog::click(int index) {
 			getProblemSelector().m_deckChanged=true;
 		}
 		else{
-			gconfig->setArrowParameters(m_arrowNumber, getObjectSize().cx);
+			setArrowParameters(m_arrowNumber, getObjectSize().cx);
 			getProblemSelector().m_arrowChanged=true;
 		}
 	}

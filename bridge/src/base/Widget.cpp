@@ -13,7 +13,6 @@
 
 const GdkRGBA BLACK_COLOR = { 0., 0., 0., 1. };
 const int ARROW_K_IN_AREA_HEIGHT=2;
-const int CARDSIZE_K_IN_AREA_HEIGHT=5;
 
 const STRING_ID ALL_SUPPORTED[] = {
 		STRING_FILE_FILTER_ALL_SUPPORTED,
@@ -709,6 +708,14 @@ void Widget::staticInit() {
 	DEFAULT_EXTENSION[FILE_TYPE_IMAGE] = gconfig->m_storeImageFormat[0].c_str();
 }
 
+int Widget::getArrowSize() {
+	return gconfig->m_arrowSize;
+}
+
+void Widget::setArrowParameters(int arrow, int arrowSize/*=SKIP_ARROW_SIZE*/){
+	gconfig->setArrowParameters(arrow, arrowSize);
+}
+
 CSize Widget::getCardSize() const {
 	return gconfig->getCardSize();
 }
@@ -721,7 +728,7 @@ int& Widget::getCardHeight(){
 	return gconfig->getCardHeight();
 }
 
-ProblemSelector& Widget::getProblemSelector() const {
+ProblemSelector& Widget::getProblemSelector()const{
 	return *gproblemselector;
 }
 
@@ -750,28 +757,20 @@ int Widget::getMaxHandCards()const{
 	return isBridge() ? MAX_BRIDGE_HAND_CARDS : MAX_PREFERANS_HAND_CARDS;
 }
 
-int Widget::countTableSize(int cardHeight,int arrowSize,int y){
-	return (cardHeight + y + 2 * getArrowMargin() + arrowSize) * 2 + 1;	//+1 size includes line
+int Widget::countTableSize(int cardHeight, int arrowSize, int y) {
+	return gconfig->countTableSize(cardHeight, arrowSize, y);
 }
 
-int Widget::countTableTop(int cardHeight){
-	return cardHeight + getActiveCardShift();
+int Widget::countTableTop(int cardHeight) {
+	return gconfig->countTableTop(cardHeight);
 }
 
-int Widget::countAreaHeight(int cardHeight,int arrowSize,int y){
-	//Note result=cardHeight*CARDSIZE_K_IN_AREA_HEIGHT+arrowSize*ARROW_K_IN_AREA_HEIGHT+something
-	int tt=countTableTop(cardHeight);
-	int ts=countTableSize(cardHeight,arrowSize,y);
-	return 3 * (tt + 1) + ts - 1;
+int Widget::countAreaHeight(int cardHeight, int arrowSize, int y) {
+	return gconfig->countAreaHeight(cardHeight, arrowSize, y);
 }
 
-CSize Widget::countMaxCardSizeForY(int arrowSize,int y){
-	int i=countAreaHeight(0,arrowSize,y);
-	int m_maxCardHeight=(getAreaMaxHeight()-i)/CARDSIZE_K_IN_AREA_HEIGHT;
-
-	double v=getProblemSelector().getSvgMaxWHRatio();
-	int m_maxCardWidth=int(m_maxCardHeight*v);
-	return {m_maxCardWidth,m_maxCardHeight};
+CSize Widget::countMaxCardSizeForY(int arrowSize, int y) {
+	return gconfig->countMaxCardSizeForY(arrowSize, y);
 }
 
 int Widget::countMaxArrowSizeForY(int cardHeight,int y){
@@ -846,7 +845,6 @@ PangoLayout* Widget::createPangoLayout(cairo_t *cr,TextWithAttributes text) {
 	else {
 		o = text.getText();
 	}
-
 	pango_layout_set_markup(layout, o.c_str(), -1);
 	pango_font_description_free(desc);
 	return layout;
@@ -977,4 +975,8 @@ int Widget::languages() {
 
 bool Widget::isLanguage(MENU_ID id) {
 	return id>=MENU_LANGUAGE_FIRST && id<MENU_LANGUAGE_FIRST+languages();
+}
+
+int Widget::getActiveCardShift() {
+	return gconfig->getActiveCardShift();
 }

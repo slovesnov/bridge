@@ -167,7 +167,8 @@ void ProblemSelector::setAreaProblem() {
 	Problem const& p = getProblem();
 	setComment(p.m_comment);
 
-	if (getToolbar().getCurrentGameType() != p.m_gameType) {
+	bool b=getToolbar().getCurrentGameType() != p.m_gameType;
+	if (b) {
 		getToolbar().setGameType();
 		getMenu().updateGameType();
 	}
@@ -178,6 +179,9 @@ void ProblemSelector::setAreaProblem() {
 	updateToolbar();
 	updateModified();
 
+	if (b) {
+		gframe->updateEdit();
+	}
 /*
 #ifndef FINAL_RELEASE
 	static std::string sap;
@@ -641,13 +645,14 @@ void ProblemSelector::drawSvg(CSize const& size,int n,bool isDeck,gdouble value)
 }
 
 double ProblemSelector::getSvgMaxWHRatio()const{
-	double v=0,v1;
-	for(auto& p:m_svgDeckParameters){
-		v1=p.cw/p.ch;
-		if(v1>v){
-			v=v1;
+	double v = 0, v1;
+	for (auto &p : m_svgDeckParameters) {
+		v1 = p.cw / p.ch;
+		if (v1 > v) {
+			v = v1;
 		}
 	}
+//	printl(v)
 	return v;
 }
 
@@ -723,7 +728,8 @@ void ProblemSelector::setArrows() {
 	}
 	else{
 		createNew(m_arrow[0], pixbuf(getArrowFileName(i,false) ));
-		getArrowSize() = gdk_pixbuf_get_width(m_arrow[0]);
+		//do not remove
+		setArrowParameters(i);
 	}
 	for (i = 1; i < SIZEI(m_arrow); i++) {
 		createNew(m_arrow[i],

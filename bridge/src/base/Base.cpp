@@ -609,15 +609,15 @@ bool selectColor(const char* s, GdkRGBA* color) {
 	return r;
 }
 
-bool selectFont(const char* s, PangoFontDescription** font) {
+bool selectFont(const char* s, PangoFontDescription*& font) {
 	GtkWidget *dialog = gtk_font_chooser_dialog_new(s,
 			GTK_WINDOW(gframe->getWidget()));
-	gtk_font_chooser_set_font_desc(GTK_FONT_CHOOSER(dialog), *font);
+	gtk_font_chooser_set_font_desc(GTK_FONT_CHOOSER(dialog), font);
 
 	gint result = gtk_dialog_run(GTK_DIALOG(dialog));
 	bool r = result == GTK_RESPONSE_OK || result == GTK_RESPONSE_APPLY;
 	if (r) {
-		*font = gtk_font_chooser_get_font_desc(GTK_FONT_CHOOSER(dialog));
+		font = gtk_font_chooser_get_font_desc(GTK_FONT_CHOOSER(dialog));
 	}
 	gtk_widget_destroy(dialog);
 	return r;

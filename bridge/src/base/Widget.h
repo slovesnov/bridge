@@ -128,16 +128,8 @@ protected:
 		return gconfig->m_arrowNumber;
 	}
 
-	int& getArrowSize() const {
-		return gconfig->m_arrowSize;
-	}
-
-	inline int getActiveCardShift() const {
-		return gconfig->getActiveCardShift();
-	}
-	inline int getArrowMargin() const {
-		return gconfig->getArrowMargin();
-	}
+	int getArrowSize();
+	void setArrowParameters(int arrow, int arrowSize=SKIP_ARROW_SIZE);
 
 	CSize getCardSize() const;
 	int& getCardWidth();
@@ -156,7 +148,7 @@ protected:
 		return getProblem().m_preferansPlayer;
 	}
 
-	ProblemSelector& getProblemSelector() const;
+	ProblemSelector& getProblemSelector()const;
 	Problem& getProblem() const;
 	CARD_INDEX getAbsent() const {
 		return getProblem().m_absent;
@@ -403,6 +395,9 @@ public:
 	int getSideTricks(CARD_INDEX player)const;
 	int languages();
 	bool isLanguage(MENU_ID id);
+
+	int getActiveCardShift();
+
 };
 
 

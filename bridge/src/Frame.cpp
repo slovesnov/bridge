@@ -274,7 +274,7 @@ void Frame::menuClick(MENU_ID id) {
 		break;
 
 	case MENU_SELECT_FONT:
-		if (selectFont(getString(id), &gconfig->m_font)) {
+		if (selectFont(getString(id), gconfig->m_font)) {
 			gconfig->updateCSS();
 			updateFontSelection();
 		}
