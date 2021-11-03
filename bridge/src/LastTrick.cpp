@@ -420,3 +420,8 @@ void LastTrick::freeSuitPixbufs() {
 		free(a);
 	}
 }
+
+void LastTrick::updateSkin() {
+	gtk_widget_queue_draw(m_grid);
+	redraw();
+}

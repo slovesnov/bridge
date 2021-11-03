@@ -38,7 +38,7 @@ public:
 	bool isEmpty();
 
 	void draw() override;
-	CSize getSize() const  override;
+	CSize getSize() const override;
 
 	void updateLanguage() override;
 	void updateAfterCreation() override;
@@ -60,6 +60,7 @@ public:
 	void setSuitPixbufs();
 	void freeSuitPixbufs();
 
+	void updateSkin() override;
 };
 
 extern LastTrick* glasttrick;

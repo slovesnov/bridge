@@ -2596,7 +2596,7 @@ void DrawingArea::drawCardback(int i) {
 	const double h1=height-2*margin;
 	cairo_pattern_t *pat1 = cairo_pattern_create_linear(x+margin, y+margin, x+w1, y+h1);
 	cairo_pattern_add_color_stop_rgb(pat1, 0, 1, 1, 1);
-	cairo_pattern_add_color_stop_rgb(pat1, 1, 36/255., 93/255., 219/255.);
+	cairo_pattern_add_color_stop_rgb(pat1, 1, 188/255., 181/255., 173/255.);
 	cairo_rectangle(m_cr, x+margin, y+margin, w1, h1);
 	cairo_set_source(m_cr, pat1);
 	cairo_fill(m_cr);
