@@ -336,7 +336,7 @@ enum FILE_TYPE {
 };
 
 enum DEAL_STATE {
-	DEAL_STATE_VALID, DEAL_STATE_NEW, DEAL_STATE_EMPTY,	//players has no cards
+	DEAL_STATE_VALID, DEAL_STATE_EMPTY,	//players has no cards
 	DEAL_STATE_ERROR
 };
 

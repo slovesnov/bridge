@@ -136,9 +136,11 @@ static gboolean mouse_press_event(GtkWidget *widget, GdkEventButton *event,
 	}
 	else if (event->button == 3) {
 		//only one click
-		if (event->type != GDK_DOUBLE_BUTTON_PRESS && !gdraw->isEmptyDeal()) {
-			gdraw->menuClick(MENU_FIND_BEST_MOVE);//do all calls using menuClick, because of additional functions, for example hide ProblemSelector
-		}
+		DEAL_STATE st = gdraw->getDealState(false);
+		printl(st)
+//		if (event->type != GDK_DOUBLE_BUTTON_PRESS && !gdraw->isEmptyDeal()) {
+//			gdraw->menuClick(MENU_FIND_BEST_MOVE);//do all calls using menuClick, because of additional functions, for example hide ProblemSelector
+//		}
 	}
 	return TRUE;
 }
@@ -1761,7 +1763,7 @@ void DrawingArea::updateProblem() {
 	}
 
 	DEAL_STATE st = getDealState(false);
-	enableEdit(st == DEAL_STATE_NEW || st == DEAL_STATE_ERROR);
+	enableEdit(st == DEAL_STATE_ERROR);
 
 	redrawState();
 }

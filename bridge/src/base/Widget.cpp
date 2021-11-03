@@ -902,10 +902,6 @@ bool Widget::isValidDeal(bool checkTrump) const {
 	return getDealState(checkTrump) == DEAL_STATE_VALID;
 }
 
-bool Widget::isNewDeal() const {
-	return getDealState() == DEAL_STATE_NEW;
-}
-
 bool Widget::isEmptyDeal() const {
 	return getDealState() == DEAL_STATE_EMPTY;
 }

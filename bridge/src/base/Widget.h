@@ -336,7 +336,6 @@ public:
 	BUTTON_STATE getFindBestState(bool checkTrump = true) const;
 
 	bool isValidDeal(bool checkTrump = true) const;
-	bool isNewDeal() const;
 	bool isEmptyDeal() const;
 	DEAL_STATE getDealState(bool checkTrump = true) const;
 

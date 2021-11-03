@@ -1581,19 +1581,6 @@ DEAL_STATE Problem::getDealState(bool checkTrump) const {
 		return DEAL_STATE_ERROR;
 	}
 
-	//check DEAL_STATE_NEW
-	if (getState().m_firstmove == CARD_INDEX_WEST) {
-		for (i = 0; i < 4; ++i) {
-			for (j = 0; j < (isPreferans() ? 8 : 13); j++) {
-				if (getState().m_cid[i * 13 + j] != CARD_INDEX_WEST) {
-					goto after1377;
-				}
-			}
-		}
-		return DEAL_STATE_NEW;
-	}
-	after1377:
-
 	for (i = 0; i < 52; ++i) {
 		if (getState().m_cid[i] == CARD_INDEX_ABSENT
 				|| getState().m_cid[i] == CARD_INDEX_INVALID) {	//invalid 2-6 for preferans
