@@ -136,11 +136,9 @@ static gboolean mouse_press_event(GtkWidget *widget, GdkEventButton *event,
 	}
 	else if (event->button == 3) {
 		//only one click
-		DEAL_STATE st = gdraw->getDealState(false);
-		printl(st)
-//		if (event->type != GDK_DOUBLE_BUTTON_PRESS && !gdraw->isEmptyDeal()) {
-//			gdraw->menuClick(MENU_FIND_BEST_MOVE);//do all calls using menuClick, because of additional functions, for example hide ProblemSelector
-//		}
+		if (event->type != GDK_DOUBLE_BUTTON_PRESS && gdraw->isValidDeal()) {
+			gdraw->menuClick(MENU_FIND_BEST_MOVE);//do all calls using menuClick, because of additional functions, for example hide ProblemSelector
+		}
 	}
 	return TRUE;
 }
