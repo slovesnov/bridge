@@ -34,7 +34,6 @@ public:
 	static const int ANIMATION_STEPS = 10;
 
 	//the same order using in constructor and destructor
-	GdkPixbuf* m_totalTricksImage[2]; //0-horizontal, 1-vertical
 	cairo_t* m_crEnd;
 	cairo_surface_t *m_surfaceEnd;
 
@@ -47,7 +46,6 @@ public:
 	 * draw vertical lines at m_tableRect.left,m_tableRect.right
 	 */
 	CSize m_windowSize; //include lines
-	CSize m_totalTricksImageSize0; //horizontal
 	CRect m_totalTricksRect[2]; //0-horizontal, 1-vertical
 	CRect m_cardrect[52];
 	int m_currentId;
@@ -93,19 +91,17 @@ public:
 	void hideArrow(bool paint);
 	void showArrow(bool paint);
 
-	inline void setPlayer(CARD_INDEX player) {
-		getProblem().m_player = player;
-	}
+	void setPlayer(CARD_INDEX player);
 
-	inline State& getPreviousState() {
+	State& getPreviousState() {
 		return getProblem().getPreviousState();
 	}
 
-	inline State& getNextState() {
+	State& getNextState() {
 		return getProblem().getNextState();
 	}
 
-	inline int getPreviousStateTricks(CARD_INDEX player) {
+	int getPreviousStateTricks(CARD_INDEX player) {
 		return getPreviousState().m_tricks[static_cast<int>(player) - 1];
 	}
 
@@ -387,6 +383,7 @@ public:
 	void animationDraw(bool stop);
 	bool needStopThread();
 
+	void drawCardback(int i);
 };
 extern DrawingArea* gdraw;
 

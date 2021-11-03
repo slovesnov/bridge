@@ -980,3 +980,11 @@ bool Widget::isLanguage(MENU_ID id) {
 int Widget::getActiveCardShift() {
 	return gconfig->getActiveCardShift();
 }
+
+CARD_INDEX& Widget::getPlayer() {
+	return getProblem().m_player;
+}
+
+CARD_INDEX Widget::getPlayer() const{
+	return getProblem().m_player;
+}

@@ -50,7 +50,7 @@ const CARD_INDEX OUTER_REGION[] = {
 const int PREFERANS_SOLVE_ALL_FOE_STEPS = 48;
 
 const GdkRGBA ESTIMATE_COLOR = { 1, 1, 204. / 255, 1 };
-
+const int TABLE_ROUND_CORNER_SIZE = 48;
 DrawingArea* gdraw;
 
 static gpointer solve_thread(gpointer data) {
@@ -166,18 +166,10 @@ static gboolean mouse_leave_event(GtkWidget *widget, GdkEventCrossing *event,
 
 DrawingArea::DrawingArea() :
 		FrameItemArea() {
-	int i;
 
 	gdraw = this;
 	m_solveThread=0;
 	m_vSolveAll.resize(getMaxRunThreads());
-
-	for (i = 0; i < SIZEI(m_totalTricksImage); i++) {
-		m_totalTricksImage[i] = NULL;
-		createNew(m_totalTricksImage[i], pixbuf(format("back%c.gif", i == 0 ? 'h' : 'v')));
-	}
-	m_totalTricksImageSize0 = CSize(gdk_pixbuf_get_width(m_totalTricksImage[0]),
-			gdk_pixbuf_get_height(m_totalTricksImage[0]));
 
 	m_crEnd = NULL;
 	m_surfaceEnd = NULL;
@@ -219,12 +211,6 @@ DrawingArea::DrawingArea() :
 }
 
 DrawingArea::~DrawingArea() {
-	int i;
-
-	for (i = 0; i < SIZEI(m_totalTricksImage); i++) {
-		free(m_totalTricksImage[i]);
-	}
-
 	destroy(m_crEnd);
 	destroy(m_surfaceEnd);
 
@@ -240,12 +226,11 @@ void DrawingArea::draw() {
 	int x, y;
 	CSize sz = getSize();
 	copyFromBackground(0, 0, sz.cx, sz.cy);
-	const int radius = m_totalTricksImageSize0.cx;
 
 	//draw lines
 	if (m_tableRect.top == 0) {
-		drawHorizontalLine(m_tableRect.left + radius, 0,
-				m_tableRect.right - radius);
+		drawHorizontalLine(m_tableRect.left + TABLE_ROUND_CORNER_SIZE, 0,
+				m_tableRect.right - TABLE_ROUND_CORNER_SIZE);
 	}
 	else {
 		drawHorizontalLine(0, m_tableRect.top, m_windowSize.cx);
@@ -260,14 +245,14 @@ void DrawingArea::draw() {
 	x = m_tableRect.left;
 	y = m_tableRect.top;
 	cairo_new_sub_path(m_cr);
-	cairo_arc(m_cr, x + m_tableRect.width() + 0.5 - radius, y + radius + 0.5,
-			radius, -G_PI / 2, 0);	//top right
-	cairo_arc(m_cr, x + m_tableRect.width() + 0.5 - radius,
-			y + m_tableRect.height() + 1 - radius - 0.5, radius, 0, G_PI / 2);//bottom right
-	cairo_arc(m_cr, x + radius + 0.5, y + m_tableRect.height() + 1 - radius - 0.5,
-			radius, G_PI / 2, G_PI);	//bottom left
-	cairo_arc(m_cr, x + radius + 0.5, y + radius + 0.5, radius, G_PI,
-			3 * G_PI / 2);	//top left
+	double x1 = x + m_tableRect.width() - TABLE_ROUND_CORNER_SIZE;
+	double y1 = y + TABLE_ROUND_CORNER_SIZE + .5;
+	double x2 = x + TABLE_ROUND_CORNER_SIZE + .5;
+	double y2 = y + m_tableRect.height() + 1 - TABLE_ROUND_CORNER_SIZE - .5;
+	cairo_arc(m_cr, x1, y1, TABLE_ROUND_CORNER_SIZE, -G_PI / 2, 0);	//top right
+	cairo_arc(m_cr, x1, y2, TABLE_ROUND_CORNER_SIZE, 0, G_PI / 2);//bottom right
+	cairo_arc(m_cr, x2, y2, TABLE_ROUND_CORNER_SIZE, G_PI / 2, G_PI);//bottom left
+	cairo_arc(m_cr, x2, y1, TABLE_ROUND_CORNER_SIZE, G_PI, 3 * G_PI / 2);//top left
 	cairo_stroke(m_cr);
 
 	updateAllRegions();
@@ -361,7 +346,7 @@ void DrawingArea::updateTricks(CARD_INDEX index, bool paint) {
 	}
 
 	int i,j;
-	bool underline = isPreferans() && getProblem().m_player == index;
+	bool underline = isPreferans() && getPlayer() == index;
 	double x, y;
 	CSize sz;
 	CRect update;
@@ -532,15 +517,15 @@ void DrawingArea::updateInsideRegion() {
 	//show total tricks
 	if (gconfig->m_showCommonTricks) {
 		for (i = 0; i < SIZEI(m_totalTricksRect); i++) {
-			copyFromPixbuf(m_totalTricksImage[i], m_cr, m_totalTricksRect[i]);
+			drawCardback(i);
 			if (isBridge()) {
 				k = i == 0 ? 1 : 0;
 				j = getState().m_tricks[k] + getState().m_tricks[k + 2];
 			}
 			else {
 				for (j = k = 0; k < 3; k++) {
-					if ((i == 0 && getPreferansPlayer(k) == getProblem().m_player)
-							|| (i != 0 && getPreferansPlayer(k) != getProblem().m_player)) {
+					if ((i == 0 && getPreferansPlayer(k) == getPlayer())
+							|| (i != 0 && getPreferansPlayer(k) != getPlayer())) {
 						j += getTricks(getPreferansPlayer(k));
 					}
 				}
@@ -630,15 +615,15 @@ void DrawingArea::mouseLeftButtonDown(GdkEventButton* event) {
 	//click on player in preferans to switch it
 	if (region == CLICABLE_REGION_CAPTION && isEditEnable()) {//region=getClickableRegionIndex() already take account for only preferans game
 		hideToolTip();
-		CARD_INDEX player = getProblem().m_player;
-		if (ci == getProblem().m_player) {	//for current player move it to next
-			ci = getNextPlayer(getProblem().m_player);
+		CARD_INDEX player = getPlayer();
+		if (ci == getPlayer()) {	//for current player move it to next
+			ci = getNextPlayer(getPlayer());
 		}
 
 		setPlayer(ci);
 		//after set player update old region and new region
 		updateRegion(player);
-		updateRegion(getProblem().m_player);
+		updateRegion(getPlayer());
 		updateModified();
 		return;
 	}
@@ -789,7 +774,7 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 				STRING_CLICK_TO_SWITCH_MISERE_PLAYER,
 				STRING_WHISTER,
 				STRING_CATCHER };
-		k = isEditEnable() ? 2 : (regionIndex == getProblem().m_player ? 0 : 4);
+		k = isEditEnable() ? 2 : (regionIndex == getPlayer() ? 0 : 4);
 		showToolTip(csid[k + isMisere()]);
 		return;
 	}
@@ -985,6 +970,11 @@ void DrawingArea::showArrow(bool paint) {
 	}
 }
 
+void DrawingArea::setPlayer(CARD_INDEX player) {
+	getPlayer() = player;
+}
+
+
 CLICABLE_REGION DrawingArea::getClickableRegion(GdkEventButton* event,
 		CARD_INDEX& region) {
 
@@ -1150,16 +1140,17 @@ void DrawingArea::countSize(int y) {
 			countAreaHeight(height,as, y));
 
 	//Note [for m_windowSize] -1 for sizey because we don't need include last right/lower line
+	//images was 48x36
+	i=tableSize*.16;
+	CSize sz = { i, i * 3 / 4 };
+	//printv(tableSize,sz)
 
-	i = m_totalTricksImageSize0.cx + m_totalTricksImageSize0.cy;
+	i = sz.cx + sz.cy;
 	m_totalTricksRect[0] = CRect(
-			CPoint(m_tableRect.right - i,
-					m_tableRect.bottom - m_totalTricksImageSize0.cy),
-			m_totalTricksImageSize0);
+			CPoint(m_tableRect.right - i, m_tableRect.bottom - sz.cy), sz);
 	m_totalTricksRect[1] = CRect(
-			CPoint(m_tableRect.right - m_totalTricksImageSize0.cy,
-					m_tableRect.bottom - i),
-			CSize(m_totalTricksImageSize0.cy, m_totalTricksImageSize0.cx));
+			CPoint(m_tableRect.right - sz.cy, m_tableRect.bottom - i),
+			CSize(sz.cy, sz.cx));
 
 	//getSize() uses isEditEnable() && isBridge,
 	i = getSize().cy - getAreaMaxHeight();
@@ -1519,7 +1510,7 @@ void DrawingArea::showEstimation(cairo_t* ct, int index, int x, int y) {
 			auto c = getState().m_cid[index];
 			const CARD_INDEX player = isOuter(c) ? c : getOuter(c);
 			estimation += getPreviousStateTricks(player);
-			if (isBridge() || (isPreferans() && player != getProblem().m_player)) {
+			if (isBridge() || (isPreferans() && player != getPlayer())) {
 				estimation += getPreviousStateTricks(getPartner(player));
 			}
 		}
@@ -1653,9 +1644,9 @@ CARD_INDEX DrawingArea::getPartner(CARD_INDEX index) {
 		return getBridgePartner(index);
 	}
 	else {
-		assert(index != getProblem().m_player);
+		assert(index != getPlayer());
 		for (i = 0; i < 3; i++) {
-			if (getPreferansPlayer()[i] != getProblem().m_player
+			if (getPreferansPlayer()[i] != getPlayer()
 					&& getPreferansPlayer()[i] != index) {
 				break;
 			}
@@ -1967,7 +1958,7 @@ void DrawingArea::timer() {
 		return;
 	}
 
-	const double radius = gdk_pixbuf_get_width(m_totalTricksImage[1]);
+	const double radius = 36;//3*TABLE_ROUND_CORNER_SIZE/4;
 
 	CSize sz = getTextExtents(TextWithAttributes("000:00"));
 	CRect r(CPoint(m_tableRect.left + radius, m_totalTricksRect[0].top),
@@ -2035,7 +2026,7 @@ void DrawingArea::endAnimation(bool stop){
 }
 
 const gchar* DrawingArea::getPlayerString() const {
-	return ::getPlayerString(getProblem().m_player);
+	return ::getPlayerString(getPlayer());
 }
 
 int DrawingArea::countInnerCards() const {
@@ -2577,4 +2568,37 @@ void DrawingArea::stopTimer(guint& t){
 
 bool DrawingArea::needStopThread(){
 	return g_atomic_int_get(&BridgePreferansBase::m_stop);
+}
+
+void DrawingArea::drawCardback(int i) {
+	CRect r=m_totalTricksRect[i];
+	int x=r.left;
+	int y=r.top;
+	double width=r.width();
+	double height = r.height();
+	double margin = std::min(width,height) / 5;
+	double radius = std::min(width,height) / 7;
+
+	cairo_new_sub_path (m_cr);
+	cairo_arc (m_cr, x + width - radius, y + radius, radius, -G_PI/2, 0);
+	cairo_arc (m_cr, x + width - radius, y + height - radius, radius, 0, G_PI/2);
+	cairo_arc (m_cr, x + radius, y + height - radius, radius, G_PI/2, G_PI);
+	cairo_arc (m_cr, x + radius, y + radius, radius, G_PI, 3*G_PI/2);
+	cairo_close_path (m_cr);
+
+	cairo_set_source_rgb (m_cr, 1, 1, 1);
+	cairo_fill_preserve (m_cr);
+	cairo_set_source_rgb (m_cr, 0, 0, 0);
+	cairo_set_line_width (m_cr, 1);
+	cairo_stroke (m_cr);
+
+	const double w1=width-2*margin;
+	const double h1=height-2*margin;
+	cairo_pattern_t *pat1 = cairo_pattern_create_linear(x+margin, y+margin, x+w1, y+h1);
+	cairo_pattern_add_color_stop_rgb(pat1, 0, 1, 1, 1);
+	cairo_pattern_add_color_stop_rgb(pat1, 1, 36/255., 93/255., 219/255.);
+	cairo_rectangle(m_cr, x+margin, y+margin, w1, h1);
+	cairo_set_source(m_cr, pat1);
+	cairo_fill(m_cr);
+	cairo_pattern_destroy(pat1);
 }

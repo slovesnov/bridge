@@ -397,7 +397,8 @@ public:
 	bool isLanguage(MENU_ID id);
 
 	int getActiveCardShift();
-
+	CARD_INDEX& getPlayer();//preferans player
+	CARD_INDEX getPlayer()const;//preferans player
 };
 
 

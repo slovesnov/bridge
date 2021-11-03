@@ -44,14 +44,14 @@ public:
 		return *this;
 	}
 
-	inline void init(int _left, int _top, int _right, int _bottom) {
+	void init(int _left, int _top, int _right, int _bottom) {
 		left = _left;
 		top = _top;
 		right = _right;
 		bottom = _bottom;
 	}
 
-	inline void join(CRect const& r) {
+	void join(CRect const& r) {
 		if (r.left < left) {
 			left = r.left;
 		}
@@ -66,34 +66,37 @@ public:
 		}
 	}
 
-	inline int width() const {
+	int width() const {
 		return right - left;
 	}
 
-	inline int height() const {
+	int height() const {
 		return bottom - top;
 	}
 
-	inline CSize size() const {
+	CSize size() const {
 		return {width(),height()};
 	}
 
-	inline CPoint centerPoint() const {
+	CPoint centerPoint() const {
 		return CPoint((left + right) / 2, (top + bottom) / 2);
 	}
 
-	inline CPoint topLeft() const {
+	CPoint topLeft() const {
 		return CPoint(left, top);
 	}
 
-	inline bool in(GdkEventButton*p) {
+	bool in(GdkEventButton*p) {
 		return in(p->x, p->y);
 	}
 
-	inline bool in(double x, double y) {
+	bool in(double x, double y) {
 		return x >= left && x < right && y >= top && y < bottom;
 	}
 
+	std::string toString()const;
 };
+
+std::ostream& operator<<(std::ostream& os, const CRect& a);
 
 #endif /* CRECT_H_ */
