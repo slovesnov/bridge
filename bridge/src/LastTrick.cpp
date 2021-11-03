@@ -50,19 +50,18 @@ LastTrick::LastTrick() :
 		m_suit[i]= gtk_image_new();
 	}
 
-	m_scrolled = gtk_scrolled_window_new(NULL, NULL);
+	//m_scrolled = gtk_scrolled_window_new(NULL, NULL);
 
 	m_grid = gtk_grid_new();
 	g_signal_connect(G_OBJECT (m_grid), "draw", G_CALLBACK (draw_grid_background), 0);
-	gtk_container_add (GTK_CONTAINER (m_scrolled), m_grid);
+	//gtk_container_add (GTK_CONTAINER (m_scrolled), m_grid);
 
-	/* couldn't call setGrid() here, because need MENU_LAST_TRICK_GAME_ANLYSIS
+	/* couldn't call setGrid() here, because need MENU_LAST_TRICK_GAME_ANALYSIS
 	 * which is not download yet. Call setGrid() in updateAfterCreation function
 	 */
-
 	m_full = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
-	gtk_container_add(GTK_CONTAINER(m_full), m_scrolled);
+	gtk_container_add(GTK_CONTAINER(m_full), m_grid);
 	gtk_container_add(GTK_CONTAINER(m_full), getWidget());
 
 	//prevents destroy after gtk_container_remove on change show option

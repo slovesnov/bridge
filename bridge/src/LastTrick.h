@@ -18,7 +18,7 @@
 
 class LastTrick: public FrameItemArea {
 	GtkWidget* m_grid;
-	GtkWidget* m_scrolled;
+	//GtkWidget* m_scrolled;
 	GdkPixbuf* m_suitPixbuf[4];
 	GtkWidget* m_suit[52];
 	GtkWidget* m_labelCard[52];
