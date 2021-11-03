@@ -5,8 +5,7 @@ menuitem, menubar, window > grid > label{
 }
 
 /* right border, font color */
-/*window > grid > box > box > scrolledwindow > viewport > grid game analysis*/
-window > grid > box > box > grid/*game analysis*/
+window > grid > box > box > grid /*game analysis*/
 ,window > grid > box > label /* statusbar */
 {
 	border-right: solid 1px @font_color;

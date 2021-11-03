@@ -1358,12 +1358,7 @@ void Problem::parse(FILE_TYPE t, const std::string& s, bool useOldBtsParser,
 		m_states[0].setInvalidCardsForPreferans();
 	}
 
-	i = m_currentState;
-	m_currentState = 0;
-	//allow all deal states except error, all pass contract is allowed = no trump
-	throwOnError(getDealState(false) != DEAL_STATE_ERROR,
-			STRING_ERROR_INVALID_DEAL, "");
-	m_currentState = i;
+	//4nov2021 allow all deal states, because user can store error deals getDealState(false) != DEAL_STATE_ERROR
 
 	if (m_maxState == -1) {
 		for (i = 0; i < TOTAL_STATES; ++i) {
