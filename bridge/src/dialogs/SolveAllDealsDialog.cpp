@@ -372,6 +372,7 @@ void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 						s+=' ';
 					}
 					s += gtk_label_get_text(GTK_LABEL(w));
+					//printzn(i,j,'[',utf8ToLocale(gtk_label_get_text(GTK_LABEL(w))),']')
 				}
 				else{
 					assert(trump!=NT);

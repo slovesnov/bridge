@@ -157,6 +157,7 @@ std::string Problem::getPbnContent(int nproblem, bool caption) {
 	return s + "\n" + getPbnTagsString();
 }
 
+//in case of preferans  EastWestTricks = number_of_tricks_of_player;
 std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 		int northSouthTricks, int eastWestTricks, bool forConverter, int totaproblems) const {
 	int i;

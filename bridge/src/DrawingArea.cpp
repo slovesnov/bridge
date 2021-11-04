@@ -1841,8 +1841,8 @@ void DrawingArea::solveThread(Problem* problem) {
 
 	if (problem != NULL) {
 		m_bestHtml = i;
-		m_northSouthTricksHtml = bridge.m_ns;
-		m_eastWestTricksHtml = bridge.m_ew;
+		m_northSouthTricksHtml = isBridge() ? bridge.m_ns :preferans.whistTricks();
+		m_eastWestTricksHtml = isBridge() ? bridge.m_ew : preferans.m_playerTricks;
 		//make signal that count is finished
 		finishWaitFunction();
 		return;
