@@ -68,13 +68,13 @@ public:
 	int m_solveAllDeclarersBridgeResult[MAX_THREADS_BRIDGE][4];
 	int m_solveAllDeclarersPreferansResult[MAX_THREADS_PREFERANS * 3];
 
-	//solve all foe
-	SolveAllFoeDialog *m_solveAllFoeDialog;
+	//solve all deals
+	SolveAllFoeDialog *m_solveAllDealsDialog;
 	VGThreadPtr m_vThread;
 	Permutations::State*m_pstate;
 	int m_pstateSize;
 
-	//solve for all declarers & solve all foe
+	//solve for all declarers & solve all deals
 	GMutex m_solveAllMutex;
 	std::atomic_int m_solveAllNumber,m_maxv;
 	std::vector<SolveAll> m_vSolveAll;
@@ -256,9 +256,9 @@ public:
 	void solveAllDeclarersBridgeThread(int thread);
 	void solveAllDeclarersPreferansThread();
 
-	void solveAllFoe(bool createDialog=true);
-	void solveAllFoeThread(int index);
-	void solveAllFoeThreadInner(int index, const bool bridge, const int sz,
+	void solveAllDeals(bool createDialog=true);
+	void solveAllDealsThread(int index);
+	void solveAllDealsThreadInner(int index, const bool bridge, const int sz,
 			int *result, Bridge *pb, Preferans *pp);
 	void solveAllBridgeSetLabels(int trump);
 	void solveThread(Problem* problem); //problem=NULL solve current problem, otherwise solve for html
@@ -350,8 +350,8 @@ public:
 	void rotate(bool clockwise, bool likeBridge = false);
 
 	void solveAllDeclarers();
-	void solveAllFoeUpdateResult(gint64 id);
-	void stopSolveAllFoeThreads();
+	void solveAllDealsUpdateResult(gint64 id);
+	void stopSolveAllDealsThreads();
 
 	bool northInvisible() const {
 		return isPreferans() && !isEditEnable() && getAbsent() == CARD_INDEX_NORTH;
@@ -365,7 +365,7 @@ public:
 
 	int getSolveAllDeclarersThreads();
 	void stopSolveAllThreads();
-	int getFoeSteps(Permutations const& p);
+	int getSolveAllDealsSteps(Permutations const& p);
 
 	void freePState(){
 		if(m_pstate){

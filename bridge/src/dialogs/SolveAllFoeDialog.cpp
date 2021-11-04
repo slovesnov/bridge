@@ -14,7 +14,7 @@
 
 static SolveAllFoeDialog* d;
 
-//shdc
+//spades, hearts, diamond, clubs same order wiht SUITS_CHAR
 const std::string utf8suits[] = { "\xe2\x99\xa0", "\xe2\x99\xa5",
 		"\xe2\x99\xa6", "\xe2\x99\xa3" };
 
@@ -41,7 +41,7 @@ static void button_clicked(GtkWidget *widget, gpointer) {
 }
 
 static void close_dialog(SolveAllFoeDialog *, gint, gpointer) {
-	gdraw->stopSolveAllFoeThreads();
+	gdraw->stopSolveAllDealsThreads();
 }
 
 static gboolean combo_changed(GtkWidget *w, gpointer) {
@@ -50,7 +50,7 @@ static gboolean combo_changed(GtkWidget *w, gpointer) {
 }
 
 SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
-		ButtonsDialogWithProblem(MENU_SOLVE_ALL_FOE, false,
+		ButtonsDialogWithProblem(MENU_SOLVE_ALL_DEALS, false,
 				BUTTONS_DIALOG_NONE),m_positions(positons) {
 	int i, j,k;
 	GtkWidget*g, *g1, *w;
@@ -416,7 +416,7 @@ void SolveAllFoeDialog::comboChanged(GtkWidget *w){
 		}
 
 
-		gdraw->stopSolveAllFoeThreads();
+		gdraw->stopSolveAllDealsThreads();
 
 		//Call reset() only after stopSolveAllFoeThreads, because need set m_id
 		reset();
@@ -425,8 +425,8 @@ void SolveAllFoeDialog::comboChanged(GtkWidget *w){
 		}
 
 		//stopSolveAllFoeThreads
-		gdraw->m_solveAllFoeDialog=this;
-		gdraw->solveAllFoe(false);//here new number of positions is set
+		gdraw->m_solveAllDealsDialog=this;
+		gdraw->solveAllDeals(false);//here new number of positions is set
 	}
 	else{
 		if(isPreferans() && i==PREFERANS_PLAYERS_COMBO){

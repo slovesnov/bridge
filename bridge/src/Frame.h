@@ -45,7 +45,7 @@ private:
 	void save();
 	void saveAs();
 	void solveForAllDeclarers();
-	void solveAllFoe();
+	void solveAllDeals();
 	void converter();
 	void editList();
 	void editPbn();

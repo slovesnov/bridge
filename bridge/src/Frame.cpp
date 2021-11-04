@@ -253,8 +253,8 @@ void Frame::menuClick(MENU_ID id) {
 		calculator();
 		break;
 
-	case MENU_SOLVE_ALL_FOE:
-		solveAllFoe();
+	case MENU_SOLVE_ALL_DEALS:
+		solveAllDeals();
 		break;
 
 		/*see upper
@@ -542,8 +542,8 @@ void Frame::solveForAllDeclarers() {
 	m_area.solveAllDeclarers();
 }
 
-void Frame::solveAllFoe() {
-	m_area.solveAllFoe();
+void Frame::solveAllDeals() {
+	m_area.solveAllDeals();
 }
 
 void Frame::about() {

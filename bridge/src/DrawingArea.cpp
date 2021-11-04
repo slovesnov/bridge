@@ -86,8 +86,8 @@ static gpointer solve_all_declarers_preferans_thread(gpointer) {
 	return NULL;
 }
 
-static gpointer solve_all_foe_thread(gpointer data) {
-	gdraw->solveAllFoeThread(GP2INT(data));
+static gpointer solve_all_deals_thread(gpointer data) {
+	gdraw->solveAllDealsThread(GP2INT(data));
 	return NULL;
 }
 
@@ -96,8 +96,8 @@ static gboolean solve_all_bridge_set_labels(gpointer data) {
 	return G_SOURCE_REMOVE;
 }
 
-static gboolean solve_all_foe_update_result(gpointer data) {
-	gdraw->solveAllFoeUpdateResult(gint64(data));
+static gboolean solve_all_deals_update_result(gpointer data) {
+	gdraw->solveAllDealsUpdateResult(gint64(data));
 	return G_SOURCE_REMOVE;
 }
 
@@ -1427,7 +1427,7 @@ void DrawingArea::edit() {
 	recalcRects();
 	enableEdit(true);
 	updateUndoRedoAll();
-	getMenu().setItemAttributes(MENU_SOLVE_ALL_FOE);
+	getMenu().setItemAttributes(MENU_SOLVE_ALL_DEALS);
 	updateModified();
 
 }
@@ -1609,7 +1609,7 @@ void DrawingArea::makeMove(int index,bool estimateBeforeBest) {
 		updateInsideRegion();
 	}
 	updateRegion(ci);
-	getMenu().setItemAttributes(MENU_SOLVE_ALL_FOE);
+	getMenu().setItemAttributes(MENU_SOLVE_ALL_DEALS);
 	finishWaitFunction();
 }
 
@@ -2129,7 +2129,7 @@ void DrawingArea::solveAllDeclarersBridgeThread(int thread) {
 	}
 }
 
-int DrawingArea::getFoeSteps(Permutations const& p){
+int DrawingArea::getSolveAllDealsSteps(Permutations const& p){
 	/* later using i%(p.number()/steps)
 	 * so steps>=1 & p.number()/steps>=1 ~ (p.number()>=steps)
 	 *
@@ -2151,7 +2151,7 @@ int DrawingArea::getFoeSteps(Permutations const& p){
 	return steps;
 }
 
-void DrawingArea::solveAllFoeThread(int index) {
+void DrawingArea::solveAllDealsThread(int index) {
 	g_mutex_lock(&m_solveAllMutex);
 	const bool bridge=isBridge();
 	const int sz=getMaxHandCards()+1;
@@ -2173,7 +2173,7 @@ void DrawingArea::solveAllFoeThread(int index) {
 		pp=new Preferans(false);
 	}
 
-	solveAllFoeThreadInner(index, bridge, sz, result, pb, pp);
+	solveAllDealsThreadInner(index, bridge, sz, result, pb, pp);
 
 	if(bridge){
 		delete pb;
@@ -2184,13 +2184,13 @@ void DrawingArea::solveAllFoeThread(int index) {
 	delete[]result;
 }
 
-void DrawingArea::solveAllFoeThreadInner(int index, const bool bridge,const int sz,
+void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const int sz,
 		int *result, Bridge *pb, Preferans *pp) {
 	int i, j, v;
 	SolveAll &sa = m_vSolveAll[index];
 	Permutations p(sa.k, sa.n, COMBINATION);
 	g_mutex_lock(&m_solveAllMutex);
-	const int MAXV = getFoeSteps(p);
+	const int MAXV = getSolveAllDealsSteps(p);
 	g_mutex_unlock(&m_solveAllMutex);
 	sa.begin = clock();
 	bool trumpChanged = true;
@@ -2240,7 +2240,7 @@ void DrawingArea::solveAllFoeThreadInner(int index, const bool bridge,const int 
 		for (i = 0; i < sz; i++) {
 			sa.positions+=result[i];
 		}
-		m_solveAllFoeDialog->updateResult(result, sz);
+		m_solveAllDealsDialog->updateResult(result, sz);
 		sa.end=clock();
 
 		ur=true;
@@ -2254,17 +2254,16 @@ void DrawingArea::solveAllFoeThreadInner(int index, const bool bridge,const int 
 			}
 		}
 		if(ur){
-			gdk_threads_add_idle(solve_all_foe_update_result, gpointer(m_solveAllFoeDialog->m_id));
+			gdk_threads_add_idle(solve_all_deals_update_result, gpointer(m_solveAllDealsDialog->m_id));
 		}
 	}
 
 	if(bridge){
-		gdk_threads_add_idle(solve_all_foe_update_result, gpointer(m_solveAllFoeDialog->m_id));
+		gdk_threads_add_idle(solve_all_deals_update_result, gpointer(m_solveAllDealsDialog->m_id));
 	}
-	//println("allfoe exit %d",index)
 }
 
-void DrawingArea::solveAllFoe(bool createDialog) {
+void DrawingArea::solveAllDeals(bool createDialog) {
 	int i, j, k, n, *pi;
 	State& state = getState();
 	Permutations p;
@@ -2302,7 +2301,7 @@ void DrawingArea::solveAllFoe(bool createDialog) {
 		n = state.countCards(c[1])+k;
 	}
 	p.init(k, n, COMBINATION);
-	const int steps=getFoeSteps(p);
+	const int steps=getSolveAllDealsSteps(p);
 
 	//println("%d %d %d",k,n,steps)
 
@@ -2313,14 +2312,14 @@ void DrawingArea::solveAllFoe(bool createDialog) {
 		m_vSolveAll[i].positions = 0;
 	}
 	if(createDialog){
-		m_solveAllFoeDialog = new SolveAllFoeDialog(p.number());
+		m_solveAllDealsDialog = new SolveAllFoeDialog(p.number());
 	}
 	else{
-		m_solveAllFoeDialog->setPositions(p.number());
+		m_solveAllDealsDialog->setPositions(p.number());
 	}
 
 	SolveAll& s = m_vSolveAll[0];
-	s.init(k,n,first,getTrump(),c,cid,m_solveAllFoeDialog->m_id);
+	s.init(k,n,first,getTrump(),c,cid,m_solveAllDealsDialog->m_id);
 
 	if(isBridge()){
 		s.ns=!northOrSouth(pr.getVeryFirstMove());
@@ -2378,7 +2377,7 @@ void DrawingArea::solveAllFoe(bool createDialog) {
 		if (i > 0) {
 			m_vSolveAll[i] = m_vSolveAll[0];
 		}
-		m_vThread.push_back( g_thread_new("", solve_all_foe_thread, GP(i)));
+		m_vThread.push_back( g_thread_new("", solve_all_deals_thread, GP(i)));
 	}
 }
 
@@ -2460,16 +2459,16 @@ void DrawingArea::solveAllBridgeSetLabels(int trump) {
 	}
 }
 
-void DrawingArea::solveAllFoeUpdateResult(gint64 id) {
+void DrawingArea::solveAllDealsUpdateResult(gint64 id) {
 	//Dialog could be closed, before this function, so need to check
-	if (m_solveAllFoeDialog) {
+	if (m_solveAllDealsDialog) {
 		/* check that signal goes from same foe dialog,
 		 * it's not a problem do not this check, because
 		 * just call updateData(), but it give more clarify code
 		 * so leave this checking. Also later some parameters can appear
 		 */
-		if(m_solveAllFoeDialog->m_id==id){
-			m_solveAllFoeDialog->updateData();
+		if(m_solveAllDealsDialog->m_id==id){
+			m_solveAllDealsDialog->updateData();
 		}
 		else{
 			//println("wrong id skip")
@@ -2477,12 +2476,12 @@ void DrawingArea::solveAllFoeUpdateResult(gint64 id) {
 	}
 }
 
-void DrawingArea::stopSolveAllFoeThreads() {
+void DrawingArea::stopSolveAllDealsThreads() {
 	stopSolveAllThreads();
 	/* some solveAllFoeUpdateResult() can be in loop, so make
 	 * m_solveAllFoeDialog=0 to indicate that dialog is closed
 	 */
-	m_solveAllFoeDialog=0;
+	m_solveAllDealsDialog=0;
 }
 
 void DrawingArea::stopSolveAllDeclarersBridgeThreads() {
