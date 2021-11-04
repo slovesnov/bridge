@@ -2097,7 +2097,7 @@ bool Problem::isSolveAllDealsEnable() const {
 
 	CARD_INDEX c[2];
 	if(isBridge()){
-		c[0]=isBridgeDealsAbsentNS() ? CARD_INDEX_NORTH:CARD_INDEX_EAST;
+		c[0]=isBridgeSolveAllDealsAbsentNS() ? CARD_INDEX_NORTH:CARD_INDEX_EAST;
 		c[1]=getBridgePartner(c[0]);
 	}
 	else{

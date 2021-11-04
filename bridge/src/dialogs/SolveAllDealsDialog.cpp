@@ -88,7 +88,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 
 	for (i = 0; i < 4; i++) {
 		if(isBridge()){
-			b=i%2==isBridgeDealsAbsentNS();
+			b=i%2==isBridgeSolveAllDealsAbsentNS();
 		}
 		else{
 			b=PLAYER[i] == p.m_player;
@@ -235,7 +235,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 			v.push_back(getNSEWString(i==0));
 		}
 		m_combo[TAB1] = createTextCombobox(v);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(m_combo[TAB1]), !isBridgeDealsAbsentNS() );
+		gtk_combo_box_set_active(GTK_COMBO_BOX(m_combo[TAB1]), !isBridgeSolveAllDealsAbsentNS() );
 
 		gtk_container_add(GTK_CONTAINER(w), m_combo[TAB1]);
 
@@ -407,12 +407,12 @@ void SolveAllDealsDialog::comboChanged(GtkWidget *w){
 	i=INDEX_OF(w,m_combo);
 
 	if(i==TAB1){//only bridge
-		setBridgeDealsAbsentNS(!gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[TAB1])));
+		setBridgeSolveAllDealsAbsentNS(!gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[TAB1])));
 		Problem const&p = getProblem();
 		for (i = 0; i < 4; i++) {
 			for (j = 0; j < 4; j++) {
 				gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]),
-						i % 2 == isBridgeDealsAbsentNS() ? p.getRow(j, PLAYER[i]).c_str() : " ?");
+						i % 2 == isBridgeSolveAllDealsAbsentNS() ? p.getRow(j, PLAYER[i]).c_str() : " ?");
 			}
 		}
 

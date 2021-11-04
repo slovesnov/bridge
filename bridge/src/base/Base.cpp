@@ -511,11 +511,11 @@ ESTIMATE getEstimateType() {
 	return gconfig->getEstimateType();
 }
 
-int isBridgeDealsAbsentNS(){
+int isBridgeSolveAllDealsAbsentNS(){
 	return gconfig->m_bridgeSolveAllDealsAbsentNS;
 }
 
-void setBridgeDealsAbsentNS(int ns){
+void setBridgeSolveAllDealsAbsentNS(int ns){
 	gconfig->m_bridgeSolveAllDealsAbsentNS=ns;
 }
 

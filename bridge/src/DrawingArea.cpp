@@ -2198,6 +2198,7 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 	int *o = sa.o;
 	clock_t t, lastUpdate = clock();
 	bool ur;
+	auto updateResults=[&] () {gdk_threads_add_idle(solve_all_deals_update_result, gpointer(m_solveAllDealsDialog->m_id));};
 
 	while ((v = m_solveAllNumber++) < MAXV) {
 		for (i = 0; i < sz; i++) {
@@ -2254,12 +2255,12 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 			}
 		}
 		if(ur){
-			gdk_threads_add_idle(solve_all_deals_update_result, gpointer(m_solveAllDealsDialog->m_id));
+			updateResults();
 		}
 	}
 
 	if(bridge){
-		gdk_threads_add_idle(solve_all_deals_update_result, gpointer(m_solveAllDealsDialog->m_id));
+		updateResults();
 	}
 }
 
@@ -2279,7 +2280,7 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 	m_solveAllNumber = 0;
 
 	if(isBridge()){
-		c[0]=isBridgeDealsAbsentNS() ? CARD_INDEX_NORTH:CARD_INDEX_EAST;
+		c[0]=isBridgeSolveAllDealsAbsentNS() ? CARD_INDEX_NORTH:CARD_INDEX_EAST;
 		c[1]=getBridgePartner(c[0]);
 	}
 	else{
