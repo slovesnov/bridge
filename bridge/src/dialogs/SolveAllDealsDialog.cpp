@@ -567,7 +567,7 @@ GtkWidget* SolveAllDealsDialog::createTab2() {
 		addGridRow(label(STRING_MISERE),j);
 	}
 	else{
-		for (i = (bridge?1:6); i <= (bridge?7:10); i++) {
+		for (i = minContract(); i <= maxContract(); i++) {
 			s = std::to_string(i);
 			if(trump==NT){
 				s+=" "+getNTString();
