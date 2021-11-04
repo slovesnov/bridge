@@ -77,11 +77,7 @@ static void setEstimateFunction(int index, int estimate) { //callback function
 }
 
 static gpointer solve_all_declarers_bridge_thread(gpointer data) {
-	gdraw->solveAllDeclarersBridgeThread(
-#ifndef FINAL_RELEASE
-			GP2INT(data)
-#endif
-			);
+	gdraw->solveAllDeclarersBridgeThread(GP2INT(data));
 	return NULL;
 }
 
@@ -2102,11 +2098,7 @@ void DrawingArea::solveAllDeclarersPreferansThread() {
 	}
 }
 
-void DrawingArea::solveAllDeclarersBridgeThread(
-#ifndef FINAL_RELEASE
-	int thread
-#endif
-	) {
+void DrawingArea::solveAllDeclarersBridgeThread(int thread) {
 	int i,v,trump;
 	CARD_INDEX c[52];
 	Bridge b;

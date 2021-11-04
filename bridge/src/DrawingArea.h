@@ -253,11 +253,7 @@ public:
 	void updateGameType() override;
 	void newGame() override;
 
-#ifdef FINAL_RELEASE
-	void solveAllDeclarersBridgeThread();
-#else
 	void solveAllDeclarersBridgeThread(int thread);
-#endif
 	void solveAllDeclarersPreferansThread();
 
 	void solveAllFoe(bool createDialog=true);
