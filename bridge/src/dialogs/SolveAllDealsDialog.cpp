@@ -269,7 +269,8 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	}
 	showExclude(e);
 
-	//gtk_notebook_next_page(GTK_NOTEBOOK(m_notebook));
+	//TODO
+	gtk_notebook_next_page(GTK_NOTEBOOK(m_notebook));
 }
 
 SolveAllDealsDialog::~SolveAllDealsDialog(){
@@ -344,33 +345,38 @@ void SolveAllDealsDialog::updateData() {
 void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 	int i,j;
 	std::string s;
-	bool b;
 	const int trump = getTrump();
 	if(w==m_button[TAB2]){
-		int columns = isBridge() ? 3 : getPreferansPlayers()+1;
+		int columns = isBridge() ? 4 : getPreferansPlayers()+2;
 
 		for (j = 0; j < getTableRowsTab2(); j++) {
 			if(j){
 				s += "\n";
 			}
 			for (i = 0; i < columns; i++) {
-				auto w = gtk_grid_get_child_at(GTK_GRID(m_grid), i, j);
-				b=!GTK_IS_LABEL(w);
-				if(b){
-					w=containerGetChild(w, 0);
-					assert(GTK_IS_LABEL(w));
+				//first row and first column has spanned on two columns so i>1
+				if (i>1) {
+					s += "\t";
 				}
-				s += gtk_label_get_text(GTK_LABEL(w));
-				if(b){
-					//if(trump==NT) then b false
+				//first column has spanned on two columns for first row
+				//in case of misere first column has spanned on two columns for all rows
+				if((j==0 || isMisere()) && i==1){
+					continue;
+				}
+				auto w = gtk_grid_get_child_at(GTK_GRID(m_grid), i, j);
+				if(GTK_IS_LABEL(w)){
+					/* "6NT" -> "6 NT", for suits game not add
+					 * space before suit symbol it looks good
+					 */
+					if(i==1 && trump==NT){
+						s+=' ';
+					}
+					s += gtk_label_get_text(GTK_LABEL(w));
+				}
+				else{
 					assert(trump!=NT);
 					s+=utf8suits[trump];
 				}
-				/* in case of trump game "6 clubs"
-				 * in case of nt game "6 NT"
-				 * it's not good because of different cases but i decided to left it
-				 */
-				s += "\t";
 			}
 		}
 	}
@@ -554,34 +560,28 @@ GtkWidget* SolveAllDealsDialog::createTab2() {
 		for(auto a:vs){
 			w=createBoldLabel(a);
 			gtk_widget_set_hexpand(w, 1);//to stretch grid
-			gtk_grid_attach(GTK_GRID(m_grid), w, i, j, 1, 1);
+			gtk_grid_attach(GTK_GRID(m_grid), w, i + (i != 0), j,
+					i == 0 ? 2 : 1, 1);
 			i++;
 		}
 	}
+
+
 
 	if(!bridge){
 		setPreferans2ndTitleRow();
 	}
 
 	if(isMisere()){//game type checked inside
-		addGridRow(label(STRING_MISERE),j);
+		addGridRow(label(STRING_MISERE),nullptr,j);
 	}
 	else{
 		for (i = minContract(); i <= maxContract(); i++) {
-			s = std::to_string(i);
-			if(trump==NT){
-				s+=" "+getNTString();
-				w=label(s);
-			}
-			else{
-				w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-				gtk_container_add(GTK_CONTAINER(w), label(s));
-				gtk_container_add(GTK_CONTAINER(w),
-						gtk_image_new_from_pixbuf(m_suitPixbuf[trump]));
-				gtk_widget_set_halign(w, GTK_ALIGN_CENTER);
-
-			}
-			addGridRow(w,j++);
+			w = label(std::to_string(i));
+			w1 = trump == NT ?
+					label(getNTString()) :
+					gtk_image_new_from_pixbuf(m_suitPixbuf[trump]);
+			addGridRow(w, w1, j++);
 		}
 	}
 	gtk_container_add(GTK_CONTAINER(w2), m_grid);
@@ -624,6 +624,7 @@ GtkWidget* SolveAllDealsDialog::createTab2() {
 		w = createMarkupLabel(STRING_CONTRACTS_SCORING_HELP,60);
 		gtk_container_add(GTK_CONTAINER(w2), w);
 	}
+
 	return w2;
 }
 
@@ -736,16 +737,25 @@ void SolveAllDealsDialog::updateTab2() {
 
 }
 
-void SolveAllDealsDialog::addGridRow(GtkWidget *w, int row) {
-	gtk_grid_attach(GTK_GRID(m_grid), w, 0, row, 1, 1);
+void SolveAllDealsDialog::addGridRow(GtkWidget *w,GtkWidget *w1, int row) {
+	gtk_grid_attach(GTK_GRID(m_grid), w, 0, row, w1?1:2, 1);
+	if(w1){
+		gtk_grid_attach(GTK_GRID(m_grid), w1, 1, row, 1, 1);
+		gtk_widget_set_halign(w, GTK_ALIGN_END);
+		gtk_widget_set_halign(w1, GTK_ALIGN_START);
+		const int margin=2;
+		gtk_widget_set_margin_end(w, margin);
+		gtk_widget_set_margin_start(w1, margin);
+	}
+
 	for (int i = 0; i < 4; i++) {
-		gtk_grid_attach(GTK_GRID(m_grid), label(), i+1, row, 1, 1);
+		gtk_grid_attach(GTK_GRID(m_grid), label(), i+2, row, 1, 1);
 	}
 }
 
 void SolveAllDealsDialog::setGridLabels(int contract,const VDouble& v) {
 	std::string s;
-	int i=1;
+	int i=2;
 	const bool empty=m_total==0;
 	int r=isMisere()? 0:-minContract();
 
@@ -770,7 +780,7 @@ void SolveAllDealsDialog::updateNumberOfPreferansPlayers() {
 VGtkWidgetPtr SolveAllDealsDialog::getLastWhisterWidgets() {
 	VGtkWidgetPtr v;
 	for (int i = 0; i < getTableRowsTab2(); i++) {
-		v.push_back( gtk_grid_get_child_at(GTK_GRID(m_grid), 4, i));
+		v.push_back( gtk_grid_get_child_at(GTK_GRID(m_grid), 5, i));
 	}
 	return v;
 }
@@ -831,9 +841,9 @@ void SolveAllDealsDialog::setPreferans2ndTitleRow(){
 		vc.push_back(c);
 	}
 
-	i = 0;
+	i = 2;
 	for (auto a : vc) {
-		setGridLabel(getLowercasedPlayerString(a), i + 1, 1);
+		setGridLabel(getLowercasedPlayerString(a), i, 1);
 		i++;
 	}
 }

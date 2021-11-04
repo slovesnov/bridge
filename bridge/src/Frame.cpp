@@ -133,7 +133,8 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 			G_CALLBACK(size_allocate), NULL);
 
 #ifndef NDEBUG
-
+	//TODO
+	menuClick(MENU_SOLVE_ALL_DEALS);
 #endif
 
 	gtk_main();

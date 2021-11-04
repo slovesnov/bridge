@@ -46,7 +46,7 @@ public:
 	std::string getProgressBarString(bool b=true);
 	GtkWidget* createTab2();
 	void updateTab2();
-	void addGridRow(GtkWidget *w,int row);
+	void addGridRow(GtkWidget *w,GtkWidget *w1, int row);
 	void setGridLabels(int contract,const VDouble& v);
 	int getPreferansPlayers();
 	void updateNumberOfPreferansPlayers();
