@@ -269,8 +269,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	}
 	showExclude(e);
 
-	//TODO
-	gtk_notebook_next_page(GTK_NOTEBOOK(m_notebook));
+	//gtk_notebook_next_page(GTK_NOTEBOOK(m_notebook));
 }
 
 SolveAllDealsDialog::~SolveAllDealsDialog(){
