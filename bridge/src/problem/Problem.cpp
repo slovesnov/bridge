@@ -2090,14 +2090,14 @@ void Problem::adjustPbnInfo() {
 
 }
 
-bool Problem::isSolveAllFoeEnable() const {
+bool Problem::isSolveAllDealsEnable() const {
 	if(think()){
 		return false;
 	}
 
 	CARD_INDEX c[2];
 	if(isBridge()){
-		c[0]=isBridgeFoeAbsentNS() ? CARD_INDEX_NORTH:CARD_INDEX_EAST;
+		c[0]=isBridgeDealsAbsentNS() ? CARD_INDEX_NORTH:CARD_INDEX_EAST;
 		c[1]=getBridgePartner(c[0]);
 	}
 	else{

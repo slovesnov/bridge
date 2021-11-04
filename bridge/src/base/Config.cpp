@@ -233,7 +233,7 @@ void Config::initVarables() {
 			&m_lastTrickMinimalMargin,
 			&m_frameDelta,
 			(int*) &m_absent,
-			&m_bridgeSolveAllFoeAbsentNS,
+			&m_bridgeSolveAllDealsAbsentNS,
 			&m_customSkinBackgroundIsColor,
 			&m_skin,
 	};
@@ -273,7 +273,7 @@ void Config::initVarables() {
 			"last trick minimal margin",
 			"frame delta (system variable)",
 			"absent player (preferans)",
-			"bridge solve all foe absent north/south",
+			"bridge solve all deals absent north/south",
 			"custom background is color",
 			"skin",
 	};
@@ -516,7 +516,7 @@ void Config::reset(bool fromMenu/*=false*/) {
 		m_frameDelta = 120;	//got from real measurement old notebook, new notebook m_frameDelta = 156
 	}
 	m_absent = CARD_INDEX_SOUTH;
-	m_bridgeSolveAllFoeAbsentNS=0;
+	m_bridgeSolveAllDealsAbsentNS=0;
 	m_thousandsSeparatorString=ENGLISH_THOUSANDS_SEPARATOR;
 
 	//m_skin, m_font - is set

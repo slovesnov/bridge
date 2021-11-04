@@ -1,5 +1,5 @@
 /*
- * SolveAllFoeDialog.h
+ * SolveAllDealsDialog.h
  *
  *       Created on: 10.05.2017
  *           Author: alexey slovesnov
@@ -8,12 +8,12 @@
  *         homepage: slovesnov.users.sourceforge.net
  */
 
-#ifndef DIALOGS_SOLVEALLFOEDIALOG_H_
-#define DIALOGS_SOLVEALLFOEDIALOG_H_
+#ifndef DIALOGS_SOLVEALLDEALSDIALOG_H_
+#define DIALOGS_SOLVEALLDEALSDIALOG_H_
 
 #include "ButtonsDialogWithProblem.h"
 
-class SolveAllFoeDialog: public ButtonsDialogWithProblem {
+class SolveAllDealsDialog: public ButtonsDialogWithProblem {
 	int m_positions, m_total;
 	double m_fraction;
 	clock_t m_begin, m_end;
@@ -31,10 +31,10 @@ class SolveAllFoeDialog: public ButtonsDialogWithProblem {
 	GtkWidget *m_notebook;
 	GMutex m_mutex;
 public:
-	gint64 m_id;//read help in SolveAllFoeDialog.cpp
+	gint64 m_id;//read help in SolveAllDealsDialog.cpp
 
-	SolveAllFoeDialog(int positons);
-	~SolveAllFoeDialog();
+	SolveAllDealsDialog(int positons);
+	~SolveAllDealsDialog();
 	int resultSize()const;
 	void clickButton(GtkWidget *w);
 	void comboChanged(GtkWidget *w);
@@ -58,4 +58,4 @@ public:
 	std::string getNSEWString(bool ns);
 };
 
-#endif /* DIALOGS_SOLVEALLFOEDIALOG_H_ */
+#endif /* DIALOGS_SOLVEALLDEALSDIALOG_H_ */

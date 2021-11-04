@@ -24,7 +24,7 @@
 #include "solver/Permutations.h"
 
 class SolveForAllDeclarersDialog;
-class SolveAllFoeDialog;
+class SolveAllDealsDialog;
 class Bridge;
 class Preferans;
 
@@ -69,7 +69,7 @@ public:
 	int m_solveAllDeclarersPreferansResult[MAX_THREADS_PREFERANS * 3];
 
 	//solve all deals
-	SolveAllFoeDialog *m_solveAllDealsDialog;
+	SolveAllDealsDialog *m_solveAllDealsDialog;
 	VGThreadPtr m_vThread;
 	Permutations::State*m_pstate;
 	int m_pstateSize;

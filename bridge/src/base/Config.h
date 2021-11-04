@@ -49,7 +49,7 @@ public:
 	//end css variables
 
 	CARD_INDEX m_absent;
-	int m_bridgeSolveAllFoeAbsentNS;
+	int m_bridgeSolveAllDealsAbsentNS;
 	std::string m_thousandsSeparatorString;
 
 private:

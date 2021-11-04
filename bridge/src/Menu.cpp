@@ -514,7 +514,7 @@ void Menu::setItemAttributes(const MENU_ID id) {
 		b = getFindBestState(false) != BUTTON_STATE_DISABLED; //DO NOT CHANGE
 	}
 	else if (id == MENU_SOLVE_ALL_DEALS) {
-		b = getProblem().isSolveAllFoeEnable();
+		b = getProblem().isSolveAllDealsEnable();
 	}
 	else {
 		b = true;

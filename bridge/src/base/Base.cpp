@@ -511,12 +511,12 @@ ESTIMATE getEstimateType() {
 	return gconfig->getEstimateType();
 }
 
-int isBridgeFoeAbsentNS(){
-	return gconfig->m_bridgeSolveAllFoeAbsentNS;
+int isBridgeDealsAbsentNS(){
+	return gconfig->m_bridgeSolveAllDealsAbsentNS;
 }
 
-void setBridgeFoeAbsentNS(int ns){
-	gconfig->m_bridgeSolveAllFoeAbsentNS=ns;
+void setBridgeDealsAbsentNS(int ns){
+	gconfig->m_bridgeSolveAllDealsAbsentNS=ns;
 }
 
 int indexOfPlayer(CARD_INDEX player) {

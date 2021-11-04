@@ -355,7 +355,7 @@ public:
 
 	DEAL_STATE getDealState(bool checkTrump = true) const;
 
-	bool isSolveAllFoeEnable() const;
+	bool isSolveAllDealsEnable() const;
 
 #ifndef FINAL_RELEASE
 	void printcids(int stateNumber);

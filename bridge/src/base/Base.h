@@ -269,8 +269,8 @@ CARD_INDEX getBridgePartner(CARD_INDEX player);
 
 ESTIMATE getEstimateType();
 
-int isBridgeFoeAbsentNS();
-void setBridgeFoeAbsentNS(int ns);
+int isBridgeDealsAbsentNS();
+void setBridgeDealsAbsentNS(int ns);
 
 BUTTON_STATE boolToButtonState(bool b);
 

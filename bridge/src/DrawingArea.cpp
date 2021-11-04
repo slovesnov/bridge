@@ -14,7 +14,7 @@
 #include "dialogs/SolveForAllDeclarersDialog.h"
 #include "dialogs/HtmlOptionsDialog.h"
 #include "dialogs/PbnEditorDialog.h"
-#include "dialogs/SolveAllFoeDialog.h"
+#include "dialogs/SolveAllDealsDialog.h"
 #include "solver/Bridge.h"
 #include "solver/Permutations.h"
 #include "solver/Preferans.h"
@@ -43,11 +43,11 @@ const CARD_INDEX OUTER_REGION[] = {
 		CARD_INDEX_SOUTH,
 		CARD_INDEX_WEST };
 
-/* number of steps should be PREFERANS_SOLVE_ALL_FOE_STEPS%CORES=0 to get max processor loading
- * usually cores=2,4,6,8 so PREFERANS_SOLVE_ALL_FOE_STEPS%24=0 is good solution
- * PREFERANS_SOLVE_ALL_FOE_POSITIONS/24 ~ 7700
+/* number of steps should be PREFERANS_SOLVE_ALL_DEALS_STEPS%CORES=0 to get max processor loading
+ * usually cores=2,4,6,8 so PREFERANS_SOLVE_ALL_DEALS_STEPS%24=0 is good solution
+ * PREFERANS_SOLVE_ALL_DEALS_POSITIONS/24 ~ 7700
  */
-const int PREFERANS_SOLVE_ALL_FOE_STEPS = 48;
+const int PREFERANS_SOLVE_ALL_DEALS_STEPS = 48;
 
 const GdkRGBA ESTIMATE_COLOR = { 1, 1, 204. / 255, 1 };
 const int TABLE_ROUND_CORNER_SIZE = 48;
@@ -2141,7 +2141,7 @@ int DrawingArea::getSolveAllDealsSteps(Permutations const& p){
 		steps=p.number()/deals;
 	}
 	else{
-		steps=PREFERANS_SOLVE_ALL_FOE_STEPS;
+		steps=PREFERANS_SOLVE_ALL_DEALS_STEPS;
 	}
 
 	if(steps==0 || p.number()/steps==0){
@@ -2232,7 +2232,7 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 			result[i]++;
 			//check only preferans, bridge in solve() function file bi.h
 			if(!bridge && j % 50 == 0 && needStopThread() ){
-				//println("allfoe exit (user break) %d",index)
+				//println("alldeals exit (user break) %d",index)
 				return;
 			}
 		}
@@ -2279,7 +2279,7 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 	m_solveAllNumber = 0;
 
 	if(isBridge()){
-		c[0]=isBridgeFoeAbsentNS() ? CARD_INDEX_NORTH:CARD_INDEX_EAST;
+		c[0]=isBridgeDealsAbsentNS() ? CARD_INDEX_NORTH:CARD_INDEX_EAST;
 		c[1]=getBridgePartner(c[0]);
 	}
 	else{
@@ -2305,14 +2305,14 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 
 	//println("%d %d %d",k,n,steps)
 
-	/* m_vSolveAll[i].positions uses in m_solveAllFoeDialog
+	/* m_vSolveAll[i].positions uses in m_solveAllDealsDialog
 	 * updataLabels()
 	 */
 	for (i = 0; i < getMaxRunThreads(); i++) {
 		m_vSolveAll[i].positions = 0;
 	}
 	if(createDialog){
-		m_solveAllDealsDialog = new SolveAllFoeDialog(p.number());
+		m_solveAllDealsDialog = new SolveAllDealsDialog(p.number());
 	}
 	else{
 		m_solveAllDealsDialog->setPositions(p.number());
@@ -2462,7 +2462,7 @@ void DrawingArea::solveAllBridgeSetLabels(int trump) {
 void DrawingArea::solveAllDealsUpdateResult(gint64 id) {
 	//Dialog could be closed, before this function, so need to check
 	if (m_solveAllDealsDialog) {
-		/* check that signal goes from same foe dialog,
+		/* check that signal goes from same deals dialog,
 		 * it's not a problem do not this check, because
 		 * just call updateData(), but it give more clarify code
 		 * so leave this checking. Also later some parameters can appear
@@ -2478,8 +2478,8 @@ void DrawingArea::solveAllDealsUpdateResult(gint64 id) {
 
 void DrawingArea::stopSolveAllDealsThreads() {
 	stopSolveAllThreads();
-	/* some solveAllFoeUpdateResult() can be in loop, so make
-	 * m_solveAllFoeDialog=0 to indicate that dialog is closed
+	/* some solveAllDealsUpdateResult() can be in loop, so make
+	 * m_solveAllDealsDialog=0 to indicate that dialog is closed
 	 */
 	m_solveAllDealsDialog=0;
 }

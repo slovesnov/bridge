@@ -1,5 +1,5 @@
 /*
- * SolveAllFoeDialog.cpp
+ * SolveAllDealsDialog.cpp
  *
  *       Created on: 10.05.2017
  *           Author: alexey slovesnov
@@ -8,11 +8,12 @@
  *         homepage: slovesnov.users.sourceforge.net
  */
 
-#include "SolveAllFoeDialog.h"
+#include "SolveAllDealsDialog.h"
+
 #include "../DrawingArea.h"
 #include "../helper/PreferansScore.h"
 
-static SolveAllFoeDialog* d;
+static SolveAllDealsDialog* d;
 
 //spades, hearts, diamond, clubs same order wiht SUITS_CHAR
 const std::string utf8suits[] = { "\xe2\x99\xa0", "\xe2\x99\xa5",
@@ -40,7 +41,7 @@ static void button_clicked(GtkWidget *widget, gpointer) {
 	d->clickButton(widget);
 }
 
-static void close_dialog(SolveAllFoeDialog *, gint, gpointer) {
+static void close_dialog(SolveAllDealsDialog *, gint, gpointer) {
 	gdraw->stopSolveAllDealsThreads();
 }
 
@@ -49,7 +50,7 @@ static gboolean combo_changed(GtkWidget *w, gpointer) {
 	return TRUE;
 }
 
-SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
+SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 		ButtonsDialogWithProblem(MENU_SOLVE_ALL_DEALS, false,
 				BUTTONS_DIALOG_NONE),m_positions(positons) {
 	int i, j,k;
@@ -87,7 +88,7 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 
 	for (i = 0; i < 4; i++) {
 		if(isBridge()){
-			b=i%2==isBridgeFoeAbsentNS();
+			b=i%2==isBridgeDealsAbsentNS();
 		}
 		else{
 			b=PLAYER[i] == p.m_player;
@@ -234,7 +235,7 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 			v.push_back(getNSEWString(i==0));
 		}
 		m_combo[TAB1] = createTextCombobox(v);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(m_combo[TAB1]), !isBridgeFoeAbsentNS() );
+		gtk_combo_box_set_active(GTK_COMBO_BOX(m_combo[TAB1]), !isBridgeDealsAbsentNS() );
 
 		gtk_container_add(GTK_CONTAINER(w), m_combo[TAB1]);
 
@@ -271,11 +272,11 @@ SolveAllFoeDialog::SolveAllFoeDialog(int positons) :
 	//gtk_notebook_next_page(GTK_NOTEBOOK(m_notebook));
 }
 
-SolveAllFoeDialog::~SolveAllFoeDialog(){
+SolveAllDealsDialog::~SolveAllDealsDialog(){
 	g_mutex_clear(&m_mutex);
 }
 
-void SolveAllFoeDialog::updateData() {
+void SolveAllDealsDialog::updateData() {
 	int i,j;
 	double v,va;
 	std::string s;
@@ -340,7 +341,7 @@ void SolveAllFoeDialog::updateData() {
 	updateTab2();
 }
 
-void SolveAllFoeDialog::clickButton(GtkWidget* w) {
+void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 	int i,j;
 	std::string s;
 	bool b;
@@ -397,34 +398,34 @@ void SolveAllFoeDialog::clickButton(GtkWidget* w) {
 	gtk_clipboard_set_text(clipboard, s.c_str(), s.length());
 }
 
-int SolveAllFoeDialog::resultSize()const{
+int SolveAllDealsDialog::resultSize()const{
 	return 1+ getMaxHandCards();
 }
 
-void SolveAllFoeDialog::comboChanged(GtkWidget *w){
+void SolveAllDealsDialog::comboChanged(GtkWidget *w){
 	int i,j;
 	i=INDEX_OF(w,m_combo);
 
 	if(i==TAB1){//only bridge
-		setBridgeFoeAbsentNS(!gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[TAB1])));
+		setBridgeDealsAbsentNS(!gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[TAB1])));
 		Problem const&p = getProblem();
 		for (i = 0; i < 4; i++) {
 			for (j = 0; j < 4; j++) {
 				gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]),
-						i % 2 == isBridgeFoeAbsentNS() ? p.getRow(j, PLAYER[i]).c_str() : " ?");
+						i % 2 == isBridgeDealsAbsentNS() ? p.getRow(j, PLAYER[i]).c_str() : " ?");
 			}
 		}
 
 
 		gdraw->stopSolveAllDealsThreads();
 
-		//Call reset() only after stopSolveAllFoeThreads, because need set m_id
+		//Call reset() only after stopSolveAllDealsThreads, because need set m_id
 		reset();
 		for(auto a:m_loading){
 			gtk_spinner_start (GTK_SPINNER(a));
 		}
 
-		//stopSolveAllFoeThreads
+		//stopSolveAllDealsThreads
 		gdraw->m_solveAllDealsDialog=this;
 		gdraw->solveAllDeals(false);//here new number of positions is set
 	}
@@ -438,7 +439,7 @@ void SolveAllFoeDialog::comboChanged(GtkWidget *w){
 }
 
 
-void SolveAllFoeDialog::reset(){
+void SolveAllDealsDialog::reset(){
 	m_id=g_get_real_time();
 	m_begin = clock();
 	for (int& a :m_result) {//no multithread calls
@@ -446,12 +447,12 @@ void SolveAllFoeDialog::reset(){
 	}
 }
 
-void SolveAllFoeDialog::setPositions(int positions){
+void SolveAllDealsDialog::setPositions(int positions){
 	m_positions=positions;
 	updateData();
 }
 
-std::string SolveAllFoeDialog::getTotalTimeLabelString() {
+std::string SolveAllDealsDialog::getTotalTimeLabelString() {
 	m_end = clock();
 	std::string s=getString(STRING_TIME);
 	s+=" ";
@@ -470,12 +471,12 @@ std::string SolveAllFoeDialog::getTotalTimeLabelString() {
 	return s;
 }
 
-std::string SolveAllFoeDialog::getProgressBarString(bool b) {
+std::string SolveAllDealsDialog::getProgressBarString(bool b) {
 	return getPercentString() + (b ? "   " : " ") + intToStringLocaled(m_total)
 			+ "/" + intToStringLocaled(m_positions);
 }
 
-GtkWidget* SolveAllFoeDialog::createTab2() {
+GtkWidget* SolveAllDealsDialog::createTab2() {
 	int i,j;
 	GtkWidget *w,*w1,*w2;
 	std::string s;
@@ -626,7 +627,7 @@ GtkWidget* SolveAllFoeDialog::createTab2() {
 	return w2;
 }
 
-void SolveAllFoeDialog::updateTab2() {
+void SolveAllDealsDialog::updateTab2() {
 	int contract, tricks;
 	VDouble rv;
 	double probability[MAX_RESULT_SIZE];
@@ -735,14 +736,14 @@ void SolveAllFoeDialog::updateTab2() {
 
 }
 
-void SolveAllFoeDialog::addGridRow(GtkWidget *w, int row) {
+void SolveAllDealsDialog::addGridRow(GtkWidget *w, int row) {
 	gtk_grid_attach(GTK_GRID(m_grid), w, 0, row, 1, 1);
 	for (int i = 0; i < 4; i++) {
 		gtk_grid_attach(GTK_GRID(m_grid), label(), i+1, row, 1, 1);
 	}
 }
 
-void SolveAllFoeDialog::setGridLabels(int contract,const VDouble& v) {
+void SolveAllDealsDialog::setGridLabels(int contract,const VDouble& v) {
 	std::string s;
 	int i=1;
 	const bool empty=m_total==0;
@@ -754,11 +755,11 @@ void SolveAllFoeDialog::setGridLabels(int contract,const VDouble& v) {
 	}
 }
 
-int SolveAllFoeDialog::getPreferansPlayers() {
+int SolveAllDealsDialog::getPreferansPlayers() {
 	return getComboPosition(m_combo[PREFERANS_PLAYERS_COMBO]) + 3;
 }
 
-void SolveAllFoeDialog::updateNumberOfPreferansPlayers() {
+void SolveAllDealsDialog::updateNumberOfPreferansPlayers() {
 	int players = getPreferansPlayers();
 	for(auto a:getLastWhisterWidgets()){
 		showHideWidget(a, players == 4);
@@ -766,7 +767,7 @@ void SolveAllFoeDialog::updateNumberOfPreferansPlayers() {
 	setPreferans2ndTitleRow();
 }
 
-VGtkWidgetPtr SolveAllFoeDialog::getLastWhisterWidgets() {
+VGtkWidgetPtr SolveAllDealsDialog::getLastWhisterWidgets() {
 	VGtkWidgetPtr v;
 	for (int i = 0; i < getTableRowsTab2(); i++) {
 		v.push_back( gtk_grid_get_child_at(GTK_GRID(m_grid), 4, i));
@@ -774,7 +775,7 @@ VGtkWidgetPtr SolveAllFoeDialog::getLastWhisterWidgets() {
 	return v;
 }
 
-void SolveAllFoeDialog::updateResult(int *result, int size) {
+void SolveAllDealsDialog::updateResult(int *result, int size) {
 	int a=getResultAdditionalTricks();
 	int i,j;
 //	for(int i=0;i<MAX_RESULT_SIZE;i++){
@@ -805,11 +806,11 @@ void SolveAllFoeDialog::updateResult(int *result, int size) {
 //	g_mutex_unlock(&m_mutex);
 }
 
-std::string SolveAllFoeDialog::getPercentString() {
+std::string SolveAllDealsDialog::getPercentString() {
 	return format(isBridge() ? "%.3lf%%" : "%.0lf%%", m_fraction * 100);
 }
 
-void SolveAllFoeDialog::setPreferans2ndTitleRow(){
+void SolveAllDealsDialog::setPreferans2ndTitleRow(){
 	Problem const &p = getProblem();
 	auto pl = p.m_player;
 	VCardIndex vc;
@@ -837,7 +838,7 @@ void SolveAllFoeDialog::setPreferans2ndTitleRow(){
 	}
 }
 
-void SolveAllFoeDialog::setGridLabel(const std::string &s, int left,
+void SolveAllDealsDialog::setGridLabel(const std::string &s, int left,
 		int top) {
 	auto w = gtk_grid_get_child_at(GTK_GRID(m_grid), left, top);
 	if(top<TITLE_ROWS){
@@ -849,11 +850,11 @@ void SolveAllFoeDialog::setGridLabel(const std::string &s, int left,
 	}
 }
 
-int SolveAllFoeDialog::getTableRowsTab2() {
+int SolveAllDealsDialog::getTableRowsTab2() {
 	return TITLE_ROWS + (isMisere() ? 1 : maxContract()-minContract()+1);
 }
 
-std::string SolveAllFoeDialog::getNSEWString(bool ns) {
+std::string SolveAllDealsDialog::getNSEWString(bool ns) {
 	auto i=ns ? CARD_INDEX_NORTH:CARD_INDEX_EAST;
 	return getLowercasedPlayerString(i)+" / "+getLowercasedPlayerString(getBridgePartner(i));
 }

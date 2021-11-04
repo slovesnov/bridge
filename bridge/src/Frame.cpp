@@ -61,7 +61,7 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 	CSize sz;
 
 	gframe = this;
-	srand((unsigned) time( NULL)); //for random functions randomDeal(), solveAllFoe()
+	srand((unsigned) time( NULL)); //for random functions randomDeal(), solveAllDeals()
 	setlocale(LC_NUMERIC, "C");  //dot interpret as decimal separator, 2may2021 for all threads
 
 	m_vbox1 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);

@@ -218,7 +218,7 @@ public:
 
 	/* if smallHash=true then one problem counts much faster 0.02 seconds
 	 * but if smallHash=false the one problem counts about 0.3 seconds
-	 * if smallHash=false then count solve_all_foe 184,756 positions much faster
+	 * if smallHash=false then count solve_all_deals 184,756 positions much faster
 	 */
 	Preferans(bool smallHash=true);
 	~Preferans();
