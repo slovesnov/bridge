@@ -331,6 +331,12 @@ void SolveAllDealsDialog::updateData() {
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(m_progressBar), m_fraction);
 
 	if (m_total == m_positions) {
+		for(i=0;i<getMaxRunThreads();i++){
+			s=gtk_label_get_text(GTK_LABEL(m_labelThread[i]));
+			if(s=="?"){
+				gtk_label_set_text(GTK_LABEL(m_labelThread[i]),"-");
+			}
+		}
 		for(auto a:m_loading){
 			gtk_spinner_stop (GTK_SPINNER(a));
 		}
