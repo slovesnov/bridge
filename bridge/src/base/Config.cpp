@@ -455,7 +455,7 @@ void Config::save(GAME_TYPE gt,int x,int y) {
 
 void Config::reset(bool fromMenu/*=false*/) {
 	int i;
-
+	std::string s;
 	//order is same with loadConfig & saveConfig & declarations in Frame.h.
 	//It's more convenient
 
@@ -464,10 +464,13 @@ void Config::reset(bool fromMenu/*=false*/) {
 	 * pango_font_description_set_absolute_size()
 	 * earlier used "Times New Roman, 14" which means 14pt, to convert to px
 	 * should be 14*getDPI()/72 but it's not correct dont know why
+	 * 14*96/72 = 18.6
+	 * 14*96/72*1.25 =23.3
 	 * 14pt ~ 22px
 	 */
-
-	m_font = pango_font_description_from_string("Times New Roman, 22px");
+	double sf=getScaleFactor().second;
+	s="Times New Roman, "+std::to_string(int(22*sf/1.25))+"px";
+	m_font = pango_font_description_from_string(s.c_str());
 	setLanguageFileName(0);
 
 	m_recent.clear();

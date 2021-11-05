@@ -62,7 +62,7 @@ const int MIN_GRID_SIZE_WIDTH = MIN_PROBLEM_SELECTOR_WIDTH - MIN_LAST_TRICK_WIDT
 const CSize RASTER_DECK_CARD_SIZE[] = { { 71, 96 }, { 54, 72 }, { 54, 72 }, {
 		72, 96 }, { 71, 96 }, { 75, 107 }, { 95, 125 }, { 95, 125 } };
 const int N_RASTER_DECKS = SIZEI(RASTER_DECK_CARD_SIZE);
-static auto minmax61 = std::minmax_element(RASTER_DECK_CARD_SIZE,RASTER_DECK_CARD_SIZE+N_RASTER_DECKS,
+const auto minmax61 = std::minmax_element(RASTER_DECK_CARD_SIZE,RASTER_DECK_CARD_SIZE+N_RASTER_DECKS,
         [] (CSize const& a, CSize const& b) {return a.cx < b.cx;});
 const int MIN_CARD_WIDTH=minmax61.first->cx;
 const int MIN_CARD_HEIGHT=minmax61.first->cy;

@@ -57,7 +57,7 @@ static void activate(GtkApplication *application, gpointer data) {
  * so in main() function call only static Config functions, and do fully load Config in open() function
  */
 int main(int argc, char *argv[]) {
-	aslovInit(argv);
+	aslovInit(argv,true);
 	GApplicationFlags flags = GApplicationFlags(
 			G_APPLICATION_HANDLES_OPEN
 					| (Config::allowOnlyOneInstance() ?
