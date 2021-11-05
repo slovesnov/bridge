@@ -119,14 +119,12 @@ SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int*r) :
 		for (v = 0; v < MAX_THREADS[1]; v++) {
 			parsePreferansSolveAllDeclarersParameters(v, trump, misere, player);
 			for (first = 0; first < 3; first++) {
-				/* if user make several turns/tricks and call "solve for all declarers" option
-				 * then need to add already taken tricks to make valid result for declarer
-				 * because we need sum of tricks
-				 *
-				 * after several turns/tricks for whisters this option is senselessly
-				 * so also add whister tricks to make this option common
+				/* 5nov2021 no additional tricks need
+				 * whisters/catchers are play all together
+				 * so additional tricks will be valid only for the declarer
+				 * for all others it's not true so no additional tricks
 				 */
-				l = r[v * 3 + first]+getTricks(player);
+				l = r[v * 3 + first];
 				s = std::to_string(l);
 				auto q = m_label[indexOfPreferansPlayer(player)][misere ? 5 : trump][first];
 				gtk_label_set_label(GTK_LABEL(q[0]), s.c_str());
@@ -154,17 +152,14 @@ void SolveForAllDeclarersDialog::setBridgeLabel(int trump) {
 	GtkWidget**w;
 
 	for (i = 0; i < SIZEI(PLAYER); i++) {
-		/* if user make several turns/tricks and call "solve for all declarers" option
-		 * then need to add already taken tricks to make valid result for declarer
-		 * because we need sum of tricks
-		 *
-		 * So if user setup beginning position calls "solve for all declarers" view tricks
-		 * If user does many moves from optimal line and again calls "solve for all declarers"
-		 * then tricks should be the same
+		/* 5nov2021 no additional tricks need
+		 * first move on first trick is fixed so declarer should be fixed
+		 * so additional tricks will be valid only for the same declarer
+		 * for all other three peoples it's not true so no additional tricks
 		 */
 		//PLAYER[i] - first move
 		CARD_INDEX declarer = getPreviousBridgePlayer(PLAYER[i]);
-		v=gdraw->m_solveAllDeclarersBridgeResult[trump][i]+getSideTricks(PLAYER[i]);
+		v=gdraw->m_solveAllDeclarersBridgeResult[trump][i];
 		w = m_label[indexOfPlayer(declarer)][trump][0];
 		gtk_label_set_text(GTK_LABEL(w[0]), format("%d", v).c_str());
 		gtk_label_set_text(GTK_LABEL(w[1]),

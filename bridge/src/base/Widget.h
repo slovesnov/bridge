@@ -388,10 +388,8 @@ public:
 	}
 
 	int getTricks(CARD_INDEX player) const;
-	int getResultAdditionalTricks()const;
 	bool isDeclarerNorthOrSouth()const;
 	CARD_INDEX getDeclarer() const;
-	int getSideTricks(CARD_INDEX player)const;
 	int languages();
 	bool isLanguage(MENU_ID id);
 

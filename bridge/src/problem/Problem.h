@@ -283,12 +283,12 @@ public:
 
 	CARD_INDEX getDeclarer() const;
 
-	inline void setVeryFirstMove(CARD_INDEX index) {
+	void setVeryFirstMove(CARD_INDEX index) {
 		m_states[0].m_firstmove = index;
 	}
 
-	std::string getHTMLContent(int nproblem, int bestMoveIndex,
-			int northSouthTricks, int eastWestTricks, bool forConverter, int totaproblems) const;
+	std::string getHTMLContent(int nproblem, int bestMoveIndex, int tricks[2],
+			bool forConverter, int totaproblems) const;
 
 	void parse(FILE_TYPE t, const std::string& s, bool useOldBtsParser = false,
 			GAME_TYPE gameType = BRIDGE);

@@ -1457,8 +1457,7 @@ void DrawingArea::saveHtml(std::string filepath, bool images,
 			//wait for finish
 			waitForFunction();
 		}
-		s = pr.getHTMLContent(i, m_bestHtml, m_northSouthTricksHtml,
-				m_eastWestTricksHtml, false,p.m_problems.size());
+		s = pr.getHTMLContent(i, m_bestHtml, m_tricksHtml, false,p.m_problems.size());
 		s = Problem::postproceedHTML(s, images);
 		fprintf(f, "%s", s.c_str());
 		i++;
@@ -1764,7 +1763,8 @@ void DrawingArea::updateProblem() {
 
 void DrawingArea::solveThread(Problem* problem) {
 	int i,j,k,se[52];
-	Problem& p = problem == NULL ? getProblem() : *problem;
+	const bool forHTML = problem != NULL;
+	Problem& p = forHTML ? *problem : getProblem();
 	Problem old(p);
 	auto e = getEstimateType();
 
@@ -1819,11 +1819,19 @@ void DrawingArea::solveThread(Problem* problem) {
 		else{
 			bridge.solve(p, isTrumpChanged());
 			i = bridge.m_best;
+			if (forHTML) {
+				m_tricksHtml[HTML_TRICKS_NORTH_SOUTH] =  bridge.m_ns;
+				m_tricksHtml[HTML_TRICKS_EAST_WEST] =  bridge.m_ew;
+			}
 		}
 	}
 	else {
 		preferans.solve(p, isTrumpChanged());
 		i = preferans.m_best;
+		if (forHTML) {
+			m_tricksHtml[HTML_TRICKS_PLAYER] = preferans.m_playerTricks;
+			m_tricksHtml[HTML_TRICKS_WHISTERS] = preferans.whistersTricks();
+		}
 	}
 #ifndef FINAL_RELEASE
 	if(showTimes && p.isBridge()){
@@ -1837,12 +1845,10 @@ void DrawingArea::solveThread(Problem* problem) {
 	}
 #endif
 
-	setTrumpChanged(problem != NULL);
+	setTrumpChanged(forHTML);
 
-	if (problem != NULL) {
+	if (forHTML) {
 		m_bestHtml = i;
-		m_northSouthTricksHtml = isBridge() ? bridge.m_ns :preferans.whistTricks();
-		m_eastWestTricksHtml = isBridge() ? bridge.m_ew : preferans.m_playerTricks;
 		//make signal that count is finished
 		finishWaitFunction();
 		return;

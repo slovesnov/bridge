@@ -85,8 +85,7 @@ public:
 
 	//save to html variables
 	int m_bestHtml; //best turn index
-	int m_northSouthTricksHtml;
-	int m_eastWestTricksHtml;
+	int m_tricksHtml[2];
 
 	void hideArrow(bool paint);
 	void showArrow(bool paint);

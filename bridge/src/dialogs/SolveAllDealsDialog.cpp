@@ -792,24 +792,22 @@ VGtkWidgetPtr SolveAllDealsDialog::getLastWhisterWidgets() {
 }
 
 void SolveAllDealsDialog::updateResult(int *result, int size) {
-	int a=getResultAdditionalTricks();
-	int i,j;
-//	for(int i=0;i<MAX_RESULT_SIZE;i++){
+	int i;
+//	for(i=0;i<MAX_RESULT_SIZE;i++){
 //		result[i]+=add;
 //		assert(result[i]<=getMaxHandCards());
 //	}
 
 	g_mutex_lock(&m_mutex);
 	for (i = 0; i < size; i++) {
-		j=i+a;
-		if(j>getMaxHandCards()){
+		if(i>getMaxHandCards()){
 			assert(result[i]==0);
 #ifdef NDEBUG
 			break;
 #endif
 		}
 		else{
-			m_result[j] += result[i];//multithread ok
+			m_result[i] += result[i];//multithread ok
 		}
 	}
 	g_mutex_unlock(&m_mutex);

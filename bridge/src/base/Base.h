@@ -186,6 +186,11 @@ const int INVALID_TRUMP = -2;
 const int NO_CONTRACT_SET = -1;
 const int NO_TRUMP_SET = -1;
 
+//constants for DrawingArea::m_htmlTricks & Problem::getHTMLContent for both types of game
+const int HTML_TRICKS_NORTH_SOUTH=0;
+const int HTML_TRICKS_EAST_WEST=1;
+const int HTML_TRICKS_PLAYER=0;
+const int HTML_TRICKS_WHISTERS=1;
 //======================== END CONSTANTS ==========================================================
 const gchar * getString(const STRING_ID& id);
 const gchar * getString(const MENU_ID& id);

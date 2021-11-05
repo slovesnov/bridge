@@ -946,11 +946,6 @@ int Widget::getTricks(CARD_INDEX player) const {
 	return getState().m_tricks[index];
 }
 
-int Widget::getResultAdditionalTricks() const{
-	CARD_INDEX ci=getDeclarer();
-	return isBridge() ? getSideTricks(ci) : getTricks(ci);
-}
-
 bool Widget::isDeclarerNorthOrSouth() const {
 	assert(isBridge());
 	return northOrSouth(getDeclarer());
@@ -958,11 +953,6 @@ bool Widget::isDeclarerNorthOrSouth() const {
 
 CARD_INDEX Widget::getDeclarer() const {
 	return getProblem().getDeclarer();
-}
-
-int Widget::getSideTricks(CARD_INDEX player) const {
-	assert(isBridge());
-	return getTricks(player)+getTricks(getBridgePartner(player));
 }
 
 int Widget::languages() {

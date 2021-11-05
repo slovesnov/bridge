@@ -223,7 +223,7 @@ public:
 	Preferans(bool smallHash=true);
 	~Preferans();
 
-	int whistTricks(){
+	int whistersTricks(){
 		return m_cards-m_playerTricks;
 	}
 	/* c [0-12 - spades A-2], [13-25 hearts A-2], [26-38 diamonds A-2], [39-51 clubs A-2]

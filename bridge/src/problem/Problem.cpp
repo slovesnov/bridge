@@ -157,9 +157,8 @@ std::string Problem::getPbnContent(int nproblem, bool caption) {
 	return s + "\n" + getPbnTagsString();
 }
 
-//in case of preferans  EastWestTricks = number_of_tricks_of_player;
 std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
-		int northSouthTricks, int eastWestTricks, bool forConverter, int totaproblems) const {
+		int tricks[2], bool forConverter, int totaproblems) const {
 	int i;
 	int a[4];
 	std::string s, q,w, inner[9];
@@ -250,13 +249,11 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 		s += "<td align='right'>";
 
 		if (isPreferans()) {
-			//   EastWestTricks			=PrefPosition::number_of_tricks_of_player;
-			s += format("<u>%d</u>/%d\n", eastWestTricks, northSouthTricks); //at first player tricks it's east/west tricks
+			s += format("<u>%d</u>/%d\n", tricks[HTML_TRICKS_PLAYER], tricks[HTML_TRICKS_WHISTERS]);
 		}
 		else {
-			s += format("%d/%d\n", northSouthTricks, eastWestTricks);
+			s += format("%d/%d\n", tricks[HTML_TRICKS_NORTH_SOUTH], tricks[HTML_TRICKS_EAST_WEST]);
 		}
-
 	}
 
 	//saved by bridge studio
@@ -582,7 +579,8 @@ std::string Problem::getContent(FILE_TYPE t, int nproblem, int totaproblems) {
 		return getDfContent(nproblem);
 	}
 	else if (t == FILE_TYPE_HTML) { //can be call from converter
-		return getHTMLContent(nproblem, 0, 0, 0, true,totaproblems);
+		int tricks[]={0,0};
+		return getHTMLContent(nproblem, 0, tricks, true,totaproblems);
 	}
 	else if (t == FILE_TYPE_PBN) {
 		return getPbnContent(nproblem, nproblem == 1);
