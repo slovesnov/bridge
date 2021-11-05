@@ -361,6 +361,7 @@ void Config::load() {
 	}
 
 	if (getStringBySignature(FONT_SIGNATURE, s)) {
+		//printl(s)
 		m_font=pango_font_description_from_string(s.c_str());
 	}
 	if (getStringBySignature(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE, s) && parseString(s,u,16) ) {
@@ -459,17 +460,19 @@ void Config::reset(bool fromMenu/*=false*/) {
 	//order is same with loadConfig & saveConfig & declarations in Frame.h.
 	//It's more convenient
 
-	/* use absolute font size "px"
+	/* 5nov2021 use absolute font size "px" because of
 	 * createPangoFontDescription() calls
 	 * pango_font_description_set_absolute_size()
 	 * earlier used "Times New Roman, 14" which means 14pt, to convert to px
-	 * should be 14*getDPI()/72 but it's not correct dont know why
-	 * 14*96/72 = 18.6
-	 * 14*96/72*1.25 =23.3
-	 * 14pt ~ 22px
+	 * should be 14*96/72 = 18.6 but because of scaling 125% on Windows 10
+	 * font size 14*96/72*1.25 = 23.3
+	 * for computers with other scaling factors need to use formula
+	 * 14*96./72.*sf (where sf=verticalScaleFactor=sf)
 	 */
+	setNumericLocale();//for std::to_string
 	double sf=getScaleFactor().second;
-	s="Times New Roman, "+std::to_string(int(22*sf/1.25))+"px";
+	s="Times New Roman, "+std::to_string(14*96./72.*sf)+"px";
+	//printl(s)
 	m_font = pango_font_description_from_string(s.c_str());
 	setLanguageFileName(0);
 
