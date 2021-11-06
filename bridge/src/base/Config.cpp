@@ -720,21 +720,31 @@ void Config::loadCSS(){
 	}
 
 	auto fc=rgbaToString(m_skin==CONFIG_CUSTOM_SKIN ?m_customSkinFontColor : m_skinFontColor[m_skin]);
-	bool b=true;
+	int b=1;
 	if(m_skin==CONFIG_CUSTOM_SKIN){
 		if(m_customSkinBackgroundIsColor){
+			b=0;
 			p="background:"+rgbaToString(m_customSkinBackgroundColor);
-			b=false;
 		}
 		else{
+			b=1;
 			p=m_customSkinBackgroundImagePath;
 		}
 	}
 	else{
+		b=2;
 		p="bridge/images/bg"+std::to_string(m_skin)+".jpg";
 	}
 	if(b){
 		p="background-image:url('"+p+"')";
+		if(b==1){
+			/* some pixels of the user selected image can be transparent
+			 * but we need solid picture because if rotate table or switch arrow
+			 * if have some intersection with transparent pixels then old card or arrow
+			 * left on the screen, so add white background for all transparent pixels
+			 */
+			p="background:white;"+p;
+		}
 	}
 
 	bool a=pango_font_description_get_size_is_absolute(m_font);

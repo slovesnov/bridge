@@ -19,17 +19,33 @@ Menu*gmenu;
 const MENU_ID TOP_MENU[] = { MENU_PROBLEM, MENU_ADDONS, MENU_VIEW, MENU_OPTIONS,
 		MENU_MOVE, MENU_LANGUAGE, MENU_SKIN, MENU_HELP };
 
-/*before this identifiers need to set separator in menu*/
+/* before this identifiers need to set separator in menu
+ * should be ascending order because of FIRST_RECENT_POSITION counting
+ * */
 const MENU_ID SEPARATOR_ID[] = {
 		MENU_EDIT,
 		MENU_SAVE_HTML,
 		MENU_EXIT,
+
+		MENU_ROTATE_CLOCKWISE,
+		MENU_RESET_SETTINGS,
+
 		MENU_SELECT_ARROW,
 		MENU_SHOW_HTML_OPTIONS,
 		MENU_SHOW_MODIFIED_WARNING,
 		MENU_FIND_BEST_MOVE,
 		MENU_LOAD_LANGUAGE_FILE,
-		MENU_CUSTOM_SKIN };
+		MENU_CUSTOM_SKIN
+};
+
+/* FIRST_RECENT_POSITION = number of text menu items + number of separators
+ * number of text menu items = MENU_EXIT- MENU_NEW
+ * number of separators = INDEX_OF(MENU_EXIT,SEPARATOR_ID)+1 need add 1
+ * because recent menu adds separator before it
+ */
+
+const int FIRST_RECENT_POSITION = MENU_EXIT
+		- MENU_NEW+INDEX_OF(MENU_EXIT,SEPARATOR_ID)+1;
 
 const MENU_ID MENU_ICON_ID[] = {
 		MENU_NEW,
@@ -41,13 +57,10 @@ const MENU_ID MENU_ICON_ID[] = {
 		MENU_EDIT_PROBLEM_LIST,
 		MENU_EDIT_DESCRIPTION,
 		MENU_PBN_EDITOR,
-		MENU_ROTATE_CLOCKWISE,
-		MENU_ROTATE_COUNTERCLOCKWISE, //problem
-
 		MENU_SAVE_HTML,
 		MENU_SAVE_HTML_WITH_PICTURES,
 		MENU_SAVE_IMAGE,
-		MENU_EXIT, //problem
+		MENU_EXIT,
 
 		MENU_CONVERT,
 		MENU_SOLVE_FOR_ALL_DECLARERS,
@@ -56,6 +69,8 @@ const MENU_ID MENU_ICON_ID[] = {
 		MENU_GAME_TYPE,
 		MENU_CALCULATOR,
 		MENU_SOLVE_ALL_DEALS,
+		MENU_ROTATE_CLOCKWISE,
+		MENU_ROTATE_COUNTERCLOCKWISE,
 		MENU_ROTATE_BY_90_DEGREES_CLOCKWISE,
 		MENU_ROTATE_BY_90_DEGREES_COUNTERCLOCKWISE,
 		MENU_RESET_SETTINGS,
@@ -82,8 +97,6 @@ const char* MENU_ICON_FILE[] = {
 		"editlist16.png",
 		"edit-description16.png",
 		"pbn16.png",
-		"clockwise16.png",
-		"counterclockwise16.png",
 		"html16.png",
 		"html16.png",
 		"img16.png",
@@ -98,7 +111,9 @@ const char* MENU_ICON_FILE[] = {
 		"settings16.png",
 		"clockwise16.png",
 		"counterclockwise16.png",
-		"settings16.png",
+		"clockwise16.png",
+		"counterclockwise16.png",
+		"restore16.png",
 		NULL,
 		NULL,
 		NULL,
@@ -157,8 +172,6 @@ const MENU_ID MENU_THINK_DEPENDENT[] = {
 //		MENU_EDIT_PROBLEM_LIST,
 //		MENU_EDIT_DESCRIPTION,
 //		MENU_PBN_EDITOR,
-		MENU_ROTATE_CLOCKWISE,
-		MENU_ROTATE_COUNTERCLOCKWISE,
 		MENU_SAVE_HTML,
 		MENU_SAVE_HTML_WITH_PICTURES,
 		MENU_SAVE_IMAGE,
@@ -172,8 +185,11 @@ const MENU_ID MENU_THINK_DEPENDENT[] = {
 		MENU_GAME_TYPE,
 //		MENU_CALCULATOR,
 		MENU_SOLVE_ALL_DEALS,
+		MENU_ROTATE_CLOCKWISE,
+		MENU_ROTATE_COUNTERCLOCKWISE,
 		MENU_ROTATE_BY_90_DEGREES_CLOCKWISE,
 		MENU_ROTATE_BY_90_DEGREES_COUNTERCLOCKWISE,
+		MENU_RESET_SETTINGS,
 
 		MENU_ESTIMATE_NONE,
 		MENU_ESTIMATE_BEST_LOCAL,
@@ -209,11 +225,7 @@ Menu::Menu() :
 	gmenu = this;
 	m_lastRecentSize = 0;
 
-//to suppress eclipse warnings
-#ifndef NDEBUG
-	m_signals = false;
-	radioGroup = 0;
-#endif
+//	printl(FIRST_RECENT_POSITION)
 
 	for (auto& m: gconfig->m_vectorMenuString) {
 		assert(m_map.find(m.first) == m_map.end());
@@ -268,7 +280,8 @@ void Menu::insertSubMenu(MenuString menuString) {
 	GtkMenuShell* sub = getSubMenu(recentIndex == -1);
 	GdkPixbuf*p;
 
-	if (menuString.first == MENU_EXIT) { //add recent menu items
+	//add recent menu items before separator which goes before exit menu
+	if (menuString.first == MENU_EXIT ) {
 		m_lastRecentSize = recentSize();
 		if (m_lastRecentSize != 0) {
 			insertSeparator();
@@ -343,7 +356,7 @@ void Menu::insertSubMenu(MenuString menuString) {
 		gtk_menu_shell_append(sub, w);
 	}
 	else {
-		gtk_menu_shell_insert(sub, w, m_firstRecentPosition + recentIndex);
+		gtk_menu_shell_insert(sub, w, FIRST_RECENT_POSITION + recentIndex);
 	}
 
 	m_map[menuString.first] = w;
@@ -575,10 +588,10 @@ void Menu::updateRecent() {
 		insertRecentMenu(m_lastRecentSize);
 		if (m_lastRecentSize == 0) {
 			gtk_menu_shell_insert(getSubMenu(false), gtk_separator_menu_item_new(),
-					m_firstRecentPosition + 1);
+					FIRST_RECENT_POSITION + 1);
 		}
 		m_lastRecentSize = recentSize();
-		gtk_widget_show_all(m_top[0]); //DONT REMOVE
+		gtk_widget_show_all(m_top[0]); //DO NOT REMOVE
 	}
 }
 

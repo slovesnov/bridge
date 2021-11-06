@@ -1,13 +1,8 @@
 http://www.iconarchive.com
+[shareware+freeware]
 https://www.iconfinder.com
 
-?? http://www.freeiconsdownload.com
-
-[shareware+freeware]
-http://www.iconfinder.com
-http://www.iconfinder.com/icondetails/32378/16/add_black_plus_icon
-
-conver ico to several pngs
+convert ico to several pngs
 https://icoconvert.com/icon_to_image_converter/
 
 http://findicons.com/icon/131414/calculator?id=329283#
@@ -100,9 +95,6 @@ http://www.iconarchive.com/show/farm-fresh-icons-by-fatcow/sort-descending-icon.
 [clear24.png]
 D:\soft\иконы\kde\modero_icons\24x24\actions\edittrash.png
 
-[font16.png ]
-http://www.iconarchive.com/show/simply-styled-icons-by-dakirby309/Fonts-Folder-icon.html
-
 [add24.png]
 http://www.iconarchive.com/show/simplistica-icons-by-dryicons/add-icon.html
 
@@ -121,7 +113,6 @@ http://www.iconarchive.com/show/farm-fresh-icons-by-fatcow/document-split-icon.h
 
 [settings16.png]
 http://www.iconarchive.com/show/ginux-icons-by-kyo-tux/Start-Menu-Run-icon.html
-//old http://www.iconsdb.com/icon-sets/web-2-blue-icons/settings-9-icon.html
 
 [editlist]
 http://www.iconarchive.com/show/windows-8-icons-by-icons8/Data-List-icon.html
@@ -173,3 +164,7 @@ https://freesvg.org/vector-image-of-simple-green-download-icon
 [raster decks 7-8]
 cards from windows solitare game make screenshots & proceed images (gtktest project source on github)
 commit 2nov2021 commit message "create deck from stored pictures"
+
+6nov2021
+[restore24.png] not found where take this image
+restore16.png make resize of restore24.png

@@ -53,7 +53,6 @@ class Menu: public FrameItem {
 	MenuMap m_map;
 	bool m_signals;
 	VGtkWidgetPtr m_top;
-	static const int m_firstRecentPosition = 16;
 
 	GSList *radioGroup;
 	int m_lastRecentSize;
