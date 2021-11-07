@@ -12,6 +12,7 @@
 #define CSIZE_H_
 
 #include <string>
+#include <ostream>
 
 class CSize {
 public:
