@@ -286,20 +286,8 @@ public:
 		dest = source;
 	}
 
-	template<class T> static void createNew(T*& dest, T* source) {
-		destroy(dest);
-		dest = source;
-	}
-
 	static void createNew(GdkPixbuf *& pb,int width,int height) {
 		createNew(pb, gdk_pixbuf_new(GDK_COLORSPACE_RGB, true, 8, width, height));
-	}
-
-	static void createNew(cairo_t*& cairo, cairo_surface_t*& surface,
-			CSize size) {
-		createNew(surface,
-				cairo_image_surface_create(CAIRO_FORMAT_ARGB32, size.cx, size.cy));
-		createNew(cairo, cairo_create(surface));
 	}
 
 	GdkPixbuf *& getSvgPixbuf(bool isDeck);

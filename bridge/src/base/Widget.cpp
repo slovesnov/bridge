@@ -495,12 +495,12 @@ GdkPixbuf* Widget::getStringPixbuf(bool nt, int size) {
 	int i;
 	double x, y;
 	GdkPixbuf* pixbuf = NULL;
-	cairo_t *cr=0;
-	cairo_surface_t *surface=0;
+	CairoSurface cs;
 	cairo_text_extents_t extents;
 	std::string p = nt ? getNTString() : getString(STRING_MISERE);
 	for (i = 0; i < 2; i++) { //i==0 get needed width,i=1 draw
-		createNew(cr,surface,CSize(i == 0 ? size : extents.width, size));
+		cs.create(CSize(i == 0 ? size : extents.width, size));
+		auto cr=cs.cairo();
 		setFont(cr,nt ? size : size / 2);
 		if (i == 0) {
 			cairo_text_extents(cr, p.c_str(), &extents);
@@ -511,11 +511,9 @@ GdkPixbuf* Widget::getStringPixbuf(bool nt, int size) {
 			y = size / 2 - (extents.height / 2 + extents.y_bearing);
 			cairo_move_to(cr, x, y);
 			cairo_show_text(cr, p.c_str());
-			pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, extents.width, size);
+			pixbuf = gdk_pixbuf_get_from_surface(cs.surface(), 0, 0, extents.width, size);
 		}
 	}
-	destroy(surface);
-	destroy(cr);
 	return pixbuf;
 }
 
