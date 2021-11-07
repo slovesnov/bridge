@@ -231,8 +231,9 @@ public:
 	static bool isScalableDeck(int deck);
 	//uses for svg and png deck
 	CSize getCardSize()const;
-	int& getCardWidth();
-	int& getCardHeight();
+	void setCardSize(CSize const&size);
+	int getCardWidth();
+	int getCardHeight();
 	int getSvgIndentInsideSuit()const;
 	int getSvgEstimationIndent()const;
 

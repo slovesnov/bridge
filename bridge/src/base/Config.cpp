@@ -867,11 +867,16 @@ CSize Config::getCardSize()const{
 	return {m_cardWidth,m_cardHeight};
 }
 
-int& Config::getCardWidth(){
+void Config::setCardSize(CSize const&size){
+	m_cardWidth=size.cx;
+	m_cardHeight=size.cy;
+}
+
+int Config::getCardWidth(){
 	return m_cardWidth;
 }
 
-int& Config::getCardHeight(){
+int Config::getCardHeight(){
 	return m_cardHeight;
 }
 

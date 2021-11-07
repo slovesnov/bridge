@@ -287,8 +287,6 @@ void message(MESSAGE_ICON_TYPE t, const char* s);
 void message(MESSAGE_ICON_TYPE t, const std::string& s);
 void message(MESSAGE_ICON_TYPE t, STRING_ID id);
 
-cairo_surface_t * surface(std::string name);
-
 GdkPixbuf* getSuitPixbuf(int suit, int size = SUIT_PIXBUF_SIZE);
 
 GdkPixbuf* getContractPixbuf(int n);

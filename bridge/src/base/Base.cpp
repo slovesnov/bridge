@@ -643,13 +643,6 @@ GdkPixbuf* getContractPixbuf(int n) {
 	return pixbuf(getContractString(n));
 }
 
-cairo_surface_t * surface(std::string name) {
-	//from https://www.cairographics.org/manual/cairo-PNG-Support.html
-	//should be utf8 path
-	std::string s = getImagePath(name);
-	return cairo_image_surface_create_from_png(s.c_str());
-}
-
 GdkPixbuf* getSuitPixbuf(int suit, int size) {
 	GdkPixbuf* p = pixbuf(getSuitString(suit));
 	if (size != SUIT_PIXBUF_SIZE) {

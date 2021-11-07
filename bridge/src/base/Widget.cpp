@@ -720,11 +720,11 @@ CSize Widget::getCardSize() const {
 	return gconfig->getCardSize();
 }
 
-int& Widget::getCardWidth(){
+int Widget::getCardWidth(){
 	return gconfig->getCardWidth();
 }
 
-int& Widget::getCardHeight(){
+int Widget::getCardHeight(){
 	return gconfig->getCardHeight();
 }
 
@@ -928,7 +928,7 @@ void Widget::showAllExclude(VGtkWidgetPtr const& v){
 }
 
 cairo_surface_t * Widget::getBackgroundFullSurface() {
-	return getProblemSelector().m_backgroundFullSurface;
+	return getProblemSelector().m_backgroundFull.surface();
 }
 
 void Widget::setSkin(int skin){

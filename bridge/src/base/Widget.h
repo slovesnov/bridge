@@ -132,8 +132,8 @@ protected:
 	void setArrowParameters(int arrow, int arrowSize=SKIP_ARROW_SIZE);
 
 	CSize getCardSize() const;
-	int& getCardWidth();
-	int& getCardHeight();
+	int getCardWidth();
+	int getCardHeight();
 
 	int indexOfPreferansPlayer(CARD_INDEX player) const {
 		//can't use INDEX_OF macro for pointer

@@ -12,12 +12,11 @@
 #define FRAMEITEMAREA_H_
 
 #include "FrameItem.h"
-#include "../helper/CSize.h"
+#include "CairoSurface.h"
 
 class FrameItemArea: public FrameItem {
 protected:
-	cairo_t* m_cr;
-	cairo_surface_t *m_surface;
+	CairoSurface m_cs;
 
 public:
 	FrameItemArea(GtkWidget*widget = NULL);
@@ -31,7 +30,7 @@ public:
 	virtual void changeShowOption();
 
 	virtual void copySurface(cairo_t* cr) {
-		cairo_set_source_surface(cr, m_surface, 0, 0);
+		cairo_set_source_surface(cr, m_cs.surface(), 0, 0);
 		cairo_paint(cr);
 	}
 
@@ -89,7 +88,7 @@ protected:
 
 	void drawText(TextWithAttributes text, CRect r, bool centerx,
 			bool centery) {
-		drawTextToCairo(m_cr, text, r, centerx, centery);
+		drawTextToCairo(m_cs.cairo(), text, r, centerx, centery);
 	}
 
 	void drawText(TextWithAttributes text, int x, int y) {

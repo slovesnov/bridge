@@ -17,35 +17,32 @@ static void on_draw_event(GtkWidget *widget, cairo_t *cr, FrameItemArea* area) {
 
 FrameItemArea::FrameItemArea(GtkWidget*widget) :
 		FrameItem(widget == NULL ? gtk_drawing_area_new() : widget) {
-	m_cr = NULL;
-	m_surface = NULL;
 
 	g_signal_connect(getWidget(), "draw", G_CALLBACK(on_draw_event), this);
 }
 
 FrameItemArea::~FrameItemArea() {
-	destroy(m_cr);
-	destroy(m_surface);
 }
 
 void FrameItemArea::drawLine(int x1, int y1, int x2, int y2) {
 	const GdkRGBA rgba = getTextColor();
-	gdk_cairo_set_source_rgba(m_cr, &rgba);
-	cairo_set_line_width(m_cr, 1.);
+	auto cr=m_cs.cairo();
+	gdk_cairo_set_source_rgba(cr, &rgba);
+	cairo_set_line_width(cr, 1.);
 
 	//+0.5 to make line width equals 1
-	cairo_move_to(m_cr, x1 + 0.5, y1 + 0.5);
-	cairo_line_to(m_cr, x2 + 0.5, y2 + 0.5);
-	cairo_stroke(m_cr);
+	cairo_move_to(cr, x1 + 0.5, y1 + 0.5);
+	cairo_line_to(cr, x2 + 0.5, y2 + 0.5);
+	cairo_stroke(cr);
 }
 
 void FrameItemArea::init() {
-	createNew(m_cr, m_surface, getSize()); //uses for LastTrick, ProblemSelector, DrawingArea
+	m_cs.create(getSize()); //uses for LastTrick, ProblemSelector, DrawingArea
 }
 
 void FrameItemArea::copyFromBackground(int destx, int desty, int width,
 		int height, int sourcex, int sourcey) {
-	copy(getBackgroundFullSurface(), m_cr, destx, desty, width, height, sourcex,
+	copy(getBackgroundFullSurface(), m_cs.cairo(), destx, desty, width, height, sourcex,
 			sourcey);
 }
 
@@ -54,7 +51,7 @@ void FrameItemArea::changeShowOption() {
 }
 
 CSize FrameItemArea::getTextExtents(TextWithAttributes text) {
-	return getTextExtents(text,m_cr);
+	return getTextExtents(text,m_cs.cairo());
 }
 
 CSize FrameItemArea::getTextExtents(TextWithAttributes text, cairo_t *cr) {
@@ -66,7 +63,7 @@ CSize FrameItemArea::getTextExtents(TextWithAttributes text, cairo_t *cr) {
 }
 
 cairo_surface_t* FrameItemArea::getDeckSurface() const {
-	return getProblemSelector().m_deckSurface;
+	return getProblemSelector().m_deck.surface();
 }
 
 CRect FrameItemArea::getInsideRect(const CRect& r, CARD_INDEX index) {

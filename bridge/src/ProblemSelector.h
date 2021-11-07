@@ -27,12 +27,10 @@ public:
 	GtkWidget*m_toolbar;
 	std::string m_comment;
 
-	cairo_t* m_backgroundFullCairo;
-	cairo_surface_t *m_backgroundFullSurface;
+	CairoSurface m_backgroundFull;
 
 	//this class is first in Frame::m_childs so use deck and skin surface in this class
-	cairo_t* m_deckCairo;
-	cairo_surface_t *m_deckSurface;
+	CairoSurface m_deck;
 	GdkPixbuf* m_arrow[4];
 	GdkPixbuf *m_svgArrowPixbuf;
 	GdkPixbuf *m_svgDeckPixbuf;

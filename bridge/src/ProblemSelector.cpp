@@ -53,8 +53,6 @@ ProblemSelector::ProblemSelector() :
 	m_current = 0;
 	m_lastClickTime = 0;
 	m_visible = false;
-	m_deckSurface = 0;
-	m_deckCairo=0;
 	m_svgArrowPixbuf=0;
 	m_svgDeckPixbuf=0;
 	m_svgScaledPixbuf=0;
@@ -71,9 +69,7 @@ ProblemSelector::ProblemSelector() :
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(m_commentView), GTK_WRAP_WORD);
 	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(m_commentView), FALSE);
 
-	m_backgroundFullCairo = NULL;
-	m_backgroundFullSurface = NULL;
-	createNew(m_backgroundFullCairo, m_backgroundFullSurface, getMaxSize());
+	m_backgroundFull.create(getMaxSize());
 
 	//after m_backgroundFullCairo is created
 	setBestLineSize();
@@ -145,7 +141,7 @@ ProblemSelector::~ProblemSelector() {
 		/* Note m_svgDeckPixbuf can have invalid data, because user can select deck make some
 		 * manipulations and press cancel
 		 */
-		GdkPixbuf *p = gdk_pixbuf_get_from_surface(m_deckSurface, 0, 0, c.cx, c.cy);
+		GdkPixbuf *p = gdk_pixbuf_get_from_surface(m_deck.surface(), 0, 0, c.cx, c.cy);
 		gdk_pixbuf_save(p, getWritableFilePath(STORE_DECK_TO_PNG_FILE_NAME).c_str(), "png", NULL, NULL);
 		free(p);
 	}
@@ -154,10 +150,6 @@ ProblemSelector::~ProblemSelector() {
 		free(m_arrow[i]);
 	}
 
-	destroy(m_backgroundFullSurface);
-	destroy(m_backgroundFullCairo);
-	destroy(m_deckSurface);
-	destroy(m_deckCairo);
 	free(m_svgArrowPixbuf);
 	free(m_svgDeckPixbuf);
 	free(m_svgScaledPixbuf);
@@ -609,7 +601,7 @@ void ProblemSelector::setSkin() {
 	context = gtk_style_context_new();
 	gtk_style_context_set_path(context, path);
 	CSize a=getMaxSize();
-	gtk_render_background(context, m_backgroundFullCairo, 0, 0, a.cx,
+	gtk_render_background(context, m_backgroundFull.cairo(), 0, 0, a.cx,
 			a.cy);
 }
 
@@ -689,17 +681,19 @@ void ProblemSelector::setDeck() {
 		CSize c=getCardSize();
 		c.cx*=13;
 		c.cy*=4;
-		createNew(m_deckCairo,m_deckSurface, c);
+		m_deck.create(c);
 
 		if(start){
 			m_svgDeckPixbuf=writablePixbuf(STORE_DECK_TO_PNG_FILE_NAME);
 		}
-		copyFromPixbuf(m_svgDeckPixbuf, m_deckCairo,CRect(CPoint(0,0),c));
+		copyFromPixbuf(m_svgDeckPixbuf, m_deck.cairo(),CRect(CPoint(0,0),c));
 	}
 	else{
-		createNew(m_deckSurface, surface(getDeckFileName()));
-		getCardWidth() = cairo_image_surface_get_width(m_deckSurface) / 13;
-		getCardHeight() = cairo_image_surface_get_height(m_deckSurface) / 4;
+		m_deck.create(getImagePath(getDeckFileName()));
+		CSize sz=m_deck.size();
+		sz.cx/=13;
+		sz.cy/=4;
+		gconfig->setCardSize(sz);
 	}
 }
 
@@ -707,7 +701,7 @@ void ProblemSelector::setBestLineSize(){
 	//use m_backgroundFullCairo because m_cr isn't created on constructor
 	//to create it we need LastTrick size which use m_bestLineHeight
 	TextWithAttributes text("10");//getTextExtents using layout so height is ok
-	m_bestLineSize=getTextExtents(text,m_backgroundFullCairo);
+	m_bestLineSize=getTextExtents(text,m_backgroundFull.cairo());
 	//getFontHeight() suit image size
 	m_bestLineSize.cx=std::max(4*(m_bestLineSize.cx+getFontHeight()),MIN_GRID_SIZE_WIDTH);
 }

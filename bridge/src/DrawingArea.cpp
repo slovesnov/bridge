@@ -167,9 +167,6 @@ DrawingArea::DrawingArea() :
 	m_solveThread=0;
 	m_vSolveAll.resize(getMaxRunThreads());
 
-	m_crEnd = NULL;
-	m_surfaceEnd = NULL;
-
 	m_selectedCard = -1;
 	m_currentId = -1;
 	m_tableRect.top = 0;
@@ -207,8 +204,6 @@ DrawingArea::DrawingArea() :
 }
 
 DrawingArea::~DrawingArea() {
-	destroy(m_crEnd);
-	destroy(m_surfaceEnd);
 
 	g_mutex_clear(&m_mutex);
 	g_cond_clear(&m_condition);
@@ -240,16 +235,17 @@ void DrawingArea::draw() {
 
 	x = m_tableRect.left;
 	y = m_tableRect.top;
-	cairo_new_sub_path(m_cr);
+	auto cr=m_cs.cairo();
+	cairo_new_sub_path(cr);
 	double x1 = x + m_tableRect.width() - TABLE_ROUND_CORNER_SIZE;
 	double y1 = y + TABLE_ROUND_CORNER_SIZE + .5;
 	double x2 = x + TABLE_ROUND_CORNER_SIZE + .5;
 	double y2 = y + m_tableRect.height() + 1 - TABLE_ROUND_CORNER_SIZE - .5;
-	cairo_arc(m_cr, x1, y1, TABLE_ROUND_CORNER_SIZE, -G_PI / 2, 0);	//top right
-	cairo_arc(m_cr, x1, y2, TABLE_ROUND_CORNER_SIZE, 0, G_PI / 2);//bottom right
-	cairo_arc(m_cr, x2, y2, TABLE_ROUND_CORNER_SIZE, G_PI / 2, G_PI);//bottom left
-	cairo_arc(m_cr, x2, y1, TABLE_ROUND_CORNER_SIZE, G_PI, 3 * G_PI / 2);//top left
-	cairo_stroke(m_cr);
+	cairo_arc(cr, x1, y1, TABLE_ROUND_CORNER_SIZE, -G_PI / 2, 0);	//top right
+	cairo_arc(cr, x1, y2, TABLE_ROUND_CORNER_SIZE, 0, G_PI / 2);//bottom right
+	cairo_arc(cr, x2, y2, TABLE_ROUND_CORNER_SIZE, G_PI / 2, G_PI);//bottom left
+	cairo_arc(cr, x2, y1, TABLE_ROUND_CORNER_SIZE, G_PI, 3 * G_PI / 2);//top left
+	cairo_stroke(cr);
 
 	updateAllRegions();
 
@@ -310,7 +306,7 @@ void DrawingArea::updateRegion(CARD_INDEX index, bool paint) {
 				if (i == m_currentId) {
 					continue;
 				}
-				showCard(m_cr, i, m_cardrect[i].left, m_cardrect[i].top);
+				showCard(m_cs.cairo(), i, m_cardrect[i].left, m_cardrect[i].top);
 			}
 		}
 	}
@@ -500,7 +496,7 @@ void DrawingArea::updateInsideRegion() {
 	for (i = 0; i < 4; i++) {
 		k = a[i];
 		if (k != -1) {
-			showCard(m_cr, k, m_cardrect[k].left, m_cardrect[k].top);
+			showCard(m_cs.cairo(), k, m_cardrect[k].left, m_cardrect[k].top);
 		}
 	}
 
@@ -683,12 +679,12 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 	if (m_currentId != -1) {
 		CPoint point(event);
 		point += m_addit;
-		copy(m_surface, m_crEnd);
+		copy(m_cs.surface(), m_csEnd.cairo());
 		CRect r(point, getCardSize());	//update rectangle
 		CRect cr(m_currentPoint, getCardSize());
 		r.join(cr);
 
-#define M(a,b,c,d) cr.init(a,b,c,d);r.join(cr);copy(m_surface,m_crEnd,cr);
+#define M(a,b,c,d) cr.init(a,b,c,d);r.join(cr);copy(m_cs.surface(),m_csEnd.cairo(),cr);
 		if (point.x >= m_currentPoint.x) {
 			M(m_currentPoint.x, m_currentPoint.y, point.x - m_currentPoint.x,
 					getCardSize().cy);
@@ -718,7 +714,7 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 			}
 		}
 #undef M
-		showCard(m_crEnd, m_currentId, point.x, point.y);
+		showCard(m_csEnd.cairo(), m_currentId, point.x, point.y);
 		invalidateRect(r);
 		m_currentPoint = point;
 
@@ -960,7 +956,7 @@ void DrawingArea::mouseLeftButtonUp(GdkEventButton* event) {
 void DrawingArea::showArrow(bool paint) {
 	CARD_INDEX next = getNextMove();
 	CRect rect = getArrowRect(next);
-	copyFromPixbuf(getProblemSelector().m_arrow[next - 1], m_cr, rect);
+	copyFromPixbuf(getProblemSelector().m_arrow[next - 1], m_cs.cairo(), rect);
 	if (paint) {
 		invalidateRect(rect);
 	}
@@ -1083,11 +1079,11 @@ void DrawingArea::init() {
 	int i;
 	//countSize();call from ProblemSelector().init()
 
-	createNew(m_cr, m_surface, m_windowSize);
-	createNew(m_crEnd, m_surfaceEnd, m_windowSize);
+	m_cs.create(m_windowSize);
+	m_csEnd.create(m_windowSize);
 
 	//TODO not set any time only if font changed
-	setFont(m_cr, getFontHeight());
+	setFont(m_cs.cairo(), getFontHeight());
 
 	const int dx = getIndentInsideSuit() - 1;			//-1 because of card border
 
@@ -1115,7 +1111,7 @@ void DrawingArea::countSize(int y) {
 	m_tableTop = countTableTop(height);
 
 	//140dpi for smallest decks
-	if(!m_cr){//for getTextExtents
+	if(!m_cs.cairo()){//for getTextExtents
 		init();
 	}
 
@@ -1329,6 +1325,13 @@ void DrawingArea::setDeal(bool random) {
 	recalcRects();
 	redraw();
 }
+
+void DrawingArea::copySurface(cairo_t* cr) {
+	cairo_set_source_surface(cr, m_currentId == -1 ? m_cs.surface() : m_csEnd.surface(),
+			0, 0);
+	cairo_paint(cr);
+}
+
 
 CSize DrawingArea::getSize() const {
 	CSize size(m_windowSize);
@@ -2000,11 +2003,11 @@ gboolean DrawingArea::animationStep(int index) {
 
 void DrawingArea::animationDraw(bool stop){
 	CRect r(CPoint(0, 0), getSize());	//some of estimations could change so invalidate full rectangle
-	copy(m_surface, m_crEnd);
+	copy(m_cs.surface(), m_csEnd.cairo());
 
 	if (!stop) {
 		CPoint p = m_cardrect[m_currentId].topLeft();
-		showCard(m_crEnd, m_currentId,
+		showCard(m_csEnd.cairo(), m_currentId,
 				m_currentPoint.x
 						+ (p.x - m_currentPoint.x) * m_animationStep / ANIMATION_STEPS,
 				m_currentPoint.y
@@ -2018,7 +2021,7 @@ void DrawingArea::endAnimation(bool stop){
 		animationDraw(true);
 	}
 	CARD_INDEX id = getOuter(m_currentId);
-	copy(m_surfaceEnd, m_cr);	//currentId changed
+	copy(m_csEnd.surface(), m_cs.cairo());	//currentId changed
 	m_currentId = -1;
 	recalcRects();	//m_currentId changed
 	updateInsideRegion();
@@ -2577,26 +2580,27 @@ void DrawingArea::drawCardback(int i) {
 	double margin = std::min(width,height) / 5;
 	double radius = std::min(width,height) / 7;
 
-	cairo_new_sub_path (m_cr);
-	cairo_arc (m_cr, x + width - radius, y + radius, radius, -G_PI/2, 0);
-	cairo_arc (m_cr, x + width - radius, y + height - radius, radius, 0, G_PI/2);
-	cairo_arc (m_cr, x + radius, y + height - radius, radius, G_PI/2, G_PI);
-	cairo_arc (m_cr, x + radius, y + radius, radius, G_PI, 3*G_PI/2);
-	cairo_close_path (m_cr);
+	auto cr=m_cs.cairo();
+	cairo_new_sub_path (cr);
+	cairo_arc (cr, x + width - radius, y + radius, radius, -G_PI/2, 0);
+	cairo_arc (cr, x + width - radius, y + height - radius, radius, 0, G_PI/2);
+	cairo_arc (cr, x + radius, y + height - radius, radius, G_PI/2, G_PI);
+	cairo_arc (cr, x + radius, y + radius, radius, G_PI, 3*G_PI/2);
+	cairo_close_path (cr);
 
-	cairo_set_source_rgb (m_cr, 1, 1, 1);
-	cairo_fill_preserve (m_cr);
-	cairo_set_source_rgb (m_cr, 0, 0, 0);
-	cairo_set_line_width (m_cr, 1);
-	cairo_stroke (m_cr);
+	cairo_set_source_rgb (cr, 1, 1, 1);
+	cairo_fill_preserve (cr);
+	cairo_set_source_rgb (cr, 0, 0, 0);
+	cairo_set_line_width (cr, 1);
+	cairo_stroke (cr);
 
 	const double w1=width-2*margin;
 	const double h1=height-2*margin;
 	cairo_pattern_t *pat1 = cairo_pattern_create_linear(x+margin, y+margin, x+w1, y+h1);
 	cairo_pattern_add_color_stop_rgb(pat1, 0, 1, 1, 1);
 	cairo_pattern_add_color_stop_rgb(pat1, 1, 188/255., 181/255., 173/255.);
-	cairo_rectangle(m_cr, x+margin, y+margin, w1, h1);
-	cairo_set_source(m_cr, pat1);
-	cairo_fill(m_cr);
+	cairo_rectangle(cr, x+margin, y+margin, w1, h1);
+	cairo_set_source(cr, pat1);
+	cairo_fill(cr);
 	cairo_pattern_destroy(pat1);
 }

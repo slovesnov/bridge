@@ -17,7 +17,6 @@
 #include "base/Widget.h"
 #include "helper/CPoint.h"
 #include "helper/CRect.h"
-#include "helper/CSize.h"
 #include "helper/Enums.h"
 #include "helper/SolveAll.h"
 #include "problem/ProblemVector.h"
@@ -34,8 +33,7 @@ public:
 	static const int ANIMATION_STEPS = 10;
 
 	//the same order using in constructor and destructor
-	cairo_t* m_crEnd;
-	cairo_surface_t *m_surfaceEnd;
+	CairoSurface m_csEnd;
 
 	CRect m_tableRect; //includes left/top lines, and not includes right/bottom lines
 	int m_tableTop;
@@ -309,11 +307,7 @@ public:
 
 	void setDeal(bool random)override;
 
-	void copySurface(cairo_t* cr) override{
-		cairo_set_source_surface(cr, m_currentId == -1 ? m_surface : m_surfaceEnd,
-				0, 0);
-		cairo_paint(cr);
-	}
+	void copySurface(cairo_t* cr) override;
 
 	void draw()override;		//draw in memory
 
@@ -332,7 +326,7 @@ public:
 	void showEstimation(cairo_t * ct, int index, int x, int y);
 	inline void showEstimation(int index) {
 		if (index != m_currentId) {
-			showEstimation(m_cr, index, m_cardrect[index].left,
+			showEstimation(m_cs.cairo(), index, m_cardrect[index].left,
 					m_cardrect[index].top);
 		}
 	}
