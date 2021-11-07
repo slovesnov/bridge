@@ -910,7 +910,7 @@ DEAL_STATE Widget::getDealState(bool checkTrump) const {
 	return getProblem().getDealState(checkTrump);
 }
 
-void Widget::showAllExclude(GtkWidget*w , VGtkWidgetPtr const&v){
+void Widget::showAllExclude(GtkWidget *w, VGtkWidgetPtr const &v){
 	if(GTK_IS_CONTAINER(w)){
 		GList *children = gtk_container_get_children(GTK_CONTAINER(w));
 		for(GList *iter = children; iter != NULL; iter = g_list_next(iter)){
@@ -973,4 +973,13 @@ CARD_INDEX& Widget::getPlayer() {
 
 CARD_INDEX Widget::getPlayer() const{
 	return getProblem().m_player;
+}
+
+VString& Widget::recent() {
+	return gconfig->m_recent;
+}
+
+std::string Widget::recent(int i) {
+	assert(i>=0 && i<recentSize());
+	return gconfig->m_recent[i];
 }

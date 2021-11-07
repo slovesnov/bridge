@@ -128,11 +128,9 @@ public:
 	void setItemAttributes(const MENU_ID id);
 	void click(const MENU_ID id);
 	void updateRecent();
-
 	void addAccelerators(bool add);
-
 	void updateThink()override;
-
+	void updateResetSettings()override;
 };
 
 extern Menu* gmenu;

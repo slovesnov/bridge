@@ -340,7 +340,7 @@ public:
 	DEAL_STATE getDealState(bool checkTrump = true) const;
 
 	void showAllExclude(VGtkWidgetPtr const& v);
-	static void showAllExclude(GtkWidget*w,VGtkWidgetPtr const&v);
+	static void showAllExclude(GtkWidget *w, VGtkWidgetPtr const &v);
 
 	cairo_surface_t * getBackgroundFullSurface();
 
@@ -396,7 +396,10 @@ public:
 	int getActiveCardShift();
 	CARD_INDEX& getPlayer();//preferans player
 	CARD_INDEX getPlayer()const;//preferans player
-};
 
+	VString& recent();
+	std::string recent(int i);
+
+};
 
 #endif /* WIDGET_H_ */

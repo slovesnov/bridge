@@ -569,7 +569,7 @@ void Menu::updateAfterCreation() {
 }
 
 MenuString Menu::recentMenuString(int index) {
-	std::string s = gconfig->m_recent[index];
+	std::string s =recent(index);
 	if (s.length() > unsigned(gconfig->m_maxRecentLength)) {
 		const std::string dots = "..";
 		s = dots
@@ -609,11 +609,26 @@ void Menu::addAccelerators(bool add) {
 	}
 }
 
-void Menu::updateThink(){
-	for(auto& v:MENU_THINK_DEPENDENT){
+void Menu::updateThink() {
+	for (auto &v : MENU_THINK_DEPENDENT) {
 		setItemAttributes(v);
 	}
-	for(int i=0;i<m_lastRecentSize;i++){
-		setItemAttributes(MENU_ID(MENU_RECENT+i));
+	for (int i = 0; i < m_lastRecentSize; i++) {
+		setItemAttributes(MENU_ID(MENU_RECENT + i));
 	}
+}
+
+void Menu::updateResetSettings() {
+	int i;
+	FrameItem::updateResetSettings();
+
+	//remove recent files from menu
+	for(i=0;i<m_lastRecentSize;i++){
+		MENU_ID id=MENU_ID(MENU_RECENT+i);
+		gtk_widget_destroy(m_map[id]);
+	}
+	auto it=m_map.find(MENU_RECENT);
+	auto ite=std::next(it,m_lastRecentSize);
+	m_map.erase(it,ite);
+	m_lastRecentSize=0;
 }

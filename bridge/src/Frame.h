@@ -117,6 +117,7 @@ public:
 	M(updateUndoRedo)
 	M(updateDeckSelection)
 	M(updateFontSelection)
+	M(updateResetSettings)
 #undef M
 
 	void updateRecent(std::string filepath);

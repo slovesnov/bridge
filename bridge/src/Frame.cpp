@@ -348,7 +348,7 @@ void Frame::menuClick(MENU_ID id) {
 		}
 		else if (id < MENU_PROBLEM) {
 			//recent click
-			openFiles(gconfig->m_recent[id - MENU_RECENT]);
+			openFiles(recent(id - MENU_RECENT));
 		}
 		else if ((i = INDEX_OF(id,CHECKED_MENU)) != -1) {
 			gconfig->switchOption(i);  //NOT id
@@ -502,7 +502,7 @@ void Frame::resetSettings(){
 }
 
 void Frame::updateRecent(std::string filepath) {
-	auto& r=gconfig->m_recent;
+	auto& r=recent();
 
 	int i=0;
 	for (auto a:r) {
