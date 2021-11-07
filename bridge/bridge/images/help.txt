@@ -120,8 +120,8 @@ http://www.iconarchive.com/show/windows-8-icons-by-icons8/Data-List-icon.html
 [insert16.png]
 http://www.iconarchive.com/show/farm-fresh-icons-by-fatcow/document-insert-icon.html
 
-[html16.png] modified by photoshop
-http://www.htmltageditor.com/
+[html16.png] 7nov2021 file_extension_html.png taken 32x32 and resize in photoshop
+https://iconarchive.com/show/farm-fresh-icons-by-fatcow/html-icon.html
 
 [pbn16.png] modified by photoshop http://www.tistis.nl/pbn/pbnb.gif
 http://www.tistis.nl/pbn/
