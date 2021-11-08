@@ -316,13 +316,13 @@ public:
 	void updateTricks(CARD_INDEX index, bool paint = true);
 	void updateInsideRegion();
 	CRect getRegionRect(CARD_INDEX index);
-	void showCard(cairo_t * ct, int index, int x, int y);
+	void showCard(cairo_t * cr, int index, int x, int y);
 
 	CARD_INDEX getPartner(CARD_INDEX index);
 
 	void setShowEstimation(int index, int estimation, bool thread);
 
-	void showEstimation(cairo_t * ct, int index, int x, int y);
+	void showEstimation(cairo_t * cr, int index, int x, int y);
 	inline void showEstimation(int index) {
 		if (index != m_currentId) {
 			showEstimation(m_cs.cairo(), index, m_cardrect[index].left,

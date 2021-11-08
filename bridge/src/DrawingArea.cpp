@@ -1056,7 +1056,7 @@ void DrawingArea::undoRedo(bool undo, bool full, int count) {
 	redrawState();
 }
 
-void DrawingArea::showCard(cairo_t * ct, int index, int x, int y) {
+void DrawingArea::showCard(cairo_t * cr, int index, int x, int y) {
 	if (index == m_selectedCard) {
 		y -= getActiveCardShift();
 	}
@@ -1065,13 +1065,13 @@ void DrawingArea::showCard(cairo_t * ct, int index, int x, int y) {
 		if (x < m_windowSize.cx - 1) {
 			//prevent right vertical line between DrawingArea and LastTrick/Description from damage
 			//it occurs when user do rotate of empty problem
-			copyFromDeck(ct, x, y, m_windowSize.cx - 1 - x, getCardSize().cy, index,
+			copyFromDeck(cr, x, y, m_windowSize.cx - 1 - x, getCardSize().cy, index,
 					0, 0);
 		}
 	}
 	else {
-		copyFromDeck(ct, x, y, getCardSize().cx, getCardSize().cy, index, 0, 0);
-		showEstimation(ct, index, x, y);
+		copyFromDeck(cr, x, y, getCardSize().cx, getCardSize().cy, index, 0, 0);
+		showEstimation(cr, index, x, y);
 	}
 }
 
@@ -1493,7 +1493,7 @@ void DrawingArea::setShowEstimation(int index, int estimation, bool thread) {
 	}
 }
 
-void DrawingArea::showEstimation(cairo_t* ct, int index, int x, int y) {
+void DrawingArea::showEstimation(cairo_t* cr, int index, int x, int y) {
 	char s[4];
 	auto e = getEstimateType();
 	int estimation =
@@ -1527,16 +1527,16 @@ void DrawingArea::showEstimation(cairo_t* ct, int index, int x, int y) {
 	y += dy;
 
 	if (estimation == ESTIMATE_CLEAR) {
-		copyFromDeck(ct, x, y, width, height, index, dx, dy);	//copy from cards picture
+		copyFromDeck(cr, x, y, width, height, index, dx, dy);	//copy from cards picture
 	}
 	else {
-		gdk_cairo_set_source_rgba(ct, &ESTIMATE_COLOR);
-		cairo_set_line_width(ct, 0);
-		cairo_rectangle(ct, x, y, width, height);
-		cairo_stroke_preserve(ct);
-		cairo_fill(ct);
+		gdk_cairo_set_source_rgba(cr, &ESTIMATE_COLOR);
+		cairo_set_line_width(cr, 0);
+		cairo_rectangle(cr, x, y, width, height);
+		cairo_stroke_preserve(cr);
+		cairo_fill(cr);
 
-		drawTextToCairo(ct,
+		drawTextToCairo(cr,
 				TextWithAttributes::createEstimateText(s, m_estimateFontHeight),
 				CRect(CPoint(x, y), CSize(width, height)), true, true);
 	}

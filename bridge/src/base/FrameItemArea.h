@@ -103,14 +103,14 @@ protected:
 
 	cairo_surface_t * getDeckSurface() const;
 
-	inline void copyFromDeck(cairo_t * ct, int destx, int desty, int index) {
-		copyFromDeck(ct, destx, desty, getCardSize().cx, getCardSize().cy, index, 0,
+	inline void copyFromDeck(cairo_t * cr, int destx, int desty, int index) {
+		copyFromDeck(cr, destx, desty, getCardSize().cx, getCardSize().cy, index, 0,
 				0);
 	}
 
-	inline void copyFromDeck(cairo_t * ct, int destx, int desty, int width,
+	inline void copyFromDeck(cairo_t * cr, int destx, int desty, int width,
 			int height, int index, int addx, int addy) {
-		copy(getDeckSurface(), ct, destx, desty, width, height,
+		copy(getDeckSurface(), cr, destx, desty, width, height,
 				(12 - index % 13) * getCardSize().cx + addx,
 				index / 13 * getCardSize().cy + addy);
 	}
