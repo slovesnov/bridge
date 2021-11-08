@@ -14,7 +14,7 @@
 #include <set>
 
 #include "../helper/Enums.h"
-#include "../helper/CRect.h"
+#include "CRect.h"
 #include "../helper/AuctionTagParseResult.h"
 #include "../solver/BridgeCommon.h"
 

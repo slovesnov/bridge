@@ -42,7 +42,7 @@ void FrameItemArea::init() {
 
 void FrameItemArea::copyFromBackground(int destx, int desty, int width,
 		int height, int sourcex, int sourcey) {
-	copy(getBackgroundFullSurface(), m_cs.cairo(), destx, desty, width, height, sourcex,
+	getProblemSelector().m_backgroundFull.copy( m_cs, destx, desty, width, height, sourcex,
 			sourcey);
 }
 
@@ -62,8 +62,16 @@ CSize FrameItemArea::getTextExtents(TextWithAttributes text, cairo_t *cr) {
 	return sz;
 }
 
-cairo_surface_t* FrameItemArea::getDeckSurface() const {
-	return getProblemSelector().m_deck.surface();
+void FrameItemArea::copyFromDeck(CairoSurface& cs, int destx, int desty, int index) {
+	copyFromDeck(cs, destx, desty, getCardSize().cx, getCardSize().cy, index, 0,
+			0);
+}
+
+void FrameItemArea::copyFromDeck(CairoSurface& cs, int destx, int desty, int width,
+		int height, int index, int addx, int addy) {
+	getProblemSelector().m_deck.copy(cs, destx, desty, width, height,
+			(12 - index % 13) * getCardSize().cx + addx,
+			index / 13 * getCardSize().cy + addy);
 }
 
 CRect FrameItemArea::getInsideRect(const CRect& r, CARD_INDEX index) {

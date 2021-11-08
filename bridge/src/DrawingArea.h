@@ -15,8 +15,7 @@
 #include "base/Config.h"
 #include "base/FrameItemArea.h"
 #include "base/Widget.h"
-#include "helper/CPoint.h"
-#include "helper/CRect.h"
+#include "CRect.h"
 #include "helper/Enums.h"
 #include "helper/SolveAll.h"
 #include "problem/ProblemVector.h"
@@ -317,7 +316,7 @@ public:
 	void updateTricks(CARD_INDEX index, bool paint = true);
 	void updateInsideRegion();
 	CRect getRegionRect(CARD_INDEX index);
-	void showCard(cairo_t * ct, int index, int x, int y);
+	void showCard(CairoSurface& cs, int index, int x, int y);
 
 	CARD_INDEX getPartner(CARD_INDEX index);
 

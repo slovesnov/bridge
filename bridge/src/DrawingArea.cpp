@@ -306,7 +306,7 @@ void DrawingArea::updateRegion(CARD_INDEX index, bool paint) {
 				if (i == m_currentId) {
 					continue;
 				}
-				showCard(m_cs.cairo(), i, m_cardrect[i].left, m_cardrect[i].top);
+				showCard(m_cs, i, m_cardrect[i].left, m_cardrect[i].top);
 			}
 		}
 	}
@@ -496,7 +496,7 @@ void DrawingArea::updateInsideRegion() {
 	for (i = 0; i < 4; i++) {
 		k = a[i];
 		if (k != -1) {
-			showCard(m_cs.cairo(), k, m_cardrect[k].left, m_cardrect[k].top);
+			showCard(m_cs, k, m_cardrect[k].left, m_cardrect[k].top);
 		}
 	}
 
@@ -679,12 +679,12 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 	if (m_currentId != -1) {
 		CPoint point(event);
 		point += m_addit;
-		copy(m_cs.surface(), m_csEnd.cairo());
+		m_cs.copy(m_csEnd);
 		CRect r(point, getCardSize());	//update rectangle
 		CRect cr(m_currentPoint, getCardSize());
 		r.join(cr);
 
-#define M(a,b,c,d) cr.init(a,b,c,d);r.join(cr);copy(m_cs.surface(),m_csEnd.cairo(),cr);
+#define M(a,b,c,d) cr.init(a,b,c,d);r.join(cr);m_cs.copy(m_csEnd,cr);
 		if (point.x >= m_currentPoint.x) {
 			M(m_currentPoint.x, m_currentPoint.y, point.x - m_currentPoint.x,
 					getCardSize().cy);
@@ -714,7 +714,7 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 			}
 		}
 #undef M
-		showCard(m_csEnd.cairo(), m_currentId, point.x, point.y);
+		showCard(m_csEnd, m_currentId, point.x, point.y);
 		invalidateRect(r);
 		m_currentPoint = point;
 
@@ -1056,7 +1056,7 @@ void DrawingArea::undoRedo(bool undo, bool full, int count) {
 	redrawState();
 }
 
-void DrawingArea::showCard(cairo_t * ct, int index, int x, int y) {
+void DrawingArea::showCard(CairoSurface& cs, int index, int x, int y) {
 	if (index == m_selectedCard) {
 		y -= getActiveCardShift();
 	}
@@ -1065,13 +1065,13 @@ void DrawingArea::showCard(cairo_t * ct, int index, int x, int y) {
 		if (x < m_windowSize.cx - 1) {
 			//prevent right vertical line between DrawingArea and LastTrick/Description from damage
 			//it occurs when user do rotate of empty problem
-			copyFromDeck(ct, x, y, m_windowSize.cx - 1 - x, getCardSize().cy, index,
+			copyFromDeck(cs, x, y, m_windowSize.cx - 1 - x, getCardSize().cy, index,
 					0, 0);
 		}
 	}
 	else {
-		copyFromDeck(ct, x, y, getCardSize().cx, getCardSize().cy, index, 0, 0);
-		showEstimation(ct, index, x, y);
+		copyFromDeck(cs, x, y, getCardSize().cx, getCardSize().cy, index, 0, 0);
+		showEstimation(cs.cairo(), index, x, y);
 	}
 }
 
@@ -2007,7 +2007,7 @@ void DrawingArea::animationDraw(bool stop){
 
 	if (!stop) {
 		CPoint p = m_cardrect[m_currentId].topLeft();
-		showCard(m_csEnd.cairo(), m_currentId,
+		showCard(m_csEnd, m_currentId,
 				m_currentPoint.x
 						+ (p.x - m_currentPoint.x) * m_animationStep / ANIMATION_STEPS,
 				m_currentPoint.y

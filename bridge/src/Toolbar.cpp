@@ -22,8 +22,8 @@ static void button_click(GtkToolButton *toolbutton, Toolbar*p) {
 	p->click((GtkToolItem*) toolbutton);
 }
 
-static gboolean draw_tooltip_background(GtkWidget *widget, cairo_t *cr, gpointer) {
-	gframe->getToolbar().drawTooltipBackground(cr);
+static gboolean draw_tooltip_background(GtkWidget *widget, cairo_t *cr, Toolbar*p) {
+	p->drawTooltipBackground(cr);
 	return FALSE;
 }
 
@@ -91,7 +91,7 @@ Toolbar::Toolbar() :
 	m_tooltip = gtk_label_new("");
 
 	gtk_label_set_xalign (GTK_LABEL(m_tooltip),0);
-	g_signal_connect(G_OBJECT (m_tooltip), "draw", G_CALLBACK (draw_tooltip_background), 0);
+	g_signal_connect(G_OBJECT (m_tooltip), "draw", G_CALLBACK (draw_tooltip_background), this);
 
 	//prevents destroy after gtk_container_remove on change show option
 	g_object_ref (m_tooltip);
@@ -306,7 +306,7 @@ void Toolbar::drawTooltipBackground(cairo_t *cr){
 	int w = sz.cx;
 	int sourcey=sz.cy;
 	int h=gtk_widget_get_allocated_height(m_tooltip);
-	copy(getBackgroundFullSurface(),cr,0,0, w, h,0,sourcey);
+	getProblemSelector().m_backgroundFull.copy(cr,0,0, w, h,0,sourcey);
 }
 
 void Toolbar::changeShowOption(){

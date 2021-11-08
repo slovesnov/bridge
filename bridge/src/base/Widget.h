@@ -331,6 +331,7 @@ public:
 	static void showAllExclude(GtkWidget *w, VGtkWidgetPtr const &v);
 
 	cairo_surface_t * getBackgroundFullSurface();
+/*TODO remove
 
 	static inline void copy(cairo_surface_t * source, cairo_t * dest, CRect r) {
 		copy(source, dest, r.left, r.top, r.width(), r.height(), r.left, r.top);
@@ -352,6 +353,7 @@ public:
 		cairo_set_source_surface(dest, source, 0, 0);
 		cairo_paint(dest);
 	}
+*/
 
 	void setSkin(int skin);
 
