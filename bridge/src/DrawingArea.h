@@ -316,7 +316,7 @@ public:
 	void updateTricks(CARD_INDEX index, bool paint = true);
 	void updateInsideRegion();
 	CRect getRegionRect(CARD_INDEX index);
-	void showCard(CairoSurface& cs, int index, int x, int y);
+	void showCard(cairo_t * ct, int index, int x, int y);
 
 	CARD_INDEX getPartner(CARD_INDEX index);
 

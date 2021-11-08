@@ -136,7 +136,7 @@ void LastTrick::draw() {
 			else if (ir.bottom > r.bottom - m) {
 				ir.top = r.bottom - m - ir.height();
 			}
-			copyFromDeck(m_cs, ir.left, ir.top, moves[i]);
+			copyFromDeck(m_cs.cairo(), ir.left, ir.top, moves[i]);
 		}
 	}
 	drawBestLine();//can be called to update whole bestline

@@ -101,9 +101,19 @@ public:
 	CSize getTextExtents(TextWithAttributes text, cairo_t *cr);
 protected:
 
-	void copyFromDeck(CairoSurface& cs, int destx, int desty, int index);
-	void copyFromDeck(CairoSurface& cs, int destx, int desty, int width,
-			int height, int index, int addx, int addy);
+	cairo_surface_t * getDeckSurface() const;
+
+	inline void copyFromDeck(cairo_t * ct, int destx, int desty, int index) {
+		copyFromDeck(ct, destx, desty, getCardSize().cx, getCardSize().cy, index, 0,
+				0);
+	}
+
+	inline void copyFromDeck(cairo_t * ct, int destx, int desty, int width,
+			int height, int index, int addx, int addy) {
+		copy(getDeckSurface(), ct, destx, desty, width, height,
+				(12 - index % 13) * getCardSize().cx + addx,
+				index / 13 * getCardSize().cy + addy);
+	}
 
 	CRect getInsideRect(const CRect& r, CARD_INDEX index);
 
