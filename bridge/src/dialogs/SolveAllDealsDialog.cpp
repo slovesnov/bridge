@@ -180,7 +180,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	gtk_label_set_xalign(GTK_LABEL(w), 0.5);//center full label inside grid
 	gtk_label_set_justify(GTK_LABEL(w), GTK_JUSTIFY_CENTER);//center every line of label
 	gtk_grid_attach(GTK_GRID(g1), w, i++, 0, 1, 1);
-	gtk_grid_attach(GTK_GRID(g1), gtk_label_new(getString(STRING_POSITIONS)), i++,
+	gtk_grid_attach(GTK_GRID(g1), gtk_label_new(getString(STRING_DEALS)), i++,
 			0, 1, 1);
 	gtk_grid_attach(GTK_GRID(g1), gtk_label_new("%"), i++, 0, 1, 1);
 
@@ -209,7 +209,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	gtk_grid_attach(GTK_GRID(g1), w, j++,0, 1, 1);
 	gtk_grid_attach(GTK_GRID(g1), gtk_label_new(getString(STRING_THREAD)), j,0, 1, 1);
 
-	s=getString(STRING_POSITIONS)+std::string("\n")+getString(STRING_PER_SECOND);
+	s=getString(STRING_DEALS)+std::string("\n")+getString(STRING_PER_SECOND);
 	w=gtk_label_new(s.c_str());
 	gtk_label_set_xalign(GTK_LABEL(w), 0.5);//center full label inside grid
 	gtk_label_set_justify(GTK_LABEL(w), GTK_JUSTIFY_CENTER);//center every line of label
