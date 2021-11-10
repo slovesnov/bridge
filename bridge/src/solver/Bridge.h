@@ -183,9 +183,9 @@ public:
 
 	//c [0-12 - spades A-2], [13-25 hearts A-2], [26-38 diamonds A-2], [39-51 clubs A-2]
 	//estimate + best move
-	void solveFull(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-			bool trumpChanged, int lowTricks = DEFAULT_TRICKS,
-			int highTricks = DEFAULT_TRICKS);
+//	void solveFull(const CARD_INDEX c[52], int trump, CARD_INDEX first,
+//			bool trumpChanged, int lowTricks = DEFAULT_TRICKS,
+//			int highTricks = DEFAULT_TRICKS);
 
 	//only estimate
 	void solveEstimateOnly(const CARD_INDEX c[52], int trump, CARD_INDEX first,

@@ -256,15 +256,15 @@ int Bridge::removeCard(int suit, int pos) {
 	return c;
 }
 
-void Bridge::solveFull(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-		bool trumpChanged, int lowTricks, int highTricks) {
-	if(trump==NT){
-		solvebNT(c, trump, first,trumpChanged, lowTricks, highTricks);
-	}
-	else{
-		solveb(c, trump, first,trumpChanged, lowTricks, highTricks);
-	}
-}
+//void Bridge::solveFull(const CARD_INDEX c[52], int trump, CARD_INDEX first,
+//		bool trumpChanged, int lowTricks, int highTricks) {
+//	if(trump==NT){
+//		solvebNT(c, trump, first,trumpChanged, lowTricks, highTricks);
+//	}
+//	else{
+//		solveb(c, trump, first,trumpChanged, lowTricks, highTricks);
+//	}
+//}
 
 void Bridge::solveEstimateOnly(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 		bool trumpChanged, int lowTricks, int highTricks) {
