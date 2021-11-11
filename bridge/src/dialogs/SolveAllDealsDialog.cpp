@@ -202,6 +202,18 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	gtk_grid_attach(GTK_GRID(g1), m_button[TAB1], 0, i, 2, 1);
 	gtk_grid_attach(GTK_GRID(g1), m_loading[TAB1], 2, i, 1, 1);
 
+	if(isPreferans() && !isMisere() && northOrSouth(getAbsent())){
+		/* 2nd tab has comments which allocates vertical space, but
+		 * we don't want to stretch content of grid so add dummy labels
+		 * to allocate recent vertical space, number 3 get manually, added
+		 * until comments on 2nd tab haven't vertical space below
+		 */
+		for(j=0;j<3;j++){
+			i++;
+			gtk_grid_attach(GTK_GRID(g1), label(), 0, i, 1, 1);
+		}
+	}
+
 	//thread statistics
 	j=k+4;
 	w=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
@@ -243,6 +255,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	}
 
 	m_notebook = gtk_notebook_new();
+
 	for (auto w : { g1, createTab2() }) {
 		gtk_notebook_append_page(GTK_NOTEBOOK(m_notebook), w,
 				label(w == g1 ? STRING_TRICKS1 : STRING_CONTRACTS));
