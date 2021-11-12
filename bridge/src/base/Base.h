@@ -285,7 +285,7 @@ gint message(MESSAGE_ICON_TYPE t, const std::string& s,
 		BUTTONS_DIALOG_TYPE type);
 void message(MESSAGE_ICON_TYPE t, const char* s);
 void message(MESSAGE_ICON_TYPE t, const std::string& s);
-void message(MESSAGE_ICON_TYPE t, STRING_ID id);
+void message(MESSAGE_ICON_TYPE t, STRING_ID id,BUTTONS_DIALOG_TYPE type=BUTTONS_DIALOG_OK);
 
 GdkPixbuf* getSuitPixbuf(int suit, int size = SUIT_PIXBUF_SIZE);
 

@@ -24,7 +24,7 @@ class SolveAllDealsDialog: public ButtonsDialogWithProblem {
 	VGtkWidgetPtr m_labelThread;
 	int m_result[MAX_RESULT_SIZE];
 	GtkWidget *m_loading[2];
-	GtkWidget* m_button[2];
+	GtkWidget* m_button[3];
 	GtkWidget *m_combo[3];
 	GtkWidget *m_grid;
 	GtkWidget *m_labelPercentTab2;

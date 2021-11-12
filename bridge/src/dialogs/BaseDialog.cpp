@@ -25,6 +25,14 @@ void BaseDialog::init(const char* title, bool modal, Widget* parent,
 	gtk_window_set_resizable(GTK_WINDOW(getWidget()), resizable);
 }
 
+GtkWidget* BaseDialog::createButton(const char *img, STRING_ID id) {
+	return createButton(img, id == STRING_INVALID ? "" : getString(id));
+}
+
+GtkWidget* BaseDialog::createButton(const char *img, MENU_ID id) {
+	return createButton(img, getString(id));
+}
+
 BaseDialog::~BaseDialog() {
 	gtk_widget_destroy(getWidget());
 }

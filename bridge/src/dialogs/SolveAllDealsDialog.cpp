@@ -25,7 +25,7 @@ const int BRIDGE_DOUBLE_REDOUBLE_COMBO=1;
 const int BRIDGE_VULNERABLE_COMBO=2;
 const int TAB1=0;
 const int TAB2=1;
-
+const int HELP_BUTTON=2;
 //2nd tab
 const int TITLE_ROWS=2;
 
@@ -75,16 +75,23 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 		a =gtk_spinner_new ();
 		gtk_spinner_start (GTK_SPINNER(a));
 	}
+
+	i=0;
 	for(auto& a:m_button){
-		a=createButton(NULL, STRING_COPY_TO_CLIPBOARD);
+		if(i==2){
+			/* help messages allocates vertical space on tab2
+			 * which do unwanted additional vertical space on tab1
+			 * so add help button
+			 */
+			a=createButton(NULL, MENU_HELP);
+		}
+		else{
+			a=createButton(NULL, STRING_COPY_TO_CLIPBOARD);
+		}
 		g_signal_connect(a, "clicked", G_CALLBACK(button_clicked),
 				gpointer(0));
+		i++;
 	}
-
-	/* for long preferans problems, leave m_copyButton is active,
-	 * because user may be want to save intermediate results
-	 */
-	//gtk_widget_set_sensitive(m_copyButton, isBridge() );
 
 	for (i = 0; i < 4; i++) {
 		if(isBridge()){
@@ -149,7 +156,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 
 	g1 = gtk_grid_new();
 	gtk_grid_set_column_spacing(GTK_GRID(g1), 4);
-	gtk_grid_set_row_spacing(GTK_GRID(g1), 4);
+	gtk_grid_set_row_spacing(GTK_GRID(g1), 0);
 
 	gtk_grid_attach(GTK_GRID(g1), g, 0, 0, 1, resultSize()+1);
 
@@ -201,18 +208,6 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	i++;
 	gtk_grid_attach(GTK_GRID(g1), m_button[TAB1], 0, i, 2, 1);
 	gtk_grid_attach(GTK_GRID(g1), m_loading[TAB1], 2, i, 1, 1);
-
-	if(isPreferans() && !isMisere() && northOrSouth(getAbsent())){
-		/* 2nd tab has comments which allocates vertical space, but
-		 * we don't want to stretch content of grid so add dummy labels
-		 * to allocate recent vertical space, number 3 get manually, added
-		 * until comments on 2nd tab haven't vertical space below
-		 */
-		for(j=0;j<3;j++){
-			i++;
-			gtk_grid_attach(GTK_GRID(g1), label(), 0, i, 1, 1);
-		}
-	}
 
 	//thread statistics
 	j=k+4;
@@ -364,6 +359,13 @@ void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 	int i,j;
 	std::string s;
 	const int trump = getTrump();
+
+	if (w == m_button[HELP_BUTTON]) {
+		message(MESSAGE_ICON_NONE, STRING_CONTRACTS_SCORING_HELP,
+				BUTTONS_DIALOG_NONE);
+		return;
+	}
+
 	if(w==m_button[TAB2]){
 		int columns = isBridge() ? 4 : getPreferansPlayers()+2;
 
@@ -610,6 +612,7 @@ GtkWidget* SolveAllDealsDialog::createTab2() {
 	gtk_widget_set_size_request(m_loading[TAB2], 32, 32);//otherwise small
 	gtk_container_add(GTK_CONTAINER(w), m_loading[TAB2]);
 	gtk_container_add(GTK_CONTAINER(w), m_labelPercentTab2);
+	gtk_container_add(GTK_CONTAINER(w), m_button[HELP_BUTTON]);
 	gtk_container_add(GTK_CONTAINER(w2), w);
 
 
@@ -638,11 +641,6 @@ GtkWidget* SolveAllDealsDialog::createTab2() {
 	gtk_container_add(GTK_CONTAINER(w1), w);
 	gtk_frame_set_label_align(GTK_FRAME(w1), 0.03, 0.5);
 	gtk_container_add(GTK_CONTAINER(w2), w1);
-
-	if(!bridge){
-		w = createMarkupLabel(STRING_CONTRACTS_SCORING_HELP,60);
-		gtk_container_add(GTK_CONTAINER(w2), w);
-	}
 
 	return w2;
 }

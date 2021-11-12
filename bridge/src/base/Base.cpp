@@ -588,8 +588,8 @@ void message(MESSAGE_ICON_TYPE t, const std::string& s) {
 	message(t, s.c_str());
 }
 
-void message(MESSAGE_ICON_TYPE t, STRING_ID id){
-	message(t, getString(id));
+void message(MESSAGE_ICON_TYPE t, STRING_ID id,BUTTONS_DIALOG_TYPE type){
+	message(t, getString(id),type);
 }
 
 bool selectColor(const char* s, GdkRGBA* color) {
