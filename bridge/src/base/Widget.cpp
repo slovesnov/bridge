@@ -776,7 +776,7 @@ int Widget::countMaxArrowSizeForY(int cardHeight,int y){
 	return (getAreaMaxHeight()-i)/ARROW_K_IN_AREA_HEIGHT;
 }
 
-GdkPixbuf *& Widget::getSvgPixbuf(bool isDeck){
+GdkPixbuf * Widget::getSvgPixbuf(bool isDeck){
 	auto& p=getProblemSelector();
 	return isDeck? p.m_svgDeckPixbuf:p.m_svgArrowPixbuf;
 }

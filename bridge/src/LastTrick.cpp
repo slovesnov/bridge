@@ -40,9 +40,6 @@ LastTrick::LastTrick() :
 	glasttrick=this;
 	m_rows=m_columns=0;
 
-	for (auto&a :m_suitPixbuf) {
-		a = nullptr;
-	}
 	setSuitPixbufs();
 
 	for(i=0;i<52;i++){
@@ -69,7 +66,6 @@ LastTrick::LastTrick() :
 }
 
 LastTrick::~LastTrick() {
-	freeSuitPixbufs();
 	g_object_unref (m_full);
 }
 
@@ -408,15 +404,8 @@ void LastTrick::updateFontSelection(){
 void LastTrick::setSuitPixbufs() {
 	int i=0;
 	for (auto&a :m_suitPixbuf) {
-		free(a);
 		a = getSuitPixbuf(i, getFontHeight());
 		i++;
-	}
-}
-
-void LastTrick::freeSuitPixbufs() {
-	for (auto&a :m_suitPixbuf) {
-		free(a);
 	}
 }
 

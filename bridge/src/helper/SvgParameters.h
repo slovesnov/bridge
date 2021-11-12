@@ -13,10 +13,12 @@
 
 #include <gtk/gtk.h>
 #include <string>
+#include <atomic>
+
+#include "Pixbuf.h"
 
 class SvgParameters {
-	bool loaded;
-	GMutex mutex;
+	std::atomic_bool loaded;
 public:
 	int suitsOrder[4], cardsOrder[13];
 
@@ -25,7 +27,7 @@ public:
 	int startx, starty;//top left corner of very first card
 	int addx,addy;//margin between cards
 
-	GdkPixbuf *p;
+	Pixbuf p;
 
 	SvgParameters();
 	~SvgParameters();

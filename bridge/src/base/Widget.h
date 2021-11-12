@@ -281,16 +281,7 @@ public:
 	CSize countMaxCardSizeForY(int arrowSize,int y=MIN_COUNT_SIZE_Y);
 	int countMaxArrowSizeForY(int cardHeight,int y=MIN_COUNT_SIZE_Y);
 
-	static void createNew(GdkPixbuf*& dest, GdkPixbuf* source) {
-		free(dest);
-		dest = source;
-	}
-
-	static void createNew(GdkPixbuf *& pb,int width,int height) {
-		createNew(pb, gdk_pixbuf_new(GDK_COLORSPACE_RGB, true, 8, width, height));
-	}
-
-	GdkPixbuf *& getSvgPixbuf(bool isDeck);
+	GdkPixbuf * getSvgPixbuf(bool isDeck);
 
 	bool isScalableArrow();
 	static bool isScalableArrow(int arrow);

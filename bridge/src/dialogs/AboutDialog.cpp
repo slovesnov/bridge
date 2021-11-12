@@ -23,8 +23,7 @@ AboutDialog::AboutDialog() :
 	GtkWidget *box, *hbox, *label;
 	bool link;
 	VString v;
-	VStringI it;
-	GdkPixbuf *pb, *np=0;
+	Pixbuf pb,np;
 	std::string s;
 	const CSize LMARGIN(5, 0);
 
@@ -47,15 +46,18 @@ AboutDialog::AboutDialog() :
 		he--; //should be even otherwise warning and bad drawing
 	}
 
-	getPixbufWH("suits.svg",w,h);
 	s = getImagePath("suits.svg");
+	auto size=Pixbuf(s).size();
+
+	w=size.cx;
+	h=size.cy;
 
 	const double scale = double(he) / h / 2;
 
 	const int wi = w * he / h / 4; //width of np
 	pb = gdk_pixbuf_new_from_file_at_size(s.c_str(), 2 * wi, he / 2, NULL);
 
-	createNew(np,he,he);
+	np.createRGB(he, he);
 	gdk_pixbuf_fill(np, 0);
 
 	for (i = 0; i < 4; i++) {
@@ -69,28 +71,26 @@ AboutDialog::AboutDialog() :
 				(i == 2 || i == 3 ? 3 : 1) * he / 4 + from - st[i],
 				i == 1 || i == 2 ? he / 2 : 0);
 	}
-	free(pb);
 
 	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 	gtk_container_add(GTK_CONTAINER(hbox), gtk_image_new_from_pixbuf(np));
 	//END scale suits.svg to fit dialog
 
-	for (it = v.begin(), i = 0; it != v.end(); it++, i++) {
+	char *markup;
+	i=0;
+	for (auto a: v) {
 		link = i == 5;
 		//Note mailto:... works incorrect. Background window with error appears.
 		const char *format = link ? "<a href=\"#\">\%s</a>" : "%s";
-		char *markup;
 
 		label = m_label[i] = gtk_label_new("");
-		markup = g_markup_printf_escaped(format, it->c_str());
+		markup = g_markup_printf_escaped(format, a.c_str());
 		gtk_label_set_markup(GTK_LABEL(label), markup);
 		g_free(markup);
 
 		gtk_label_set_xalign(GTK_LABEL(label), 0);
 		gtk_widget_set_margin_start(label, LMARGIN.cx);
 		gtk_widget_set_margin_end(label, LMARGIN.cx);
-//		gtk_widget_set_margin_top(label, LMARGIN.cy);
-//		gtk_widget_set_margin_bottom(label, LMARGIN.cy);
 		gtk_container_add(GTK_CONTAINER(box), label);
 		if (link) {
 			g_signal_connect(label, "activate-link", G_CALLBACK(label_clicked),
@@ -101,6 +101,8 @@ AboutDialog::AboutDialog() :
 		 dialog.background.solid-csd box.vertical.dialog-vbox box.horizontal box.vertical label{
 		 padding:10px;
 		 }*/
+
+		i++;
 	}
 	gtk_container_add(GTK_CONTAINER(hbox), box);
 	gtk_container_add(GTK_CONTAINER(getContentArea()), hbox);

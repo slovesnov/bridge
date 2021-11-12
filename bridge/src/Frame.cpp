@@ -136,6 +136,9 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 	//menuClick(MENU_SOLVE_ALL_DEALS);
 #endif
 
+//	test();
+
+
 	gtk_main();
 }
 
@@ -900,92 +903,6 @@ void Frame::setBtsContracts() {
 #endif
 
 #ifndef NDEBUG
-void Frame::insertRemoveMenuId(int id, bool insert) {
-	/* subfolder with lng files
-	 * do not use "lng" dir because config
-	 * couldn't read language file
-	 */
-	const char url[] = "lng1";
-
-	GDir *dir;
-	const gchar *filename;
-	char buff[PATH_MAX];
-	char b1[PATH_MAX];
-	char*p, *p1;
-	int i;
-	int c = 0; //count of real symbols, which need to translate
-	FILE*in, *out;
-	bool atLeast1FileFound = false;
-
-	dir = g_dir_open(url, 0, 0);
-	if (dir == NULL) {
-		println("ERROR cann't open dir %s", url);
-		return;
-	}
-
-	while ((filename = g_dir_read_name(dir))) {
-		sprintf(buff, "%s%c%s", url, G_DIR_SEPARATOR, filename);
-		p = strrchr(filename, '.');
-		assert(p);
-		if (isDir(buff) || !cmp(p + 1, "lng")) {
-			continue;
-		}
-		atLeast1FileFound = true;
-
-		c = 0;
-		sprintf(b1, "%s%c1%s", url, G_DIR_SEPARATOR, filename);
-		rename(buff, b1);
-		in = fopen(b1, "r");
-		assert(in);
-		out = fopen(buff, "w+");
-		assert(out);
-
-		while (fgets(buff, PATH_MAX, in)) {
-			p = strchr(buff, '\"');
-			if (p) {
-				p1 = strrchr(buff, '\"');
-				assert(p1 > p);
-				c += p1 - p;
-			}
-			i = int(strtol(buff, &p, 10));
-			//i>=1000 variable items manage manually
-			if (p > buff && i >= id && i < 1000) {
-				if (i == id) {
-					if (insert) {
-						fprintf(out, " %d \"\"\n", i);
-					}
-					else {
-						continue;
-					}
-				}
-				if (insert) {
-					i++;
-				}
-				else {
-					i--;
-				}
-				for (p1 = buff; *p1 != 0 && !isdigit(*p1); p1++)
-					;
-				fprintf(out, "%.*s%d%s", int(p1 - buff), buff, i, p);
-			}
-			else {
-				fprintf(out, "%s", buff);
-			}
-		}
-
-		fclose(in);
-		fclose(out);
-		remove(b1);
-		println("proceed %s iseful chars=%d", filename, c);
-	}
-
-	if (!atLeast1FileFound) {
-		println("ERROR no files to proceed found");
-	}
-}
-#endif
-
-#ifndef NDEBUG
 int Frame::getOptimal(int n, bool printToFile) {
 	int i, j, k = 0, size;
 	uint64_t sum, o = 0;
@@ -1339,11 +1256,6 @@ void Frame::loadHttpProblems() {
 	fclose(f);
 
 	println("end %s %s problems %d", __func__, LINK_PAGE[SITE_SECTION], v.size());
-}
-#endif
-
-#ifndef NDEBUG
-void Frame::test() {
 }
 #endif
 
@@ -1711,4 +1623,25 @@ void Frame::addRemoveWidget(bool add, GtkWidget *container, GtkWidget *child) {
 		gtk_container_remove(GTK_CONTAINER(container), child);
 	}
 
+}
+
+void Frame::test() {
+	GDir*di;
+	const gchar * filename;
+	ProblemVector pv;
+	std::string root="bridge/problems/bts";
+	int i=0;
+	di = g_dir_open(root.c_str(), 0, 0);
+	if(!di){
+		printl("error");
+		return ;
+	}
+	while ((filename = g_dir_read_name(di))) {
+		pv.set(root+"/"+filename,true);
+		pv.m_problems.back().m_comment=filename;
+		i++;
+	}
+
+	printl(i,pv.size())
+	pv.save("old.bts", false);
 }

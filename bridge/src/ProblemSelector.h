@@ -31,10 +31,10 @@ public:
 
 	//this class is first in Frame::m_childs so use deck and skin surface in this class
 	CairoSurface m_deck;
-	GdkPixbuf* m_arrow[4];
-	GdkPixbuf *m_svgArrowPixbuf;
-	GdkPixbuf *m_svgDeckPixbuf;
-	GdkPixbuf *m_svgScaledPixbuf;
+	Pixbuf m_arrow[4];
+	Pixbuf m_svgArrowPixbuf;
+	Pixbuf m_svgDeckPixbuf;
+	Pixbuf m_svgScaledPixbuf;
 	SvgParameters m_svgDeckParameters[N_VECTOR_DECKS];
 	SvgParameters m_svgArrowParameters[N_VECTOR_ARROWS];
 	bool m_deckChanged,m_arrowChanged;

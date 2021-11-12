@@ -19,7 +19,7 @@
 class LastTrick: public FrameItemArea {
 	GtkWidget* m_grid;
 	//GtkWidget* m_scrolled;
-	GdkPixbuf* m_suitPixbuf[4];
+	Pixbuf m_suitPixbuf[4];
 	GtkWidget* m_suit[52];
 	GtkWidget* m_labelCard[52];
 	int m_rows;
@@ -58,7 +58,6 @@ public:
 	CSize getFullVisibleSize() const;
 
 	void setSuitPixbufs();
-	void freeSuitPixbufs();
 
 	void updateSkin() override;
 };

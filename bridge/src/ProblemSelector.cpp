@@ -53,9 +53,6 @@ ProblemSelector::ProblemSelector() :
 	m_current = 0;
 	m_lastClickTime = 0;
 	m_visible = false;
-	m_svgArrowPixbuf=0;
-	m_svgDeckPixbuf=0;
-	m_svgScaledPixbuf=0;
 	m_deckChanged=false;
 	m_arrowChanged=false;
 
@@ -85,9 +82,6 @@ ProblemSelector::ProblemSelector() :
 	setSkin();
 	setDeck();
 
-	for (i = 0; i < SIZE(m_arrow); i++) {
-		m_arrow[i] = NULL;
-	}
 	setArrows();
 
 	createNewGame(gconfig->m_gameType, gconfig->m_absent);
@@ -129,7 +123,6 @@ ProblemSelector::ProblemSelector() :
 }
 
 ProblemSelector::~ProblemSelector() {
-	int i;
 	if(m_arrowChanged && isScalableArrow()){
 		gdk_pixbuf_save(m_arrow[0], getWritableFilePath(STORE_ARROW_TO_PNG_FILE_NAME).c_str(), "png", NULL, NULL);
 	}
@@ -141,18 +134,10 @@ ProblemSelector::~ProblemSelector() {
 		/* Note m_svgDeckPixbuf can have invalid data, because user can select deck make some
 		 * manipulations and press cancel
 		 */
-		GdkPixbuf *p = gdk_pixbuf_get_from_surface(m_deck, 0, 0, c.cx, c.cy);
+		Pixbuf p = gdk_pixbuf_get_from_surface(m_deck, 0, 0, c.cx, c.cy);
 		gdk_pixbuf_save(p, getWritableFilePath(STORE_DECK_TO_PNG_FILE_NAME).c_str(), "png", NULL, NULL);
-		free(p);
 	}
 
-	for (i = 0; i < SIZEI(m_arrow); i++) {
-		free(m_arrow[i]);
-	}
-
-	free(m_svgArrowPixbuf);
-	free(m_svgDeckPixbuf);
-	free(m_svgScaledPixbuf);
 }
 
 void ProblemSelector::setAreaProblem() {
@@ -666,12 +651,12 @@ void ProblemSelector::createSvgPixbufs(bool isDeck){
 		i=sz.cx*13;
 		j=sz.cy*4;
 
-		createNew(m_svgDeckPixbuf,  i, j);
-		createNew(m_svgScaledPixbuf, i+12*x, j+3*y);
+		m_svgDeckPixbuf.createRGB( i, j);
+		m_svgScaledPixbuf.createRGB( i+12*x, j+3*y);
 	}
 	else{
 		i=countMaxArrowSizeForY(MIN_CARD_HEIGHT);
-		createNew(m_svgArrowPixbuf, i, i);
+		m_svgArrowPixbuf.createRGB( i, i);
 	}
 }
 
@@ -716,23 +701,22 @@ void ProblemSelector::setArrows() {
 	int i=getArrowNumber();
 	if(isScalableArrow(i)){
 		if(start){
-			createNew(m_arrow[0], writablePixbuf(STORE_ARROW_TO_PNG_FILE_NAME ));
+			m_arrow[0]= writablePixbuf(STORE_ARROW_TO_PNG_FILE_NAME );
 		}
 		else{
 			i=getArrowSize();
-			createNew(m_arrow[0], i,i);
-
+			m_arrow[0].createRGB( i,i);
 			gdk_pixbuf_copy_area(m_svgArrowPixbuf, 0, 0, i, i, m_arrow[0], 0, 0);
 		}
 	}
 	else{
-		createNew(m_arrow[0], pixbuf(getArrowFileName(i,false) ));
+		m_arrow[0] = pixbuf(getArrowFileName(i, false));
 		//do not remove
 		setArrowParameters(i);
 	}
 	for (i = 1; i < SIZEI(m_arrow); i++) {
-		createNew(m_arrow[i],
-				gdk_pixbuf_rotate_simple(m_arrow[i - 1], GDK_PIXBUF_ROTATE_CLOCKWISE));
+		m_arrow[i] = gdk_pixbuf_rotate_simple(m_arrow[i - 1],
+				GDK_PIXBUF_ROTATE_CLOCKWISE);
 	}
 }
 

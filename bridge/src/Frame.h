@@ -175,18 +175,6 @@ public:
 	 */
 	void setBtsContracts();
 
-	/* iterate through language files and insert or remove "id" from menu
-	 * all later items will have id=idOriginal-1 in case of remove
-	 * or id==idOriginal+1 in case of insert (insert new item before id)
-	 */
-	void insertRemoveMenuId(int id, bool insert);
-
-	void insertMenuId(int id) {
-		insertRemoveMenuId(id, true);
-	}
-	void removeMenuId(int id) {
-		insertRemoveMenuId(id, false);
-	}
 
 	/** for arbitrary 0<= i,j <n
 	 * we got
@@ -209,7 +197,6 @@ public:
 
 	void optimalToFile();
 
-	void test();
 
 	//load http://www.doubledummy.net problems and stores them to bts file
 	void loadHttpProblems();
@@ -223,6 +210,7 @@ public:
 
 #endif
 
+	void test();
 };
 
 extern Frame* gframe;

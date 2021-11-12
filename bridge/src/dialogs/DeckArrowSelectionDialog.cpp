@@ -71,7 +71,7 @@ static void toggle_radio(GtkWidget *w, gpointer) {
 
 DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 		ButtonsDialog(isDeck?MENU_SELECT_DECK:MENU_SELECT_ARROW) {
-	int i,j,n,w,h;
+	int i,j,n;
 	std::string s;
 	GtkWidget *radio, *vbox[2],*border[2],*box;
 	GtkRadioButton *rb = NULL;
@@ -134,8 +134,6 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 	n=0;
 	for (i = 0; i < (m_isDeck?N_TOTAL_DECKS:N_TOTAL_ARROWS); i++) {
 
-		//println("%d %d %d",i, m_maxCardHeight,gconfig->getRasterArrowSize(i))
-
 		if(i==getRasterSize()){
 			j=0;
 		}
@@ -146,16 +144,17 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 			continue;
 		}
 
-		s = getString(m_isDeck?STRING_DECK:STRING_ARROW)+format(" #%d ", j + 1);
+		s = getString(m_isDeck ? STRING_DECK : STRING_ARROW)
+				+ format(" #%d ", j + 1);
 		if (!isScalable(i)) {
+			CSize sz;
 			if(m_isDeck){
-				w=RASTER_DECK_CARD_SIZE[i].cx;
-				h=RASTER_DECK_CARD_SIZE[i].cy;
+				sz= RASTER_DECK_CARD_SIZE[i];
 			}
 			else{
-				getPixbufWH(getArrowFileName(i,false),w,h);
+				sz= {RASTER_ARROW_SIZE[i],RASTER_ARROW_SIZE[i]};
 			}
-			s+=format("%dx%d", w, h);
+			s += format("%dx%d", sz.cx, sz.cy);
 		}
 		const gchar * p = s.c_str();
 		if (n == 0) {
@@ -264,6 +263,7 @@ void DeckArrowSelectionDialog::draw(cairo_t* cr) {
 	int w,h;
 	bool sc=isScalable();
 	GdkPixbuf* pb;
+	Pixbuf p;
 	if(sc){
 		pb=getSvgPixbuf(m_isDeck);
 
@@ -277,9 +277,10 @@ void DeckArrowSelectionDialog::draw(cairo_t* cr) {
 		}
 	}
 	else{
-		pb = pixbuf(getObjectFileName(getNumber(),false));
-		w = gdk_pixbuf_get_width(pb);
-		h = gdk_pixbuf_get_height(pb);
+		p = pixbuf(getObjectFileName(getNumber(),false));
+		pb=p;
+		w = p.width();
+		h = p.height();
 		if(m_isDeck){
 			w/=13;
 			h/=4;
@@ -299,10 +300,6 @@ void DeckArrowSelectionDialog::draw(cairo_t* cr) {
 	gdk_cairo_set_source_pixbuf(cr, pb, i+k , j);
 	cairo_rectangle(cr, i, j, w, h);
 	cairo_fill(cr);
-
-	if(!sc){
-		g_object_unref(pb);
-	}
 
 }
 
