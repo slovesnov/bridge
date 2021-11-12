@@ -235,7 +235,7 @@ void DrawingArea::draw() {
 
 	x = m_tableRect.left;
 	y = m_tableRect.top;
-	auto cr=m_cs.cairo();
+	cairo_t* cr=m_cs;
 	cairo_new_sub_path(cr);
 	double x1 = x + m_tableRect.width() - TABLE_ROUND_CORNER_SIZE;
 	double y1 = y + TABLE_ROUND_CORNER_SIZE + .5;
@@ -306,7 +306,7 @@ void DrawingArea::updateRegion(CARD_INDEX index, bool paint) {
 				if (i == m_currentId) {
 					continue;
 				}
-				showCard(m_cs.cairo(), i, m_cardrect[i].left, m_cardrect[i].top);
+				showCard(m_cs, i, m_cardrect[i].left, m_cardrect[i].top);
 			}
 		}
 	}
@@ -496,7 +496,7 @@ void DrawingArea::updateInsideRegion() {
 	for (i = 0; i < 4; i++) {
 		k = a[i];
 		if (k != -1) {
-			showCard(m_cs.cairo(), k, m_cardrect[k].left, m_cardrect[k].top);
+			showCard(m_cs, k, m_cardrect[k].left, m_cardrect[k].top);
 		}
 	}
 
@@ -679,12 +679,12 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 	if (m_currentId != -1) {
 		CPoint point(event);
 		point += m_addit;
-		copy(m_cs.surface(), m_csEnd.cairo());
+		copy(m_cs, m_csEnd);
 		CRect r(point, getCardSize());	//update rectangle
 		CRect cr(m_currentPoint, getCardSize());
 		r.join(cr);
 
-#define M(a,b,c,d) cr.init(a,b,c,d);r.join(cr);copy(m_cs.surface(),m_csEnd.cairo(),cr);
+#define M(a,b,c,d) cr.init(a,b,c,d);r.join(cr);copy(m_cs,m_csEnd,cr);
 		if (point.x >= m_currentPoint.x) {
 			M(m_currentPoint.x, m_currentPoint.y, point.x - m_currentPoint.x,
 					getCardSize().cy);
@@ -714,7 +714,7 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 			}
 		}
 #undef M
-		showCard(m_csEnd.cairo(), m_currentId, point.x, point.y);
+		showCard(m_csEnd, m_currentId, point.x, point.y);
 		invalidateRect(r);
 		m_currentPoint = point;
 
@@ -956,7 +956,7 @@ void DrawingArea::mouseLeftButtonUp(GdkEventButton* event) {
 void DrawingArea::showArrow(bool paint) {
 	CARD_INDEX next = getNextMove();
 	CRect rect = getArrowRect(next);
-	copyFromPixbuf(getProblemSelector().m_arrow[next - 1], m_cs.cairo(), rect);
+	copyFromPixbuf(getProblemSelector().m_arrow[next - 1], m_cs, rect);
 	if (paint) {
 		invalidateRect(rect);
 	}
@@ -1083,7 +1083,7 @@ void DrawingArea::init() {
 	m_csEnd.create(m_windowSize);
 
 	//TODO not set any time only if font changed
-	setFont(m_cs.cairo(), getFontHeight());
+	setFont(m_cs, getFontHeight());
 
 	const int dx = getIndentInsideSuit() - 1;			//-1 because of card border
 
@@ -1111,7 +1111,8 @@ void DrawingArea::countSize(int y) {
 	m_tableTop = countTableTop(height);
 
 	//140dpi for smallest decks
-	if(!m_cs.cairo()){//for getTextExtents
+	cairo_t*pc=m_cs;
+	if(!pc){//for getTextExtents
 		init();
 	}
 
@@ -1327,7 +1328,7 @@ void DrawingArea::setDeal(bool random) {
 }
 
 void DrawingArea::copySurface(cairo_t* cr) {
-	cairo_set_source_surface(cr, m_currentId == -1 ? m_cs.surface() : m_csEnd.surface(),
+	cairo_set_source_surface(cr, m_currentId == -1 ? m_cs : m_csEnd,
 			0, 0);
 	cairo_paint(cr);
 }
@@ -2003,11 +2004,11 @@ gboolean DrawingArea::animationStep(int index) {
 
 void DrawingArea::animationDraw(bool stop){
 	CRect r(CPoint(0, 0), getSize());	//some of estimations could change so invalidate full rectangle
-	copy(m_cs.surface(), m_csEnd.cairo());
+	copy(m_cs, m_csEnd);
 
 	if (!stop) {
 		CPoint p = m_cardrect[m_currentId].topLeft();
-		showCard(m_csEnd.cairo(), m_currentId,
+		showCard(m_csEnd, m_currentId,
 				m_currentPoint.x
 						+ (p.x - m_currentPoint.x) * m_animationStep / ANIMATION_STEPS,
 				m_currentPoint.y
@@ -2021,7 +2022,7 @@ void DrawingArea::endAnimation(bool stop){
 		animationDraw(true);
 	}
 	CARD_INDEX id = getOuter(m_currentId);
-	copy(m_csEnd.surface(), m_cs.cairo());	//currentId changed
+	copy(m_csEnd, m_cs);	//currentId changed
 	m_currentId = -1;
 	recalcRects();	//m_currentId changed
 	updateInsideRegion();
@@ -2580,7 +2581,7 @@ void DrawingArea::drawCardback(int i) {
 	double margin = std::min(width,height) / 5;
 	double radius = std::min(width,height) / 7;
 
-	auto cr=m_cs.cairo();
+	cairo_t* cr=m_cs;
 	cairo_new_sub_path (cr);
 	cairo_arc (cr, x + width - radius, y + radius, radius, -G_PI/2, 0);
 	cairo_arc (cr, x + width - radius, y + height - radius, radius, 0, G_PI/2);

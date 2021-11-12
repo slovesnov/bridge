@@ -26,7 +26,7 @@ FrameItemArea::~FrameItemArea() {
 
 void FrameItemArea::drawLine(int x1, int y1, int x2, int y2) {
 	const GdkRGBA rgba = getTextColor();
-	auto cr=m_cs.cairo();
+	cairo_t* cr=m_cs;
 	gdk_cairo_set_source_rgba(cr, &rgba);
 	cairo_set_line_width(cr, 1.);
 
@@ -42,7 +42,7 @@ void FrameItemArea::init() {
 
 void FrameItemArea::copyFromBackground(int destx, int desty, int width,
 		int height, int sourcex, int sourcey) {
-	copy(getBackgroundFullSurface(), m_cs.cairo(), destx, desty, width, height, sourcex,
+	copy(getBackgroundFullSurface(), m_cs, destx, desty, width, height, sourcex,
 			sourcey);
 }
 
@@ -51,7 +51,7 @@ void FrameItemArea::changeShowOption() {
 }
 
 CSize FrameItemArea::getTextExtents(TextWithAttributes text) {
-	return getTextExtents(text,m_cs.cairo());
+	return getTextExtents(text,m_cs);
 }
 
 CSize FrameItemArea::getTextExtents(TextWithAttributes text, cairo_t *cr) {
@@ -63,7 +63,7 @@ CSize FrameItemArea::getTextExtents(TextWithAttributes text, cairo_t *cr) {
 }
 
 cairo_surface_t* FrameItemArea::getDeckSurface() const {
-	return getProblemSelector().m_deck.surface();
+	return getProblemSelector().m_deck;
 }
 
 CRect FrameItemArea::getInsideRect(const CRect& r, CARD_INDEX index) {

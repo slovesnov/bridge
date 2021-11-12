@@ -325,7 +325,7 @@ public:
 	void showEstimation(cairo_t * cr, int index, int x, int y);
 	inline void showEstimation(int index) {
 		if (index != m_currentId) {
-			showEstimation(m_cs.cairo(), index, m_cardrect[index].left,
+			showEstimation(m_cs, index, m_cardrect[index].left,
 					m_cardrect[index].top);
 		}
 	}

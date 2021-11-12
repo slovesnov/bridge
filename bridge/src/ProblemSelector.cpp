@@ -141,7 +141,7 @@ ProblemSelector::~ProblemSelector() {
 		/* Note m_svgDeckPixbuf can have invalid data, because user can select deck make some
 		 * manipulations and press cancel
 		 */
-		GdkPixbuf *p = gdk_pixbuf_get_from_surface(m_deck.surface(), 0, 0, c.cx, c.cy);
+		GdkPixbuf *p = gdk_pixbuf_get_from_surface(m_deck, 0, 0, c.cx, c.cy);
 		gdk_pixbuf_save(p, getWritableFilePath(STORE_DECK_TO_PNG_FILE_NAME).c_str(), "png", NULL, NULL);
 		free(p);
 	}
@@ -601,7 +601,7 @@ void ProblemSelector::setSkin() {
 	context = gtk_style_context_new();
 	gtk_style_context_set_path(context, path);
 	CSize a=getMaxSize();
-	gtk_render_background(context, m_backgroundFull.cairo(), 0, 0, a.cx,
+	gtk_render_background(context, m_backgroundFull, 0, 0, a.cx,
 			a.cy);
 }
 
@@ -686,7 +686,7 @@ void ProblemSelector::setDeck() {
 		if(start){
 			m_svgDeckPixbuf=writablePixbuf(STORE_DECK_TO_PNG_FILE_NAME);
 		}
-		copyFromPixbuf(m_svgDeckPixbuf, m_deck.cairo(),CRect(CPoint(0,0),c));
+		copyFromPixbuf(m_svgDeckPixbuf, m_deck,CRect(CPoint(0,0),c));
 	}
 	else{
 		m_deck.create(getImagePath(getDeckFileName()));
@@ -701,7 +701,7 @@ void ProblemSelector::setBestLineSize(){
 	//use m_backgroundFullCairo because m_cr isn't created on constructor
 	//to create it we need LastTrick size which use m_bestLineHeight
 	TextWithAttributes text("10");//getTextExtents using layout so height is ok
-	m_bestLineSize=getTextExtents(text,m_backgroundFull.cairo());
+	m_bestLineSize=getTextExtents(text,m_backgroundFull);
 	//getFontHeight() suit image size
 	m_bestLineSize.cx=std::max(4*(m_bestLineSize.cx+getFontHeight()),MIN_GRID_SIZE_WIDTH);
 }

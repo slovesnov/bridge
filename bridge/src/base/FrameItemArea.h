@@ -30,7 +30,7 @@ public:
 	virtual void changeShowOption();
 
 	virtual void copySurface(cairo_t* cr) {
-		cairo_set_source_surface(cr, m_cs.surface(), 0, 0);
+		cairo_set_source_surface(cr, m_cs, 0, 0);
 		cairo_paint(cr);
 	}
 
@@ -88,7 +88,7 @@ protected:
 
 	void drawText(TextWithAttributes text, CRect r, bool centerx,
 			bool centery) {
-		drawTextToCairo(m_cs.cairo(), text, r, centerx, centery);
+		drawTextToCairo(m_cs, text, r, centerx, centery);
 	}
 
 	void drawText(TextWithAttributes text, int x, int y) {

@@ -100,17 +100,6 @@ Toolbar::Toolbar() :
 }
 
 Toolbar::~Toolbar() {
-	int i, j, k;
-	for (i = 0; i < SIZEI(m_pixbuf); i++) {
-		for (j = 0; j < SIZEI(*m_pixbuf); j++) {
-			for (k = 0; k < SIZEI(**m_pixbuf); k++) {
-				g_object_unref(m_pixbuf[i][j][k]);
-			}
-		}
-	}
-	for (i = 0; i < SIZEI(m_stopPixbuf); i++) {
-		g_object_unref(m_stopPixbuf[i]);
-	}
 	g_object_unref (m_tooltip);
 }
 

@@ -26,8 +26,8 @@ private:
 	bool m_needModify;
 	bool m_lock;
 	//cann't move to FrameItem or Widget need only one copy of pixbufs
-	GdkPixbuf *m_pixbuf[TOOLBAR_BUTTON_SIZE][2][2]; //[...][small][enable]
-	GdkPixbuf *m_stopPixbuf[2]; //[small] enable always true
+	Pixbuf m_pixbuf[TOOLBAR_BUTTON_SIZE][2][2]; //[...][small][enable]
+	Pixbuf m_stopPixbuf[2]; //[small] enable always true
 
 	void updateButton(TOOLBAR_BUTTON id);
 
