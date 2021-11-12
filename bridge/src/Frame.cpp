@@ -136,8 +136,7 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 	//menuClick(MENU_SOLVE_ALL_DEALS);
 #endif
 
-//	test();
-
+	//test();
 
 	gtk_main();
 }
@@ -1630,6 +1629,7 @@ void Frame::test() {
 	const gchar * filename;
 	ProblemVector pv;
 	std::string root="bridge/problems/bts";
+	std::string s;
 	int i=0;
 	di = g_dir_open(root.c_str(), 0, 0);
 	if(!di){
@@ -1638,7 +1638,9 @@ void Frame::test() {
 	}
 	while ((filename = g_dir_read_name(di))) {
 		pv.set(root+"/"+filename,true);
-		pv.m_problems.back().m_comment=filename;
+		s="problem "+getFileInfo(filename,FILEINFO::SHORT_NAME );
+		printl(s)
+		pv.m_problems.back().m_comment=s;
 		i++;
 	}
 

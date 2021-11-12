@@ -3,167 +3,167 @@ deal 1 AQ3.AKQJ.QJT987. 6542..65432.5432 .T9876.AK.AT9876 KJT987.5432..KQJ
 contract ?H
 play CK
 turns 1
-comment #1.bts
+comment problem #1
 
 deal 2 AK83.AK.A65432.K JT92.54.Q.765432 Q74.932.J87.QT98 65.QJT876.KT9.AJ
 contract ?NT
 play HQ
 turns 1
-comment #2.bts
+comment problem #2
 
 deal 3 A..AK98.QJT65432 7432.QJT.QJ.K987 KQJT65..765432.A 98.AK98765432.T.
 contract ?S
 play HA
 turns 1
-comment #3.bts
+comment problem #3
 
 deal 4 .A5432.Q3.AKQ432 T9876.Q9876.JT9. AK532.K.A82.8765 QJ4.JT.K7654.JT9
 contract ?NT
 play HJ
 turns 1
-comment 1.bts
+comment problem 1
 
 deal 5 A854.A76543.2.32 .KQJT98.JT987.A6 KT932.2.A6543.54 QJ76..KQ.KQJT987
 contract 2S
 play C7
 turns 1
-comment 102.bts
+comment problem 102
 
 deal 6 KJ5.AKQ3..J65 T76.JT98.3.KT A42.7654.5.A2 Q98.2.QJT98.8
 contract ?S
 play DQ
 turns 1
-comment 10cards.bts
+comment problem 10cards
 
 deal 7 J642.KQJT4..QT84 K9.A32.987654.K7 Q873..KQJT2.A653 AT5.98765.A3.J92
 contract ?S
 play H5
 turns 1
-comment 127.bts
+comment problem 127
 
 deal 8 A98.KT3.AKT8.762 K73.Q76.Q943.Q54 T62.A85.7.AKJT98 QJ54.J942.J652.3
 contract ?NT
 play W
 turns 0
-comment 159.bts
+comment problem 159
 
 deal 9 A98.KT3.AKT8.762 K73.Q76.Q943.Q54 T62.A85.7.AKJT98 QJ54.J942.J652.3
 contract ?NT
 play SQ
 turns 1
-comment 159_1.bts
+comment problem 159_1
 
 deal 10 654.T876.AK7.A76 AT.QJ95432.98.84 KQJ32.A.6543.QJ5 987.K.QJT2.KT932
 contract ?S
 play HK
 turns 1
-comment 164.bts
+comment problem 164
 
 deal 11 A3.A2.Q9654.A743 2.876543.J872.T9 T654.QJ9.AKT3.J2 KQJ987.KT..KQ865
 contract ?D
 play SK
 turns 1
-comment 173.bts
+comment problem 173
 
 deal 12 AJ32.94.AQ32.A96 87.765.J954.J832 654.AK83.876.K54 KQT9.QJT2.KT.QT7
 contract ?NT
 play SK
 turns 1
-comment 181.bts
+comment problem 181
 
 deal 13 AT65.Q2.AKT7.K76 KQ.KJ876.8654.Q9 J74.A9543.2.A432 9832.T.QJ93.JT85
 contract ?NT
 play CJ
 turns 1
-comment 192.bts
+comment problem 192
 
 deal 14 32.A43.AK72.J852 JT874.7.543.T943 AQ65.Q62.T98.AQ6 K9.KJT985.QJ6.K7
 contract ?NT
 play W
 turns 0
-comment 194.bts
+comment problem 194
 
 deal 15 KJ7.QT.AKQ92.JT9 A4.K98.T543.AQ65 Q832.A432..K7432 T965.J765.J876.8
 contract ?NT
 play ST
 turns 1
-comment 2.bts
+comment problem 2
 
 deal 16 QJ3.AQ6.AKJ94.T9 K9872.JT9..J8432 A654.87.T76.AK75 T.K5432.Q8532.Q6
 contract ?D
 play ST
 turns 1
-comment 203_d.bts
+comment problem 203_d
 
 deal 17 QJ3.AQ6.AKJ64.T9 K9872.JT9..J8432 A654.87.T97.AK75 T.K5432.Q8532.Q6
 contract ?NT
 play ST
 turns 1
-comment 203_nt.bts
+comment problem 203_nt
 
 deal 18 A32.AT75.AQ32.K4 J5.J9632..QT8765 Q874.KQ84.T54.32 KT96..KJ9876.AJ9
 contract ?H
 play W
 turns 0
-comment 211.bts
+comment problem 211
 
 deal 19 KT32.AQ32.654.A5 J87.T98.AQT9.Q96 A9.J7.KJ32.KT432 Q654.K654.87.J87
 contract ?NT
 play W
 turns 0
-comment 222.bts
+comment problem 222
 
 deal 20 AQ5432.KJT.A32.2 JT98.AQ98765.87. K..QJT9.AKJ98765 76.432.K654.QT43
 contract ?NT
 play S6
 turns 1
-comment 3.bts
+comment problem 3
 
 deal 21 .K654.A9432.AJ82 987.AQ9.8765.Q65 KQT64.T32..KT743 AJ532.J87.KQJT.9
 contract ?C
 play H7
 turns 1
-comment 32.bts
+comment problem 32
 
 deal 22 .K654.A9432.AJ82 987.AQ9.8765.Q65 KQT64.T32..KT743 AJ532.J87.KQJT.9
 contract ?C
 play W
 turns 0
-comment 32start.bts
+comment problem 32start
 
 deal 23 K93.K32.AKT.9872 87654.87654..KJ4 A2.A9.J95432.AQ6 QJT.QJT.Q876.T53
 contract ?D
 play H4
 turns 1
-comment 4.bts
+comment problem 4
 
 deal 24 KT98.QT64..A9543 J65.AK5.T843.QJT Q7432.32.AJ972.2 A.J987.KQ65.K876
 contract ?S
 play SA
 turns 1
-comment 5.bts
+comment problem 5
 
 deal 25 J3.K843.A.AKT752 42.J6.T9753.QJ98 AKQ86.A72.8642.3 T975.QT95.KQJ.64
 contract ?S
 play DK
 turns 1
-comment g46.bts
+comment problem g46
 
 deal 26 Q3.JT872.853.K64 AJT98765.943.J.2 K2.AKQ65.A74.A85 4..KQT962.QJT973
 contract ?H
 play DK
 turns 1
-comment g47.bts
+comment problem g47
 
 deal 27 J543.QJ82..QJ852 AK762.K9.AQ.AKT4 Q8.AT43.KJ8632.9 T9.765.T9754.763
 contract ?H
 play DT
 turns 1
-comment www.doubledummy.net-Problem0423.bts
+comment problem www.doubledummy.net-Problem0423
 
 deal 28 AK432.432.AQJ.A2 65.AJ97.K543.KQJ Q9.K65.T9876.543 JT87.QT8.2.T9876
 contract ?NT
 play W
 turns 0
-comment zia.bts
+comment problem zia
 
