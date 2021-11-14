@@ -1760,7 +1760,7 @@ void DrawingArea::updateProblem() {
 	}
 
 	DEAL_STATE st = getDealState(false);
-	enableEdit(st == DEAL_STATE_ERROR);
+	enableEdit(st == DEAL_STATE_ERROR,true);
 
 	redrawState();
 }

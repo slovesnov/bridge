@@ -60,7 +60,7 @@ public:
 	Frame(GtkApplication *application, const char* filepath);
 	virtual ~Frame();
 
-	void enableEdit(bool enable);
+	void enableEdit(bool enable,bool anyway=false);
 
 	void menuClick(MENU_ID id);
 

@@ -55,8 +55,6 @@ typedef void (*SET_ESTIMATION_FUNCTION)(int index, int value);
 #endif
 //======================== END MACROS =============================================================
 
-std::string secondsToString(double seconds);
-std::string secondsToString(clock_t end,clock_t begin);
 bool eastOrWest(CARD_INDEX i);
 bool east(CARD_INDEX i);
 bool west(CARD_INDEX i);

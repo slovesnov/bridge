@@ -15,10 +15,10 @@
 #include "SC.h"
 
 //BEGIN common macros for bridge and preferans
-#define MOVES_ONE_SUIT_OPTIONS 6
-#define MOVES_MANY_SUITS_OPTIONS_NT 10
+const int MOVES_ONE_SUIT_OPTIONS=6;
+const int  MOVES_MANY_SUITS_OPTIONS_NT=10;
 //TODO
-#define MOVES_MANY_SUITS_OPTIONS 10
+const int MOVES_MANY_SUITS_OPTIONS=10;
 
 //MOVES_INIT macros are different for Bridge and Preferans games and defined in Bridge.cpp & Preferans.cpp
 

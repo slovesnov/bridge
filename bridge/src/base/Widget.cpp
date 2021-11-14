@@ -110,8 +110,8 @@ bool Widget::isEditEnable() const {
 	return getToolbar().isEditEnable();
 }
 
-void Widget::enableEdit(bool enable) {
-	gframe->enableEdit(enable);
+void Widget::enableEdit(bool enable,bool anyway/*=false*/) {
+	gframe->enableEdit(enable,anyway);
 }
 
 bool Widget::isUndoEnable() const {

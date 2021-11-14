@@ -144,13 +144,13 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 Frame::~Frame() {
 }
 
-void Frame::enableEdit(bool enable) {
+void Frame::enableEdit(bool enable,bool anyway/*=false*/) {
 	/* 1nov2021
 	 * add check enable==isEditEnable()
 	 * because this function call many times
 	 * updateEdit() calls initResizeRedraw() fro drawing area
 	 */
-	if(enable==isEditEnable()){
+	if(!anyway && enable==isEditEnable()){
 		return;
 	}
 	m_toolbar.changeEnableEdit(enable); //set combo disabled. It's indicator

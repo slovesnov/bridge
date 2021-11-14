@@ -89,7 +89,7 @@ protected:
 	bool isModified() const;
 
 	bool isEditEnable() const;
-	void enableEdit(bool enable);
+	void enableEdit(bool enable,bool anyway=false);
 
 	bool isUndoEnable() const;
 	bool isRedoEnable() const;

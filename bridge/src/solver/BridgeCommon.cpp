@@ -10,25 +10,6 @@
 
 #include "BridgeCommon.h"
 
-std::string secondsToString(double seconds){
-	int h,m,s,t=int(seconds);
-	h = t/3600;
-	t = t%3600;
-	m = t/60;
-	t = t%60;
-	s = t;
-	if(h>0){
-		return format("%d:%02d:%02d",h,m,s);
-	}
-	else{
-		return format("%d:%02d",m,s);
-	}
-}
-
-std::string secondsToString(clock_t end,clock_t begin){
-	return secondsToString(double(end - begin) / CLOCKS_PER_SEC);
-}
-
 bool eastOrWest(CARD_INDEX i) {
 	return i == CARD_INDEX_EAST || i == CARD_INDEX_WEST;
 }
