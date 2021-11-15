@@ -19,7 +19,7 @@ static gboolean label_clicked(GtkWidget *label, const gchar *uri,
 
 AboutDialog::AboutDialog() :
 		BaseDialog(MENU_ABOUT) {
-	int i, j, w, h, from, to;
+	int i, j, k, w, h, from, to;
 	GtkWidget *box, *hbox, *label;
 	bool link;
 	VString v;
@@ -67,9 +67,20 @@ AboutDialog::AboutDialog() :
 
 		//move heart symbol up
 		j = i == 0 ? 7 * scale : 0;
-		gdk_pixbuf_copy_area(pb, from, j, to - from, he / 2 - j, np,
-				(i == 2 || i == 3 ? 3 : 1) * he / 4 + from - st[i],
+		w = to - from;
+		if(i==0){
+//			k=(i == 2 || i == 3 ? 3 : 1) * he / 4 + from - st[i];
+//			printl(k)
+
+			k=he/2-1-w;//old was k=(i == 2 || i == 3 ? 3 : 1) * he / 4 + from - st[i];
+//			printl(k)
+		}
+		else{
+			k=(i == 2 || i == 3 ? 3 : 1) * he / 4 + from - st[i];
+		}
+		gdk_pixbuf_copy_area(pb, from, j, w, he / 2 - j, np, k,
 				i == 1 || i == 2 ? he / 2 : 0);
+
 	}
 
 	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);

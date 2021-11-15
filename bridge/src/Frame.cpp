@@ -136,7 +136,7 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 	//menuClick(MENU_SOLVE_ALL_DEALS);
 #endif
 
-	//test();
+	test();
 
 	gtk_main();
 }
@@ -1625,6 +1625,54 @@ void Frame::addRemoveWidget(bool add, GtkWidget *container, GtkWidget *child) {
 }
 
 void Frame::test() {
+	int i,j,from,to;
+	Pixbuf pb,np;
+	const int height=48;
+	//hearts clubs ? ?
+	int st[] = { 68, 236, 414, 597 };
+	//count "he" after m_labels
+	int he = height*2;
+	if (he % 2 == 1) {
+		he--; //should be even otherwise warning and bad drawing
+	}
+
+	auto s = getImagePath("suits.svg");
+	auto size=Pixbuf(s).size();
+
+	int w=size.cx;
+	int h=size.cy;
+
+	const double scale = double(he) / h / 2;
+
+	const int wi = w * he / h / 4; //width of np
+	pb = gdk_pixbuf_new_from_file_at_size(s.c_str(), 2 * wi, he / 2, NULL);
+
+	//np.createRGB(he, he);
+	//gdk_pixbuf_fill(np, 0);
+
+	np.createRGB(height, height);
+	gdk_pixbuf_fill(np, 0);
+
+
+	for (i = 0; i < 4; i++) {
+		st[i] *= scale;
+		from = i == 0 ? 0 : st[i] - he / 4;
+		to = i == 3 ? 2 * wi : st[i] + he / 4;
+
+		//move heart symbol up
+		j = i == 0 ? 7 * scale : 0;
+//		gdk_pixbuf_copy_area(pb, from, j, to - from, he / 2 - j, np,
+//				(i == 2 || i == 3 ? 3 : 1) * he / 4 + from - st[i],
+//				i == 1 || i == 2 ? he / 2 : 0);
+		w=to - from;
+		gdk_pixbuf_copy_area(pb, from, j, w, he / 2 - j, np,
+				i==0?height-1-w:0,0);
+		const int a[]={1,3,2,0};
+		s=format("suit%d.png",a[i]);
+		np.savePng(s);
+	}
+	//gdk_pixbuf_save(np, "suits.png", "png", NULL, NULL);
+/*
 	GDir*di;
 	const gchar * filename;
 	ProblemVector pv;
@@ -1646,4 +1694,5 @@ void Frame::test() {
 
 	printl(i,pv.size())
 	pv.save("old.bts", false);
+*/
 }
