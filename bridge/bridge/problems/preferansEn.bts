@@ -32,7 +32,7 @@ absent S
 comment Galaktionov problem. West bids 6 of spades. Play for whist players to take six tricks.
 
 deal 5 T987.98.987.8 AK.AKQT.J.QJT QJ.J7.AKQT.97
-contract mizer
+contract misere
 play DA D9 DJ
 turns 0
 player N
@@ -40,7 +40,7 @@ absent S
 comment Misere of Kovalevskaya. North want to play misere. Break him plan!
 
 deal 6 8.T987.987.98 AT9.KQ.K.AQJT J7.AJ.AQJT.K7
-contract mizer
+contract misere
 play W
 turns 0
 player N
