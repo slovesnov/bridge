@@ -33,21 +33,20 @@ Toolbar::Toolbar() :
 
 	//[play, undoall, undo, redo, redoall][small][enable]
 	for (i = 0; i < SIZEI(m_pixbuf); i++) {
+		auto m=m_pixbuf[i];
 		if (i < SIZEI(TOOLBAR_IMAGE)) {
-			m_pixbuf[i][0][1] = pixbuf(TOOLBAR_IMAGE[i]);
+			m[0][1] = pixbuf(TOOLBAR_IMAGE[i]);
 		}
 		else {
-			m_pixbuf[i][0][1] = gdk_pixbuf_flip(m_pixbuf[SIZEI(m_pixbuf) - i][0][1],
+			m[0][1] = gdk_pixbuf_flip(m_pixbuf[SIZEI(m_pixbuf) - i][0][1],
 					true);
 		}
-		m_pixbuf[i][1][1] = gdk_pixbuf_scale_simple(m_pixbuf[i][0][1], 16, 16,
+		m[1][1] = gdk_pixbuf_scale_simple(m[0][1], 16, 16,
 				GDK_INTERP_BILINEAR);
 
 		for (j = 0; j < 2; j++) {
-			m_pixbuf[i][j][0] = gdk_pixbuf_copy(m_pixbuf[i][j][1]);
-			//desaturate image
-			gdk_pixbuf_saturate_and_pixelate(m_pixbuf[i][j][1], m_pixbuf[i][j][0],
-					.3f, false);
+			auto n=m[j];
+			n[0]=n[1].saturate(.3);
 		}
 	}
 

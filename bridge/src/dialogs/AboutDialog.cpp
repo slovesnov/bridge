@@ -19,73 +19,36 @@ static gboolean label_clicked(GtkWidget *label, const gchar *uri,
 
 AboutDialog::AboutDialog() :
 		BaseDialog(MENU_ABOUT) {
-	int i, j, k, w, h, from, to;
-	GtkWidget *box, *hbox, *label;
+	int i;
+	GtkWidget *box, *hbox, *label, *g;
 	bool link;
 	VString v;
-	Pixbuf pb,np;
+	Pixbuf pb, np;
 	std::string s;
 	const CSize LMARGIN(5, 0);
+	const int spacing=5;
 
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	v = split(getString(STRING_ABOUT), "\n");
-
 	v.push_back(getBuildVersionString(false));
-
 	v.push_back("executable file size " + toString(getApplicationFileSize(),','));
-	m_labels = v.size();
-	m_label = new GtkWidget*[m_labels];
 
-	//BEGIN scale suits.svg to fit dialog
-	int st[] = { 68, 236, 414, 597 };
-	//count "he" after m_labels
-	int he = (getArea().getTextExtents(
+	i = (getArea().getTextExtents(
 			TextWithAttributes::createUnderlinedText("Qy")).cy + 2 * LMARGIN.cy)
-			* m_labels;
-	if (he % 2 == 1) {
-		he--; //should be even otherwise warning and bad drawing
+			* v.size();
+	if(i%2==1){
+		i++;
 	}
+	createSvgSuits(i/2);
 
-	s = getImagePath("suits.svg");
-	auto size=Pixbuf(s).size();
-
-	w=size.cx;
-	h=size.cy;
-
-	const double scale = double(he) / h / 2;
-
-	const int wi = w * he / h / 4; //width of np
-	pb = gdk_pixbuf_new_from_file_at_size(s.c_str(), 2 * wi, he / 2, NULL);
-
-	np.createRGB(he, he);
-	gdk_pixbuf_fill(np, 0);
-
+	const int T[]={1,0,3,2};
+	g = gtk_grid_new();
+	gtk_grid_set_row_spacing(GTK_GRID(g), spacing);
+	gtk_grid_set_row_spacing(GTK_GRID(g), spacing);
 	for (i = 0; i < 4; i++) {
-		st[i] *= scale;
-		from = i == 0 ? 0 : st[i] - he / 4;
-		to = i == 3 ? 2 * wi : st[i] + he / 4;
-
-		//move heart symbol up
-		j = i == 0 ? 7 * scale : 0;
-		w = to - from;
-		if(i==0){
-//			k=(i == 2 || i == 3 ? 3 : 1) * he / 4 + from - st[i];
-//			printl(k)
-
-			k=he/2-1-w;//old was k=(i == 2 || i == 3 ? 3 : 1) * he / 4 + from - st[i];
-//			printl(k)
-		}
-		else{
-			k=(i == 2 || i == 3 ? 3 : 1) * he / 4 + from - st[i];
-		}
-		gdk_pixbuf_copy_area(pb, from, j, w, he / 2 - j, np, k,
-				i == 1 || i == 2 ? he / 2 : 0);
-
+		gtk_grid_attach(GTK_GRID(g), gtk_image_new_from_pixbuf(m_suits[i]),
+				T[i] % 2, T[i] / 2, 1, 1);
 	}
-
-	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-	gtk_container_add(GTK_CONTAINER(hbox), gtk_image_new_from_pixbuf(np));
-	//END scale suits.svg to fit dialog
 
 	char *markup;
 	i=0;
@@ -94,7 +57,8 @@ AboutDialog::AboutDialog() :
 		//Note mailto:... works incorrect. Background window with error appears.
 		const char *format = link ? "<a href=\"#\">\%s</a>" : "%s";
 
-		label = m_label[i] = gtk_label_new("");
+		label = gtk_label_new("");
+		m_label.push_back(label);
 		markup = g_markup_printf_escaped(format, a.c_str());
 		gtk_label_set_markup(GTK_LABEL(label), markup);
 		g_free(markup);
@@ -115,26 +79,41 @@ AboutDialog::AboutDialog() :
 
 		i++;
 	}
+
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, spacing);
+	gtk_container_add(GTK_CONTAINER(hbox), g);
 	gtk_container_add(GTK_CONTAINER(hbox), box);
 	gtk_container_add(GTK_CONTAINER(getContentArea()), hbox);
 
 	show();
 }
 
-AboutDialog::~AboutDialog() {
-	delete[] m_label;
+void AboutDialog::click(GtkWidget* label) {
+	openURL(BASE_ADDRESS);
 }
 
-void AboutDialog::click(GtkWidget* label) {
-	//cann't use indexof
-	int i;
-	for (i = 0; i < m_labels; i++) {
-		if (m_label[i] == label) {
-			if (i == 5) {
-				openURL(BASE_ADDRESS);
-			}
-			return;
+void AboutDialog::createSvgSuits(int size) {
+	int i, j, sx, dx, w, h;
+	const int st[] = { 597, 68, 414, 236 };
+	Pixbuf im;
 
+	Pixbuf pb(getImagePath("suits.svg"));
+	h = pb.height();
+	if (h % 2) {
+		h--;
+	}
+
+	im.createRGB(h, h);
+	for (i = 0; i < 4; i++) {
+		j = st[i] - h / 2;
+		sx = std::max(j, 0);
+		dx = j >= 0 ? 0 : -j;
+		w = std::min(h, pb.width() - sx) - dx;
+		if (w != h) { //not fully copied, fill transparent color
+			gdk_pixbuf_fill(im, 0);
 		}
+		gdk_pixbuf_copy_area(pb, sx, 0, w, h, im, dx, 0);
+		m_suits[i] = gdk_pixbuf_scale_simple(im, size, size,
+				GDK_INTERP_BILINEAR);
 	}
 }

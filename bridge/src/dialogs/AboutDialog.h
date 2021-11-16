@@ -14,12 +14,12 @@
 #include "BaseDialog.h"
 
 class AboutDialog: BaseDialog {
-	GtkWidget** m_label;
-	int m_labels;
+	VGtkWidgetPtr m_label;
+	Pixbuf m_suits[4];
 public:
 	AboutDialog();
-	virtual ~AboutDialog();
 	void click(GtkWidget* label);
+	void createSvgSuits(int size);
 };
 
 #endif /* ABOUTDIALOG_H_ */
