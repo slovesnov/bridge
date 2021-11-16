@@ -35,9 +35,9 @@ AboutDialog::AboutDialog() :
 
 	i = (getArea().getTextExtents(
 			TextWithAttributes::createUnderlinedText("Qy")).cy + 2 * LMARGIN.cy)
-			* v.size();
+			* v.size()-spacing;
 	if(i%2==1){
-		i++;
+		i--;
 	}
 	createSvgSuits(i/2);
 
