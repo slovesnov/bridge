@@ -81,12 +81,6 @@ class Preferans: public BridgePreferansBase {
 	int m_andKey;
 	int m_hashSize;
 
-#ifdef TRUMP_INNNER0
-	static const int m_trump=0;
-#else
-	int m_trump;
-#endif
-
 	int m_cards, m_depth;
 	int32_t m_code[4];
 	static int32_t*m_r;

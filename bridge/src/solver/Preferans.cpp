@@ -466,13 +466,7 @@ void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 			if (misere) {
 				solvebMisere(o, m_trump, preferansPlayer[fi], player, preferansPlayer, false);
 			}
-			else if(
-#ifdef TRUMP_INNNER0
-			m_trumpOriginal==NT
-#else
-			m_trump==NT
-#endif
-					){
+			else if (m_trumpOriginal == NT) {
 				solvebNT(o, m_trump, preferansPlayer[fi], player, preferansPlayer, false);
 			}
 			else {

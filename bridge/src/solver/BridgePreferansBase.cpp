@@ -14,8 +14,7 @@
 gint BridgePreferansBase::m_stop;
 #endif
 
-bool BridgePreferansBase::compareTable[BridgePreferansBase::compareTableSize][781 * 1024 + 781];
-
+bool BridgePreferansBase::compareTable[2][781 * 1024 + 781];
 bool BridgePreferansBase::compareTableInited=false;
 
 void BridgePreferansBase::staticInit() {
@@ -29,18 +28,14 @@ void BridgePreferansBase::staticInit() {
 	compareTableInited=true;
 	//fill table of comparison
 	int s1, c1, s2, c2, t;
-	for (t = 0; t < compareTableSize; t++){
+	for (t = 0; t < 2; t++){
 		for (s1 = 0; s1 < 4; s1++){
 			for (s2 = 0; s2 < 4; ++s2){
 				for (c1 = 0; c1 < 13; c1++){
 					for (c2 = 0; c2 < 13; c2++) {
-
-#ifdef COMPARE_TABLE_2
 						compareTable[t][(((s1 << 8) | c1) << 10) | (s2 << 8)
-								| c2] = s1 == s2 ? c1 < c2 : s2 != (t==0?0:NT);
-#else
-	compareTable[t][(((s1 << 8) | c1) << 10) | (s2 << 8) | c2] = s1 == s2 ? c1 < c2 : s2 != t;
-#endif
+								| c2] =
+								s1 == s2 ? c1 < c2 : s2 != (t == 0 ? 0 : NT);
 					}
 				}
 			}
@@ -96,14 +91,11 @@ void BridgePreferansBase::adjustBestMove(const CARD_INDEX c[52],int& best,bool b
 		}
 	}
 
-#ifdef TRUMP_INNNER0
 	i=best%13;
 	j=swapTrumpIfNeeded(best/13);
 	best=j*13+i;
-#endif
 }
 
-#ifdef TRUMP_INNNER0
 int BridgePreferansBase::swapTrumpIfNeeded(const int i){
 	if(m_trumpOriginal!=NT && m_trumpOriginal!=0 && (i==0 || i==m_trumpOriginal)){
 		return i ? 0 : m_trumpOriginal;
@@ -112,6 +104,4 @@ int BridgePreferansBase::swapTrumpIfNeeded(const int i){
 		return i;
 	}
 }
-#endif
-
 

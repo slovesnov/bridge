@@ -91,12 +91,6 @@ class Bridge: public BridgePreferansBase {
 	static const int AND_KEY = HASH_SIZE - 1;
 	static_assert(HASH_BITS>=18);
 
-#ifdef TRUMP_INNNER0
-	static const int m_trump=0;
-#else
-	int m_trump;
-#endif
-
 	int m_cards, m_depth;
 	int m_code[4];
 	/* start four elements 0 1 2 3
