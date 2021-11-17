@@ -90,7 +90,6 @@ class Bridge: public BridgePreferansBase {
 	static const int HASH_SIZE = 1 << HASH_BITS;
 	static const int AND_KEY = HASH_SIZE - 1;
 	static_assert(HASH_BITS>=18);
-
 	int m_cards, m_depth;
 	int m_code[4];
 	/* start four elements 0 1 2 3
@@ -100,8 +99,6 @@ class Bridge: public BridgePreferansBase {
 	 * max size 7+36=43
 	 */
 	static int m_w[43];
-
-	bool* m_ct;
 
 	static const int MAX_MOVES =8;//1 byte for length+up to seven bytes for moves, need for MOVES_INIT macro (defined in Bridge.cpp) see bi.h
 	static int8_t **m_moves;

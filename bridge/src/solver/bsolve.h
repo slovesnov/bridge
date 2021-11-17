@@ -8,10 +8,18 @@
  *         Homepage: slovesnov.users.sourceforge.net
  */
 
-m_trumpOriginal=trump;
+#ifdef TRUMP_INNNER0
+	m_trumpOriginal=trump;
+#else
+	m_trump = trump;
+#endif
 
-//cann't use NT variable because has macro with same name
-m_ct=compareTable[trump==4];
+#ifdef COMPARE_TABLE_2
+	//cann't use NT variable because has macro with same name
+	m_ct=compareTable[trump==4];
+#else
+	m_ct=compareTable[m_trump];
+#endif
 
 int i, j, k, l, m, n, a,t;
 const CARD_INDEX* p;
@@ -35,7 +43,11 @@ n = 0;
 for (i = 0; i < 4; i++) {
 	m = 0;
 	k = 4;
+#ifdef TRUMP_INNNER0
 	p = c + swapTrumpIfNeeded(i) * 13;
+#else
+	p = c + i * 13;
+#endif
 	a = 0;
 	for (j = 0; j < 13; j++) {
 		l = *p++;
@@ -62,8 +74,12 @@ for (i = 0; i < 4; i++) {
 	m |= k;
 	m_code[i] = m;
 
-	//printCode(i);
-	//printf("%d,\n",m);
+//	printCode(i);
+//	printf("%d %d,\n",i,m);
+}
+
+for(USC*p:ps){
+	p->print();
 }
 
 

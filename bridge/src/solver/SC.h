@@ -15,10 +15,7 @@
 #include <cstring>
 #include <cassert>
 #include <vector>
-#ifndef FINAL_RELEASE
 #include <string>
-#include "BridgeCommon.h"
-#endif
 
 union USC {
 	struct {
@@ -40,16 +37,9 @@ union USC {
 		s=i/13;
 	}
 
-#ifndef FINAL_RELEASE
-	std::string toString()const{
-		std::string q;
-		q+=RANK[c];
-		return q+SUITS_CHAR[s];
-	}
+	std::string toString()const;
 
-	void print()const{
-		printl(toString());
-	}
+	void print()const;
 
 	bool operator==(USC const& o)const{
 		return sc==o.sc;
@@ -63,7 +53,6 @@ union USC {
 	bool operator<(USC const& o)const{
 		return toIndex()<o.toIndex();
 	}
-#endif
 
 };
 

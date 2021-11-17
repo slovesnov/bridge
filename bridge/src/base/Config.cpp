@@ -68,7 +68,7 @@ Config::Config() {
 
 #ifndef FINAL_RELEASE
 	//if no file do nothing, otherwise truncate
-	f = openApplicationLog("r");
+	FILE* f = openApplicationLog("r");
 	if (f) {
 		fclose(f);
 		//truncate log file, after g_chdir

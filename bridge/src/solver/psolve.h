@@ -10,10 +10,18 @@
 
 
 //Note. Inner representation player always=0
-m_trumpOriginal=trump;
+#ifdef TRUMP_INNNER0
+	m_trumpOriginal=trump;
+#else
+	m_trump = trump;
+#endif
 
-//cann't use NT variable because has macro with same name
-m_ct=compareTable[trump==4];
+#ifdef COMPARE_TABLE_2
+	//cann't use NT variable because has macro with same name
+	m_ct=compareTable[trump==4];
+#else
+	m_ct=compareTable[m_trump];
+#endif
 
 int a, i, j, k, l,m, n, pi[CARD_INDEX_WEST + 1], fi;
 CARD_INDEX first1;
@@ -38,7 +46,11 @@ n = 0;
 for (i = 0; i < 4; i++) {
 	m = 0;
 	k = 0;
+#ifdef TRUMP_INNNER0
 	p = c + swapTrumpIfNeeded(i) * 13;
+#else
+	p = c + i * 13;
+#endif
 	a = 0;
 	for (j = 0; j < 8; j++) {
 		l = *p++;

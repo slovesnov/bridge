@@ -15,7 +15,18 @@
 #include "BridgeCommon.h"
 #endif
 
-#ifndef FINAL_RELEASE
+std::string USC::toString()const{
+	if(c<0 || s<0 || c>12 || s>3){
+		return format("c=%d s=%d",c,s);
+	}
+	std::string q;
+	q+=RANK[c];
+	return q+SUITS_CHAR[s];
+}
+
+void USC::print()const{
+	printl(toString());
+}
 
 SC::SC(SC const& o,bool order){
 	copy(o);
@@ -93,6 +104,3 @@ bool SC::equalsOrder(SC const& o)const{
 	SC b(o,true);
 	return a==b;
 }
-
-
-#endif

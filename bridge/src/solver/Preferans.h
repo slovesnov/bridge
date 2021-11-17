@@ -80,7 +80,6 @@ class Preferans: public BridgePreferansBase {
 	static const int8_t HASH_INVALID = 3;
 	int m_andKey;
 	int m_hashSize;
-
 	int m_cards, m_depth;
 	int32_t m_code[4];
 	static int32_t*m_r;
@@ -92,8 +91,6 @@ class Preferans: public BridgePreferansBase {
 	 * max size 5+18=23
 	 */
 	static int m_w[23];
-
-	bool* m_ct;
 
 	/* int8_t*p=m_moves[m_code[suit]]+w*5;
 	 * p[0] = length

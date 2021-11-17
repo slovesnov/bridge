@@ -337,11 +337,12 @@ void Bridge::solve(const Problem& p, bool trumpChanged) {
 	p.getClearCid(cid);
 	CARD_INDEX first = p.getFirst();
 	gBase=0;
+	printi
 	if(p.m_trump==NT){
-		solveb(cid, p.m_trump, first, trumpChanged);
+		solvebNT(cid, p.m_trump, first, trumpChanged);
 	}
 	else{
-		solvebNT(cid, p.m_trump, first, trumpChanged);
+		solveb(cid, p.m_trump, first, trumpChanged);
 	}
 }
 
@@ -669,6 +670,7 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 	 * function works correct when table is full
 	 */
 	const bool fast=true;
+	printi
 
 	int i, j, k = 0, t, l, m = 0, fi;
 	CARD_INDEX o[52];
@@ -766,7 +768,13 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 				low = high - 2;
 			}
 
-			if (m_trumpOriginal == NT) {
+			if(
+#ifdef TRUMP_INNNER0
+			m_trumpOriginal==NT
+#else
+			m_trump==NT
+#endif
+					){
 				solvebNT(o, m_trump, CARD_INDEX(fi+1), 0,low,high	);
 			}
 			else{
