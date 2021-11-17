@@ -43,11 +43,7 @@ n = 0;
 for (i = 0; i < 4; i++) {
 	m = 0;
 	k = 4;
-#ifdef TRUMP_INNNER0
-	p = c + swapTrumpIfNeeded(i) * 13;
-#else
-	p = c + i * 13;
-#endif
+	p = c + adjustTrump(i) * 13;
 	a = 0;
 	for (j = 0; j < 13; j++) {
 		l = *p++;
@@ -77,11 +73,6 @@ for (i = 0; i < 4; i++) {
 //	printCode(i);
 //	printf("%d %d,\n",i,m);
 }
-
-for(USC*p:ps){
-	p->print();
-}
-
 
 //cards in each hand
 m_depth = m_cards = n / 4;
@@ -315,7 +306,10 @@ m_nodes=0;
 
 #ifdef STOREBEST
 	//Note m_best taken from code, only if m_depth!=1
-	if(m_depth!=1){
+	if(m_depth==1){
+		printl(m_best/13,m_best%13,m_best);
+	}
+	else{
 		adjustBestMove(c,m_best,true);
 	}
 #endif

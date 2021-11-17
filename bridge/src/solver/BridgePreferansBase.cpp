@@ -80,10 +80,8 @@ void BridgePreferansBase::addSuitableGroups(int suit, const CARD_INDEX*cid,
 #endif
 
 void BridgePreferansBase::adjustBestMove(const CARD_INDEX c[52],int& best,bool bridge){
-	printl(best%13,best/13,best)
-
 	int i = best % 13;
-	auto p = c + swapTrumpIfNeeded(best / 13) * 13;
+	auto p = c + adjustTrump(best / 13) * 13;
 	int a = 0;
 	int j;
 	for (j = 0; j < (bridge?13:8); j++, p++) {
@@ -98,25 +96,23 @@ void BridgePreferansBase::adjustBestMove(const CARD_INDEX c[52],int& best,bool b
 		}
 	}
 
-	printl(best%13,best/13,best)
-
 #ifdef TRUMP_INNNER0
 	i=best%13;
-	j=swapTrumpIfNeeded(best/13);
-	best=j*13+i;
-	printl(best%13,best/13,best)
+	best=adjustTrump(best/13)*13+i;
 #endif
 }
 
+int BridgePreferansBase::adjustTrump(const int i){
 #ifdef TRUMP_INNNER0
-int BridgePreferansBase::swapTrumpIfNeeded(const int i){
 	if(m_trumpOriginal!=NT && m_trumpOriginal!=0 && (i==0 || i==m_trumpOriginal)){
 		return i ? 0 : m_trumpOriginal;
 	}
 	else{
 		return i;
 	}
-}
+#else
+	return i;
 #endif
+}
 
 

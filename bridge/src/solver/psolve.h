@@ -46,11 +46,7 @@ n = 0;
 for (i = 0; i < 4; i++) {
 	m = 0;
 	k = 0;
-#ifdef TRUMP_INNNER0
-	p = c + swapTrumpIfNeeded(i) * 13;
-#else
-	p = c + i * 13;
-#endif
+	p = c + adjustTrump(i) * 13;
 	a = 0;
 	for (j = 0; j < 8; j++) {
 		l = *p++;

@@ -57,11 +57,11 @@ protected:
 
 #ifdef TRUMP_INNNER0
 	int m_trumpOriginal;
-	int swapTrumpIfNeeded(const int i);
 	static const int m_trump=0;
 #else
 	int m_trump;
 #endif
+	int adjustTrump(const int i);
 
 #ifndef CONSOLE
 	//add all cards in suit for player=next to vector v, each v[i] is a card sequence
