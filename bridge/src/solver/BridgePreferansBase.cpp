@@ -34,13 +34,8 @@ void BridgePreferansBase::staticInit() {
 			for (s2 = 0; s2 < 4; ++s2){
 				for (c1 = 0; c1 < 13; c1++){
 					for (c2 = 0; c2 < 13; c2++) {
-
-#ifdef COMPARE_TABLE_2
 						compareTable[t][(((s1 << 8) | c1) << 10) | (s2 << 8)
 								| c2] = s1 == s2 ? c1 < c2 : s2 != (t==0?0:NT);
-#else
-	compareTable[t][(((s1 << 8) | c1) << 10) | (s2 << 8) | c2] = s1 == s2 ? c1 < c2 : s2 != t;
-#endif
 					}
 				}
 			}
@@ -96,23 +91,17 @@ void BridgePreferansBase::adjustBestMove(const CARD_INDEX c[52],int& best,bool b
 		}
 	}
 
-#ifdef TRUMP_INNNER0
 	i=best%13;
 	best=adjustTrump(best/13)*13+i;
-#endif
 }
 
 int BridgePreferansBase::adjustTrump(const int i){
-#ifdef TRUMP_INNNER0
 	if(m_trumpOriginal!=NT && m_trumpOriginal!=0 && (i==0 || i==m_trumpOriginal)){
 		return i ? 0 : m_trumpOriginal;
 	}
 	else{
 		return i;
 	}
-#else
-	return i;
-#endif
 }
 
 

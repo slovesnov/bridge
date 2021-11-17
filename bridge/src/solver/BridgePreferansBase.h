@@ -38,9 +38,6 @@ const int MOVES_MANY_SUITS_OPTIONS=10;
 //#define MOVES_HIGH_LOW_OTHERS_I(suit,w,c,p,q) MOVES_INIT(suit,w,p,q)MOVES_HIGH_LOW_OTHERS(suit,w,c,p,q)
 //END common macros for bridge and preferans
 
-#define TRUMP_INNNER0
-#define COMPARE_TABLE_2
-
 class BridgePreferansBase {
 protected:
 	static void staticInit();
@@ -48,19 +45,12 @@ protected:
 	static bool compareTableInited;
 	bool* m_ct;
 
-#ifdef COMPARE_TABLE_2
 	static const int compareTableSize=2;
-#else
-	static const int compareTableSize=5;
-#endif
 	static bool compareTable[compareTableSize][781 * 1024 + 781];
 
-#ifdef TRUMP_INNNER0
 	int m_trumpOriginal;
 	static const int m_trump=0;
-#else
-	int m_trump;
-#endif
+
 	int adjustTrump(const int i);
 
 #ifndef CONSOLE

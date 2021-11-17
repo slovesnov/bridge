@@ -86,7 +86,6 @@ struct SC {
 		memcpy(a,o.a,length*sizeof(int16_t));
 	}
 
-#ifndef FINAL_RELEASE
 	SC(SC const& o,bool order);
 
 	void print(const char*p=nullptr)const;
@@ -103,8 +102,6 @@ struct SC {
 
 	//return true if sequences are equal but can have different moves order
 	bool equalsOrder(SC const& o)const;
-
-#endif
 
 };
 

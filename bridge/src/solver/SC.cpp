@@ -12,8 +12,8 @@
 
 #ifndef FINAL_RELEASE
 #include <algorithm>
-#include "BridgeCommon.h"
 #endif
+#include "BridgeCommon.h"
 
 std::string USC::toString()const{
 	if(c<0 || s<0 || c>12 || s>3){

@@ -8,18 +8,10 @@
  *         Homepage: slovesnov.users.sourceforge.net
  */
 
-#ifdef TRUMP_INNNER0
-	m_trumpOriginal=trump;
-#else
-	m_trump = trump;
-#endif
+m_trumpOriginal=trump;
 
-#ifdef COMPARE_TABLE_2
-	//cann't use NT variable because has macro with same name
-	m_ct=compareTable[trump==4];
-#else
-	m_ct=compareTable[m_trump];
-#endif
+//cann't use NT variable because has macro with same name
+m_ct=compareTable[trump==4];
 
 int i, j, k, l, m, n, a,t;
 const CARD_INDEX* p;

@@ -769,13 +769,7 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 				low = high - 2;
 			}
 
-			if(
-#ifdef TRUMP_INNNER0
-			m_trumpOriginal==NT
-#else
-			m_trump==NT
-#endif
-					){
+			if (m_trumpOriginal == NT) {
 				solvebNT(o, m_trump, CARD_INDEX(fi+1), 0,low,high	);
 			}
 			else{
