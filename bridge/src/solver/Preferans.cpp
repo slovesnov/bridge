@@ -460,12 +460,19 @@ void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 		}
 	}
 
+
 	for (j = 0; j < (m + k) / 3; j++) {
 		for (i = (j==0 ? k: 0); i < 3; i++) {
 			if (misere) {
 				solvebMisere(o, m_trump, preferansPlayer[fi], player, preferansPlayer, false);
 			}
-			else if(m_trump==NT){
+			else if(
+#ifdef TRUMP_INNNER0
+			m_trumpOriginal==NT
+#else
+			m_trump==NT
+#endif
+					){
 				solvebNT(o, m_trump, preferansPlayer[fi], player, preferansPlayer, false);
 			}
 			else {

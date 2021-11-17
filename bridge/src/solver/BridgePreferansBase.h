@@ -38,13 +38,26 @@ const int MOVES_MANY_SUITS_OPTIONS=10;
 //#define MOVES_HIGH_LOW_OTHERS_I(suit,w,c,p,q) MOVES_INIT(suit,w,p,q)MOVES_HIGH_LOW_OTHERS(suit,w,c,p,q)
 //END common macros for bridge and preferans
 
+//#define TRUMP_INNNER0
+//#define COMPARE_TABLE_2
 
 class BridgePreferansBase {
 protected:
 	static void staticInit();
 
 	static bool compareTableInited;
-	static bool compareTable[5][781 * 1024 + 781];
+
+#ifdef COMPARE_TABLE_2
+	static const int compareTableSize=2;
+#else
+	static const int compareTableSize=5;
+#endif
+	static bool compareTable[compareTableSize][781 * 1024 + 781];
+
+#ifdef TRUMP_INNNER0
+	int m_trumpOriginal;
+	int swapTrumpIfNeeded(const int i);
+#endif
 
 #ifndef CONSOLE
 	//add all cards in suit for player=next to vector v, each v[i] is a card sequence
@@ -53,7 +66,7 @@ protected:
 
 #endif
 
-	static void adjustBestMove(const CARD_INDEX c[52], int& best, bool bridge);
+	void adjustBestMove(const CARD_INDEX c[52], int& best, bool bridge);
 public:
 #ifndef CONSOLE
 	static gint m_stop;
