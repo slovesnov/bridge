@@ -29,7 +29,7 @@ void BridgePreferansBase::staticInit() {
 	compareTableInited=true;
 	//fill table of comparison
 	int s1, c1, s2, c2, t;
-	for (t = 0; t < BridgePreferansBase::compareTableSize; t++){
+	for (t = 0; t < compareTableSize; t++){
 		for (s1 = 0; s1 < 4; s1++){
 			for (s2 = 0; s2 < 4; ++s2){
 				for (c1 = 0; c1 < 13; c1++){
