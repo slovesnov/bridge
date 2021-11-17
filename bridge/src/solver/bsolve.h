@@ -8,76 +8,90 @@
  *         Homepage: slovesnov.users.sourceforge.net
  */
 
-	int i, j, k, l, m, n, a,t;
-	const CARD_INDEX* p;
-	USC sc0,sc1,sc2,sc3;
-	SC c1, c2, c3;
-	const int fi=first-1;
-	int y[4];
-
-	clock_t begin=clock();
-
-	USC* ps[]={&sc0,&sc1,&sc2,&sc3};
-	for(USC*p:ps){
-		p->set(-1,-1);
-	}
-
-	m_ct=compareTable[trump];
-
-	for(i=0;i<4;i++){
-		y[i] =(first-1+i) % 4 + 1;
-	}
-
+#ifdef TRUMP_INNNER0
+	m_trumpOriginal=trump;
+#else
 	m_trump = trump;
-	n = 0;
-	for (i = 0; i < 4; i++) {
-		m = 0;
-		k = 4;
-		p = c + i * 13;
-		a = 0;
-		for (j = 0; j < 13; j++) {
-			l = *p++;
+#endif
 
-			if (l == CARD_INDEX_ABSENT) {
-				a++;
-			}
-			else {
-				for (t = 0; t < 3; t++) {
-					if (l == y[t] + 4) {
-						l -= 4;
-						ps[t]->set(j - a, i);
-					}
+#ifdef COMPARE_TABLE_2
+	//cann't use NT variable because has macro with same name
+	m_ct=compareTable[trump==4];
+#else
+	m_ct=compareTable[m_trump];
+#endif
+
+int i, j, k, l, m, n, a,t;
+const CARD_INDEX* p;
+USC sc0,sc1,sc2,sc3;
+SC c1, c2, c3;
+const int fi=first-1;
+int y[4];
+
+clock_t begin=clock();
+
+USC* ps[]={&sc0,&sc1,&sc2,&sc3};
+for(USC*p:ps){
+	p->set(-1,-1);
+}
+
+for(i=0;i<4;i++){
+	y[i] =(first-1+i) % 4 + 1;
+}
+
+n = 0;
+for (i = 0; i < 4; i++) {
+	m = 0;
+	k = 4;
+#ifdef TRUMP_INNNER0
+	p = c + swapTrumpIfNeeded(i) * 13;
+#else
+	p = c + i * 13;
+#endif
+	a = 0;
+	for (j = 0; j < 13; j++) {
+		l = *p++;
+
+		if (l == CARD_INDEX_ABSENT) {
+			a++;
+		}
+		else {
+			for (t = 0; t < 3; t++) {
+				if (l == y[t] + 4) {
+					l -= 4;
+					ps[t]->set(j - a, i);
 				}
-				assert(l>0);
-				assert(l-1<4);
-				m |= (l-1) << k;
-				k += 2;
 			}
-		}
-		k-=4;
-		k/=2;
-		n += k;
-		m |= k;
-		m_code[i] = m;
-
-		//printCode(i);
-		//printf("%d,\n",m);
-	}
-
-
-	//cards in each hand
-	m_depth = m_cards = n / 4;
-
-	if (trumpChanged) {
-		Hash* t = m_hashTable;
-		Hash* e = m_hashTable + HASH_SIZE;
-		for (t = m_hashTable; t != e; t++) {
-			t->next=0;
-			for(auto&a:t->i){
-				a.f = HASH_INVALID;
-			}
+			assert(l>0);
+			assert(l-1<4);
+			m |= (l-1) << k;
+			k += 2;
 		}
 	}
+	k-=4;
+	k/=2;
+	n += k;
+	m |= k;
+	m_code[i] = m;
+
+	//printCode(i);
+	//printf("%d,\n",m);
+}
+
+
+//cards in each hand
+m_depth = m_cards = n / 4;
+
+if (trumpChanged) {
+	Hash* t = m_hashTable;
+	Hash* e = m_hashTable + HASH_SIZE;
+	for (t = m_hashTable; t != e; t++) {
+		t->next=0;
+		for(auto&a:t->i){
+			a.f = HASH_INVALID;
+		}
+	}
+}
 
 #ifdef BRIDGE_NODE_COUNT
 m_nodes=0;

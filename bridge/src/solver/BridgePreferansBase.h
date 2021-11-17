@@ -38,8 +38,8 @@ const int MOVES_MANY_SUITS_OPTIONS=10;
 //#define MOVES_HIGH_LOW_OTHERS_I(suit,w,c,p,q) MOVES_INIT(suit,w,p,q)MOVES_HIGH_LOW_OTHERS(suit,w,c,p,q)
 //END common macros for bridge and preferans
 
-//#define TRUMP_INNNER0
-//#define COMPARE_TABLE_2
+#define TRUMP_INNNER0
+#define COMPARE_TABLE_2
 
 class BridgePreferansBase {
 protected:

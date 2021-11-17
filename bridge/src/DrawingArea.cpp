@@ -2209,6 +2209,7 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 	clock_t t, lastUpdate = clock();
 	bool ur;
 	auto updateResults=[&] () {gdk_threads_add_idle(solve_all_deals_update_result, gpointer(m_solveAllDealsDialog->m_id));};
+	preventThreadSleep();
 
 	while ((v = m_solveAllNumber++) < MAXV) {
 		for (i = 0; i < sz; i++) {

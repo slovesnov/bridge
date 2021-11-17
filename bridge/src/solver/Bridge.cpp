@@ -766,14 +766,20 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 				low = high - 2;
 			}
 
-			if(m_trump==NT){
+			if(
+#ifdef TRUMP_INNNER0
+			m_trumpOriginal==NT
+#else
+			m_trump==NT
+#endif
+					){
 				solvebNT(o, m_trump, CARD_INDEX(fi+1), 0,low,high	);
 			}
 			else{
 				solveb(o, m_trump, CARD_INDEX(fi+1), 0,low,high	);
 			}
 
-			m_bestLine.push_back( m_best);
+			m_bestLine.push_back(m_best);
 			o[m_best] = CARD_INDEX(o[m_best] + 4);
 			ps[i]->fromIndex(m_best);
 
