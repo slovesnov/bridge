@@ -307,7 +307,7 @@ m_nodes=0;
 #ifdef STOREBEST
 	//Note m_best taken from code, only if m_depth!=1
 	if(m_depth==1){
-		printl(m_best/13,m_best%13,m_best);
+//		printl(m_best/13,m_best%13,m_best);
 	}
 	else{
 		adjustBestMove(c,m_best,true);
