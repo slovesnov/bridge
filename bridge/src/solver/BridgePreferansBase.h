@@ -45,8 +45,7 @@ protected:
 	static bool compareTableInited;
 	bool* m_ct;
 
-	static const int compareTableSize=2;
-	static bool compareTable[compareTableSize][781 * 1024 + 781];
+	static bool compareTable[2][781 * 1024 + 781];
 
 	int m_trumpOriginal;
 	static const int m_trump=0;
