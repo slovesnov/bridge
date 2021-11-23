@@ -770,10 +770,10 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 			}
 
 			if (m_trumpOriginal == NT) {
-				solvebNT(o, m_trump, CARD_INDEX(fi+1), 0,low,high	);
+				solvebNT(o, m_trumpOriginal, CARD_INDEX(fi+1), 0,low,high	);
 			}
 			else{
-				solveb(o, m_trump, CARD_INDEX(fi+1), 0,low,high	);
+				solveb(o, m_trumpOriginal, CARD_INDEX(fi+1), 0,low,high	);
 			}
 
 			m_bestLine.push_back(m_best);

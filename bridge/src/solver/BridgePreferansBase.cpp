@@ -92,8 +92,7 @@ void BridgePreferansBase::adjustBestMove(const CARD_INDEX c[52],int& best,bool b
 		}
 	}
 
-	i=best%13;
-	best=adjustTrump(best/13)*13+i;
+	adjustCardReference(best);
 }
 
 int BridgePreferansBase::adjustTrump(const int i){
@@ -105,4 +104,10 @@ int BridgePreferansBase::adjustTrump(const int i){
 	}
 }
 
+int BridgePreferansBase::adjustCard(const int i){
+	return i%13+adjustTrump(i/13)*13;
+}
 
+void BridgePreferansBase::adjustCardReference(int& i){
+	i=adjustCard(i);
+}

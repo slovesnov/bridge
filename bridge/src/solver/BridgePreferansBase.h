@@ -51,7 +51,8 @@ protected:
 	static const int m_trump=0;
 
 	int adjustTrump(const int i);
-
+	int adjustCard(const int i);
+	void adjustCardReference(int& i);
 #ifndef CONSOLE
 	//add all cards in suit for player=next to vector v, each v[i] is a card sequence
 	void static addSuitableGroups(int suit, const CARD_INDEX*cid,

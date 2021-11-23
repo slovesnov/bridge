@@ -424,19 +424,21 @@ void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 			for(i=0;i<2;i++){
 				f<<LEADER[sa[0].p[i]-CARD_INDEX_NORTH]<<csvSeparator();
 			}
-			f<<"player tricks"<<"\n";
+			if(isBridge()){
+				j=!isDeclarerNorthOrSouth();
+				f<<LEADER[j]<<"/"<<LEADER[j+2];
+			}
+			else{
+				f<<"player";
+			}
+			f<<" tricks"<<"\n";
 
-			j=0;
 			for(auto& a:v){
 				for(i=0;i<2;i++){
 					f<<a.a[i]<<csvSeparator();
 				}
-//				printl(int(a.result))
 				//not a.result but int(a.result)
 				f<<int(a.result)<<"\n";
-				if(j++==10){
-//					break;
-				}
 			}
 		}
 

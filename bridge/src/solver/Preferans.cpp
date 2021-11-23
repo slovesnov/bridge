@@ -464,7 +464,6 @@ void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 
 	for (j = 0; j < (m + k) / 3; j++) {
 		for (i = (j==0 ? k: 0); i < 3; i++) {
-			//TODO bridge
 			if (misere) {
 				solvebMisere(o, m_trumpOriginal, preferansPlayer[fi], player, preferansPlayer, false);
 			}
