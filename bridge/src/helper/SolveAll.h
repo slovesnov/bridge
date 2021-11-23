@@ -12,8 +12,12 @@
 #define HELPER_SOLVEALL_H_
 
 #include "../solver/BridgeCommon.h"
+#include "DealResult.h"
 
-struct SolveAll {
+class SolveAll {
+	VDealResult vDealResult;
+	GMutex dealsMutex;
+public:
 	int k,n;
 	CARD_INDEX first;
 	int trump;
@@ -35,10 +39,17 @@ struct SolveAll {
 
 	SolveAll();
 	~SolveAll();
+	SolveAll(SolveAll&&) = default;
 	void init(int k, int n, CARD_INDEX first, int trump,
 			CARD_INDEX p[2], CARD_INDEX cid[52], gint64 id);
 
-	void operator=(SolveAll const&);
+	SolveAll(SolveAll const&)=delete;
+	void operator=(SolveAll const&)=delete;
+	void copyParameters(SolveAll const& source);
+
+	void addDealResult(DealResult const& deal);
+	void add(VDealResult& v);
+	int dealResultSize();
 };
 
 #endif /* HELPER_SOLVEALL_H_ */

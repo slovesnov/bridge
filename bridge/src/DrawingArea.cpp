@@ -204,10 +204,8 @@ DrawingArea::DrawingArea() :
 }
 
 DrawingArea::~DrawingArea() {
-
 	g_mutex_clear(&m_mutex);
 	g_cond_clear(&m_condition);
-
 	g_mutex_clear(&m_solveAllMutex);
 
 	freePState();
@@ -2196,7 +2194,7 @@ void DrawingArea::solveAllDealsThread(int index) {
 
 void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const int sz,
 		int *result, Bridge *pb, Preferans *pp) {
-	int i, j, v;
+	int i, j,k, v;
 	SolveAll &sa = m_vSolveAll[index];
 	Permutations p(sa.k, sa.n, COMBINATION);
 	g_mutex_lock(&m_solveAllMutex);
@@ -2209,7 +2207,10 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 	clock_t t, lastUpdate = clock();
 	bool ur;
 	auto updateResults=[&] () {gdk_threads_add_idle(solve_all_deals_update_result, gpointer(m_solveAllDealsDialog->m_id));};
+	//auto updateResults=[&] () {};
+	std::string s;
 	preventThreadSleep();
+	DealResult dr;
 
 	while ((v = m_solveAllNumber++) < MAXV) {
 		for (i = 0; i < sz; i++) {
@@ -2228,6 +2229,7 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 				ptr[o[v]] = sa.p[0];
 			}
 
+
 			if(bridge){
 				pb->solveEstimateOnly(ptr,sa.trump,sa.first,trumpChanged);
 				i=sa.ns ? pb->m_ns:pb->m_ew;
@@ -2238,6 +2240,13 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 				i = pp->m_playerTricks;
 			}
 
+			for(k=0;k<2;k++){
+				s=::getPlayerString(ptr,sa.p[k]);
+				strcpy(dr.a[k],s.c_str());
+			}
+			dr.result=char(i);
+			sa.addDealResult(dr);
+
 			trumpChanged = false;
 
 			assert(i >= 0 && i < sz);
@@ -2245,6 +2254,7 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 			//check only preferans, bridge in solve() function file bi.h
 			if(!bridge && j % 50 == 0 && needStopThread() ){
 				//println("alldeals exit (user break) %d",index)
+				printl(index)
 				return;
 			}
 		}
@@ -2387,7 +2397,7 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 	m_vThread.clear();
 	for (i = 0; i < getMaxRunThreads(); i++) {
 		if (i > 0) {
-			m_vSolveAll[i] = m_vSolveAll[0];
+			m_vSolveAll[i].copyParameters(m_vSolveAll[0]);
 		}
 		m_vThread.push_back( g_thread_new("", solve_all_deals_thread, GP(i)));
 	}

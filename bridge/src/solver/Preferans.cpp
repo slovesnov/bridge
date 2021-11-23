@@ -220,8 +220,9 @@ void Preferans::estimateAll(const Problem& pr, ESTIMATE estimateType,
 		//if has no suit, and has trump
 		addSuitableGroups(j, cid, next, v, toIndex);
 		if (v.empty()) {
-			if (m_trump != NT && j != m_trump) {
-				addSuitableGroups(m_trump, cid,next, v, toIndex);
+			if (m_trumpOriginal != NT && j != m_trump) {
+				//TODO bridge
+				addSuitableGroups(m_trumpOriginal, cid,next, v, toIndex);
 			}
 			if (v.empty()) {
 				for (i = 0; i < 4; i++) {
@@ -463,14 +464,15 @@ void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 
 	for (j = 0; j < (m + k) / 3; j++) {
 		for (i = (j==0 ? k: 0); i < 3; i++) {
+			//TODO bridge
 			if (misere) {
-				solvebMisere(o, m_trump, preferansPlayer[fi], player, preferansPlayer, false);
+				solvebMisere(o, m_trumpOriginal, preferansPlayer[fi], player, preferansPlayer, false);
 			}
 			else if (m_trumpOriginal == NT) {
-				solvebNT(o, m_trump, preferansPlayer[fi], player, preferansPlayer, false);
+				solvebNT(o, m_trumpOriginal, preferansPlayer[fi], player, preferansPlayer, false);
 			}
 			else {
-				solveb(o, m_trump, preferansPlayer[fi], player, preferansPlayer, false);
+				solveb(o, m_trumpOriginal, preferansPlayer[fi], player, preferansPlayer, false);
 			}
 
 			m_bestLine.push_back(m_best);

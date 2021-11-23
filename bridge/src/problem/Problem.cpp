@@ -1644,24 +1644,12 @@ void Problem::printcids(int problemIndex) {
 #endif
 
 std::string Problem::getBtsDealString(CARD_INDEX dealer) const {
-	int i, j;
 	std::string s;
 	CARD_INDEX ci = dealer;
-
 	const CARD_INDEX* cid = m_states[0].m_cid;
 
-	//i-who j-suit k-index
-	do {
-		for (i = 0; i < 4; ++i) {
-			for (j = 0; j < 13; ++j) {
-				if (cid[i * 13 + j] == ci || cid[i * 13 + j] == ci + 4) {	//sometimes can be ci+4 on very first state
-					s += toupper(RANK[j]);
-				}
-			}
-			if (i != 3) {
-				s += '.';
-			}
-		}
+	while (1) {
+		s+=getPlayerString(cid,ci,true);
 
 		ci = getNextPlayer(ci);
 		if (ci == dealer) {		//3 times for preferans, 4 for bridge
@@ -1669,7 +1657,7 @@ std::string Problem::getBtsDealString(CARD_INDEX dealer) const {
 		}
 		s += ' ';
 
-	} while (1);
+	}
 
 	return s;
 }

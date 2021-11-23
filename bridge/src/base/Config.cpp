@@ -279,8 +279,8 @@ void Config::initVarables() {
 	};
 	assert(storeVariablesInt.size()==storeVariablesIntNote.size());
 
-	storeVariablesString = { &m_version, &m_languageFileName, &m_customSkinBackgroundImagePath };
-	storeVariablesStringNote = { VERSION_SIGNATURE, "language file", "custom skin background image path" };
+	storeVariablesString = { &m_version, &m_languageFileName, &m_customSkinBackgroundImagePath, &m_csvSeparator };
+	storeVariablesStringNote = { VERSION_SIGNATURE, "language file", "custom skin background image path", "csv separator" };
 	assert(storeVariablesString.size()==storeVariablesStringNote.size());
 }
 
@@ -521,6 +521,7 @@ void Config::reset(bool fromMenu/*=false*/) {
 	if(!fromMenu){
 		m_frameDelta = 120;	//got from real measurement old notebook, new notebook m_frameDelta = 156
 	}
+	m_csvSeparator=';';
 	m_absent = CARD_INDEX_SOUTH;
 	m_bridgeSolveAllDealsAbsentNS=0;
 	m_thousandsSeparatorString=ENGLISH_THOUSANDS_SEPARATOR;

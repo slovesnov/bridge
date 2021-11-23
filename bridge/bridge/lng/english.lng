@@ -207,6 +207,9 @@
 "doubled" - https://en.wikipedia.org/wiki/Contract_bridge#Scoring
 "redoubled" - https://en.wikipedia.org/wiki/Contract_bridge#Scoring
 "defenders"
+"export the results of all deals to csv"
+"separator"
+"csv files"
 
 200 "unknown error"
 201 "duplicate tag found"

@@ -191,6 +191,10 @@ const int HTML_TRICKS_NORTH_SOUTH=0;
 const int HTML_TRICKS_EAST_WEST=1;
 const int HTML_TRICKS_PLAYER=0;
 const int HTML_TRICKS_WHISTERS=1;
+
+//spades, hearts, diamond, clubs same order with SUITS_CHAR
+const std::string UTF8SUITS[] = { "\xe2\x99\xa0", "\xe2\x99\xa5",
+		"\xe2\x99\xa6", "\xe2\x99\xa3" };
 //======================== END CONSTANTS ==========================================================
 const gchar * getString(const STRING_ID& id);
 const gchar * getString(const MENU_ID& id);
@@ -313,4 +317,7 @@ GtkWidget* createUnderlinedLabel(CARD_INDEX id);
 GtkWidget* createUnderlinedLabel(std::string const& s);
 
 GtkWidget* containerGetChild(GtkWidget* w,int n);
+
+std::string getPlayerString(const CARD_INDEX cid[52],CARD_INDEX player,bool includeInner=false);
+
 #endif /* BASE_H_ */

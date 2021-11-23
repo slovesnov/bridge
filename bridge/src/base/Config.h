@@ -194,6 +194,7 @@ public:
 	int m_firstSplitNumber;
 	int m_lastTrickMinimalMargin;
 	int m_frameDelta;
+	std::string m_csvSeparator;
 	//[END STORING VARIABLES]
 	VMenuString m_vectorMenuString;
 

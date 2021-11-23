@@ -379,6 +379,7 @@ public:
 	VString& recent();
 	std::string recent(int i);
 
+	std::string& csvSeparator();
 };
 
 #endif /* WIDGET_H_ */

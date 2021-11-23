@@ -377,6 +377,7 @@ public:
 	//used in BridgeTest project to get deal
 	std::string getForBridgeTestDealClass(int n)const;
 #endif
+
 };
 
 typedef std::vector<Problem> VProblem;

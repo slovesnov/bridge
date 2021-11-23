@@ -31,8 +31,8 @@ const STRING_ID STRING_FILTER_EXT_FROM[] = {
 		STRING_FILE_FILTER_HTML,
 		STRING_FILE_FILTER_LANGUAGE,
 		STRING_IMAGE_FILES,
-		STRING_FILE_FILTER_ALL_SUPPORTED //should goes after all simple filters, see 'if(option==CHOOSER_OPTION_DEFAULT){' in Widget::fileChooser()
-		,
+		STRING_CSV_FILES,
+		STRING_FILE_FILTER_ALL_SUPPORTED, //should goes after all simple filters, see 'if(option==CHOOSER_OPTION_DEFAULT){' in Widget::fileChooser()
 		STRING_FILE_FILTER_ALL //should goes last
 };
 
@@ -42,33 +42,25 @@ const char* STRING_FILTER_EXT_TO[] = {
 		"txt dat",
 		"htm html",
 		"lng",
-		NULL //STRING_IMAGE_FILES filled in Widget::staticInit()
-		,
-		"bts pts pbn txt dat" //Note in case of 'save' command two strings added "htm", "html", in case of 'open' not need
-		,
+		NULL, //STRING_IMAGE_FILES filled in Widget::staticInit()
+		"csv",
+		"bts pts pbn txt dat", //Note in case of 'save' command two strings added "htm", "html", in case of 'open' not need
 		"*" };
 const int STRING_FILTER_EXT_TO_SIZE = SIZE(STRING_FILTER_EXT_TO);
 
 //should match with FILE_TYPE
-const char* DEFAULT_EXTENSION[] = {
+const char *DEFAULT_EXTENSION[] = {
 NULL //	FILE_TYPE_ANY,
-		,
-		"txt" //	FILE_TYPE_DF,
-		,
-		"html" //	FILE_TYPE_HTML,
-		,
-		"lng" //	FILE_TYPE_LANGUAGE,
-		,
-		"pbn" //	FILE_TYPE_PBN,
-		,
-		"bts" //	FILE_TYPE_BRIDGE,
-		,
-		"pts" //	FILE_TYPE_PREFERANS,
-		,
-		NULL //FILE_TYPE_IMAGE filled in in Widget::staticInit()
-		,
-		NULL //	FILE_TYPE_ERROR
-};
+		, "txt" //	FILE_TYPE_DF,
+		, "html" //	FILE_TYPE_HTML,
+		, "lng" //	FILE_TYPE_LANGUAGE,
+		, "pbn" //	FILE_TYPE_PBN,
+		, "bts" //	FILE_TYPE_BRIDGE,
+		, "pts" //	FILE_TYPE_PREFERANS,
+		, NULL //FILE_TYPE_IMAGE filled in in Widget::staticInit()
+		, "csv"//FILE_TYPE_CSV
+		,NULL //	FILE_TYPE_ERROR
+		};
 
 static void drag_and_drop_received(GtkWidget *, GdkDragContext *context, gint x,
 		gint y, GtkSelectionData *data, guint ttype, guint time, Widget* widget) {
@@ -173,7 +165,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 		if (menu == MENU_OPEN) {
 			p = getStringNoDots(MENU_OPEN).c_str();
 		}
-		else if (((filetype == FILE_TYPE_IMAGE || filetype == FILE_TYPE_HTML)
+		else if (((filetype == FILE_TYPE_IMAGE || filetype == FILE_TYPE_HTML || filetype == FILE_TYPE_CSV)
 				&& menu == MENU_SAVE) || option == CHOOSER_OPTION_SAVE_AS_SINGLE) {
 			p = getString(MENU_SAVE);
 		}
@@ -980,4 +972,8 @@ VString& Widget::recent() {
 std::string Widget::recent(int i) {
 	assert(i>=0 && i<recentSize());
 	return gconfig->m_recent[i];
+}
+
+std::string& Widget::csvSeparator(){
+	return gconfig->m_csvSeparator;
 }

@@ -12,9 +12,11 @@
 #include "../base/Base.h"
 
 SolveAll::SolveAll() {
+	g_mutex_init(&dealsMutex);
 }
 
 SolveAll::~SolveAll() {
+	g_mutex_clear(&dealsMutex);
 }
 
 void SolveAll::init(int k, int n, CARD_INDEX first, int trump,
@@ -38,18 +40,33 @@ void SolveAll::init(int k, int n, CARD_INDEX first, int trump,
 
 }
 
-void SolveAll::operator=(SolveAll const& s){
-#define A(a) a=s.a;
+void SolveAll::copyParameters(SolveAll const& source){
+	int i;
+#define A(a) a=source.a;
 	A(k)A(n)A(first)A(trump)A(misere)A(player)A(ns)A(id)A(positions)
 #undef A
 
-		int i;
-
-#define A(a) for(i=0;i<SIZEI(a);i++){a[i]=s.a[i];}
+#define A(a) for(i=0;i<SIZEI(a);i++){a[i]=source.a[i];}
 	A(p)A(cid)A(o)A(preferansPlayer)
 #undef A
-
 }
 
+void SolveAll::addDealResult(const DealResult &deal) {
+	g_mutex_lock(&dealsMutex);
+	vDealResult.push_back(deal);
+	g_mutex_unlock(&dealsMutex);
+}
 
+void SolveAll::add(VDealResult &v) {//v=v+deals
+	g_mutex_lock(&dealsMutex);
+	v.insert(v.end(), vDealResult.begin(), vDealResult.end());
+	g_mutex_unlock(&dealsMutex);
+}
+
+int SolveAll::dealResultSize() {
+	g_mutex_lock(&dealsMutex);
+	int i=vDealResult.size();
+	g_mutex_unlock(&dealsMutex);
+	return i;
+}
 

@@ -46,6 +46,9 @@ FILE_TYPE getFileType(std::string filepath) {
 	else if (ext == "htm" || ext == "html") {
 		return FILE_TYPE_HTML;
 	}
+	else if (ext == "csv") {
+		return FILE_TYPE_CSV;
+	}
 	else {
 		if (gconfig->isWritableImage(ext)) {
 			return FILE_TYPE_IMAGE;
@@ -718,4 +721,21 @@ GtkWidget* containerGetChild(GtkWidget* w,int n){
 	g_list_free(children);
 	assert(r);
 	return r;
+}
+
+
+std::string getPlayerString(const CARD_INDEX cid[52],CARD_INDEX player,bool includeInner/*=false*/){
+	std::string s;
+	int i,j;
+	for (i = 0; i < 4; ++i) {
+		for (j = 0; j < 13; ++j) {
+			if (cid[i * 13 + j] == player || (includeInner && cid[i * 13 + j] == player + 4)) {	//sometimes can be ci+4 on very first state
+				s += toupper(RANK[j]);
+			}
+		}
+		if (i != 3) {
+			s += '.';
+		}
+	}
+	return s;
 }
