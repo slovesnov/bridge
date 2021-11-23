@@ -8,8 +8,9 @@
  *         Homepage: slovesnov.users.sourceforge.net
  */
 
-m_trumpOriginal=trump;
-
+if(!leaveTrumpOriginal){
+	m_trumpOriginal=trump;
+}
 //cann't use NT variable because has macro with same name
 m_ct=compareTable[trump==4];
 

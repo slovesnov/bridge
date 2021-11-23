@@ -186,22 +186,22 @@ class Preferans: public BridgePreferansBase {
 	 */
 	void solve(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 			CARD_INDEX player, const CARD_INDEX preferansPlayer[3],
-			bool trumpChanged);
+			bool trumpChanged, bool leaveTrumpOriginal = false);
 	void solveb(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 			CARD_INDEX player, const CARD_INDEX preferansPlayer[3],
-			bool trumpChanged);
+			bool trumpChanged, bool leaveTrumpOriginal = false);
 	void solveNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 			CARD_INDEX player, const CARD_INDEX preferansPlayer[3],
-			bool trumpChanged);
+			bool trumpChanged, bool leaveTrumpOriginal = false);
 	void solvebNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 			CARD_INDEX player, const CARD_INDEX preferansPlayer[3],
-			bool trumpChanged);
+			bool trumpChanged, bool leaveTrumpOriginal = false);
 	void solveMisere(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 			CARD_INDEX player, const CARD_INDEX preferansPlayer[3],
-			bool trumpChanged);
+			bool trumpChanged, bool leaveTrumpOriginal = false);
 	void solvebMisere(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 			CARD_INDEX player, const CARD_INDEX preferansPlayer[3],
-			bool trumpChanged);
+			bool trumpChanged, bool leaveTrumpOriginal = false);
 
 public:
 

@@ -155,17 +155,17 @@ class Bridge: public BridgePreferansBase {
 	static void staticDeinit();
 
 	void solve(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-			bool trumpChanged, int lowTricks = DEFAULT_TRICKS,
-			int highTricks = DEFAULT_TRICKS);
+			bool trumpChanged, int lowTricks = DEFAULT_TRICKS, int highTricks =
+					DEFAULT_TRICKS, bool leaveTrumpOriginal = false);
 	void solveb(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-			bool trumpChanged, int lowTricks = DEFAULT_TRICKS,
-			int highTricks = DEFAULT_TRICKS);
+			bool trumpChanged, int lowTricks = DEFAULT_TRICKS, int highTricks =
+					DEFAULT_TRICKS, bool leaveTrumpOriginal = false);
 	void solveNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-			bool trumpChanged, int lowTricks = DEFAULT_TRICKS,
-			int highTricks = DEFAULT_TRICKS);
+			bool trumpChanged, int lowTricks = DEFAULT_TRICKS, int highTricks =
+					DEFAULT_TRICKS, bool leaveTrumpOriginal = false);
 	void solvebNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-			bool trumpChanged, int lowTricks = DEFAULT_TRICKS,
-			int highTricks = DEFAULT_TRICKS);
+			bool trumpChanged, int lowTricks = DEFAULT_TRICKS, int highTricks =
+					DEFAULT_TRICKS, bool leaveTrumpOriginal = false);
 
 public:
 
