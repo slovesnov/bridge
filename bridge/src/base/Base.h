@@ -319,5 +319,5 @@ GtkWidget* createUnderlinedLabel(std::string const& s);
 GtkWidget* containerGetChild(GtkWidget* w,int n);
 
 std::string getPlayerString(const CARD_INDEX cid[52],CARD_INDEX player,bool includeInner=false);
-
+void showOpenFileError();
 #endif /* BASE_H_ */

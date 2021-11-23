@@ -211,8 +211,6 @@ public:
 
 	int m_e; //estimate from player who do move
 	int m_playerTricks; //estimate of player
-	int m_best;
-	std::vector<int> m_bestLine;
 
 	/* if smallHash=true then one problem counts much faster 0.02 seconds
 	 * but if smallHash=false the one problem counts about 0.3 seconds

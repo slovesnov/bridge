@@ -171,8 +171,6 @@ public:
 
 	int m_e; //estimate from player who do move
 	int m_ns,m_ew;
-	int m_best;
-	std::vector<int> m_bestLine;
 	double m_time;//seconds do not remove need for estimateAllInner function
 
 	Bridge();

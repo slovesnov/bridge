@@ -39,6 +39,8 @@ const int MOVES_MANY_SUITS_OPTIONS=10;
 //END common macros for bridge and preferans
 
 class BridgePreferansBase {
+	void adjustCard(int& i);
+	int getAdjustedCard(const int i);
 protected:
 	static void staticInit();
 
@@ -50,9 +52,8 @@ protected:
 	int m_trumpOriginal;
 	static const int m_trump=0;
 
-	int adjustTrump(const int i);
-	int adjustCard(const int i);
-	void adjustCardReference(int& i);
+	int getAdjustedTrump(const int i);
+
 #ifndef CONSOLE
 	//add all cards in suit for player=next to vector v, each v[i] is a card sequence
 	void static addSuitableGroups(int suit, const CARD_INDEX*cid,
@@ -60,8 +61,12 @@ protected:
 
 #endif
 
-	void adjustBestMove(const CARD_INDEX c[52], int& best, bool bridge);
+	void adjustBestMove(const CARD_INDEX c[52], bool bridge);
+	void adjustBestLine();
 public:
+	int m_best;
+	std::vector<int> m_bestLine;
+
 #ifndef CONSOLE
 	static gint m_stop;
 #endif

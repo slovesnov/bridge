@@ -317,7 +317,7 @@ int ProblemVector::save(std::string filepath, bool split) {
 			if (split) {
 				f = open(fileName(filepath, b, i), "w+");
 				if(!f){
-					showError();
+					showOpenFileError();
 					return SAVE_ERROR;
 				}
 				fprintf(f, "%s", s.c_str());
@@ -330,7 +330,7 @@ int ProblemVector::save(std::string filepath, bool split) {
 				if (!f) {
 					f = open(filepath, "w+");
 					if(!f){
-						showError();
+						showOpenFileError();
 						return SAVE_ERROR;
 					}
 					if (t == FILE_TYPE_HTML) {
@@ -368,11 +368,6 @@ int ProblemVector::save(std::string filepath, bool split) {
 		message(MESSAGE_ICON_MESSAGE, STRING_WARNING_STORE_PREF_TO_DF_PBN);
 	}
 	return warning?SAVE_WARNING:SAVE_OK;
-}
-
-void ProblemVector::showError(){
-	std::string s=getString(STRING_ERROR_COULD_NOT_OPEN_FILE_FOR_WRITING);
-	message(MESSAGE_ICON_ERROR,s+".\n"+strerror(errno)+".");
 }
 
 std::string ProblemVector::getFileFormat(int size) {

@@ -739,3 +739,8 @@ std::string getPlayerString(const CARD_INDEX cid[52],CARD_INDEX player,bool incl
 	}
 	return s;
 }
+
+void showOpenFileError(){
+	std::string s=getString(STRING_ERROR_COULD_NOT_OPEN_FILE_FOR_WRITING);
+	message(MESSAGE_ICON_ERROR,s+".\n"+strerror(errno)+".");
+}

@@ -421,17 +421,25 @@ void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 			 * max file size without title 184'756*31=5'727'436
 			 */
 			std::ofstream f(r.file());
+			if(!f.is_open()){
+				showOpenFileError();
+				return;
+			}
+
+			//BOM
+			f<<char(0xef)<<char(0xbb)<<char(0xbf);
+
 			for(i=0;i<2;i++){
-				f<<LEADER[sa[0].p[i]-CARD_INDEX_NORTH]<<csvSeparator();
+				f<<getLowercasedPlayerString(sa[0].p[i])<<csvSeparator();
 			}
-			if(isBridge()){
-				j=!isDeclarerNorthOrSouth();
-				f<<LEADER[j]<<"/"<<LEADER[j+2];
+			if (isBridge()) {
+				s=getString(STRING_TRICKS1)+(" "+getNSEWString(isDeclarerNorthOrSouth()));
 			}
-			else{
-				f<<"player";
+			else {
+				s=getString(STRING_PLAYER_TRICKS);
+				s=replaceAll(s, "\n", " ");
 			}
-			f<<" tricks"<<"\n";
+			f<<s<<"\n";
 
 			for(auto& a:v){
 				for(i=0;i<2;i++){

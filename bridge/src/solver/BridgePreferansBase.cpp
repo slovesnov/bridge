@@ -75,9 +75,9 @@ void BridgePreferansBase::addSuitableGroups(int suit, const CARD_INDEX*cid,
 }
 #endif
 
-void BridgePreferansBase::adjustBestMove(const CARD_INDEX c[52],int& best,bool bridge){
-	int i = best % 13;
-	auto p = c + adjustTrump(best / 13) * 13;
+void BridgePreferansBase::adjustBestMove(const CARD_INDEX c[52],bool bridge){
+	int i = m_best % 13;
+	auto p = c + getAdjustedTrump(m_best / 13) * 13;
 	int a = 0;
 	int j;
 	for (j = 0; j < (bridge ? 13 : 8); j++, p++) {
@@ -86,16 +86,16 @@ void BridgePreferansBase::adjustBestMove(const CARD_INDEX c[52],int& best,bool b
 		}
 		else {
 			if (i-- == 0) {
-				best += a;
+				m_best += a;
 				break;
 			}
 		}
 	}
 
-	adjustCardReference(best);
+	adjustCard(m_best);
 }
 
-int BridgePreferansBase::adjustTrump(const int i){
+int BridgePreferansBase::getAdjustedTrump(const int i){
 	if(m_trumpOriginal!=NT && m_trumpOriginal!=0 && (i==0 || i==m_trumpOriginal)){
 		return i ? 0 : m_trumpOriginal;
 	}
@@ -104,10 +104,16 @@ int BridgePreferansBase::adjustTrump(const int i){
 	}
 }
 
-int BridgePreferansBase::adjustCard(const int i){
-	return i%13+adjustTrump(i/13)*13;
+int BridgePreferansBase::getAdjustedCard(const int i){
+	return i%13+getAdjustedTrump(i/13)*13;
 }
 
-void BridgePreferansBase::adjustCardReference(int& i){
-	i=adjustCard(i);
+void BridgePreferansBase::adjustCard(int& i){
+	i=getAdjustedCard(i);
+}
+
+void BridgePreferansBase::adjustBestLine() {
+	for(int&a:m_bestLine){
+		adjustCard(a);
+	}
 }

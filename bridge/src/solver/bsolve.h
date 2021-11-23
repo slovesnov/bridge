@@ -35,7 +35,7 @@ n = 0;
 for (i = 0; i < 4; i++) {
 	m = 0;
 	k = 4;
-	p = c + adjustTrump(i) * 13;
+	p = c + getAdjustedTrump(i) * 13;
 	a = 0;
 	for (j = 0; j < 13; j++) {
 		l = *p++;
@@ -302,7 +302,7 @@ m_nodes=0;
 //		printl(m_best/13,m_best%13,m_best);
 	}
 	else{
-		adjustBestMove(c,m_best,true);
+		adjustBestMove(c,true);
 	}
 #endif
 

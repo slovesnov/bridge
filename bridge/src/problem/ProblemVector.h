@@ -106,8 +106,6 @@ public:
 	static const int SAVE_ERROR=2;
 	int save(std::string filepath, bool split); //filepath utf8
 
-	void showError();
-
 	static void addSave(const VString& v, const std::string& filepath,
 			bool split); //filepath utf8
 

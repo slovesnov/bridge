@@ -2228,7 +2228,6 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 				ptr[o[v]] = sa.p[0];
 			}
 
-
 			if(bridge){
 				pb->solveEstimateOnly(ptr,sa.trump,sa.first,trumpChanged);
 				i=sa.ns ? pb->m_ns:pb->m_ew;

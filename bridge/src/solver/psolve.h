@@ -38,7 +38,7 @@ n = 0;
 for (i = 0; i < 4; i++) {
 	m = 0;
 	k = 0;
-	p = c + adjustTrump(i) * 13;
+	p = c + getAdjustedTrump(i) * 13;
 	a = 0;
 	for (j = 0; j < 8; j++) {
 		l = *p++;
@@ -227,5 +227,5 @@ m_playerTricks = (fi + n) % 3 == 0 ? m_e : m_cards - m_e;
 
 #ifdef STOREBEST
 //Note m_best always taken from code, so need to adjust always
-	adjustBestMove(c,m_best,false);
+	adjustBestMove(c,false);
 #endif
