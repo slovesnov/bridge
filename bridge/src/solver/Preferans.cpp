@@ -54,17 +54,6 @@ else {\
 	t = COM(1, 2) ? 1 : 2;\
 }
 
-//TODO
-#define COM1(i, j) (sc##i.s==sc##j.s ? (sc##i.c < sc##j.c) : (sc##j.s != m_trumpOriginal))
-
-#define SETT1 \
-if (COM1(0, 1)) {\
-	t = COM1(0, 2) ? 0 : 2;\
-}\
-else {\
-	t = COM1(1, 2) ? 1 : 2;\
-}
-
 #define MOVES_INIT(suit,w,p,q) q=m_moves[m_code[suit]]+w*5;p=q+*q;q++;
 
 Preferans::Preferans(bool smallHash) {
@@ -416,10 +405,10 @@ void Preferans::suitableCards2Misere(int suit, const int* w, SC& c1, SC& c2) {
 
 void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 		CARD_INDEX player, bool misere, const CARD_INDEX preferansPlayer[3]){
-	int i,j,k=0,t,l,m=0,fi;
+	int i, j, k = 0, t, l, m = 0, fi;
 	CARD_INDEX o[52];
-	const CARD_INDEX*p;
-	USC sc0,sc1,sc2;
+	const CARD_INDEX *p;
+	USC sc0, sc1, sc2;
 
 	/* store variable for estimateAll function,
 	 * not need now because estimatAall calls before bestLine
@@ -460,7 +449,7 @@ void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 		 * so code is differ with bridge, no et, es, mc needed
 		 */
 		k = 0;
-		SETT1;
+		t=getTaker(ps, SIZE(ps));
 		fi += t;
 		fi %= 3;
 
@@ -500,16 +489,12 @@ void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 		for (i = 0; i < (j==0 ? 3-k: 3); i++) {
 			o[m_bestLine[m_bestLine.size() - 1 - i]] = CARD_INDEX_ABSENT;
 		}
-		SETT1;
-		printl(t,sc0.toString(),sc1.toString(),sc2.toString());
-//#define COM1(i, j) sc##i.s==sc##j.s ? sc##i.c < sc##j.c : sc##j.s != m_trumpOriginal
-		printl(int(sc0.s),int(sc0.c),'#',int(sc1.s),int(sc1.c),'#',int(sc2.s),int(sc2.c));
+		t=getTaker(ps, SIZE(ps));
 
 		fi+=t;
 		fi%=3;
 	}
 
-	//adjustBestLine();
 }
 
 void Preferans::suitableCards(int suit, int w, SC& c) {
