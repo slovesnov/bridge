@@ -39,7 +39,6 @@ const int MOVES_MANY_SUITS_OPTIONS=10;
 //END common macros for bridge and preferans
 
 class BridgePreferansBase {
-	void adjustCard(int& i);
 	int getAdjustedCard(const int i);
 protected:
 	static void staticInit();
@@ -53,6 +52,7 @@ protected:
 	static const int m_trump=0;
 
 	int getAdjustedTrump(const int i);
+	void adjustCard(int& i);
 
 #ifndef CONSOLE
 	//add all cards in suit for player=next to vector v, each v[i] is a card sequence

@@ -54,6 +54,17 @@ else {\
 	t = COM(1, 2) ? 1 : 2;\
 }
 
+//TODO
+#define COM1(i, j) (sc##i.s==sc##j.s ? (sc##i.c < sc##j.c) : (sc##j.s != m_trumpOriginal))
+
+#define SETT1 \
+if (COM1(0, 1)) {\
+	t = COM1(0, 2) ? 0 : 2;\
+}\
+else {\
+	t = COM1(1, 2) ? 1 : 2;\
+}
+
 #define MOVES_INIT(suit,w,p,q) q=m_moves[m_code[suit]]+w*5;p=q+*q;q++;
 
 Preferans::Preferans(bool smallHash) {
@@ -449,7 +460,7 @@ void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 		 * so code is differ with bridge, no et, es, mc needed
 		 */
 		k = 0;
-		SETT;
+		SETT1;
 		fi += t;
 		fi %= 3;
 
@@ -465,10 +476,10 @@ void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 	for (j = 0; j < (m + k) / 3; j++) {
 		for (i = (j==0 ? k: 0); i < 3; i++) {
 			if (misere) {
-				solvebMisere(o, m_trumpOriginal, preferansPlayer[fi], player, preferansPlayer, false);
+				solvebMisere(o, NT, preferansPlayer[fi], player, preferansPlayer, false);
 			}
 			else if (m_trumpOriginal == NT) {
-				solvebNT(o, m_trumpOriginal, preferansPlayer[fi], player, preferansPlayer, false);
+				solvebNT(o, NT, preferansPlayer[fi], player, preferansPlayer, false);
 			}
 			else {
 				solveb(o, m_trumpOriginal, preferansPlayer[fi], player, preferansPlayer, false);
@@ -489,11 +500,16 @@ void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 		for (i = 0; i < (j==0 ? 3-k: 3); i++) {
 			o[m_bestLine[m_bestLine.size() - 1 - i]] = CARD_INDEX_ABSENT;
 		}
-		SETT;
+		SETT1;
+		printl(t,sc0.toString(),sc1.toString(),sc2.toString());
+//#define COM1(i, j) sc##i.s==sc##j.s ? sc##i.c < sc##j.c : sc##j.s != m_trumpOriginal
+		printl(int(sc0.s),int(sc0.c),'#',int(sc1.s),int(sc1.c),'#',int(sc2.s),int(sc2.c));
+
 		fi+=t;
 		fi%=3;
 	}
 
+	//adjustBestLine();
 }
 
 void Preferans::suitableCards(int suit, int w, SC& c) {
