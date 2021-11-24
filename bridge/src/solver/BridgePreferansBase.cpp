@@ -119,13 +119,15 @@ void BridgePreferansBase::adjustBestLine() {
 }
 
 bool BridgePreferansBase::compare2Cards(USC **ps,int i,int j) {
-	return ps[i]->s==ps[j]->s ? (ps[i]->c < ps[j]->c) : (ps[j]->s != m_trumpOriginal);
+	return ps[i]->s==ps[j]->s ? ps[i]->c < ps[j]->c : ps[j]->s != m_trumpOriginal;
 }
 
 int BridgePreferansBase::getTaker(USC **ps, int size) {
-	if (compare2Cards(ps,0, 1)) {
-		return compare2Cards(ps,0, 2) ? 0 : 2;
-	} else {
-		return compare2Cards(ps,1, 2) ? 1 : 2;
+	int t = 0;
+	for (int i = 1; i < size; i++) {
+		if (!compare2Cards(ps, t, i)) {
+			t = i;
+		}
 	}
+	return t;
 }

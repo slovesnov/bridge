@@ -10,9 +10,7 @@
 
 
 //Note. Inner representation player always=0
-if(!leaveTrumpOriginal){
-	m_trumpOriginal=trump;
-}
+m_trumpOriginal=trump;
 
 //cann't use NT variable because has macro with same name
 m_ct=compareTable[trump==4];

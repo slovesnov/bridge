@@ -344,26 +344,26 @@ int Preferans::ebMisere(const int* w, int a, int b) {
 }
 
 void Preferans::solve(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged, bool leaveTrumpOriginal /*= false*/) {
+	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged) {
 #include "psolve.h"
 }
 
 void Preferans::solveb(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged, bool leaveTrumpOriginal /*= false*/) {
+	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged) {
 #define STOREBEST
 #include "psolve.h"
 #undef STOREBEST
 }
 
 void Preferans::solveNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged, bool leaveTrumpOriginal /*= false*/) {
+	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged) {
 #define NT
 #include "psolve.h"
 #undef NT
 }
 
 void Preferans::solvebNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged, bool leaveTrumpOriginal /*= false*/) {
+	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged) {
 #define STOREBEST
 #define NT
 #include "psolve.h"
@@ -372,14 +372,14 @@ void Preferans::solvebNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 }
 
 void Preferans::solveMisere(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged, bool leaveTrumpOriginal /*= false*/) {
+	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged) {
 #define MISERE
 #include "psolve.h"
 #undef MISERE
 }
 
 void Preferans::solvebMisere(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged, bool leaveTrumpOriginal /*= false*/) {
+	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged) {
 #define STOREBEST
 #define MISERE
 #include "psolve.h"
