@@ -112,12 +112,6 @@ void BridgePreferansBase::adjustCard(int& i){
 	i=getAdjustedCard(i);
 }
 
-void BridgePreferansBase::adjustBestLine() {
-	for(int&a:m_bestLine){
-		adjustCard(a);
-	}
-}
-
 bool BridgePreferansBase::compare2Cards(USC **ps,int i,int j) {
 	return ps[i]->s==ps[j]->s ? ps[i]->c < ps[j]->c : ps[j]->s != m_trumpOriginal;
 }

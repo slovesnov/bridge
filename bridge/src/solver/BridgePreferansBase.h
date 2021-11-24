@@ -62,7 +62,6 @@ protected:
 #endif
 
 	void adjustBestMove(const CARD_INDEX c[52], bool bridge);
-	void adjustBestLine();
 	bool compare2Cards(USC **ps, int i, int j);
 	int getTaker(USC **ps, int size);
 public:

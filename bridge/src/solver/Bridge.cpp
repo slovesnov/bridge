@@ -302,13 +302,13 @@ int Bridge::ebNT(const int* w, int a) {
 }
 
 void Bridge::solve(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	bool trumpChanged, int lowTricks, int highTricks, bool leaveTrumpOriginal/*=false*/) {
+	bool trumpChanged, int lowTricks, int highTricks) {
 	assert(trump!=NT);
 #include "bsolve.h"
 }
 
 void Bridge::solveb(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	bool trumpChanged, int lowTricks, int highTricks, bool leaveTrumpOriginal/*=false*/) {
+	bool trumpChanged, int lowTricks, int highTricks) {
 	assert(trump!=NT);
 #define STOREBEST
 #include "bsolve.h"
@@ -316,7 +316,7 @@ void Bridge::solveb(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 }
 
 void Bridge::solveNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	bool trumpChanged, int lowTricks, int highTricks, bool leaveTrumpOriginal/*=false*/) {
+	bool trumpChanged, int lowTricks, int highTricks) {
 	assert(trump==NT);
 #define NT
 #include "bsolve.h"
@@ -324,7 +324,7 @@ void Bridge::solveNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 }
 
 void Bridge::solvebNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	bool trumpChanged, int lowTricks, int highTricks, bool leaveTrumpOriginal/*=false*/) {
+	bool trumpChanged, int lowTricks, int highTricks) {
 	assert(trump==NT);
 #define STOREBEST
 #define NT
@@ -667,24 +667,17 @@ void Bridge::estimateAllThread(){
 }
 #endif
 
-void Bridge::bestLine(const CARD_INDEX _c[52], CARD_INDEX first){
+void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 	/* fast - is fast zero window search, otherwise search with full alpha beta window
 	 * leave parameter to compare speed of fast and slow options
 	 * function works correct when table is full
 	 */
 	const bool fast=true;
 	int i, j, k = 0, t, l, m = 0, fi;
-	CARD_INDEX o[52],c[52];
+	CARD_INDEX o[52];
 	const CARD_INDEX*p;
 	USC sc0, sc1, sc2, sc3;
 	int low = DEFAULT_TRICKS, high = DEFAULT_TRICKS, mc = m_cards, es = m_e;
-
-	for(i=0;i<4;i++){
-		p=_c+getAdjustedTrump(i)*13;
-		for(j=0;j<13;j++){
-			c[i*13+j]=*p++;
-		}
-	}
 
 	/* store variable for estimateAll function, which use
 	 * in Bridge class m_ns, m_ew, m_best
@@ -734,7 +727,7 @@ void Bridge::bestLine(const CARD_INDEX _c[52], CARD_INDEX first){
 		 * because problems is solved too fast.
 		 */
 		k = 0;
-		SETT;
+		t=getTaker(ps, SIZE(ps));
 		if (t%2) {
 			es--;
 		}
@@ -777,9 +770,9 @@ void Bridge::bestLine(const CARD_INDEX _c[52], CARD_INDEX first){
 			}
 
 			if (m_trumpOriginal == NT) {
-				solvebNT(o, m_trump, CARD_INDEX(fi + 1), 0, low, high, true);
+				solvebNT(o, NT, CARD_INDEX(fi + 1), 0, low, high);
 			} else {
-				solveb(o, m_trump, CARD_INDEX(fi + 1), 0, low, high, true);
+				solveb(o, m_trumpOriginal, CARD_INDEX(fi + 1), 0, low, high);
 			}
 
 			m_bestLine.push_back(m_best);
@@ -796,7 +789,7 @@ void Bridge::bestLine(const CARD_INDEX _c[52], CARD_INDEX first){
 			o[m_bestLine[m_bestLine.size() - 1 - i]] = CARD_INDEX_ABSENT;
 		}
 
-		SETT;
+		t=getTaker(ps, SIZE(ps));
 
 		if( (fi+t+nes)%2 ){// (nes && (fi+t)%2==0) || (!nes &&  (fi+t)%2==1)
 			es--;
@@ -807,7 +800,6 @@ void Bridge::bestLine(const CARD_INDEX _c[52], CARD_INDEX first){
 		fi%=4;
 	}
 
-	adjustBestLine();
 }
 
 #ifndef FINAL_RELEASE

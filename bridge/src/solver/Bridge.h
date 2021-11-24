@@ -156,16 +156,16 @@ class Bridge: public BridgePreferansBase {
 
 	void solve(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 			bool trumpChanged, int lowTricks = DEFAULT_TRICKS, int highTricks =
-					DEFAULT_TRICKS, bool leaveTrumpOriginal = false);
+					DEFAULT_TRICKS);
 	void solveb(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 			bool trumpChanged, int lowTricks = DEFAULT_TRICKS, int highTricks =
-					DEFAULT_TRICKS, bool leaveTrumpOriginal = false);
+					DEFAULT_TRICKS);
 	void solveNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 			bool trumpChanged, int lowTricks = DEFAULT_TRICKS, int highTricks =
-					DEFAULT_TRICKS, bool leaveTrumpOriginal = false);
+					DEFAULT_TRICKS);
 	void solvebNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 			bool trumpChanged, int lowTricks = DEFAULT_TRICKS, int highTricks =
-					DEFAULT_TRICKS, bool leaveTrumpOriginal = false);
+					DEFAULT_TRICKS);
 
 public:
 
