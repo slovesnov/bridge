@@ -58,7 +58,7 @@ public:
 	int getTableRowsTab2();
 	std::string getNSEWString(bool ns);
 	void close();
-	void setFix();
+	void setPlayersCards();
 };
 
 #endif /* DIALOGS_SOLVEALLDEALSDIALOG_H_ */

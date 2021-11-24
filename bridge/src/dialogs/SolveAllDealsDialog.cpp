@@ -53,7 +53,6 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	GtkWidget*g, *g1, *w,*w1,*wa;
 	GList* list;
 	std::string s;
-	bool b;
 	Problem const&p = getProblem();
 	VString v;
 	const int leftMargin=20;
@@ -92,18 +91,6 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	gtk_entry_set_width_chars(GTK_ENTRY(m_entry), 1);
 	gtk_entry_set_text(GTK_ENTRY(m_entry), csvSeparator().c_str());
 
-	for (i = 0; i < 4; i++) {
-		if(isBridge()){
-			b = i % 2 == isBridgeSolveAllDealsAbsentNS();
-		}
-		else{
-			b=PLAYER[i] == p.m_player;
-		}
-		for (j = 0; j < 4; j++) {
-			gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]),
-					b ? p.getRow(j, PLAYER[i]).c_str() : " ?");
-		}
-	}
 
 	g = gtk_grid_new();
 	gtk_grid_set_column_spacing(GTK_GRID(g), 4);
@@ -148,6 +135,8 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 
 	attachInnerTable(g);
 
+	setPlayersCards();
+
 	gtk_widget_set_margin_top(m_progressBar, 10);
 	gtk_widget_set_margin_bottom(m_progressBar, 10);
 
@@ -190,7 +179,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	gtk_grid_attach(GTK_GRID(g1), gtk_label_new("%"), i++, 0, 1, 1);
 
 	for (i = 0; i < resultSize(); i++) {
-		gtk_grid_attach(GTK_GRID(g1), gtk_label_new(format("%d", i).c_str()), k+1,
+		gtk_grid_attach(GTK_GRID(g1), gtk_label_new(std::to_string(i).c_str()), k+1,
 				i + 1, 1, 1);
 		for (j = 0; j < 2; j++) {
 			gtk_grid_attach(GTK_GRID(g1), m_label[i][j], k+j + 2, i + 1, 1, 1);
@@ -270,7 +259,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 
 	for (auto w : { wa, createTab2() }) {
 		gtk_notebook_append_page(GTK_NOTEBOOK(m_notebook), w,
-				label(w == g1 ? STRING_TRICKS1 : STRING_CONTRACTS));
+				label(w == wa ? STRING_TRICKS1 : STRING_CONTRACTS));
 	}
 
 	gtk_container_add(GTK_CONTAINER(getContentArea()), m_notebook);
@@ -498,20 +487,11 @@ int SolveAllDealsDialog::resultSize()const{
 }
 
 void SolveAllDealsDialog::comboChanged(GtkWidget *w){
-	int i,j;
-	i=INDEX_OF(w,m_combo);
+	int i=INDEX_OF(w,m_combo);
 
 	if(i==TAB1){//only bridge
 		setBridgeSolveAllDealsAbsentNS(!gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[TAB1])));
-		Problem const&p = getProblem();
-		for (i = 0; i < 4; i++) {
-			for (j = 0; j < 4; j++) {
-				gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]),
-						i % 2 == isBridgeSolveAllDealsAbsentNS() ? p.getRow(j, PLAYER[i]).c_str() : " ?");
-			}
-		}
-
-
+		setPlayersCards();
 		gdraw->stopSolveAllDealsThreads();
 
 		//Call reset() only after stopSolveAllDealsThreads, because need set m_id
@@ -948,12 +928,11 @@ void SolveAllDealsDialog::close() {
 	gdraw->stopSolveAllDealsThreads();
 }
 
-void SolveAllDealsDialog::setFix() {
+void SolveAllDealsDialog::setPlayersCards() {
 	int i,j;
 	bool b;
-	VString v;
+	GtkWidget* w;
 	std::string s;
-	GtkWidget*w;
 	Problem const&p = getProblem();
 	for (i = 0; i < 4; i++) {
 		if(isBridge()){
@@ -963,23 +942,29 @@ void SolveAllDealsDialog::setFix() {
 			b=PLAYER[i] == p.m_player;
 		}
 		for (j = 0; j < 4; j++) {
-			if (!b) {
-				v=p.getRowVector(j, PLAYER[i]);
-				if(!v.empty()){
-					for(auto& a:v){
-						w=gtk_check_button_new();
-						gtk_container_add(GTK_CONTAINER(m_labelPlayerBox[i][j]),w);
+			auto v=p.getRowVector(j, PLAYER[i]);
+			if (b || v.empty() ) {
+				gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]),
+						b ? p.getRow(j, PLAYER[i]).c_str() : " ?");
 
-						w=gtk_label_new("");
-						s="<s>"+a+"</s>";
-						gtk_label_set_markup(GTK_LABEL(w),s.c_str());
-						//w=gtk_button_new_with_label(a.c_str());
-						gtk_container_add(GTK_CONTAINER(m_labelPlayerBox[i][j]),w);
-					}
-					gtk_widget_show_all(m_labelPlayerBox[i][j]);
+				clearContainer(m_labelPlayerBox[i][j]);
+			}
+			else{
+				gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]),
+						"");
+				for(auto& a:v){
+					w=gtk_check_button_new();
+					gtk_container_add(GTK_CONTAINER(m_labelPlayerBox[i][j]),w);
+
+					w=gtk_label_new("");
+					//s="<s>"+a+"</s>";
+					s=a;
+					gtk_label_set_markup(GTK_LABEL(w),s.c_str());
+					gtk_container_add(GTK_CONTAINER(m_labelPlayerBox[i][j]),w);
 				}
-				gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]), "");
+				gtk_widget_show_all(m_labelPlayerBox[i][j]);
 			}
 		}
 	}
+
 }

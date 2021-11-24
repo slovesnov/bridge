@@ -320,4 +320,6 @@ GtkWidget* containerGetChild(GtkWidget* w,int n);
 
 std::string getPlayerString(const CARD_INDEX cid[52],CARD_INDEX player,bool includeInner=false);
 void showOpenFileError();
+void clearContainer(GtkWidget*container);
+
 #endif /* BASE_H_ */

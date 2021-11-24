@@ -210,7 +210,7 @@
 "export the results of all deals to csv"
 "separator"
 "csv files"
-"TODO<i>Note.</i> To fix cards"
+"<i>Note.</i> To fix one or more cards from one of the players with unknown cards, you should click on the corresponding checkbox. In this case the calculation will start again."
 
 200 "unknown error"
 201 "duplicate tag found"
