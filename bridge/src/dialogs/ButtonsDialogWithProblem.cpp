@@ -78,7 +78,7 @@ ButtonsDialogWithProblem::~ButtonsDialogWithProblem() {
 
 GtkWidget* ButtonsDialogWithProblem::createPlayerBox(CARD_INDEX ci,
 		bool newLabels, bool underlined) {
-	GtkWidget *w, *w1, *w2;
+	GtkWidget *w, *w1, *w2,*w3;
 	int i;
 	std::string s;
 
@@ -98,17 +98,15 @@ GtkWidget* ButtonsDialogWithProblem::createPlayerBox(CARD_INDEX ci,
 		if (newLabels) {
 			m_labelPlayerSuit[indexOfPlayer(ci)][i] = gtk_label_new("");
 		}
-		w2 = m_labelPlayerSuit[indexOfPlayer(ci)][i];
+		w3=w2 = m_labelPlayerSuit[indexOfPlayer(ci)][i];
 
 		gtk_label_set_xalign(GTK_LABEL(w2), 0);
 		gtk_label_set_yalign(GTK_LABEL(w2), 0.5);
 
+//		gtk_container_add(GTK_CONTAINER(w1), w2);
 
-//		gtk_container_add(GTK_CONTAINER(w3), w2);
-//		gtk_container_add(GTK_CONTAINER(w1), w3);
-
-		gtk_container_add(GTK_CONTAINER(w1), w2);
-		w2 = m_labelPlayerBox[indexOfPlayer(ci)][i]=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+		w2 = m_playerBox[indexOfPlayer(ci)][i]=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+		gtk_container_add(GTK_CONTAINER(w2), w3);
 		gtk_container_add(GTK_CONTAINER(w1), w2);
 
 		gtk_container_add(GTK_CONTAINER(w), w1);

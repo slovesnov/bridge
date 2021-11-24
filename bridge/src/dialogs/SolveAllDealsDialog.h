@@ -31,6 +31,7 @@ class SolveAllDealsDialog: public ButtonsDialogWithProblem {
 	GtkWidget *m_labelPercentTab2;
 	GtkWidget *m_notebook;
 	GMutex m_mutex;
+	std::map<GtkWidget*,GtkWidget*> m_map;
 public:
 	gint64 m_id;//read help in SolveAllDealsDialog.cpp
 
@@ -59,6 +60,8 @@ public:
 	std::string getNSEWString(bool ns);
 	void close();
 	void setPlayersCards();
+	void checkChanged(GtkWidget* check,GtkWidget* w);
+	void labelClick(GtkWidget* w);
 };
 
 #endif /* DIALOGS_SOLVEALLDEALSDIALOG_H_ */

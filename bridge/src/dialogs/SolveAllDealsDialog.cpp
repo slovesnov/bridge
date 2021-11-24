@@ -46,6 +46,16 @@ static gboolean combo_changed(GtkWidget *w, gpointer) {
 	return TRUE;
 }
 
+static void check_changed(GtkWidget *check, GtkWidget* w) {
+	d->checkChanged(check,w);
+}
+
+static gboolean label_click(GtkWidget *widget, GdkEventButton *event,
+		GtkWidget* w) {
+	d->labelClick(w);
+	return TRUE;
+}
+
 SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 		ButtonsDialogWithProblem(MENU_SOLVE_ALL_DEALS, false,
 				BUTTONS_DIALOG_NONE),m_positions(positons) {
@@ -931,9 +941,10 @@ void SolveAllDealsDialog::close() {
 void SolveAllDealsDialog::setPlayersCards() {
 	int i,j;
 	bool b;
-	GtkWidget* w;
+	GtkWidget *w, *q,*w1,*q1;
 	std::string s;
 	Problem const&p = getProblem();
+	m_map.clear();
 	for (i = 0; i < 4; i++) {
 		if(isBridge()){
 			b = i % 2 == isBridgeSolveAllDealsAbsentNS();
@@ -942,29 +953,52 @@ void SolveAllDealsDialog::setPlayersCards() {
 			b=PLAYER[i] == p.m_player;
 		}
 		for (j = 0; j < 4; j++) {
+			w=m_playerBox[i][j];
+			clearContainer(w);
 			auto v=p.getRowVector(j, PLAYER[i]);
 			if (b || v.empty() ) {
-				gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]),
-						b ? p.getRow(j, PLAYER[i]).c_str() : " ?");
-
-				clearContainer(m_labelPlayerBox[i][j]);
+				gtk_container_add(GTK_CONTAINER(w),label(b ? p.getRow(j, PLAYER[i]) : " ?"));
 			}
 			else{
-				gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]),
-						"");
 				for(auto& a:v){
-					w=gtk_check_button_new();
-					gtk_container_add(GTK_CONTAINER(m_labelPlayerBox[i][j]),w);
 
-					w=gtk_label_new("");
-					//s="<s>"+a+"</s>";
 					s=a;
-					gtk_label_set_markup(GTK_LABEL(w),s.c_str());
-					gtk_container_add(GTK_CONTAINER(m_labelPlayerBox[i][j]),w);
+					w1=label(s);
+					//allow click on label
+				    q1 = gtk_event_box_new ();
+				    gtk_container_add (GTK_CONTAINER (q1), w1);
+					g_signal_connect(q1, "button-press-event", G_CALLBACK(label_click), w1);
+
+					q=gtk_check_button_new();
+					gtk_container_add(GTK_CONTAINER(w),q);
+					g_signal_connect(q, "toggled", G_CALLBACK(check_changed), w1);
+
+					m_map[w1]=q;
+
+					gtk_container_add(GTK_CONTAINER(w),q1);
 				}
-				gtk_widget_show_all(m_labelPlayerBox[i][j]);
 			}
+			gtk_widget_show_all(w);
 		}
 	}
 
+}
+
+void SolveAllDealsDialog::checkChanged(GtkWidget* check,GtkWidget *w) {
+	std::string s;
+	s=gtk_label_get_text(GTK_LABEL(w));
+
+	//for stroke text also return '9' not "<s>9</s>"
+	//printl(s);
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check))) {
+		s="<s>"+s+"</s>";
+	}
+	gtk_label_set_markup(GTK_LABEL(w), s.c_str());
+}
+
+void SolveAllDealsDialog::labelClick(GtkWidget *w) {
+	GtkWidget* check=m_map[w];
+	auto ch=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),!ch);
+	checkChanged(check,w);
 }
