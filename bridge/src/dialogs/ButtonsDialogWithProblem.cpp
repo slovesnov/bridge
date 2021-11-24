@@ -78,6 +78,7 @@ ButtonsDialogWithProblem::~ButtonsDialogWithProblem() {
 
 GtkWidget* ButtonsDialogWithProblem::createPlayerBox(CARD_INDEX ci,
 		bool newLabels, bool underlined) {
+	//printl(ci)
 	GtkWidget *w, *w1, *w2,*w3;
 	int i;
 	std::string s;

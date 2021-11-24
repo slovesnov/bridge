@@ -946,6 +946,9 @@ void SolveAllDealsDialog::setPlayersCards() {
 	Problem const&p = getProblem();
 	m_map.clear();
 	for (i = 0; i < 4; i++) {
+		if(isPreferans() && PLAYER[i] == p.m_absent){
+			continue;
+		}
 		if(isBridge()){
 			b = i % 2 == isBridgeSolveAllDealsAbsentNS();
 		}
@@ -955,14 +958,13 @@ void SolveAllDealsDialog::setPlayersCards() {
 		for (j = 0; j < 4; j++) {
 			w=m_playerBox[i][j];
 			clearContainer(w);
-			auto v=p.getRowVector(j, PLAYER[i]);
+			auto v=p.getRowVectorIndex(j, PLAYER[i]);
 			if (b || v.empty() ) {
 				gtk_container_add(GTK_CONTAINER(w),label(b ? p.getRow(j, PLAYER[i]) : " ?"));
 			}
 			else{
 				for(auto& a:v){
-
-					s=a;
+					s=getCardRankString(a%13);
 					w1=label(s);
 					//allow click on label
 				    q1 = gtk_event_box_new ();
@@ -973,7 +975,7 @@ void SolveAllDealsDialog::setPlayersCards() {
 					gtk_container_add(GTK_CONTAINER(w),q);
 					g_signal_connect(q, "toggled", G_CALLBACK(check_changed), w1);
 
-					m_map[w1]=q;
+					m_map[w1]={q,a,PLAYER[i]};
 
 					gtk_container_add(GTK_CONTAINER(w),q1);
 				}
@@ -986,6 +988,9 @@ void SolveAllDealsDialog::setPlayersCards() {
 
 void SolveAllDealsDialog::checkChanged(GtkWidget* check,GtkWidget *w) {
 	std::string s;
+	int i,j;
+	VInt p[2][2];
+
 	s=gtk_label_get_text(GTK_LABEL(w));
 
 	//for stroke text also return '9' not "<s>9</s>"
@@ -994,11 +999,37 @@ void SolveAllDealsDialog::checkChanged(GtkWidget* check,GtkWidget *w) {
 		s="<s>"+s+"</s>";
 	}
 	gtk_label_set_markup(GTK_LABEL(w), s.c_str());
+
+	auto& pl=gdraw->m_vSolveAll[0].p;
+
+	for (auto const& [key, a] : m_map){
+		gboolean c=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(a.check));
+		for(j=0;j<2 && pl[j]!=a.player;j++);
+		if(j==2){
+			continue;
+		}
+		p[j][c].push_back(a.card);
+	}
+
+	//printl(LEADER[indexOfPlayer(sa.p[0])] , LEADER[indexOfPlayer(sa.p[1])] )
+
+	for(i=0;i<2;i++){
+		s="";
+		for(auto&a:p[i][1]){
+			s+=" "+getCardString(a);
+		}
+		if(!s.empty()){
+			printl(LEADER[indexOfPlayer(pl[i])], s);
+		}
+	}
+	printi
+
 }
 
 void SolveAllDealsDialog::labelClick(GtkWidget *w) {
-	GtkWidget* check=m_map[w];
-	auto ch=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),!ch);
+	GtkWidget* check=m_map[w].check;
+	gboolean c;
+	c=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),!c);
 	checkChanged(check,w);
 }

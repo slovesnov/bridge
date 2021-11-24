@@ -12,6 +12,7 @@
 #define DIALOGS_SOLVEALLDEALSDIALOG_H_
 
 #include "ButtonsDialogWithProblem.h"
+#include "../helper/SolveAllDealsHelp.h"
 
 class SolveAllDealsDialog: public ButtonsDialogWithProblem {
 	int m_positions, m_total;
@@ -31,7 +32,7 @@ class SolveAllDealsDialog: public ButtonsDialogWithProblem {
 	GtkWidget *m_labelPercentTab2;
 	GtkWidget *m_notebook;
 	GMutex m_mutex;
-	std::map<GtkWidget*,GtkWidget*> m_map;
+	std::map<GtkWidget*,SolveAllDealsHelp> m_map;
 public:
 	gint64 m_id;//read help in SolveAllDealsDialog.cpp
 
