@@ -210,6 +210,7 @@
 "export the results of all deals to csv"
 "separator"
 "csv files"
+"TODO<i>Note.</i> To fix cards"
 
 200 "unknown error"
 201 "duplicate tag found"

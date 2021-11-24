@@ -400,23 +400,31 @@ std::string Problem::getHTMLString(int columns, CARD_INDEX player,
 	}
 }
 
-std::string Problem::getRow(int row, CARD_INDEX player) const {
+VString Problem::getRowVector(int row, CARD_INDEX player) const{
+	VString v;
 	std::string s;
 	int suit = getSuitsOrder(row);
-	bool found = false;
 	int j, k;
 	for (j = 0; j < 13; j++) {
 		k = suit * 13 + (gconfig->getAscending() ? 12 - j : j);
 		if (m_states[m_currentState].m_cid[k] == player) {
-			found = true;
-			s += " ";
-			s += getCardRankString(k);
+			v.push_back(getCardRankString(k));
 		}
 	}
-	if (!found) {
-		s += " -";
+	return v;
+}
+
+
+std::string Problem::getRow(int row, CARD_INDEX player) const {
+	VString v=getRowVector(row, player);
+	std::string s;
+	if(v.empty()){
+		s="-";
 	}
-	return s;
+	else{
+		s=joinV(v);
+	}
+	return " "+s;
 }
 
 std::string Problem::getDfContentHelper(int n) const {

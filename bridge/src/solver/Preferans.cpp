@@ -221,7 +221,6 @@ void Preferans::estimateAll(const Problem& pr, ESTIMATE estimateType,
 		addSuitableGroups(j, cid, next, v, toIndex);
 		if (v.empty()) {
 			if (m_trumpOriginal != NT && j != m_trump) {
-				//TODO bridge
 				addSuitableGroups(m_trumpOriginal, cid,next, v, toIndex);
 			}
 			if (v.empty()) {

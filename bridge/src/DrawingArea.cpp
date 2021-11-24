@@ -2252,7 +2252,6 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 			//check only preferans, bridge in solve() function file bi.h
 			if(!bridge && j % 50 == 0 && needStopThread() ){
 				//println("alldeals exit (user break) %d",index)
-				printl(index)
 				return;
 			}
 		}

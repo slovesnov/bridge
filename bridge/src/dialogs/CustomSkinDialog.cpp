@@ -31,7 +31,7 @@ CustomSkinDialog::CustomSkinDialog() :
 	gtk_widget_set_margin_end(w, 10);
 
 	for (i = 0; i < SIZEI(CUSTOMSKINDIALOG_BUTTONS); i++) {
-		m_button[i] = createButton(NULL, CUSTOMSKINDIALOG_BUTTONS[i]);
+		m_button[i] = createTextButton(CUSTOMSKINDIALOG_BUTTONS[i]);
 		gtk_container_add(GTK_CONTAINER(w), m_button[i]);
 		g_signal_connect(m_button[i], "clicked", G_CALLBACK(button_clicked),
 				GP(i));

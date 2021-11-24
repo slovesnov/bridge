@@ -33,6 +33,18 @@ GtkWidget* BaseDialog::createButton(const char *img, MENU_ID id) {
 	return createButton(img, getString(id));
 }
 
+GtkWidget* BaseDialog::createTextButton(STRING_ID id) {
+	return createButton(nullptr,id);
+}
+
+GtkWidget* BaseDialog::createTextButton(MENU_ID id) {
+	return createButton(nullptr,id);
+}
+
+GtkWidget* BaseDialog::createTextButton(const char *str) {
+	return createButton(nullptr,str);
+}
+
 BaseDialog::~BaseDialog() {
 	gtk_widget_destroy(getWidget());
 }

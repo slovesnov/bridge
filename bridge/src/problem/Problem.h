@@ -306,7 +306,8 @@ public:
 	}
 	std::string getHTMLnorthSouth(int columns, bool north, bool tdAtFirst) const;
 
-	//allow also player=CARD_INDEX_ABSENT
+	//also allow player=CARD_INDEX_ABSENT
+	VString getRowVector(int row, CARD_INDEX player) const;
 	std::string getRow(int row, CARD_INDEX player) const;
 	std::string getHTMLString(int columns, CARD_INDEX player, bool cr) const;
 	//END helper functions to store problem

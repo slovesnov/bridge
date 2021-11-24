@@ -21,8 +21,7 @@ const int BRIDGE_DOUBLE_REDOUBLE_COMBO=1;
 const int BRIDGE_VULNERABLE_COMBO=2;
 const int TAB1=0;
 const int TAB2=1;
-const int HELP_BUTTON=2;
-const int EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON=3;
+const int EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON=2;
 //2nd tab
 const int TITLE_ROWS=2;
 
@@ -51,13 +50,14 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 		ButtonsDialogWithProblem(MENU_SOLVE_ALL_DEALS, false,
 				BUTTONS_DIALOG_NONE),m_positions(positons) {
 	int i, j,k;
-	GtkWidget*g, *g1, *w,*w1;
+	GtkWidget*g, *g1, *w,*w1,*wa;
 	GList* list;
 	std::string s;
 	bool b;
 	Problem const&p = getProblem();
 	VString v;
 	const int leftMargin=20;
+	STRING_ID sid;
 
 	d=this;
 	m_labelThread.resize(getMaxRunThreads()+1);
@@ -76,23 +76,13 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 
 	i=0;
 	for(auto& a:m_button){
-		if(i==HELP_BUTTON){
-			/* help messages allocates vertical space on tab2
-			 * which do unwanted additional vertical space on tab1
-			 * so add help button
-			 */
-			a=createButton(NULL, MENU_HELP);
-		}
-		else if(i==EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON){
-			/* help messages allocates vertical space on tab2
-			 * which do unwanted additional vertical space on tab1
-			 * so add help button
-			 */
-			a=createButton(NULL, STRING_EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV);
+		if(i==EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON){
+			sid=STRING_EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV;
 		}
 		else{
-			a=createButton(NULL, STRING_COPY_TO_CLIPBOARD);
+			sid=STRING_COPY_TO_CLIPBOARD;
 		}
+		a=createTextButton(sid);
 		g_signal_connect(a, "clicked", G_CALLBACK(button_clicked),
 				gpointer(0));
 		i++;
@@ -102,10 +92,9 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	gtk_entry_set_width_chars(GTK_ENTRY(m_entry), 1);
 	gtk_entry_set_text(GTK_ENTRY(m_entry), csvSeparator().c_str());
 
-
 	for (i = 0; i < 4; i++) {
 		if(isBridge()){
-			b=i%2==isBridgeSolveAllDealsAbsentNS();
+			b = i % 2 == isBridgeSolveAllDealsAbsentNS();
 		}
 		else{
 			b=PLAYER[i] == p.m_player;
@@ -189,7 +178,6 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 
 	i=k=1;
 	w=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
-	//w=gtk_label_new("s.c_str()");
 	g_object_set (w, "margin-left", leftMargin, NULL);
 	gtk_grid_attach(GTK_GRID(g1), w, i++,0, 1, 1);
 
@@ -215,16 +203,15 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 			i, 1, 1);
 	gtk_grid_attach(GTK_GRID(g1), m_labelTotal, k+2, i, 1, 1);
 
-	const int columns=10;
-	i++;
+	wa=gtk_box_new(GTK_ORIENTATION_VERTICAL,4);
+	gtk_container_add(GTK_CONTAINER(wa), g1 );
+
 	w=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,5);
 	gtk_container_add(GTK_CONTAINER(w), m_button[TAB1] );
 	gtk_container_add(GTK_CONTAINER(w), m_loading[TAB1] );
-	gtk_grid_attach(GTK_GRID(g1), w, 0, i, columns, 1);
+	gtk_container_add(GTK_CONTAINER(wa), w );
 
-	i++;
 	w=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,5);
-	g_object_set (w, "margin-top", 4, NULL);
 	gtk_container_add(GTK_CONTAINER(w), m_button[EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON] );
 	s="csv ";
 	s+=getString(STRING_SEPARATOR);
@@ -232,10 +219,9 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	g_object_set (w1, "margin-left", leftMargin, NULL);
 	gtk_container_add(GTK_CONTAINER(w), w1 );
 	gtk_box_pack_start(GTK_BOX(w), m_entry, FALSE, FALSE, 0);
-	gtk_grid_attach(GTK_GRID(g1), w, 0, i, columns, 1);
+	gtk_container_add(GTK_CONTAINER(wa), w );
 
 	if(isBridge()){
-		i++;
 		w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 		g_object_set (w, "margin-top", 4, NULL);
 		gtk_container_add(GTK_CONTAINER(w), gtk_label_new(getString(STRING_PLAYERS_WITH_UNKNOWN_CARDS)) );
@@ -249,9 +235,11 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 
 		gtk_container_add(GTK_CONTAINER(w), m_combo[TAB1]);
 
-		gtk_grid_attach(GTK_GRID(g1), w, 0, i, 3, 1);
+		gtk_container_add(GTK_CONTAINER(wa), w );
 	}
 
+	w = createMarkupLabel(STRING_FIX_CARDS_HELP, 60);
+	gtk_container_add(GTK_CONTAINER(wa), w );
 
 	//thread statistics
 	j=k+4;
@@ -280,7 +268,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 
 	m_notebook = gtk_notebook_new();
 
-	for (auto w : { g1, createTab2() }) {
+	for (auto w : { wa, createTab2() }) {
 		gtk_notebook_append_page(GTK_NOTEBOOK(m_notebook), w,
 				label(w == g1 ? STRING_TRICKS1 : STRING_CONTRACTS));
 	}
@@ -389,26 +377,21 @@ void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 	std::string s;
 	const int trump = getTrump();
 
-	if (w == m_button[HELP_BUTTON]) {
-		message(MESSAGE_ICON_NONE, STRING_CONTRACTS_SCORING_HELP,
-				BUTTONS_DIALOG_NONE);
-		return;
-	}
-	else if (w == m_button[EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON]) {
-		FileChooserResult r=fileChooserSave(FILE_TYPE_CSV);
+	if (w == m_button[EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON]) {
+		FileChooserResult r = fileChooserSave(FILE_TYPE_CSV);
 		if (r.ok()) {
 			VDealResult v;
-			auto&sa=gdraw->m_vSolveAll;
-			i=0;
-			for(auto& a:sa){
-				i+=a.dealResultSize();
+			auto &sa = gdraw->m_vSolveAll;
+			i = 0;
+			for (auto &a : sa) {
+				i += a.dealResultSize();
 			}
 			v.reserve(i);
-			for(auto& a:sa){
+			for (auto &a : sa) {
 				a.add(v);
 			}
 
-			std::sort(v.begin(),v.end());
+			std::sort(v.begin(), v.end());
 
 			/* try to make output file as small as possible
 			 * because for bridge
@@ -421,35 +404,34 @@ void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 			 * max file size without title 184'756*31=5'727'436
 			 */
 			std::ofstream f(r.file());
-			if(!f.is_open()){
+			if (!f.is_open()) {
 				showOpenFileError();
 				return;
 			}
 
 			//BOM
-			f<<char(0xef)<<char(0xbb)<<char(0xbf);
+			f << char(0xef) << char(0xbb) << char(0xbf);
 
-			for(i=0;i<2;i++){
-				f<<getLowercasedPlayerString(sa[0].p[i])<<csvSeparator();
+			for (i = 0; i < 2; i++) {
+				f << getLowercasedPlayerString(sa[0].p[i]) << csvSeparator();
 			}
 			if (isBridge()) {
-				s=getString(STRING_TRICKS1)+(" "+getNSEWString(isDeclarerNorthOrSouth()));
+				s = getString(STRING_TRICKS1)
+						+ (" " + getNSEWString(isDeclarerNorthOrSouth()));
+			} else {
+				s = getString(STRING_PLAYER_TRICKS);
+				s = replaceAll(s, "\n", " ");
 			}
-			else {
-				s=getString(STRING_PLAYER_TRICKS);
-				s=replaceAll(s, "\n", " ");
-			}
-			f<<s<<"\n";
+			f << s << "\n";
 
-			for(auto& a:v){
-				for(i=0;i<2;i++){
-					f<<a.a[i]<<csvSeparator();
+			for (auto &a : v) {
+				for (i = 0; i < 2; i++) {
+					f << a.a[i] << csvSeparator();
 				}
 				//not a.result but int(a.result)
-				f<<int(a.result)<<"\n";
+				f << int(a.result) << "\n";
 			}
 		}
-
 		return;
 	}
 	else if(w==m_button[TAB2]){
@@ -697,7 +679,6 @@ GtkWidget* SolveAllDealsDialog::createTab2() {
 	gtk_container_add(GTK_CONTAINER(w), m_button[TAB2]);
 	gtk_container_add(GTK_CONTAINER(w), m_loading[TAB2]);
 	gtk_container_add(GTK_CONTAINER(w), m_labelPercentTab2);
-	gtk_container_add(GTK_CONTAINER(w), m_button[HELP_BUTTON]);
 	gtk_container_add(GTK_CONTAINER(w2), w);
 
 
@@ -725,6 +706,9 @@ GtkWidget* SolveAllDealsDialog::createTab2() {
 	w1= gtk_frame_new(getString(MENU_OPTIONS));
 	gtk_container_add(GTK_CONTAINER(w1), w);
 	gtk_frame_set_label_align(GTK_FRAME(w1), 0.03, 0.5);
+	gtk_container_add(GTK_CONTAINER(w2), w1);
+
+	w1=createMarkupLabel(STRING_CONTRACTS_SCORING_HELP,60);
 	gtk_container_add(GTK_CONTAINER(w2), w1);
 
 	return w2;
@@ -962,4 +946,40 @@ std::string SolveAllDealsDialog::getNSEWString(bool ns) {
 void SolveAllDealsDialog::close() {
 	csvSeparator()=gtk_entry_get_text(GTK_ENTRY(m_entry));
 	gdraw->stopSolveAllDealsThreads();
+}
+
+void SolveAllDealsDialog::setFix() {
+	int i,j;
+	bool b;
+	VString v;
+	std::string s;
+	GtkWidget*w;
+	Problem const&p = getProblem();
+	for (i = 0; i < 4; i++) {
+		if(isBridge()){
+			b = i % 2 == isBridgeSolveAllDealsAbsentNS();
+		}
+		else{
+			b=PLAYER[i] == p.m_player;
+		}
+		for (j = 0; j < 4; j++) {
+			if (!b) {
+				v=p.getRowVector(j, PLAYER[i]);
+				if(!v.empty()){
+					for(auto& a:v){
+						w=gtk_check_button_new();
+						gtk_container_add(GTK_CONTAINER(m_labelPlayerBox[i][j]),w);
+
+						w=gtk_label_new("");
+						s="<s>"+a+"</s>";
+						gtk_label_set_markup(GTK_LABEL(w),s.c_str());
+						//w=gtk_button_new_with_label(a.c_str());
+						gtk_container_add(GTK_CONTAINER(m_labelPlayerBox[i][j]),w);
+					}
+					gtk_widget_show_all(m_labelPlayerBox[i][j]);
+				}
+				gtk_label_set_text(GTK_LABEL(m_labelPlayerSuit[i][j]), "");
+			}
+		}
+	}
 }

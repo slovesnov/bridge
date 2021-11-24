@@ -77,13 +77,14 @@ ButtonsDialogWithProblem::~ButtonsDialogWithProblem() {
 }
 
 GtkWidget* ButtonsDialogWithProblem::createPlayerBox(CARD_INDEX ci,
-		bool newLabels,bool underlined) {
-	GtkWidget*w, *w1, *w2;
+		bool newLabels, bool underlined) {
+	GtkWidget *w, *w1, *w2;
 	int i;
 	std::string s;
 
 	w = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	w2=underlined ?createUnderlinedLabel(ci) : gtk_label_new(getPlayerString(ci));
+	w2 = underlined ?
+			createUnderlinedLabel(ci) : gtk_label_new(getPlayerString(ci));
 	gtk_label_set_xalign(GTK_LABEL(w2), 0);
 	gtk_label_set_yalign(GTK_LABEL(w2), 0.5);
 	gtk_container_add(GTK_CONTAINER(w), w2);
@@ -95,13 +96,19 @@ GtkWidget* ButtonsDialogWithProblem::createPlayerBox(CARD_INDEX ci,
 				gtk_image_new_from_pixbuf(m_suitPixbuf[getSuitsOrder(i)]));
 
 		if (newLabels) {
-			w2 = m_labelPlayerSuit[indexOfPlayer(ci)][i] = gtk_label_new("");
+			m_labelPlayerSuit[indexOfPlayer(ci)][i] = gtk_label_new("");
 		}
-		else {
-			w2 = m_labelPlayerSuit[indexOfPlayer(ci)][i];
-		}
+		w2 = m_labelPlayerSuit[indexOfPlayer(ci)][i];
+
 		gtk_label_set_xalign(GTK_LABEL(w2), 0);
 		gtk_label_set_yalign(GTK_LABEL(w2), 0.5);
+
+
+//		gtk_container_add(GTK_CONTAINER(w3), w2);
+//		gtk_container_add(GTK_CONTAINER(w1), w3);
+
+		gtk_container_add(GTK_CONTAINER(w1), w2);
+		w2 = m_labelPlayerBox[indexOfPlayer(ci)][i]=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_container_add(GTK_CONTAINER(w1), w2);
 
 		gtk_container_add(GTK_CONTAINER(w), w1);
