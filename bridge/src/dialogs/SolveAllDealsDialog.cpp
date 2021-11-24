@@ -989,7 +989,12 @@ void SolveAllDealsDialog::setPlayersCards() {
 void SolveAllDealsDialog::checkChanged(GtkWidget* check,GtkWidget *w) {
 	std::string s;
 	int i,j;
-	VInt p[2][2];
+
+	for(i=0;i<2;i++){
+		for(j=0;j<2;j++){
+			m_cards[i][j].clear();
+		}
+	}
 
 	s=gtk_label_get_text(GTK_LABEL(w));
 
@@ -1008,21 +1013,28 @@ void SolveAllDealsDialog::checkChanged(GtkWidget* check,GtkWidget *w) {
 		if(j==2){
 			continue;
 		}
-		p[j][c].push_back(a.card);
+		m_cards[j][c].push_back(a.card);
 	}
 
-	//printl(LEADER[indexOfPlayer(sa.p[0])] , LEADER[indexOfPlayer(sa.p[1])] )
-
+/*TODO
 	for(i=0;i<2;i++){
 		s="";
-		for(auto&a:p[i][1]){
+		for(auto&a:m_cards[i][1]){
 			s+=" "+getCardString(a);
 		}
 		if(!s.empty()){
 			printl(LEADER[indexOfPlayer(pl[i])], s);
 		}
 	}
-	printi
+
+	for (j = 0; j < 2; j++) {
+		s="";
+		for (i = 0; i < 4; i++) {
+			s += std::to_string(checkedCardsForSuit(i, j));
+		}
+		printl(s)
+	}
+*/
 
 }
 
@@ -1033,3 +1045,14 @@ void SolveAllDealsDialog::labelClick(GtkWidget *w) {
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),!c);
 	checkChanged(check,w);
 }
+
+int SolveAllDealsDialog::fixedCards(int i) {
+	return m_cards[i][1].size();
+}
+
+int SolveAllDealsDialog::checkedCardsForSuit(int suit,int i){
+	return std::count_if(m_cards[i][1].begin(), m_cards[i][1].end(), [suit](int a) {
+		return a / 13 == suit;
+	});
+}
+

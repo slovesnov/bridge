@@ -65,12 +65,7 @@ public:
 	}
 	void init(const int k, const int n, const PermutationType type);
 	bool next();
-
-	void reset() {
-		index = 0;
-		i[0] = -1;
-		add();
-	}
+	void reset();
 
 	inline const int getK() const {
 		return k;

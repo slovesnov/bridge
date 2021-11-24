@@ -33,6 +33,7 @@ class SolveAllDealsDialog: public ButtonsDialogWithProblem {
 	GtkWidget *m_notebook;
 	GMutex m_mutex;
 	std::map<GtkWidget*,SolveAllDealsHelp> m_map;
+	VInt m_cards[2][2];
 public:
 	gint64 m_id;//read help in SolveAllDealsDialog.cpp
 
@@ -63,6 +64,8 @@ public:
 	void setPlayersCards();
 	void checkChanged(GtkWidget* check,GtkWidget* w);
 	void labelClick(GtkWidget* w);
+	int fixedCards(int i);
+	int checkedCardsForSuit(int suit,int i);
 };
 
 #endif /* DIALOGS_SOLVEALLDEALSDIALOG_H_ */

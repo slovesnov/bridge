@@ -39,7 +39,7 @@ void Permutations::init(const int _k, const int _n, PermutationType _type) {
 	k = _k;
 	type = _type;
 
-	assert(k>0 && n>0 && "permutations. error n and k should be positive");
+	assert(k>=0 && n>0 && "permutations. error n and k should nonnegative");
 #ifndef NDEBUG
 	if(type!=PERMUTATIONS_WITH_REPLACEMENTS) {
 		assert(n>=k && "permutations. error n<k");
@@ -53,6 +53,7 @@ void Permutations::init(const int _k, const int _n, PermutationType _type) {
 }
 
 void Permutations::add() {
+	assert(k>0);
 	int j = index;
 	int m, l;
 	i[j]++;
@@ -77,6 +78,10 @@ void Permutations::add() {
 }
 
 bool Permutations::next() {
+	if(k==0){
+		return false;
+	}
+
 	int l, j;
 	for (j = k - 1; j >= 0; j--) {
 		if (type == PERMUTATIONS_WITHOUT_REPLACEMENTS) {
@@ -99,6 +104,14 @@ bool Permutations::next() {
 	}
 	add();
 	return true;
+}
+
+void Permutations::reset() {
+	if(k>0){
+		index = 0;
+		i[0] = -1;
+		add();
+	}
 }
 
 //Note. Tested only for type=COMBINATION

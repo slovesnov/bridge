@@ -422,7 +422,7 @@ std::string Problem::getRow(int row, CARD_INDEX player) const {
 		return " -";
 	}
 	for(auto a:v){
-		s=" "+getCardRankString(a);
+		s+=" "+getCardRankString(a);
 	}
 	return s;
 }

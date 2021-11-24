@@ -2252,6 +2252,7 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 			//check only preferans, bridge in solve() function file bi.h
 			if(!bridge && j % 50 == 0 && needStopThread() ){
 				//println("alldeals exit (user break) %d",index)
+				printl(index)
 				return;
 			}
 		}
@@ -2286,7 +2287,7 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 	int i, j, k, n, *pi;
 	State& state = getState();
 	Permutations p;
-	CARD_INDEX c[2],ci;
+	CARD_INDEX c[2];
 	auto&pr=getProblem();
 	const CARD_INDEX player = pr.m_player;
 
@@ -2306,19 +2307,12 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 		c[1]=getNextPlayer(c[0]);
 	}
 
+	if(!createDialog){
+		printl(m_solveAllDealsDialog->fixedCards(0),m_solveAllDealsDialog->fixedCards(1));
+	}
+
 	k = state.countCards(c[0]);
-	if(k==0){
-		/* one of players has no cards, so another one has just one
-		 * it happens in very last trick
-		 */
-		k=n=1;
-		ci=c[0];
-		c[0]=c[1];
-		c[1]=ci;
-	}
-	else{
-		n = state.countCards(c[1])+k;
-	}
+	n = state.countCards(c[1])+k;
 	p.init(k, n, COMBINATION);
 	const int steps=getSolveAllDealsSteps(p);
 
