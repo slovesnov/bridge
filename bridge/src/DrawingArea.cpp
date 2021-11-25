@@ -2252,7 +2252,6 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 			//check only preferans, bridge in solve() function file bi.h
 			if(!bridge && j % 50 == 0 && needStopThread() ){
 				//println("alldeals exit (user break) %d",index)
-				printl(index)
 				return;
 			}
 		}
@@ -2311,26 +2310,24 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 	if(!createDialog){
 		for(i=0;i<2;i++){
 			v[i]=m_solveAllDealsDialog->fixedCards(i);
-//			printl(joinV(m_solveAllDealsDialog->fixedCards(0)));
-//			printl(joinV(v[i]));
 		}
 	}
 
-	k = state.countCards(c[0]);
-	n = state.countCards(c[1]) + k;
+	k = state.countCards(c[0])-v[0].size();
+	n = state.countCards(c[1])-v[1].size() + k;
 	p.init(k, n, COMBINATION);
 	const int steps = getSolveAllDealsSteps(p);
 
 	//println("%d %d %d",k,n,steps)
 
 	/* m_vSolveAll[i].positions uses in m_solveAllDealsDialog
-	 * updataLabels()
+	 * updateLabels()
 	 */
 	for (i = 0; i < getMaxRunThreads(); i++) {
 		m_vSolveAll[i].positions = 0;
 	}
 	SolveAll& s = m_vSolveAll[0];
-	s.init(k,n,first,getTrump(),c,cid);
+	s.init(k,n,first,getTrump(),c,cid,v);
 
 	if(createDialog){
 		m_solveAllDealsDialog = new SolveAllDealsDialog(p.number());
@@ -2395,7 +2392,7 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 	m_vThread.clear();
 	for (i = 0; i < getMaxRunThreads(); i++) {
 		if (i > 0) {
-			m_vSolveAll[i].copyParameters(m_vSolveAll[0]);
+			m_vSolveAll[i].copyParametersClearDealResult(m_vSolveAll[0]);
 		}
 		m_vThread.push_back( g_thread_new("", solve_all_deals_thread, GP(i)));
 	}

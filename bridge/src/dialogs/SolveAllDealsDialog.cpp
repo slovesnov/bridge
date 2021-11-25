@@ -21,7 +21,9 @@ const int BRIDGE_DOUBLE_REDOUBLE_COMBO=1;
 const int BRIDGE_VULNERABLE_COMBO=2;
 const int TAB1=0;
 const int TAB2=1;
-const int EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON=2;
+const int TAB1_EXPORT_CSV_BUTTON=2;
+const int TAB2_EXPORT_CSV_BUTTON=3;
+const int EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON=4;
 //2nd tab
 const int TITLE_ROWS=2;
 
@@ -86,10 +88,13 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 	i=0;
 	for(auto& a:m_button){
 		if(i==EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON){
-			sid=STRING_EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV;
+			sid=STRING_EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_FILE;
+		}
+		else if(oneOf(i,TAB1,TAB2)){
+			sid=STRING_COPY_TO_CLIPBOARD;
 		}
 		else{
-			sid=STRING_COPY_TO_CLIPBOARD;
+			sid=STRING_EXPORT_TO_CSV_FILE;
 		}
 		a=createTextButton(sid);
 		g_signal_connect(a, "clicked", G_CALLBACK(button_clicked),
@@ -136,7 +141,8 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 			}
 		}
 		else {
-			w = createPlayerBox(PLAYER[i], false,isPreferans() && PLAYER[i] == p.m_player);
+			w = createPlayerBox(PLAYER[i],
+					isPreferans() && PLAYER[i] == p.m_player ? PLAYERBOX_NAME_TYPE_UNDERLINED : PLAYERBOX_NAME_TYPE_WITH_CHECKBOX);
 		}
 		gtk_grid_attach(GTK_GRID(g), w, EDIT_LIST_REGION_POSITION[i].x,
 				EDIT_LIST_REGION_POSITION[i].y, 1, 1);
@@ -207,6 +213,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 
 	w=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,5);
 	gtk_container_add(GTK_CONTAINER(w), m_button[TAB1] );
+	gtk_container_add(GTK_CONTAINER(w), m_button[TAB1_EXPORT_CSV_BUTTON] );
 	gtk_container_add(GTK_CONTAINER(w), m_loading[TAB1] );
 	gtk_container_add(GTK_CONTAINER(wa), w );
 
@@ -373,67 +380,78 @@ void SolveAllDealsDialog::updateData() {
 
 void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 	int i,j;
-	std::string s;
+	std::string s,separator;
 	const int trump = getTrump();
 
-	if (w == m_button[EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON]) {
+	const int n=INDEX_OF(w,m_button);
+	std::ofstream f;
+	bool csvExport=oneOf(n,TAB1_EXPORT_CSV_BUTTON,TAB2_EXPORT_CSV_BUTTON,EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON);
+
+	if(csvExport){
 		FileChooserResult r = fileChooserSave(FILE_TYPE_CSV);
-		if (r.ok()) {
-			VDealResult v;
-			auto &sa = gdraw->m_vSolveAll;
-			i = 0;
-			for (auto &a : sa) {
-				i += a.dealResultSize();
-			}
-			v.reserve(i);
-			for (auto &a : sa) {
-				a.add(v);
-			}
+		if (!r.ok()) {
+			return;
+		}
+		f.open(r.file());
+		if (!f.is_open()) {
+			showOpenFileError();
+			return;
+		}
+		separator=csvSeparator();
+		//BOM
+		f << char(0xef) << char(0xbb) << char(0xbf);
+	}
+	else{
+		separator='\t';
+	}
 
-			std::sort(v.begin(), v.end());
+	if (n == EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON) {
+		VDealResult v;
+		auto &sa = gdraw->m_vSolveAll;
+		i = 0;
+		for (auto &a : sa) {
+			i += a.dealResultSize();
+		}
+		v.reserve(i);
+		for (auto &a : sa) {
+			a.add(v);
+		}
 
-			/* try to make output file as small as possible
-			 * because for bridge
-			 * C^13_26 = 10'400'600
-			 * one row 16chars(13+3) for deals+2chars for result+2separator+"\n" so 16*2+2+2+1=37 chars
-			 * max file size without title 10'400'600*37=384'822'200
-			 *
-			 * for preferans max 184'756
-			 * one row 13chars(10+3) for deals+2chars for result+2separator+"\n" so 13*2+2+2+1=31 chars
-			 * max file size without title 184'756*31=5'727'436
-			 */
-			std::ofstream f(r.file());
-			if (!f.is_open()) {
-				showOpenFileError();
-				return;
-			}
+		std::sort(v.begin(), v.end());
 
-			//BOM
-			f << char(0xef) << char(0xbb) << char(0xbf);
+		/* try to make output file as small as possible
+		 * because for bridge
+		 * C^13_26 = 10'400'600
+		 * one row 16chars(13+3) for deals+2chars for result+2separator+"\n" so 16*2+2+2+1=37 chars
+		 * max file size without title 10'400'600*37=384'822'200
+		 *
+		 * for preferans max 184'756
+		 * one row 13chars(10+3) for deals+2chars for result+2separator+"\n" so 13*2+2+2+1=31 chars
+		 * max file size without title 184'756*31=5'727'436
+		 */
 
+		for (i = 0; i < 2; i++) {
+			f << getLowercasedPlayerString(sa[0].p[i]) << separator;
+		}
+		if (isBridge()) {
+			s = getString(STRING_TRICKS1)
+					+ (" " + getNSEWString(isDeclarerNorthOrSouth()));
+		} else {
+			s = getString(STRING_PLAYER_TRICKS);
+			s = replaceAll(s, "\n", " ");
+		}
+		f << s << "\n";
+
+		for (auto &a : v) {
 			for (i = 0; i < 2; i++) {
-				f << getLowercasedPlayerString(sa[0].p[i]) << csvSeparator();
+				f << a.a[i] << separator;
 			}
-			if (isBridge()) {
-				s = getString(STRING_TRICKS1)
-						+ (" " + getNSEWString(isDeclarerNorthOrSouth()));
-			} else {
-				s = getString(STRING_PLAYER_TRICKS);
-				s = replaceAll(s, "\n", " ");
-			}
-			f << s << "\n";
-
-			for (auto &a : v) {
-				for (i = 0; i < 2; i++) {
-					f << a.a[i] << csvSeparator();
-				}
-				//not a.result but int(a.result)
-				f << int(a.result) << "\n";
-			}
+			//not a.result but int(a.result)
+			f << int(a.result) << "\n";
 		}
 		return;
 	}
-	else if(w==m_button[TAB2]){
+	else if (n == TAB2 || n == TAB2_EXPORT_CSV_BUTTON) {
 		int columns = isBridge() ? 4 : getPreferansPlayers()+2;
 
 		for (j = 0; j < getTableRowsTab2(); j++) {
@@ -443,7 +461,7 @@ void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 			for (i = 0; i < columns; i++) {
 				//first row and first column has spanned on two columns so i>1
 				if (i>1) {
-					s += "\t";
+					s += separator;
 				}
 				//first column has spanned on two columns for first row
 				//in case of misere first column has spanned on two columns for all rows
@@ -480,7 +498,7 @@ void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 
 		g_mutex_lock(&m_mutex);
 		for (i = 0; i < resultSize(); i++) {
-			s+=std::to_string(i)+"\t"+std::to_string(m_result[i])+"\n";//multithread ok
+			s+=std::to_string(i)+separator+std::to_string(m_result[i])+"\n";//multithread ok
 		}
 		g_mutex_unlock(&m_mutex);
 
@@ -488,8 +506,14 @@ void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 			s+=getTotalTimeLabelString()+"\n"+getProgressBarString(false);
 		}
 	}
-	GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-	gtk_clipboard_set_text(clipboard, s.c_str(), s.length());
+
+	if(csvExport){
+		f<<s;
+	}
+	else{
+		GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+		gtk_clipboard_set_text(clipboard, s.c_str(), s.length());
+	}
 }
 
 int SolveAllDealsDialog::resultSize()const{
@@ -657,6 +681,7 @@ GtkWidget* SolveAllDealsDialog::createTab2() {
 
 	w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 15);
 	gtk_container_add(GTK_CONTAINER(w), m_button[TAB2]);
+	gtk_container_add(GTK_CONTAINER(w), m_button[TAB2_EXPORT_CSV_BUTTON] );
 	gtk_container_add(GTK_CONTAINER(w), m_loading[TAB2]);
 	gtk_container_add(GTK_CONTAINER(w), m_labelPercentTab2);
 	gtk_container_add(GTK_CONTAINER(w2), w);

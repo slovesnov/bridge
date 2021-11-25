@@ -20,27 +20,54 @@ SolveAll::~SolveAll() {
 }
 
 void SolveAll::init(int k, int n, CARD_INDEX first, int trump,
-		CARD_INDEX p[2], CARD_INDEX cid[52]) {
-	int i,j,l;
+		CARD_INDEX p[2], CARD_INDEX cid[52],VInt const (&fixed)[2]) {
+	//cann't use k it's parameter
+	int i, j, l, m;
 #define A(a) this->a=a;
-	A(k)A(n)A(first)A(trump)
+	A(k)
+	A(n)
+	A(first)
+	A(trump)
 #undef A
 #define A(a) for(i=0;i<SIZEI(this->a);i++){this->a[i]=a[i];}
-	A(p)A(cid)
+	A(p)
+	A(cid)
 #undef A
+
+#ifndef NDEBUG
+	int c[2];
+	for (j = 0; j < 2; j++) {
+		c[j]=0;
+	}
+#endif
 	l = 0;
 	for (j = 0; j < 2; j++) {
 		for (i = 0; i < 52; i++) {
-			if (cid[i] == p[j]) {
-				o[l++] = i;
+			m=cid[i];
+			if (m == p[j]) {
+				if(oneOf(i,fixed[j])){
+#ifndef NDEBUG
+					c[j]++;
+#endif
+				}
+				else{
+					o[l++] = i;
+				}
 			}
 		}
 	}
+	vDealResult.clear();
 	positions=0;
+
+#ifndef NDEBUG
+	for (j = 0; j < 2; j++) {
+		assert(c[j]==int(fixed[j].size()));
+	}
+#endif
 
 }
 
-void SolveAll::copyParameters(SolveAll const& source){
+void SolveAll::copyParametersClearDealResult(SolveAll const& source){
 	int i;
 #define A(a) a=source.a;
 	A(k)A(n)A(first)A(trump)A(misere)A(player)A(ns)A(id)A(positions)
@@ -49,6 +76,7 @@ void SolveAll::copyParameters(SolveAll const& source){
 #define A(a) for(i=0;i<SIZEI(a);i++){a[i]=source.a[i];}
 	A(p)A(cid)A(o)A(preferansPlayer)
 #undef A
+	vDealResult.clear();
 }
 
 void SolveAll::addDealResult(const DealResult &deal) {

@@ -74,7 +74,7 @@ public:
 	//solve for all declarers & solve all deals
 	GMutex m_solveAllMutex;
 	std::atomic_int m_solveAllNumber,m_maxv;
-	std::vector<SolveAll> m_vSolveAll;
+	VSolveAll m_vSolveAll;
 
 	void startWaitFunction(GSourceFunc function, gpointer data);
 	void finishWaitFunction();

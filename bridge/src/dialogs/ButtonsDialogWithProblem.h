@@ -30,7 +30,8 @@ protected:
 	GdkPixbuf* m_arrowPixbuf[4];
 	static const CPoint EDIT_LIST_REGION_POSITION[];
 
-	GtkWidget* createPlayerBox(CARD_INDEX ci, bool newLabels,bool underlined=false);
+	GtkWidget* createPlayerBox(CARD_INDEX ci, PLAYERBOX_NAME_TYPE type =
+			PLAYERBOX_NAME_TYPE_SIMPLE);
 	void attachInnerTable(GtkWidget*g);
 	void setInnerTable(const Problem& p);
 };

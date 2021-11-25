@@ -58,7 +58,7 @@ EditListDialog::EditListDialog() :
 	attachInnerTable(g);
 
 	for (i = 0; i < SIZEI(PLAYER); i++) {
-		w = createPlayerBox(PLAYER[i], false);
+		w = createPlayerBox(PLAYER[i]);
 		gtk_grid_attach(GTK_GRID(g), w, EDIT_LIST_REGION_POSITION[i].x,
 				EDIT_LIST_REGION_POSITION[i].y, 1, 1);
 	}
@@ -144,7 +144,7 @@ void EditListDialog::redrawProblem() {
 		}
 
 		i = indexOfPlayer(m_lastHide);
-		auto w = createPlayerBox(m_lastHide, true);
+		auto w = createPlayerBox(m_lastHide);
 		gtk_grid_attach(GTK_GRID(m_grid), w, EDIT_LIST_REGION_POSITION[i].x,
 				EDIT_LIST_REGION_POSITION[i].y, 1, 1);
 	}

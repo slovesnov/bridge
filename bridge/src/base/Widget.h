@@ -15,6 +15,7 @@
 #include "../helper/FileChooserResult.h"
 #include "../problem/ProblemVector.h"
 #include "../helper/TextWithAttributes.h"
+#include "../helper/SolveAll.h"
 
 class Frame;
 class DrawingArea;
@@ -380,6 +381,8 @@ public:
 	std::string recent(int i);
 
 	std::string& csvSeparator();
+	VSolveAll& solveAll();
+	SolveAll& solveAll(int i);
 };
 
 #endif /* WIDGET_H_ */

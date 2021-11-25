@@ -13,6 +13,7 @@
 
 #include "../solver/BridgeCommon.h"
 #include "DealResult.h"
+#include "../base/Base.h" //VInt
 
 class SolveAll {
 	VDealResult vDealResult;
@@ -41,15 +42,17 @@ public:
 	~SolveAll();
 	SolveAll(SolveAll&&) = default;
 	void init(int k, int n, CARD_INDEX first, int trump,
-			CARD_INDEX p[2], CARD_INDEX cid[52]);
+			CARD_INDEX p[2], CARD_INDEX cid[52],VInt const (&fixed)[2]);
 
 	SolveAll(SolveAll const&)=delete;
 	void operator=(SolveAll const&)=delete;
-	void copyParameters(SolveAll const& source);
+	void copyParametersClearDealResult(SolveAll const& source);
 
 	void addDealResult(DealResult const& deal);
 	void add(VDealResult& v);
 	int dealResultSize();
 };
+
+using VSolveAll = std::vector<SolveAll>;
 
 #endif /* HELPER_SOLVEALL_H_ */

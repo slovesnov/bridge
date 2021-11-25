@@ -207,10 +207,11 @@
 "doubled" - https://en.wikipedia.org/wiki/Contract_bridge#Scoring
 "redoubled" - https://en.wikipedia.org/wiki/Contract_bridge#Scoring
 "defenders"
-"export the results of all deals to csv"
+"export the results of all deals to csv file"
 "separator"
 "csv files"
 "<i>Note.</i> To fix one or more cards from one of the players with unknown cards, you should click on the corresponding checkbox or on the card itself. In this case the calculation will start again."
+"export to csv file"
 
 200 "unknown error"
 201 "duplicate tag found"

@@ -977,3 +977,11 @@ std::string Widget::recent(int i) {
 std::string& Widget::csvSeparator(){
 	return gconfig->m_csvSeparator;
 }
+
+VSolveAll& Widget::solveAll() {
+	return gdraw->m_vSolveAll;
+}
+
+SolveAll& Widget::solveAll(int i) {
+	return solveAll()[i];
+}
