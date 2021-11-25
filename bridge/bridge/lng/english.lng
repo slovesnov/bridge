@@ -210,7 +210,7 @@
 "export the results of all deals to csv file"
 "separator"
 "csv files"
-"<i>Note.</i> To fix one or more cards from one of the players with unknown cards, you should click on the corresponding checkbox or on the card itself. In this case the calculation will start again."
+"<i>Note.</i> To fix one or more cards from one of the players with unknown cards, click on the corresponding checkbox or on the card itself. To fix or unlock all of a player's cards, click on the checkbox in front of his name or on the name itself. In both cases, the calculation will start again."
 "export to csv file"
 
 200 "unknown error"
