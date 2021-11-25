@@ -400,19 +400,20 @@ std::string Problem::getHTMLString(int columns, CARD_INDEX player,
 	}
 }
 
-VInt Problem::getRowVectorIndex(int row, CARD_INDEX player) const{
+VInt Problem::getSuitVectorIndex(int suit, CARD_INDEX player) const{
 	VInt v;
-	std::string s;
-	int suit = getSuitsOrder(row);
-	int j, k;
-	for (j = 0; j < 13; j++) {
-		k = suit * 13 + (gconfig->getAscending() ? 12 - j : j);
+	int i, k;
+	for (i = 0; i < 13; i++) {
+		k = suit * 13 + (gconfig->getAscending() ? 12 - i : i);
 		if (m_states[m_currentState].m_cid[k] == player) {
 			v.push_back(k);
 		}
 	}
 	return v;
+}
 
+VInt Problem::getRowVectorIndex(int row, CARD_INDEX player) const{
+	return getSuitVectorIndex(getSuitsOrder(row),player);
 }
 
 std::string Problem::getRow(int row, CARD_INDEX player) const {

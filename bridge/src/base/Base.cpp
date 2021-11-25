@@ -209,6 +209,13 @@ int getSuitsOrder(int i) {
 	return gconfig->getSuitsOrder(i);
 }
 
+int getInverseSuitsOrder(int i){
+	int j;
+	for(j=0;j<4 && gconfig->getSuitsOrder(j)!=i;j++);
+	assert(j<4);
+	return j;
+}
+
 CARD_INDEX getInner(CARD_INDEX index) {
 	return DrawingArea::getInner(index);
 }

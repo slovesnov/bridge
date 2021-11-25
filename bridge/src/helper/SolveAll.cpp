@@ -20,10 +20,10 @@ SolveAll::~SolveAll() {
 }
 
 void SolveAll::init(int k, int n, CARD_INDEX first, int trump,
-		CARD_INDEX p[2], CARD_INDEX cid[52], gint64 id) {
+		CARD_INDEX p[2], CARD_INDEX cid[52]) {
 	int i,j,l;
 #define A(a) this->a=a;
-	A(k)A(n)A(first)A(trump)A(id)
+	A(k)A(n)A(first)A(trump)
 #undef A
 #define A(a) for(i=0;i<SIZEI(this->a);i++){this->a[i]=a[i];}
 	A(p)A(cid)

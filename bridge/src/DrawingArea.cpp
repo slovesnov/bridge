@@ -2307,14 +2307,19 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 		c[1]=getNextPlayer(c[0]);
 	}
 
+	VInt v[2];
 	if(!createDialog){
-		printl(m_solveAllDealsDialog->fixedCards(0),m_solveAllDealsDialog->fixedCards(1));
+		for(i=0;i<2;i++){
+			v[i]=m_solveAllDealsDialog->fixedCards(i);
+//			printl(joinV(m_solveAllDealsDialog->fixedCards(0)));
+//			printl(joinV(v[i]));
+		}
 	}
 
 	k = state.countCards(c[0]);
-	n = state.countCards(c[1])+k;
+	n = state.countCards(c[1]) + k;
 	p.init(k, n, COMBINATION);
-	const int steps=getSolveAllDealsSteps(p);
+	const int steps = getSolveAllDealsSteps(p);
 
 	//println("%d %d %d",k,n,steps)
 
@@ -2324,6 +2329,9 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 	for (i = 0; i < getMaxRunThreads(); i++) {
 		m_vSolveAll[i].positions = 0;
 	}
+	SolveAll& s = m_vSolveAll[0];
+	s.init(k,n,first,getTrump(),c,cid);
+
 	if(createDialog){
 		m_solveAllDealsDialog = new SolveAllDealsDialog(p.number());
 	}
@@ -2331,8 +2339,7 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 		m_solveAllDealsDialog->setPositions(p.number());
 	}
 
-	SolveAll& s = m_vSolveAll[0];
-	s.init(k,n,first,getTrump(),c,cid,m_solveAllDealsDialog->m_id);
+	s.id=m_solveAllDealsDialog->m_id;
 
 	if(isBridge()){
 		s.ns=!northOrSouth(pr.getVeryFirstMove());

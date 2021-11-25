@@ -13,6 +13,7 @@
 
 #include "ButtonsDialogWithProblem.h"
 #include "../helper/SolveAllDealsHelp.h"
+#include "../helper/SolveAllDealsEmptyLabels.h"
 
 class SolveAllDealsDialog: public ButtonsDialogWithProblem {
 	int m_positions, m_total;
@@ -33,7 +34,8 @@ class SolveAllDealsDialog: public ButtonsDialogWithProblem {
 	GtkWidget *m_notebook;
 	GMutex m_mutex;
 	std::map<GtkWidget*,SolveAllDealsHelp> m_map;
-	VInt m_cards[2][2];
+	VInt m_handCards[2][2];
+	VSolveAllDealsEmptyLabels m_vel;
 public:
 	gint64 m_id;//read help in SolveAllDealsDialog.cpp
 
@@ -62,10 +64,13 @@ public:
 	std::string getNSEWString(bool ns);
 	void close();
 	void setPlayersCards();
-	void checkChanged(GtkWidget* check,GtkWidget* w);
+	void checkChanged(GtkWidget* check,GtkWidget* label);
 	void labelClick(GtkWidget* w);
-	int fixedCards(int i);
-	int checkedCardsForSuit(int suit,int i);
+	VInt fixedCards(int i);
+	int handCards(int i, int suit, bool fixed);
+	void setHandCards();
+	void updateEmptyLabel(SolveAllDealsEmptyLabels const& a);
+	void stopAndRunSolveAll();
 };
 
 #endif /* DIALOGS_SOLVEALLDEALSDIALOG_H_ */

@@ -230,6 +230,7 @@ std::string getCardRankString(int index);
 std::string getCardString(int index);
 
 int getSuitsOrder(int i);
+int getInverseSuitsOrder(int i);
 
 //define some functions here to avoid using DrawingArea::getInner ...
 CARD_INDEX getInner(CARD_INDEX index);

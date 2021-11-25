@@ -41,7 +41,7 @@ public:
 	~SolveAll();
 	SolveAll(SolveAll&&) = default;
 	void init(int k, int n, CARD_INDEX first, int trump,
-			CARD_INDEX p[2], CARD_INDEX cid[52], gint64 id);
+			CARD_INDEX p[2], CARD_INDEX cid[52]);
 
 	SolveAll(SolveAll const&)=delete;
 	void operator=(SolveAll const&)=delete;

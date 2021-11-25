@@ -17,8 +17,8 @@
 class SolveAllDealsHelp {
 public:
 	GtkWidget* check;
-	int card;
-	CARD_INDEX player;
+	int index;
+	int playerIndex;
 };
 
 #endif /* HELPER_SOLVEALLDEALSHELP_H_ */

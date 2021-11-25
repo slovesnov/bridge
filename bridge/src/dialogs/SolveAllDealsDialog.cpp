@@ -501,18 +501,9 @@ void SolveAllDealsDialog::comboChanged(GtkWidget *w){
 
 	if(i==TAB1){//only bridge
 		setBridgeSolveAllDealsAbsentNS(!gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[TAB1])));
+		stopAndRunSolveAll();
+		//gdraw->m_vSolveAll is set, so can call setPlayersCards
 		setPlayersCards();
-		gdraw->stopSolveAllDealsThreads();
-
-		//Call reset() only after stopSolveAllDealsThreads, because need set m_id
-		reset();
-		for(auto a:m_loading){
-			gtk_spinner_start (GTK_SPINNER(a));
-		}
-
-		//stopSolveAllDealsThreads
-		gdraw->m_solveAllDealsDialog=this;
-		gdraw->solveAllDeals(false);//here new number of positions is set
 	}
 	else{
 		if(isPreferans() && i==PREFERANS_PLAYERS_COMBO){
@@ -520,7 +511,6 @@ void SolveAllDealsDialog::comboChanged(GtkWidget *w){
 		}
 		updateTab2();
 	}
-
 }
 
 
@@ -943,116 +933,139 @@ void SolveAllDealsDialog::setPlayersCards() {
 	bool b;
 	GtkWidget *w, *q,*w1,*q1;
 	std::string s;
+	auto &pl = gdraw->m_vSolveAll[0].p;
 	Problem const&p = getProblem();
 	m_map.clear();
+	m_vel.clear();
 	for (i = 0; i < 4; i++) {
-		if(isPreferans() && PLAYER[i] == p.m_absent){
+		if (isPreferans() && PLAYER[i] == p.m_absent) {
 			continue;
 		}
-		if(isBridge()){
+		if (isBridge()) {
 			b = i % 2 == isBridgeSolveAllDealsAbsentNS();
-		}
-		else{
-			b=PLAYER[i] == p.m_player;
+		} else {
+			b = PLAYER[i] == p.m_player;
 		}
 		for (j = 0; j < 4; j++) {
-			w=m_playerBox[i][j];
+			w = m_playerBox[i][j];
+			auto v = p.getRowVectorIndex(j, PLAYER[i]);
 			clearContainer(w);
-			auto v=p.getRowVectorIndex(j, PLAYER[i]);
-			if (b || v.empty() ) {
-				gtk_container_add(GTK_CONTAINER(w),label(b ? p.getRow(j, PLAYER[i]) : " ?"));
-			}
-			else{
-				for(auto& a:v){
-					s=getCardRankString(a%13);
-					w1=label(s);
+			if (b || v.empty()) {
+				w1 = label(b ? p.getRow(j, PLAYER[i]) : "");
+				if (!b) {
+					m_vel.push_back(
+							{ w1, getSuitsOrder(j), PLAYER[i] == pl[0] });
+				}
+				gtk_container_add(GTK_CONTAINER(w), w1);
+			} else {
+				for (auto &a : v) {
+					s = getCardRankString(a);
+					w1 = label(s);
 					//allow click on label
-				    q1 = gtk_event_box_new ();
-				    gtk_container_add (GTK_CONTAINER (q1), w1);
-					g_signal_connect(q1, "button-press-event", G_CALLBACK(label_click), w1);
+					q1 = gtk_event_box_new();
+					gtk_container_add(GTK_CONTAINER(q1), w1);
+					g_signal_connect(q1, "button-press-event",
+							G_CALLBACK(label_click), w1);
 
-					q=gtk_check_button_new();
-					gtk_container_add(GTK_CONTAINER(w),q);
-					g_signal_connect(q, "toggled", G_CALLBACK(check_changed), w1);
+					q = gtk_check_button_new();
+					gtk_container_add(GTK_CONTAINER(w), q);
+					g_signal_connect(q, "toggled", G_CALLBACK(check_changed),
+							w1);
 
-					m_map[w1]={q,a,PLAYER[i]};
+					assert(PLAYER[i]==pl[0] || PLAYER[i]==pl[1]);
+					m_map[w1] = { q, a, PLAYER[i] == pl[1] };
 
-					gtk_container_add(GTK_CONTAINER(w),q1);
+					gtk_container_add(GTK_CONTAINER(w), q1);
 				}
 			}
 			gtk_widget_show_all(w);
 		}
 	}
 
-}
-
-void SolveAllDealsDialog::checkChanged(GtkWidget* check,GtkWidget *w) {
-	std::string s;
-	int i,j;
-
-	for(i=0;i<2;i++){
-		for(j=0;j<2;j++){
-			m_cards[i][j].clear();
-		}
+	//after m_map filled
+	setHandCards();
+	for(auto& a:m_vel){
+		updateEmptyLabel(a);
 	}
 
-	s=gtk_label_get_text(GTK_LABEL(w));
+}
+
+void SolveAllDealsDialog::checkChanged(GtkWidget* check,GtkWidget *label) {
+	std::string s;
+	int pi,suit;
+
+	s=gtk_label_get_text(GTK_LABEL(label));
 
 	//for stroke text also return '9' not "<s>9</s>"
 	//printl(s);
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check))) {
 		s="<s>"+s+"</s>";
 	}
-	gtk_label_set_markup(GTK_LABEL(w), s.c_str());
+	gtk_label_set_markup(GTK_LABEL(label), s.c_str());
 
-	auto& pl=gdraw->m_vSolveAll[0].p;
+	setHandCards();
 
-	for (auto const& [key, a] : m_map){
-		gboolean c=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(a.check));
-		for(j=0;j<2 && pl[j]!=a.player;j++);
-		if(j==2){
-			continue;
-		}
-		m_cards[j][c].push_back(a.card);
+	SolveAllDealsHelp a=m_map[label];
+	pi=a.playerIndex;
+	suit=a.index/13;
+	//search whether another player has empty label for suit a.anotherPlayerIndex==i
+	auto it = std::find_if(m_vel.begin(), m_vel.end(), [suit,pi](auto &a) {
+		return a.suit == suit && a.anotherPlayerIndex==pi;
+	}
+	);
+	//another player has no cards in suit
+	if(it!=m_vel.end()){
+		updateEmptyLabel(*it);
 	}
 
-/*TODO
-	for(i=0;i<2;i++){
-		s="";
-		for(auto&a:m_cards[i][1]){
-			s+=" "+getCardString(a);
-		}
-		if(!s.empty()){
-			printl(LEADER[indexOfPlayer(pl[i])], s);
-		}
-	}
-
-	for (j = 0; j < 2; j++) {
-		s="";
-		for (i = 0; i < 4; i++) {
-			s += std::to_string(checkedCardsForSuit(i, j));
-		}
-		printl(s)
-	}
-*/
-
+	stopAndRunSolveAll();
 }
 
 void SolveAllDealsDialog::labelClick(GtkWidget *w) {
 	GtkWidget* check=m_map[w].check;
-	gboolean c;
-	c=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+	gboolean c=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),!c);
 	checkChanged(check,w);
 }
 
-int SolveAllDealsDialog::fixedCards(int i) {
-	return m_cards[i][1].size();
+VInt SolveAllDealsDialog::fixedCards(int i) {
+	return m_handCards[i][1];
 }
 
-int SolveAllDealsDialog::checkedCardsForSuit(int suit,int i){
-	return std::count_if(m_cards[i][1].begin(), m_cards[i][1].end(), [suit](int a) {
-		return a / 13 == suit;
+int SolveAllDealsDialog::handCards(int i, int suit, bool fixed) {
+	auto &a = m_handCards[i][fixed];
+	return std::count_if(a.begin(), a.end(), [suit](int index) {
+		return index / 13 == suit;
 	});
 }
 
+void SolveAllDealsDialog::setHandCards() {
+	int i,j;
+	for(i=0;i<2;i++){
+		for(j=0;j<2;j++){
+			m_handCards[i][j].clear();
+		}
+	}
+	for (auto const& [key, a] : m_map) {
+		j=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(a.check));
+		m_handCards[a.playerIndex][j].push_back(a.index);
+	}
+}
+
+void SolveAllDealsDialog::updateEmptyLabel(SolveAllDealsEmptyLabels const& a) {
+	gtk_label_set_text(GTK_LABEL(a.label),
+			handCards(a.anotherPlayerIndex, a.suit, false) == 0 ? " -" : " ?");
+}
+
+void SolveAllDealsDialog::stopAndRunSolveAll() {
+	gdraw->stopSolveAllDealsThreads();
+
+	//Call reset() only after stopSolveAllDealsThreads, because need set m_id
+	reset();
+	for(auto a:m_loading){
+		gtk_spinner_start (GTK_SPINNER(a));
+	}
+
+	gdraw->m_solveAllDealsDialog=this;
+	gdraw->solveAllDeals(false);//here new number of positions is set
+}
