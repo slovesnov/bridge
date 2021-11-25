@@ -34,8 +34,10 @@ class SolveAllDealsDialog: public ButtonsDialogWithProblem {
 	GtkWidget *m_notebook;
 	GMutex m_mutex;
 	std::map<GtkWidget*,SolveAllDealsHelp> m_map;
+	std::map<GtkWidget*,SolveAllDealsHelp> m_mapLC;
 	VInt m_handCards[2][2];
 	VSolveAllDealsEmptyLabels m_vel;
+	bool m_runThreads;
 public:
 	gint64 m_id;//read help in SolveAllDealsDialog.cpp
 
@@ -71,6 +73,9 @@ public:
 	void setHandCards();
 	void updateEmptyLabel(SolveAllDealsEmptyLabels const& a);
 	void stopAndRunSolveAll();
+	std::pair<GtkWidget*,GtkWidget*> addClickableLabelWithCheck(GtkWidget *w,std::string s);
+	void addClickableNameWithCheckAddMap(int n);
+	void clearHandCards();
 };
 
 #endif /* DIALOGS_SOLVEALLDEALSDIALOG_H_ */

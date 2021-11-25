@@ -23,6 +23,7 @@ protected:
 
 	GdkPixbuf* m_suitPixbuf[4];
 	GtkWidget* m_playerBox[4][4]; //[player][suit]
+	GtkWidget* m_playerNameBox[4]; //[player]
 	GtkWidget* m_labelPlayerSuit[4][4]; //[player][suit]
 	GtkWidget* m_arrow[8]; //inner image, match with REGION_INNER
 	GtkWidget* m_suit[4];

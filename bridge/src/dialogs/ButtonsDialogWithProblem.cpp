@@ -84,19 +84,21 @@ GtkWidget* ButtonsDialogWithProblem::createPlayerBox(CARD_INDEX ci,
 	std::string s;
 
 	w = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	if(type==PLAYERBOX_NAME_TYPE_WITH_CHECKBOX){
-		w3 = gtk_check_button_new();
-		w2 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-		gtk_container_add(GTK_CONTAINER(w2), w3);
-		gtk_container_add(GTK_CONTAINER(w2), label(getPlayerString(ci)));
+	w1 =m_playerNameBox[indexOfPlayer(ci)]= gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	if(type==PLAYERBOX_NAME_TYPE_EMPTY_BOX){
+//TODO
+//		w3 = gtk_check_button_new();
+//		gtk_container_add(GTK_CONTAINER(w1), w3);
+//		w2=label(getPlayerString(ci));
 	}
 	else{
 		w2 = type==PLAYERBOX_NAME_TYPE_UNDERLINED ?
 				createUnderlinedLabel(ci) : gtk_label_new(getPlayerString(ci));
 		gtk_label_set_xalign(GTK_LABEL(w2), 0);
 		gtk_label_set_yalign(GTK_LABEL(w2), 0.5);
+		gtk_container_add(GTK_CONTAINER(w1), w2);
 	}
-	gtk_container_add(GTK_CONTAINER(w), w2);
+	gtk_container_add(GTK_CONTAINER(w), w1);
 
 	for (i = 0; i < 4; i++) {
 		w1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
