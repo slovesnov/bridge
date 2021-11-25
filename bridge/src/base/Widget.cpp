@@ -979,9 +979,23 @@ std::string& Widget::csvSeparator(){
 }
 
 VSolveAll& Widget::solveAll() {
-	return gdraw->m_vSolveAll;
+	return gdraw->getSolveAll();
 }
 
 SolveAll& Widget::solveAll(int i) {
 	return solveAll()[i];
+}
+
+VCardIndex Widget::getVariablePlayers(){
+	if (isBridge()) {
+		auto a =
+				isBridgeSolveAllDealsAbsentNS() ?
+						CARD_INDEX_NORTH : CARD_INDEX_EAST;
+		return {a
+			,getBridgePartner(a)};
+	} else {
+		auto&pr=getProblem();
+		auto a = pr.getNextPlayer(pr.m_player);
+		return {a,getNextPlayer(a)};
+	}
 }

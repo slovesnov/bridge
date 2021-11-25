@@ -2282,11 +2282,16 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 	}
 }
 
-void DrawingArea::solveAllDeals(bool createDialog) {
+void DrawingArea::createAllDealsDialog(){
+	m_solveAllDealsDialog = new SolveAllDealsDialog();
+	solveAllDeals();
+}
+
+void DrawingArea::solveAllDeals() {
 	int i, j, k, n, *pi;
 	State& state = getState();
 	Permutations p;
-	CARD_INDEX c[2];
+	VCardIndex c=getVariablePlayers();
 	auto&pr=getProblem();
 	const CARD_INDEX player = pr.m_player;
 
@@ -2297,28 +2302,15 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 
 	m_solveAllNumber = 0;
 
-	if(isBridge()){
-		c[0]=isBridgeSolveAllDealsAbsentNS() ? CARD_INDEX_NORTH:CARD_INDEX_EAST;
-		c[1]=getBridgePartner(c[0]);
-	}
-	else{
-		c[0]=pr.getNextPlayer(player);
-		c[1]=getNextPlayer(c[0]);
-	}
-
 	VInt v[2];
-	if(!createDialog){
-		for(i=0;i<2;i++){
-			v[i]=m_solveAllDealsDialog->fixedCards(i);
-		}
+	for(i=0;i<2;i++){
+		v[i]=m_solveAllDealsDialog->fixedCards(i);
 	}
 
 	k = state.countCards(c[0])-v[0].size();
 	n = state.countCards(c[1])-v[1].size() + k;
 	p.init(k, n, COMBINATION);
 	const int steps = getSolveAllDealsSteps(p);
-
-	//println("%d %d %d",k,n,steps)
 
 	/* m_vSolveAll[i].positions uses in m_solveAllDealsDialog
 	 * updateLabels()
@@ -2327,16 +2319,8 @@ void DrawingArea::solveAllDeals(bool createDialog) {
 		m_vSolveAll[i].positions = 0;
 	}
 	SolveAll& s = m_vSolveAll[0];
-	s.init(k,n,first,getTrump(),c,cid,v);
-
-	if(createDialog){
-		m_solveAllDealsDialog = new SolveAllDealsDialog(p.number());
-	}
-	else{
-		m_solveAllDealsDialog->setPositions(p.number());
-	}
-
-	s.id=m_solveAllDealsDialog->m_id;
+	s.init(k,n,first,getTrump(),c,cid,m_solveAllDealsDialog->m_id,v);
+	m_solveAllDealsDialog->setPositions(p.number());
 
 	if(isBridge()){
 		s.ns=!northOrSouth(pr.getVeryFirstMove());

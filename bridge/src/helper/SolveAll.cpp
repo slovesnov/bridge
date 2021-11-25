@@ -20,7 +20,7 @@ SolveAll::~SolveAll() {
 }
 
 void SolveAll::init(int k, int n, CARD_INDEX first, int trump,
-		CARD_INDEX p[2], CARD_INDEX cid[52],VInt const (&fixed)[2]) {
+		VCardIndex p, CARD_INDEX cid[52],gint64 id,VInt const (&fixed)[2]) {
 	//cann't use k it's parameter
 	int i, j, l, m;
 #define A(a) this->a=a;
@@ -28,6 +28,7 @@ void SolveAll::init(int k, int n, CARD_INDEX first, int trump,
 	A(n)
 	A(first)
 	A(trump)
+	A(id)
 #undef A
 #define A(a) for(i=0;i<SIZEI(this->a);i++){this->a[i]=a[i];}
 	A(p)

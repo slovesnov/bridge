@@ -383,6 +383,7 @@ public:
 	std::string& csvSeparator();
 	VSolveAll& solveAll();
 	SolveAll& solveAll(int i);
+	VCardIndex getVariablePlayers();
 };
 
 #endif /* WIDGET_H_ */

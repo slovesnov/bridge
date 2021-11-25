@@ -538,7 +538,7 @@ void Frame::solveForAllDeclarers() {
 }
 
 void Frame::solveAllDeals() {
-	m_area.solveAllDeals();
+	m_area.createAllDealsDialog();
 }
 
 void Frame::about() {

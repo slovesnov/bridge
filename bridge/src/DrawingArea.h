@@ -74,8 +74,12 @@ public:
 	//solve for all declarers & solve all deals
 	GMutex m_solveAllMutex;
 	std::atomic_int m_solveAllNumber,m_maxv;
+private:
 	VSolveAll m_vSolveAll;
-
+public:
+	VSolveAll& getSolveAll(){
+		return m_vSolveAll;
+	}
 	void startWaitFunction(GSourceFunc function, gpointer data);
 	void finishWaitFunction();
 	void waitForFunction();
@@ -252,7 +256,8 @@ public:
 	void solveAllDeclarersBridgeThread(int thread);
 	void solveAllDeclarersPreferansThread();
 
-	void solveAllDeals(bool createDialog=true);
+	void createAllDealsDialog();
+	void solveAllDeals();
 	void solveAllDealsThread(int index);
 	void solveAllDealsThreadInner(int index, const bool bridge, const int sz,
 			int *result, Bridge *pb, Preferans *pp);

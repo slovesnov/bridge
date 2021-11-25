@@ -41,7 +41,7 @@ class SolveAllDealsDialog: public ButtonsDialogWithProblem {
 public:
 	gint64 m_id;//read help in SolveAllDealsDialog.cpp
 
-	SolveAllDealsDialog(int positons);
+	SolveAllDealsDialog();
 	~SolveAllDealsDialog();
 	int resultSize()const;
 	void clickButton(GtkWidget *w);

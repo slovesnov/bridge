@@ -58,9 +58,9 @@ static gboolean label_click(GtkWidget *widget, GdkEventButton *event,
 	return TRUE;
 }
 
-SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
+SolveAllDealsDialog::SolveAllDealsDialog() :
 		ButtonsDialogWithProblem(MENU_SOLVE_ALL_DEALS, false,
-				BUTTONS_DIALOG_NONE),m_positions(positons) {
+				BUTTONS_DIALOG_NONE) {
 	int i, j,k;
 	GtkWidget*g, *g1, *w,*w1,*wa;
 	GList* list;
@@ -293,7 +293,7 @@ SolveAllDealsDialog::SolveAllDealsDialog(int positons) :
 
 	gtk_container_add(GTK_CONTAINER(getContentArea()), m_notebook);
 
-	updateData();
+	//updateData();
 	setInnerTable(getProblem());
 	g_signal_connect(getWidget(), "response", G_CALLBACK(close_dialog), NULL);
 
@@ -350,7 +350,7 @@ void SolveAllDealsDialog::updateData() {
 	va=0;
 	j=0;
 	for(i=0;i<getMaxRunThreads();i++){
-		auto& p=gdraw->m_vSolveAll[i];
+		auto& p=solveAll(i);
 		//println("%d",p.positions)
 		if(p.positions==0){
 			v=0;
@@ -419,7 +419,7 @@ void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 
 	if (n == EXPORT_THE_RESULTS_OF_ALL_DEALS_TO_CSV_BUTTON) {
 		VDealResult v;
-		auto &sa = gdraw->m_vSolveAll;
+		auto &sa = solveAll();
 		i = 0;
 		for (auto &a : sa) {
 			i += a.dealResultSize();
@@ -986,7 +986,7 @@ void SolveAllDealsDialog::setPlayersCards() {
 	bool b;
 	GtkWidget *w,*w1;
 	std::string s;
-	auto &pl = gdraw->m_vSolveAll[0].p;
+	auto pl = getVariablePlayers();
 	Problem const&p = getProblem();
 	m_map.clear();
 	m_vel.clear();
@@ -1127,7 +1127,7 @@ void SolveAllDealsDialog::stopAndRunSolveAll() {
 	}
 
 	gdraw->m_solveAllDealsDialog=this;
-	gdraw->solveAllDeals(false);//here new number of positions is set
+	gdraw->solveAllDeals();//here new number of positions is set
 }
 
 //returns {label,check}
@@ -1153,7 +1153,7 @@ void SolveAllDealsDialog::addClickableNameWithCheckAddMap(int n) {
 	auto ci=PLAYER[n];
 	std::string s=getPlayerString(ci);
 	auto p=addClickableLabelWithCheck(w,s);
-	auto &pl = gdraw->m_vSolveAll[0].p;
+	auto pl = getVariablePlayers();
 	m_mapLC[p.first] = { p.second, 0, ci == pl[1] };
 }
 
