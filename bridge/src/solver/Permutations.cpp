@@ -79,6 +79,7 @@ void Permutations::add() {
 
 bool Permutations::next() {
 	if(k==0){
+		index=-1;
 		return false;
 	}
 

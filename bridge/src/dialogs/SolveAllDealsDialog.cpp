@@ -1079,16 +1079,10 @@ void SolveAllDealsDialog::checkChanged(GtkWidget *check, GtkWidget *label) {
 }
 
 void SolveAllDealsDialog::labelClick(GtkWidget *w) {
-	auto it=m_mapLC.find(w);
-	GtkWidget* check;
-	if(it==m_mapLC.end()){
-		check=m_map[w].check;
-	}
-	else{
-		check=m_mapLC[w].check;
-	}
-	gboolean c=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),!c);
+	auto &m = m_mapLC.find(w) == m_mapLC.end() ? m_map : m_mapLC;
+	GtkWidget *check = m[w].check;
+	gboolean c = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), !c);
 	//checkChanged(check,w);calls automatically
 }
 
