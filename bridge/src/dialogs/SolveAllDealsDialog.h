@@ -11,6 +11,8 @@
 #ifndef DIALOGS_SOLVEALLDEALSDIALOG_H_
 #define DIALOGS_SOLVEALLDEALSDIALOG_H_
 
+#include <atomic>
+
 #include "ButtonsDialogWithProblem.h"
 #include "../helper/SolveAllDealsHelp.h"
 #include "../helper/SolveAllDealsEmptyLabels.h"
@@ -37,7 +39,11 @@ class SolveAllDealsDialog: public ButtonsDialogWithProblem {
 	std::map<GtkWidget*,SolveAllDealsHelp> m_mapLC;
 	VInt m_handCards[2][2];
 	VSolveAllDealsEmptyLabels m_vel;
-	bool m_runThreads;
+	bool m_runCountThreads;
+	GtkWidget* m_exportProgressBar;
+	GThread*m_exportThread;
+	std::ofstream m_file;
+	std::atomic_int m_exportStop;
 public:
 	gint64 m_id;//read help in SolveAllDealsDialog.cpp
 
@@ -76,6 +82,9 @@ public:
 	std::pair<GtkWidget*,GtkWidget*> addClickableLabelWithCheck(GtkWidget *w,std::string s);
 	void addClickableNameWithCheckAddMap(int n);
 	void clearHandCards();
+	void exportThread();
+	void setExportProbressBar(size_t value,size_t total);
+	void stopExportThread();
 };
 
 #endif /* DIALOGS_SOLVEALLDEALSDIALOG_H_ */

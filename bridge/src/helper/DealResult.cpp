@@ -9,15 +9,12 @@
  */
 
 #include <cstring>
+#include <cassert>
 
 #include "DealResult.h"
 
 bool DealResult::operator <(const DealResult &dr) const {
 	int i=strcmp(a[0],dr.a[0]);
-	if(i!=0){
-		return i<0;
-	}
-	else{
-		return strcmp(a[1],dr.a[1])<0;
-	}
+	assert(i!=0);
+	return i<0;
 }
