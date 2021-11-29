@@ -137,6 +137,18 @@
 #undef w
 #undef O
 
+/*
+	if(m_depth==10){
+#ifdef MISERE
+		printl("misere",PREFERANS_ORDER_FIRST_MOVE_MISERE)
+#elif defined(NT)
+		printl("nt",PREFERANS_ORDER_FIRST_MOVE_NT)
+#else
+		printl("trump",PREFERANS_ORDER_FIRST_MOVE)
+#endif
+		c.print();
+	}
+*/
 
 
 #ifdef STOREBEST
