@@ -60,7 +60,7 @@ struct SC {
 	static const int ml = 13;
 	USC a[ml];
 	int length;
-	int o;//TODO
+	int o;
 
 	SC() {
 		length = 0;
