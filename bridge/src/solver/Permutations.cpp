@@ -78,11 +78,6 @@ void Permutations::add() {
 }
 
 bool Permutations::next() {
-	if(k==0){
-		index=-1;
-		return false;
-	}
-
 	int l, j;
 	for (j = k - 1; j >= 0; j--) {
 		if (type == PERMUTATIONS_WITHOUT_REPLACEMENTS) {
