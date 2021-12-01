@@ -66,6 +66,14 @@ cairo_surface_t* FrameItemArea::getDeckSurface() const {
 	return getProblemSelector().m_deck;
 }
 
+void FrameItemArea::copyFromDeck(cairo_t * cr, int destx, int desty, int width,
+		int height, int index, int addx, int addy) {
+	copy(getDeckSurface(), cr, destx, desty, width, height,
+			(12 - index % 13) * getCardSize().cx + addx,
+			index / 13 * getCardSize().cy + addy);
+}
+
+
 CRect FrameItemArea::getInsideRect(const CRect& r, CARD_INDEX index) {
 	int x = r.centerPoint().x;
 	int y = r.centerPoint().y;

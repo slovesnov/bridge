@@ -324,23 +324,23 @@ public:
 
 	cairo_surface_t * getBackgroundFullSurface();
 
-	static inline void copy(cairo_surface_t * source, cairo_t * dest, CRect r) {
-		copy(source, dest, r.left, r.top, r.width(), r.height(), r.left, r.top);
-	}
-
-	static inline void copy(cairo_surface_t * source, cairo_t * dest, int destx,
+	static void copy(cairo_surface_t * source, cairo_t * dest, int destx,
 			int desty, int width, int height) {
 		copy(source, dest, destx, desty, width, height, destx, desty);
 	}
 
-	static inline void copy(cairo_surface_t * source, cairo_t * dest, int destx,
+	static void copy(cairo_surface_t * source, cairo_t * dest, int destx,
 			int desty, int width, int height, int sourcex, int sourcey) {
 		cairo_set_source_surface(dest, source, destx - sourcex, desty - sourcey);
 		cairo_rectangle(dest, destx, desty, width, height);
 		cairo_fill(dest);
 	}
 
-	static inline void copy(cairo_surface_t * source, cairo_t * dest) {
+	static void copy(cairo_surface_t * source, cairo_t * dest, CRect r) {
+		copy(source, dest, r.left, r.top, r.width(), r.height(), r.left, r.top);
+	}
+
+	static void copy(cairo_surface_t * source, cairo_t * dest) {
 		cairo_set_source_surface(dest, source, 0, 0);
 		cairo_paint(dest);
 	}

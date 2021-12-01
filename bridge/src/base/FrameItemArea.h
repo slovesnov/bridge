@@ -103,17 +103,13 @@ protected:
 
 	cairo_surface_t * getDeckSurface() const;
 
-	inline void copyFromDeck(cairo_t * cr, int destx, int desty, int index) {
+	void copyFromDeck(cairo_t * cr, int destx, int desty, int index) {
 		copyFromDeck(cr, destx, desty, getCardSize().cx, getCardSize().cy, index, 0,
 				0);
 	}
 
-	inline void copyFromDeck(cairo_t * cr, int destx, int desty, int width,
-			int height, int index, int addx, int addy) {
-		copy(getDeckSurface(), cr, destx, desty, width, height,
-				(12 - index % 13) * getCardSize().cx + addx,
-				index / 13 * getCardSize().cy + addy);
-	}
+	void copyFromDeck(cairo_t * cr, int destx, int desty, int width,
+			int height, int index, int addx, int addy);
 
 	CRect getInsideRect(const CRect& r, CARD_INDEX index);
 
