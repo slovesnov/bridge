@@ -19,10 +19,7 @@
 #endif
 
 //TODO NEW_MOVES_ORDER always defined?
-/* if old moves order don't need any more try to remove SC.o
- *
- */
-//#define NEW_MOVES_ORDER
+#define NEW_MOVES_ORDER
 
 /* denote O1=MOVES_ONE_SUIT_OPTIONS
  * denote OM=MOVES_MANY_SUIT_OPTIONS
@@ -57,7 +54,6 @@ const int BRIDGE_ORDER_OTHER_MOVES_NT=0;
 
 #endif//CONSOLE
 
-//TODO make 12 on new computer
 #define BRIDGE_MAX_PRECOUNT_SUIT_CARDS 11
 
 #ifdef FINAL_RELEASE
@@ -178,9 +174,9 @@ public:
 
 	//c [0-12 - spades A-2], [13-25 hearts A-2], [26-38 diamonds A-2], [39-51 clubs A-2]
 	//estimate + best move
-//	void solveFull(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-//			bool trumpChanged, int lowTricks = DEFAULT_TRICKS,
-//			int highTricks = DEFAULT_TRICKS);
+	void solveFull(const CARD_INDEX c[52], int trump, CARD_INDEX first,
+			bool trumpChanged, int lowTricks = DEFAULT_TRICKS,
+			int highTricks = DEFAULT_TRICKS);
 
 	//only estimate
 	void solveEstimateOnly(const CARD_INDEX c[52], int trump, CARD_INDEX first,
