@@ -943,5 +943,6 @@ CSize Config::countMaxCardSizeForY(int arrowSize,int y){
 
 void Config::resetSettings() {
 	reset(true);
+	loadLanguageFile();
 	updateCSS();
 }

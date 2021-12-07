@@ -289,6 +289,20 @@ void Preferans::estimateAll(const Problem& pr, ESTIMATE estimateType,
 }
 #endif
 
+void Preferans::solveFull(const CARD_INDEX c[52], int trump,
+		CARD_INDEX first, CARD_INDEX player, bool misere,
+		const CARD_INDEX preferansPlayer[3], bool trumpChanged) {
+	if (misere) {
+		solvebMisere(c, trump, first, player, preferansPlayer, trumpChanged);
+	}
+	else if(trump==NT){
+		solvebNT(c, trump, first, player, preferansPlayer, trumpChanged);
+	}
+	else{
+		solveb(c, trump, first, player, preferansPlayer, trumpChanged);
+	}
+}
+
 void Preferans::solveEstimateOnly(const CARD_INDEX c[52], int trump,
 		CARD_INDEX first, CARD_INDEX player, bool misere,
 		const CARD_INDEX preferansPlayer[3], bool trumpChanged) {

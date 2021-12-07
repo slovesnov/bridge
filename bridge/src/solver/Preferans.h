@@ -229,9 +229,9 @@ public:
 	 * preferansPlayer for example {CARD_INDEX_NORTH,CARD_INDEX_EAST,CARD_INDEX_WEST };
 	 */
 	//estimate + best move
-//	void solveFull(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-//			CARD_INDEX player, bool misere, const CARD_INDEX preferansPlayer[3],
-//			bool trumpChanged);
+	void solveFull(const CARD_INDEX c[52], int trump, CARD_INDEX first,
+			CARD_INDEX player, bool misere, const CARD_INDEX preferansPlayer[3],
+			bool trumpChanged);
 
 	//only estimate
 	void solveEstimateOnly(const CARD_INDEX c[52], int trump, CARD_INDEX first,
