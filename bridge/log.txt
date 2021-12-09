@@ -1,3 +1,134 @@
+changes 5.2
+development of version 5.2 began on November 7, 2020 and ended on December 10, 2021
+
+[interface part]
+//begin versions.txt
+application is adapted for windows 10 because it is impossible to write to the files where the program is installed
+due to algorithm changes, the application will only work on 64-bit windows
+added mathematical expectation calculator for the value of contracts for the option "solve all the deals"
+option "solve all deals" has been added for bridge. Pair of players with unknown cards can be chosen, cards of players can be fixed. You can do a search when the pair has at least one card left
+option "solve all deals" was expanded for preferans, now you can do a search when there is at least one card left for defenders
+optimal moves panel added, which you can click on to make a several of them
+added score calculator for preference
+added support for decks and arrows in vector graphics format (svg files). Added raster/vector decks, raster/vector arrows
+option to stop calculations while they are not finished has been added
+added complete descriptions of bridge and preferans algorithms in Russian and English 
+you can read about all the changes in the new version on the website in the version history
+//end versions.txt
+the source code is published on github
+added menu problem/open from library
+added menu addons/reset settings
+all moves evaluation function is accelerated for bridge since it has become multitasking, it now also uses a reduced search interval
+export of calculation results to csv file was added for the option "solve all deals", also export of all deals with results was added
+when new parameters are added to the configuration file, the old information is now read instead of a full reset, as before. In particular, when installing a later version over the old one, the old settings will be read and the rest will be set by default. The order of the lines in the file when reading is no longer important.
+if there is no id in the language file, the number of previous id is taken and incremented by one
+when reading a language file other than English and Russian, if the id is not found, then the corresponding string from the English file is used.
+all bridgeX.css files are removed, and only one unchangeable bridge.css file is left
+all settings affecting the css style are now stored in the config file.
+aslov self-developed library is used, sources are published on github
+picture of the first deck has been changed, the diamond became smoother (the picture is taken from the gambler)
+when exiting from the application in case of incomplete calculation, the correct stopping of the search is called
+because the deck can now be scaled, support for large monitors was added
+set big deck by default for big monitors
+changed the default font size depending on scaling
+deleted the image of the cardback, now uses a scalable drawing
+fixed bug, now it is impossible to switch tasks in the task selection panel during calculations.
+fixed bug, now you can not call some menu items during calculations, for example, to open the task
+fixed bug when saving/loading tasks when more than 50 moves are done.
+bug fixed if a task was loaded without a contract, and then the language changed, the contract remains unset.
+fixed a bug when calling the calculator of points for the bridge with the current preferans game, now there is no option misere
+fixed bug in drawing of bottom, rounded table corner
+fixed bug at increase / decrease of font size
+fixed bug in rendering best moves panel with large deck and small font
+tooltips make as status bar which allow avoid problems with long strings
+fixed bug with dinamical adding/removing of analisys/last trick
+Fixed a bug when selecting a background image that contains transparent pixels
+problem saving to html file has been changed, if a file contains only one task. Now the number of the problem is not specified in the file, since it is not needed
+reset language file, if path indicated in configuration file is wrong. Now when you move/rename a folder with the program, it does not hang
+"Check for a new version" menu has been removed, as it is not needed
+the application has been adapted to the gcc 10.3.0 compiler and gtk 3.24.30. In the new version of gtk, some bugs of the previous version of the gtk library are vanished
+all static functions of Base class are made to global functions
+
+[logical part]
+the bridge problem solver has been completely rewritten
+now you can solve several tasks in one process
+since everything is solved in one process, synchronization of the bridge problems has been simplified
+preliminary calculation of moves was added
+added cutoffs of lower 4 layers in bridge and 3 layers in preferans, earlier it was 3 and 2 accordingly
+32-bit numbers are now used as suit codes in bridge, they are used to find moves and also for hash table index. Previously, for suit codes used doubly linked lists, as well as parallel bit codes of suits, which were used to find the hash table index.
+separate algorithms are added for games with trump, NT games and misere games for preference
+for each type of algorithm the parameters for statistical ordering of moves are adjusted. Now the algorithm does not require a check on the type of game with or without trump, or misere for preference
+in the internal representation trump, if there is one, is always zero for bridge and preference. Now only two card comparison tables are required instead of five, one for games with trump, the other for games without trump, including misere games
+the application became 64-bit. As each object of the Bridge class requires about 280 MB of memory, if a computer has 6 or more cores, the 32-bit application would not have enough memory
+the bridgeConsole project is no longer needed (it was removed)
+the preferans task solver has been speeded up, read more details can be found in the description of the <a href="?bridge_logic52">logical part</a>
+you can read more about all the changes in the new version in the <a href="?bridge_logic52">logical part</a>
+
+разработка версии 5.2 началась 7 ноября 2020 закончилась 10 декабря 2021
+
+[интерфейсная часть]
+//begin versions.txt
+приложение адаптировано под windows 10 так как невозможно писать в файлы куда программа установлена
+в связи с изменением алгоритма приложение будет работать только под 64-битный windows
+добавлен калькулятор математического ожидания стоимости контрактов для опции "решить все расклады"
+опция "решить все расклады" добавлена для бриджа. Пару игроков с неизвестными картами можно выбирать, карты у игроков можно фиксировать. Можно делать поиск, когда у пары осталась хотя бы одна карта
+опция "решить все расклады" расширена для преферанса, теперь можно делать поиск, когда осталась хотя бы одна карта у вистующих/ловцов мизера
+добавлена панель оптимальных ходов, на которые можно нажать, чтобы сделать несколько из них
+добавлен калькулятор очков для преферанса
+добавлена поддержка колод и стрелок в формате векторной графики (svg файлы). Добавлены растровые/векторные колоды, растровые/векторые стрелки
+добавлена опция остановки расчетов, пока они не закончены
+добавлено полное описание бриджевого и преферансного алгоритмов на русском и английском языках 
+обо всех изменениях в новой версии можно прочитать на сайте программы в истории версий
+//end versions.txt
+исходный код программы опубликован на github
+добавлено меню задача/открыть из библиотеки
+добавлено меню дополнительно/сбросить настройки
+функция оценки всех ходов ускорена для бриджа, так как стала многозадачной, для нее также теперь используется сокращенный интервал поиска
+для опции "решить все расклады" добавился экспорт результатов расчетов в csv файл, также добавлен экспорт всех сдач с результатами
+при добавлении новых параметров в конфигурационный файл, теперь считывается старая информация, а не происходит полный сброс настроек, как раньше. В частности при установке более поздней версии поверх старой, будут считываться старые настройки, остальные будут установлены по умолчанию. Порядок строк в файле при чтении теперь не важен.
+если в языковом файле если не указан id, то берется номер предыдущего id и увеличивается на единицу
+при считывании файла языка отличного от английского и русского, если идентификатор не найден, то используется соответствующая строка из файла английского языка
+удалены все вспомогательные файлы bridgeX.css остался только один неизменяемый файл bridge.css
+все настройки влияющие на css стиль хранятся теперь в конфиге
+используется библиотека собственной разработки aslov, исходники которой опубликованы на github
+заменено изображение первой колоды, бубна стала более гладкой (изображение взято в гамблера)
+при выходе из приложения при неоконченном расчете, вызывается корректная остановка перебора
+так как колода теперь может быть масштабируемой, добавлена поддержка больших мониторов
+сделана установка большой колоды по умолчанию для больших мониторов
+сделана установка размера шрифта зависящего от масштабирования
+удалено изображение рубашки карты, теперь используется масштабируемое рисование
+исправлен баг, теперь нельзя переключать задачи в панели выбора задачи во время расчетов
+исправлен баг, теперь нельзя вызвать некоторые пункты меню во время расчетов, например, открыть задачу
+исправлен баг при сохранении/загрузки задач, когда сделано больше 50 ходов
+исправлен баг если была загружена задача без контракта, а потом менялся язык, то контракт остается не установленным
+исправлен баг при вызове калькулятора очков для бриджа при текущей игре преферанс, теперь нет опции мизер
+исправлен баг при отрисовке нижнего, угла скругленного стола
+исправлен баг при увеличении/уменьшении размера шрифта
+исправлен баг при отрисовке панели лучших ходов если большая колода и маленький шрифт
+подсказки сделаны в виде строки состояния что позволяет избежать проблем с длинными строками
+исправлен баг при динамическом добавлении/удалении окна анализа/последней взятки
+исправлен баг при выборе рисунка фона, содержащего прозрачные пиксели
+изменено сохранение задачи в html файл, когда файл содержит всего одну задачу. Теперь номер задачи в файле не указывается так как он не нужен
+сброс языкового файла, если путь указанный в конфигурационном файле неправильный. Теперь при переносе/переименовании папки с программой она не зависает
+удалено меню "проверка новой версии", за ненадобностью
+приложение адаптировано под компилятор gcc 10.3.0 и gtk 3.24.30. В новой версии gtk пропали некоторые баги предыдущей версии библиотеки gtk
+все статические функции класса Base вынесены в глобальные функции
+
+[логическая часть]
+решатель задач по бриджу переписан заново
+можно решать несколько бриджевых задач в одном процессе
+так как все стало работать в одном процессе, то упрощена синхронизация потоков для бриджевых задач
+добавился предварительный расчет ходов
+добавились отсечения нижних 4х слоев в бридже и 3х в преферансе, раньше было 3 и 2 соответсвенно
+в качестве кодов мастей в бридже теперь использется 32х битное число, по кодам находятся ходы и они же используются для индекса хеш-таблицы. Раньше для кодов мастей использовалить двусвязные списки, а также параллельно битовые коды мастей, по которым находился индекс хеш-таблицы
+добавлены отдельные алгоритмы для игр с козырем, бескозырных игр и мизерных игр для преферанса. Теперь в алгоритме не требуется проверка на тип игры с козырем или без козыря, или мизер для преферанса
+для каждого типа алгорима подбираются параметры для статистического упорядочивания ходов
+во внутреннем представлении козырь, если он есть, всегда равен нулю для бриджа и преферанса. Теперь требуется только две таблицы сравнения карт, вместо пяти, одна для игр с козырем, другая для игр без козыря в том числе и для мизерных игр
+приложение стало 64х битным. Так как каждый объект класса Bridge требует около 280мб памяти, то если на компьютере 6 и больше ядер, то 32х битному приложению не хватало бы памяти
+теперь не нужен проект bridgeConsole (он удален)
+ускорен решатель задач по преферансу. Описание в <a href="?bridge_logic52">логической части</a>
+более подробно обо всех изменениях в новой версии можно прочитать в <a href="?bridge_logic52">логической части</a>
+
 changes 5.103beta
 #define printloginfo for non debug mode
 
