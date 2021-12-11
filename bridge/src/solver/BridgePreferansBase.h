@@ -43,7 +43,7 @@ protected:
 	static void staticInit();
 
 	static bool compareTableInited;
-	bool* m_ct;
+	const bool* m_ct;
 
 	static bool compareTable[2][781 * 1024 + 781];
 

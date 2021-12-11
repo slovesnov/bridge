@@ -343,7 +343,6 @@ void SolveAllDealsDialog::updateData() {
 	std::copy(m_result,m_result+MAX_RESULT_SIZE,result);//multithread ok
 	g_mutex_unlock(&m_mutex);
 
-
 	for (i =m_total= 0; i < resultSize(); i++) {
 		m_total += result[i];
 	}
@@ -879,22 +878,11 @@ VGtkWidgetPtr SolveAllDealsDialog::getLastWhisterWidgets() {
 }
 
 void SolveAllDealsDialog::updateResult(int *result, int size) {
-	int i;
-
 	g_mutex_lock(&m_mutex);
-	for (i = 0; i < size; i++) {
-		if(i>getMaxHandCards()){
-			assert(result[i]==0);
-#ifdef NDEBUG
-			break;
-#endif
-		}
-		else{
-			m_result[i] += result[i];//multithread ok
-		}
+	for (int i = 0; i < size; i++) {
+		m_result[i] += result[i];//multithread ok
 	}
 	g_mutex_unlock(&m_mutex);
-
 }
 
 std::string SolveAllDealsDialog::getPercentString() {

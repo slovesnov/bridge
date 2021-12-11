@@ -2211,12 +2211,17 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 	preventThreadSleep();
 	DealResult dr;
 
+//	FILE*f;
+//	std::string sf=format("o%d.txt",index);
+//	f=fopen(sf.c_str(),"w+");
+//	fclose(f);
+
 	while ((v = m_solveAllNumber++) < MAXV) {
 		for (i = 0; i < sz; i++) {
 			result[i] = 0;
 		}
 
-		auto&state=m_pstate[v];
+		const auto&state=m_pstate[v];
 		p.loadState(state);
 
 		for (j = 0; j < state.parameter; j++, p.next()) {
@@ -2229,8 +2234,18 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 			}
 
 			if(bridge){
+//				f=fopen(sf.c_str(),"a");
+//				fprintf(f,"b%d %d\n",v,j);
+//				fclose(f);
+				//				printf(f,v,index,sa.trump,sa.first,trumpChanged)
+
 				pb->solveEstimateOnly(ptr,sa.trump,sa.first,trumpChanged);
+				//pb->m_ns=pb->m_ew=0;
+
 				i=sa.ns ? pb->m_ns:pb->m_ew;
+//				f=fopen(sf.c_str(),"a");
+//				fprintf(f,"e%d %d\n",v,j);
+//				fclose(f);
 			}
 			else{
 				pp->solveEstimateOnly(ptr, sa.trump, sa.first, sa.player, sa.misere,
@@ -2244,21 +2259,31 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 			}
 			dr.result=char(i);
 			sa.addDealResult(dr);
-
 			trumpChanged = false;
 
+
 			assert(i >= 0 && i < sz);
+			if(i >= 0 && i < sz){
+
+			}
+			else{
+				printl("error")
+			}
 			result[i]++;
+
 			//check only preferans, bridge in solve() function file bi.h
 			if(!bridge && j % 50 == 0 && needStopThread() ){
 				//println("alldeals exit (user break) %d",index)
 				return;
 			}
+
 		}
 
 		for (i = 0; i < sz; i++) {
 			sa.positions+=result[i];
 		}
+//		printl(index,toString(sa.positions,','))
+
 		m_solveAllDealsDialog->updateResult(result, sz);
 		sa.end=clock();
 
