@@ -1,5 +1,5 @@
 /*
- * moves_namy_suits.h
+ * moves_many_suits.h
  *
  *       Created on: 06.02.2021
  *           Author: aleksey slovesnov

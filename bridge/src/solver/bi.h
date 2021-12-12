@@ -135,7 +135,7 @@
 
 #ifdef NEW_MOVES_ORDER
 
-		int k,l,m;
+		int k,l,m,n;
 		int8_t*z;
 
 #ifdef NT

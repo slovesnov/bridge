@@ -8,7 +8,7 @@
 	#if BRIDGE_MAX_PRECOUNT_SUIT_CARDS==11
 	int j;
 	#endif
-	int k,l,m;
+	int k,l,m,n;
 	int8_t*z;
 #endif
 

@@ -97,17 +97,19 @@ k >>= 4;\
 if ( l == BRIDGE_MAX_PRECOUNT_SUIT_CARDS+1) {\
 	m = k & ((1 << (2 * BRIDGE_MAX_PRECOUNT_SUIT_CARDS)) - 1);\
 	z = m_moves[BRIDGE_MAX_PRECOUNT_SUIT_CARDS] + (m * 4 + w) * MAX_MOVES;\
-	l = *z;\
+	n = *z;\
 	z++;\
 	p = q = z;\
-	p += l;\
+	p += n;\
 	k >>= 2 * BRIDGE_MAX_PRECOUNT_SUIT_CARDS;\
 	z = m_moves[1] + (k * 4 + w) * MAX_MOVES;\
 	l = *z;\
 	m = (k & 3) == w && ((m >> (2 * BRIDGE_MAX_PRECOUNT_SUIT_CARDS - 2)) & 3) == w;\
 	if(l==1 && m==0){\
-		z++;\
-		*p = *z + BRIDGE_MAX_PRECOUNT_SUIT_CARDS;\
+		memcpy(m_mi, q, n);\
+		p = q = m_mi;\
+		p += n;\
+		*p = z [BRIDGE_MAX_PRECOUNT_SUIT_CARDS+1];\
 	}\
 	else{\
 		p--;\
@@ -129,19 +131,24 @@ if ( l > BRIDGE_MAX_PRECOUNT_SUIT_CARDS) {\
 	j = l - BRIDGE_MAX_PRECOUNT_SUIT_CARDS;\
 	m = k & ((1 << (2 * BRIDGE_MAX_PRECOUNT_SUIT_CARDS)) - 1);\
 	z = m_moves[BRIDGE_MAX_PRECOUNT_SUIT_CARDS] + (m * 4 + w) * MAX_MOVES;\
-	l = *z;\
+	n = *z;\
 	z++;\
 	p = q = z;\
-	p += l;\
+	p += n;\
 	k >>= 2 * BRIDGE_MAX_PRECOUNT_SUIT_CARDS;\
 	m = (k & 3) == w && ((m >> (2 * BRIDGE_MAX_PRECOUNT_SUIT_CARDS - 2)) & 3) == w;\
 	z = m_moves[j] + (k * 4 + w) * MAX_MOVES;\
 	l = *z;\
-	if (m) {\
-		z++;\
-	}\
-	for (z++; m < l; m++, z++) {\
-		*p++ = *z + BRIDGE_MAX_PRECOUNT_SUIT_CARDS;\
+	if( m < l ){\
+		if (m) {\
+			z++;\
+		}\
+		memcpy(m_mi, q, n);\
+		p = q = m_mi;\
+		p += n;\
+		for (z++; m < l; m++, z++) {\
+			*p++ = *z + BRIDGE_MAX_PRECOUNT_SUIT_CARDS;\
+		}\
 	}\
 	p--;\
 }\
