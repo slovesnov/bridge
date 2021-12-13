@@ -100,7 +100,7 @@
 #ifdef MISERE
 				v2 = -1;
 				v2 += eMisere(w+t2, a2 - v2, b2 - v2);
-#elif defined(NT)
+#elif defined(NO_TRUMP)
 				v2 = 1;
 				v2 += eNT(w+t2, a2 - v2, b2 - v2);
 #else
@@ -113,7 +113,7 @@
 #ifdef MISERE
 				v2 = 1;
 				v2 -= eMisere(w+t2, -b2 + v2, -a2 + v2);
-#elif defined(NT)
+#elif defined(NO_TRUMP)
 				v2 = -1;
 				v2 -= eNT(w+t2, -b2 + v2, -a2 + v2);
 #else

@@ -9,9 +9,7 @@
  */
 
 m_trumpOriginal=trump;
-
-//cann't use NT variable because has macro with same name
-m_ct=compareTable[trump==4];
+m_ct=compareTable[trump==NT];
 
 int i, j, k, l, m, n, a,t;
 const CARD_INDEX* p;
@@ -127,13 +125,13 @@ m_nodes=0;
 				int a = alpha;
 
 #ifdef STOREBEST
-	#ifdef NT
+	#ifdef NO_TRUMP
 		#define F ebNT
 	#else
 		#define F eb
 	#endif
 #else//STOREBEST
-	#ifdef NT
+	#ifdef NO_TRUMP
 		#define F eNT
 	#else
 		#define F e
@@ -161,7 +159,7 @@ m_nodes=0;
 
 		}
 		else if (sc1.s == -1) {
-		#ifdef NT
+		#ifdef NO_TRUMP
 			suitableCards3NT
 		#else
 			suitableCards3
@@ -198,7 +196,7 @@ m_nodes=0;
 
 		}
 		else if (sc2.s == -1) {
-		#ifdef NT
+		#ifdef NO_TRUMP
 			suitableCards3NT
 		#else
 			suitableCards3
@@ -239,7 +237,7 @@ m_nodes=0;
 
 		}
 		else {
-		#ifdef NT
+		#ifdef NO_TRUMP
 			suitableCards3NT
 		#else
 			suitableCards3

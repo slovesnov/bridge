@@ -125,7 +125,7 @@
 
 #ifdef MISERE
 	#define O PREFERANS_ORDER_FIRST_MOVE_MISERE
-#elif defined(NT)
+#elif defined(NO_TRUMP)
 	#define O PREFERANS_ORDER_FIRST_MOVE_NT
 #else
 	#define O PREFERANS_ORDER_FIRST_MOVE
@@ -137,20 +137,6 @@
 #undef w
 #undef O
 
-/*
-	if(m_depth==10){
-#ifdef MISERE
-		printl("misere",PREFERANS_ORDER_FIRST_MOVE_MISERE)
-#elif defined(NT)
-		printl("nt",PREFERANS_ORDER_FIRST_MOVE_NT)
-#else
-		printl("trump",PREFERANS_ORDER_FIRST_MOVE)
-#endif
-		c.print();
-	}
-*/
-
-
 #ifdef STOREBEST
 	m_best = c[0].toIndex();
 #endif
@@ -161,7 +147,7 @@
 
 #ifdef MISERE
 		suitableCards2Misere
-#elif defined(NT)
+#elif defined(NO_TRUMP)
 		suitableCards2NT
 #else
 		suitableCards2

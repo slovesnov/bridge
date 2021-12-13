@@ -148,7 +148,7 @@ if(further_count3){
 		m_depth--;
 		if ( t3%2==1) {
 			v3 = 1;
-#ifdef NT
+#ifdef NO_TRUMP
 			v3 += eNT(w+t3, a3 - v3);
 #else
 			v3 += e(w+t3, a3 - v3);
@@ -156,7 +156,7 @@ if(further_count3){
 		}
 		else {
 			v3 = -1;
-#ifdef NT
+#ifdef NO_TRUMP
 			v3 -= eNT(w+t3, a2+ v3);
 #else
 			v3 -= e(w+t3, a2+ v3);

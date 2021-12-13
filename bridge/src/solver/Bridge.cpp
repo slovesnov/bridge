@@ -296,16 +296,16 @@ int Bridge::eb(const int* w, int a) {
 }
 
 int Bridge::eNT(const int* w, int a) {
-#define NT
+#define NO_TRUMP
 #include "bi.h"
-#undef NT
+#undef NO_TRUMP
 }
 
 int Bridge::ebNT(const int* w, int a) {
 #define STOREBEST
-#define NT
+#define NO_TRUMP
 #include "bi.h"
-#undef NT
+#undef NO_TRUMP
 #undef STOREBEST
 }
 
@@ -326,18 +326,18 @@ void Bridge::solveb(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 void Bridge::solveNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 	bool trumpChanged, int lowTricks, int highTricks) {
 	assert(trump==NT);
-#define NT
+#define NO_TRUMP
 #include "bsolve.h"
-#undef NT
+#undef NO_TRUMP
 }
 
 void Bridge::solvebNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 	bool trumpChanged, int lowTricks, int highTricks) {
 	assert(trump==NT);
 #define STOREBEST
-#define NT
+#define NO_TRUMP
 #include "bsolve.h"
-#undef NT
+#undef NO_TRUMP
 #undef STOREBEST
 }
 //END AUTOMATICALLY GENERATED TEXT

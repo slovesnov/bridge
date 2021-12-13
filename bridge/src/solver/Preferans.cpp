@@ -329,16 +329,16 @@ int Preferans::eb(const int* w, int a, int b) {
 }
 
 int Preferans::eNT(const int* w, int a, int b) {
-#define NT
+#define NO_TRUMP
 #include "pi.h"
-#undef NT
+#undef NO_TRUMP
 }
 
 int Preferans::ebNT(const int* w, int a, int b) {
 #define STOREBEST
-#define NT
+#define NO_TRUMP
 #include "pi.h"
-#undef NT
+#undef NO_TRUMP
 #undef STOREBEST
 }
 
@@ -370,17 +370,17 @@ void Preferans::solveb(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 
 void Preferans::solveNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged) {
-#define NT
+#define NO_TRUMP
 #include "psolve.h"
-#undef NT
+#undef NO_TRUMP
 }
 
 void Preferans::solvebNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 	CARD_INDEX player, const CARD_INDEX preferansPlayer[3], bool trumpChanged) {
 #define STOREBEST
-#define NT
+#define NO_TRUMP
 #include "psolve.h"
-#undef NT
+#undef NO_TRUMP
 #undef STOREBEST
 }
 

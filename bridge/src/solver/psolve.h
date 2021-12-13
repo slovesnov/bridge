@@ -11,9 +11,7 @@
 
 //Note. Inner representation player always=0
 m_trumpOriginal=trump;
-
-//cann't use NT variable because has macro with same name
-m_ct=compareTable[trump==4];
+m_ct=compareTable[trump==NT];
 
 int a, i, j, k, l,m, n, pi[CARD_INDEX_WEST + 1], fi;
 CARD_INDEX first1;
@@ -94,7 +92,7 @@ if (sc0.s == -1 && m_cards != 1) {
 	#else
 		#define F eMisere
 	#endif
-#elif defined(NT)
+#elif defined(NO_TRUMP)
 	#ifdef STOREBEST
 		#define F ebNT
 	#else
@@ -167,7 +165,7 @@ else{
 	if (sc1.s == -1) {
 #ifdef MISERE
 	suitableCards2Misere
-#elif defined(NT)
+#elif defined(NO_TRUMP)
 	suitableCards2NT
 #else
 	suitableCards2
@@ -188,7 +186,7 @@ else{
 	else {
 #ifdef MISERE
 	suitableCardsMisere
-#elif defined(NT)
+#elif defined(NO_TRUMP)
 	suitableCardsNT
 #else
 	suitableCards
