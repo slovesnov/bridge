@@ -10,6 +10,7 @@
 	#endif
 	int k,l,m,n;
 	int8_t*z;
+	int8_t m_mi[MAX_MOVES];
 #endif
 
 #define O ( ORDER % MOVES_ONE_SUIT_OPTIONS )

@@ -97,9 +97,6 @@ class Bridge: public BridgePreferansBase {
 	static const int MAX_MOVES =8;//1 byte for length+up to seven bytes for moves, need for MOVES_INIT macro (defined in Bridge.cpp) see bi.h
 	static int8_t **m_moves;
 
-	//need for MOVES_INIT macro for multithreading when BRIDGE_MAX_PRECOUNT_SUIT_CARDS<13
-	int8_t m_mi[MAX_MOVES];
-
 	/* cann't use -2, because from bestline sometimes calls [-2, 0]
 	 *
 	 */

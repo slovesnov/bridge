@@ -124,6 +124,7 @@ else {\
 
 #else
 
+
 #define MOVES_INIT(suit,w,p,q) 	k = m_code[suit];\
 l = k & 15;\
 k >>= 4;\

@@ -25,7 +25,6 @@
 
 */
 	int8_t*aa[4],*bb[4];
-
 	const int OM=MOVES_MANY_SUITS_OPTIONS_NT/2;
 	const int O1=O%OM;
 
