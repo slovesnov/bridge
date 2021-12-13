@@ -367,6 +367,9 @@ int ProblemVector::save(std::string filepath, bool split) {
 	if (warning) {
 		message(MESSAGE_ICON_MESSAGE, STRING_WARNING_STORE_PREF_TO_DF_PBN);
 	}
+	for (auto& pr: m_problems) {
+		pr.m_filepath=filepath;
+	}
 	return warning?SAVE_WARNING:SAVE_OK;
 }
 

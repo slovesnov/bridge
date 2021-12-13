@@ -496,6 +496,8 @@ void ProblemSelector::save(std::string filepath, bool split) {
 			 * so have to change whole m_vproblemOriginal, m_modified vectors
 			 */
 			setOriginalModified();
+			//filename is changed
+			updateLabel();
 		}
 		setFilepathUpdateRecent(filepath);
 	}
