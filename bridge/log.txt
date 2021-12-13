@@ -1,5 +1,5 @@
 changes 5.2
-development of version 5.2 began on November 7, 2020 and ended on December 10, 2021
+development of version 5.2 began on November 7, 2020 and ended on December 14??, 2021
 
 [interface part]
 //begin versions.txt
@@ -64,7 +64,7 @@ the bridgeConsole project is no longer needed (it was removed)
 the preferans task solver has been speeded up, read more details can be found in the description of the <a href="?bridge_logic52">logical part</a>
 you can read more about all the changes in the new version in the <a href="?bridge_logic52">logical part</a>
 
-разработка версии 5.2 началась 7 ноября 2020 закончилась 10 декабря 2021
+разработка версии 5.2 началась 7 ноября 2020 закончилась 14?? декабря 2021
 
 [интерфейсная часть]
 //begin versions.txt

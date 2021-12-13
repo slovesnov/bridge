@@ -74,10 +74,6 @@ const int PREFERANS_ORDER_OTHER_MOVES_MISERE = 0;
 #endif
 
 class Preferans: public BridgePreferansBase {
-	static const int8_t HASH_EXACT = 0;
-	static const int8_t HASH_ALPHA = 1;
-	static const int8_t HASH_BETA = 2;
-	static const int8_t HASH_INVALID = 3;
 	int m_andKey;
 	int m_hashSize;
 	int m_cards, m_depth;

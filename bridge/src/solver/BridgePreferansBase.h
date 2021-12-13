@@ -40,6 +40,11 @@ const int MOVES_MANY_SUITS_OPTIONS=10;
 class BridgePreferansBase {
 	int getAdjustedCard(const int i);
 protected:
+	static const int8_t HASH_EXACT = 0;
+	static const int8_t HASH_ALPHA = 1;
+	static const int8_t HASH_BETA = 2;
+	static const int8_t HASH_INVALID = 3;
+
 	static void staticInit();
 
 	static bool compareTableInited;

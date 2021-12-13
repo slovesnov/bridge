@@ -69,10 +69,6 @@ const int BRIDGE_ORDER_OTHER_MOVES_NT = 36;
  * */
 
 class Bridge: public BridgePreferansBase {
-	static const int8_t HASH_ALPHA = 1;
-	static const int8_t HASH_BETA = 2;
-	static const int8_t HASH_INVALID = 3;
-
 	/*
 	 * HASH_ITEMS=4
 	 * hashBits=22
