@@ -137,7 +137,6 @@
 
 		int k,l,m,n;
 		int8_t*z;
-		int8_t m_mi[MAX_MOVES];
 
 #ifdef NO_TRUMP
 	#define O BRIDGE_ORDER_FIRST_MOVE_NT

@@ -11,7 +11,6 @@
 #include "Frame.h"
 #include "aslov.h"
 
-
 //signature https://developer.gnome.org/gio/stable/GApplication.html#GApplication-open
 static void application_open(GtkApplication *application, GFile **files, gint n_files,
 		const gchar *hint, gpointer data) {

@@ -24,8 +24,16 @@
 #ifndef NO_DECLARATION
 	int8_t*p,*q;
 #endif
+#ifdef BRIDGE_H_
+	int8_t _mm[MAX_MOVES];
+#endif
 
+#ifdef BRIDGE_H_
+	MOVES_INIT_BRIDGE(suit,w,p,q,_mm)
+#else
 	MOVES_INIT(suit,w,p,q)
+#endif
+
 
 if( O==1 || O==5) {
 	MOVES_LOW(suit,w,c,p,q)

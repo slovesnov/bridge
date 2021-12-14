@@ -25,6 +25,9 @@
 
 */
 	int8_t*aa[4],*bb[4];
+#ifdef BRIDGE_H_
+	int8_t mm[4][MAX_MOVES];
+#endif
 	const int OM=MOVES_MANY_SUITS_OPTIONS_NT/2;
 	const int O1=O%OM;
 
@@ -35,7 +38,11 @@
 	if (i != suit && i!=m_trump)
 #endif
 	{
+#ifdef BRIDGE_H_
+		MOVES_INIT_BRIDGE(i,w,aa[i],bb[i],mm[i])
+#else
 		MOVES_INIT(i,w,aa[i],bb[i])
+#endif
 
 		if(O1!=0){
 			if( O1%2) {

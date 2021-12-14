@@ -125,7 +125,7 @@ else {\
 #else
 
 
-#define MOVES_INIT(suit,w,p,q) 	k = m_code[suit];\
+#define MOVES_INIT_BRIDGE(suit,w,p,q,mm) 	k = m_code[suit];\
 l = k & 15;\
 k >>= 4;\
 if ( l > BRIDGE_MAX_PRECOUNT_SUIT_CARDS) {\
@@ -144,8 +144,8 @@ if ( l > BRIDGE_MAX_PRECOUNT_SUIT_CARDS) {\
 		if (m) {\
 			z++;\
 		}\
-		memcpy(m_mi, q, n);\
-		p = q = m_mi;\
+		memcpy(mm, q, n);\
+		p = q = mm;\
 		p += n;\
 		for (z++; m < l; m++, z++) {\
 			*p++ = *z + BRIDGE_MAX_PRECOUNT_SUIT_CARDS;\
