@@ -46,13 +46,11 @@ extern int BRIDGE_ORDER_OTHER_MOVES_NT;
 
 #else//CONSOLE
 
-//const int BRIDGE_ORDER_FIRST_MOVE = 8;//old
-//const int BRIDGE_ORDER_OTHER_MOVES = 0;//old
 const int BRIDGE_ORDER_FIRST_MOVE = 2;
-const int BRIDGE_ORDER_OTHER_MOVES = 6;
+const int BRIDGE_ORDER_OTHER_MOVES = 36;
 
 const int BRIDGE_ORDER_FIRST_MOVE_NT = 0;
-const int BRIDGE_ORDER_OTHER_MOVES_NT = 36;
+const int BRIDGE_ORDER_OTHER_MOVES_NT = 6;
 
 #endif//CONSOLE
 

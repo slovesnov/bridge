@@ -31,7 +31,7 @@
 #ifdef BRIDGE_H_
 	MOVES_INIT_BRIDGE(suit,w,p,q,_mm)
 #else
-	MOVES_INIT(suit,w,p,q)
+	MOVES_INIT_PREFERANS(suit,w,p,q)
 #endif
 
 

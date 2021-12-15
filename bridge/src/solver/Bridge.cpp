@@ -106,6 +106,7 @@ if ( l == BRIDGE_MAX_PRECOUNT_SUIT_CARDS+1) {\
 	l = *z;\
 	m = (k & 3) == w && ((m >> (2 * BRIDGE_MAX_PRECOUNT_SUIT_CARDS - 2)) & 3) == w;\
 	if(l==1 && m==0){\
+		//TODO like for BRIDGE_MAX_PRECOUNT_SUIT_CARDS==11
 		memcpy(m_mi, q, n);\
 		p = q = m_mi;\
 		p += n;\

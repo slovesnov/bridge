@@ -54,7 +54,7 @@ else {\
 	t = COM(1, 2) ? 1 : 2;\
 }
 
-#define MOVES_INIT(suit,w,p,q) q=m_moves[m_code[suit]]+w*5;p=q+*q;q++;
+#define MOVES_INIT_PREFERANS(suit,w,p,q) q=m_moves[m_code[suit]]+w*5;p=q+*q;q++;
 
 Preferans::Preferans(bool smallHash) {
 //	println("create preferans object %llx",uint64_t(this))

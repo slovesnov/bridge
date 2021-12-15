@@ -41,7 +41,7 @@
 #ifdef BRIDGE_H_
 		MOVES_INIT_BRIDGE(i,w,aa[i],bb[i],mm[i])
 #else
-		MOVES_INIT(i,w,aa[i],bb[i])
+		MOVES_INIT_PREFERANS(i,w,aa[i],bb[i])
 #endif
 
 		if(O1!=0){
