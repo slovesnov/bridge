@@ -419,7 +419,7 @@ void Config::save(GAME_TYPE gt,int x,int y) {
 
 #define S(a,b) f<<a<<" = "<<b<<"\n";
 
-	std::ofstream f(getConfigPath());
+	std::ofstream f(getConfigPathLocaled());
 	if(!f.is_open()){
 		return;
 	}

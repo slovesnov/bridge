@@ -417,7 +417,7 @@ void SolveAllDealsDialog::clickButton(GtkWidget* w) {
 		if (!r.ok()) {
 			return;
 		}
-		m_file.open(r.file());
+		m_file.open(utf8ToLocale(r.file()));
 		if (!m_file.is_open()) {
 			showOpenFileError();
 			return;
