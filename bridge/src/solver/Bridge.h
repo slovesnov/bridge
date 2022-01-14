@@ -56,6 +56,8 @@ const int BRIDGE_ORDER_OTHER_MOVES_NT = 6;
 
 #define BRIDGE_MAX_PRECOUNT_SUIT_CARDS 11
 
+#define BRIDGE_ENDGAME
+
 #ifdef FINAL_RELEASE
 
 #else//FINAL_RELEASE
@@ -82,7 +84,9 @@ class Bridge: public BridgePreferansBase {
 	static const int HASH_SIZE = 1 << HASH_BITS;
 	static const int AND_KEY = HASH_SIZE - 1;
 	static_assert(HASH_BITS>=18);
+public://TODO
 	int m_cards, m_depth;
+private:
 	int m_code[4];
 	/* start four elements 0 1 2 3
 	 * for one trick need
@@ -104,6 +108,18 @@ class Bridge: public BridgePreferansBase {
 #endif
 
 	static int m_oc;//object counter
+
+#ifdef BRIDGE_ENDGAME
+	static int* endgameLength[2];//NT+ trump
+	static int* endgameIndex[4];//4 number of rotates(players)
+	static int8_t* endgameEstimate[2];//NT+ trump
+	static int endgameEstimateLength[2];//NT+ trump in bytes
+	static void rotate(int n,int bits,int a[3]);
+	//TODO
+#endif
+public:
+	static const int endgameN=2;
+private:
 
 	struct HashItem {//2^4=16 bytes, assume structure alignment=4
 		int32_t code[3];
@@ -145,7 +161,6 @@ class Bridge: public BridgePreferansBase {
 
 	static void staticInit();
 	static void staticDeinit();
-
 	void solve(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 			bool trumpChanged, int lowTricks = DEFAULT_TRICKS, int highTricks =
 					DEFAULT_TRICKS);

@@ -60,6 +60,7 @@ for (i = 0; i < 4; i++) {
 	m |= k;
 	m_code[i] = m;
 
+//	println("0x%x len%d",m_code[i]>>4,m_code[i]&15)
 //	printCode(i);
 //	printf("%d %d,\n",i,m);
 }
@@ -139,6 +140,10 @@ m_nodes=0;
 #endif//STOREBEST
 
 				i = F(m_w + fi, a	);
+//#ifdef NO_TRUMP
+//printl(m_w[fi])
+//#endif
+
 #undef F
 
 				if (i >= alpha + 2) {
@@ -290,9 +295,12 @@ m_nodes=0;
 
 	m_e = (m_cards + i) / 2;
 
+
 	n = sc0.s == -1 ? 0 : (sc1.s == -1 ? 1 : (sc2.s == -1 ? 2 : 3) );
 	m_ns= (fi+n)%2==0 ? m_e : m_cards-m_e;
 	m_ew=m_cards-m_ns;
+
+	printl(m_e,i,m_ns,m_ew,"fi",fi)
 
 #ifdef STOREBEST
 	//Note m_best taken from code, only if m_depth!=1

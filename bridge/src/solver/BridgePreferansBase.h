@@ -11,8 +11,13 @@
 #ifndef SOLVER_BRIDGEPREFERANSBASE_H_
 #define SOLVER_BRIDGEPREFERANSBASE_H_
 
+#include <vector>
+
 #include "BridgeCommon.h"
 #include "SC.h"
+
+typedef std::vector<int> VInt;
+typedef std::vector<VInt> VVInt;
 
 //BEGIN common macros for bridge and preferans
 const int MOVES_ONE_SUIT_OPTIONS=6;
@@ -68,6 +73,12 @@ protected:
 	void adjustBestMove(const CARD_INDEX c[52], bool bridge);
 	bool compare2Cards(USC **ps, int i, int j);
 	int getTaker(USC **ps, int size);
+
+	//endgame functions
+	static VVInt suitLengthVector(bool bridge,EndgameType option);
+	static int endgameGetN(bool bridge,bool total=false);
+	static int bitCode(bool bridge, VInt const &p0, VInt const &p1, VInt const &p2);
+	static int endgameCm(bool bridge);
 public:
 	int m_best;
 	std::vector<int> m_bestLine;

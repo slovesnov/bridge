@@ -40,6 +40,10 @@ enum CARD_INDEX {
 	CARD_INDEX_WEST_INNER
 };
 
+enum class EndgameType{
+	ALL,NT,TRUMP
+};
+
 const char SUITS_CHAR[] = "shdcn";
 const char RANK[] = "akqjt98765432";
 
@@ -61,6 +65,6 @@ bool west(CARD_INDEX i);
 bool northOrSouth(CARD_INDEX i);
 bool north(CARD_INDEX i);
 bool south(CARD_INDEX i);
-std::string binaryCodeString(int c);
+std::string binaryCodeString(int c, int miminumPrintBits = 0);
 
 #endif /* SOLVER_BRIDGECOMMON_H_ */

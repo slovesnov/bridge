@@ -17,9 +17,20 @@
 #include "../base/Config.h"
 #endif
 
+#ifdef BRIDGE_ENDGAME
+#include "Permutations.h"
+#endif
+
 int Bridge::m_w[];
 
 int8_t **Bridge::m_moves;
+
+#ifdef BRIDGE_ENDGAME
+int32_t* Bridge::endgameLength[2];
+int32_t* Bridge::endgameIndex[4];
+int8_t* Bridge::endgameEstimate[2];
+int Bridge::endgameEstimateLength[2];//NT+ trump
+#endif
 
 int Bridge::m_oc=0;
 
@@ -220,16 +231,98 @@ void Bridge::staticInit(){
 		}
 		delete[] t;
 	}
-//	println("end %.2lf",double(clock()-begin)/CLOCKS_PER_SEC);
+
+
+#ifdef BRIDGE_ENDGAME
+	//clock_t begin=clock();
+
+	const bool bridge=true;
+	int a[3];
+	Permutations pe[3];
+	int32_t*pi;
+
+	for (i = 0; i < 2; i++) {
+		VVInt v = suitLengthVector(true, i ? EndgameType::TRUMP : EndgameType::NT);
+		VInt const& max=*std::max_element(v.begin(), v.end(), [](auto &a, auto &b) {
+			return a[2] < b[2];
+		});
+
+		const int size=(max[2]+1)*169;
+		endgameLength[i]=pi=new int[size];
+#ifndef NDEBUG
+		for(j=0;j<size;j++){
+			pi[j]=-1;
+		}
+#endif
+		k=0;
+		for (auto a : v) {
+			j = a[0] + 13 * (a[1] + 13 * a[2]);
+			assert(j < size);
+			pi[j] = k++;
+		}
+	}
+
+	const int n = endgameGetN(bridge);
+	const int ntotal = endgameGetN(bridge ,true);
+
+	for (i = 0; i < 3; i++) {
+		pe[i].init(n, ntotal - n * i, COMBINATION);
+	}
+
+	//TODO 4*1024*1024
+	const int max=16*1024*1024;
+	for (i = 0; i < 4; i++) {
+		endgameIndex[i]=new int[max];
+#ifndef NDEBUG
+		for(j=0;j<max;j++){
+			endgameIndex[i][j]=-1;
+		}
+#endif
+	}
+
+	j=0;
+	for (auto &p0 : pe[0]) {
+		for (auto &p1 : pe[1]) {
+			for (auto &p2 : pe[2]) {
+				k=bitCode(bridge,p0,p1,p2);
+				assert(k<max);
+				endgameIndex[0][k]=j;
+				rotate(k,ntotal*2,a);
+				for(i=0;i<3;i++){
+					//?? endgameIndex[i+1][k]=a[i];
+					endgameIndex[i+1][a[i]]=j;
+				}
+				j++;
+			}
+		}
+	}
+
+	i=0;
+	for(auto& p:endgameEstimate){
+		//TODO path
+		std::string path("C:/slovesno/b"+std::string(i==0?"nt":"trump")+".bin");
+		endgameEstimateLength[i]=j=getFileSize(path);
+//		printl(j)
+		p=new int8_t[j];
+		FILE*f=fopen(path.c_str(),"rb");
+		fread(p,j,1,f);
+		fclose(f);
+		i++;
+	}
+
+//	printl(timeElapse(begin));
+#endif
+
 
 #ifndef CONSOLE
 	g_mutex_init(&mutex);
 #endif
+
 }
 
 void Bridge::staticDeinit(){
-
-	for(int i=0;i<=BRIDGE_MAX_PRECOUNT_SUIT_CARDS;i++){
+	int i;
+	for(i=0;i<=BRIDGE_MAX_PRECOUNT_SUIT_CARDS;i++){
 		delete[]m_moves[i];
 	}
 	delete[]m_moves;
@@ -237,6 +330,22 @@ void Bridge::staticDeinit(){
 #ifndef CONSOLE
 	g_mutex_clear(&mutex);
 #endif
+
+#ifdef BRIDGE_ENDGAME
+	//TODO for each both cycles
+	for (i = 0; i < 2; i++) {
+		delete[]endgameLength[i];
+	}
+	for (i = 0; i < 4; i++) {
+		delete[]endgameIndex[i];
+	}
+
+	for(i=0;i<2;i++){
+		delete[]endgameEstimate[i];
+	}
+
+#endif
+
 }
 
 Bridge::Bridge() {
@@ -830,8 +939,8 @@ void Bridge::printCode(int suit) {
 			s+=format("_");
 		}
 	}
-	s+=format(" l=%d 0x%x\n", l,m_code[suit]);
-	println("%s",s.c_str())
+	s+=format(" l=%d 0x%x", l,m_code[suit]);
+	printl(s)
 }
 #endif
 
@@ -1087,3 +1196,18 @@ void Bridge::suitableCardsNT(int suit, int w, SC& c){
 #include "moves.h"
 #undef ORDER
 }
+
+#ifdef BRIDGE_ENDGAME
+void Bridge::rotate(int n,int bits,int a[3]){
+	int i,j,r;
+
+	assert(bits % 2 == 0);
+	for (j = 0; j < 3; j++) {
+		r = 0;
+		for (i = 0; i < bits / 2; i++) {
+			r |= m_w[((n>>(2*i)) & 3)+j+1] << (2 * i);
+		}
+		a[j] = r;
+	}
+}
+#endif

@@ -8,6 +8,8 @@
  *         Homepage: slovesnov.users.sourceforge.net
  */
 
+#include <cstring>
+
 #include "BridgeCommon.h"
 
 bool eastOrWest(CARD_INDEX i) {
@@ -34,17 +36,23 @@ bool south(CARD_INDEX i) {
 	return i == CARD_INDEX_SOUTH;
 }
 
-std::string binaryCodeString(int c){
-	char b[33],*pb=b;
-	itoa(c,b,2);
-	char h[50],*ph=h;
-	for(int i=0; *pb!=0 ; i++){
-		if(i%2==0 && i!=0){
-			*ph++='_';
-		}
-		*ph++=*pb++;
+std::string binaryCodeString(int c, int miminumPrintBits /*= 0*/) {
+	assert(miminumPrintBits<=32);
+	const int f=64;
+	char b[128], h[50], *pb=b+f, *ph=h;
+	itoa(c, b+f, 2);
+	int i,l = strlen(b+f);
+	if (miminumPrintBits && (i=miminumPrintBits-l)>0 ) {
+		memset(b+f-i, '0', i);
+		pb-=i;
 	}
-	*ph=0;
+	l = strlen(pb) & 1;
+	for (i = 0; *pb != 0; i++) {
+		if ((i & 1) == l && i != 0) {
+			*ph++ = '_';
+		}
+		*ph++ = *pb++;
+	}
+	*ph = 0;
 	return h;
 }
-
