@@ -107,92 +107,70 @@
 				const int in=1;
 #endif
 				int l[4];
-				int32_t code=0;
+				k=0;
 
 				for(i=0;i<4;i++){
 					l[i]=m_code[i];
 				}
-				std::sort(l,l+4,[](auto&a,auto&b){
+				std::sort(l+in,l+4,[](auto&a,auto&b){
 					return (a&15)<(b&15);
 				});
 
 				j=0;
 				for(i=0;i<4;i++){
-					code|=(l[i]>>4)<<j;
+					k|=(l[i]>>4)<<j;
 					l[i]&=15;
-
-//					code|=(m_code[i]>>4)<<j;
-//					l[i]=m_code[i]&15;
 					j+=2*l[i];
-					//printCode(i);
 				}
+				//remove two high bits
+				k &= (1<<(4*endgameN*2-2))-1;
 				j = l[0] + 13 * (l[1] + 13 * l[2]);
-				//printl(endgameIndex[w[t3]][code],endgameLength[in][j],w[t3])
-				assert(endgameIndex[w[t3]][code]!=-1);
-				if(endgameLength[in][j]==-1){
-					printl(j,JOINS(l,','))
-					exit(1);
-				}
+				assert(endgameIndex[w[t3]][k]!=-1);
 				assert(endgameLength[in][j]!=-1);
-				int k=endgameEstimateLength[in]*4;//mul 4 because length in bytes, 1 byte=4 chains
-				int kk=endgameLength[in][j]*endgameCm(true) + endgameIndex[w[t3]][code];
-				//printl(kk,int(endgameEstimate[in][kk/4]),kk%4)
-				assert(kk<k);
-				int v31;
-				v31=(endgameEstimate[in][kk/4]>>((kk%4)*2))&3;
-				j=-endgameN+2*v31;
-				//printl("original=",v31,"e=",j,t3%2==1)
+				i=endgameLength[in][j]*endgameCN + endgameIndex[w[t3]][k];
+				assert(i<endgameEstimateLength[in]*4);//mul 4 because length in bytes, 1 byte=4 chains
+				int v31,alpha;
+				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
 				if ( t3%2==1) {
-					v31 = 1;
-					int alpha=a3 - v31;
-					j=j<=alpha? alpha:alpha+2;
-					v31+=j;
+					v31 = 1+j;//b alpha+1, else alpha+3
+					alpha=a3 - v31;
 				}
 				else{
-					v31 = -1;
-					int alpha=a2+ v31;
-					j=j<=alpha? alpha:alpha+2;
-					v31-=j;
+					v31 = -1-j;//b -alpha-1, else -alpha-3
+					alpha=a2+ v31;
 				}
 
 				if ( t3%2==1) {
 					v3 = 1;
 		#ifdef NO_TRUMP
-					//int alpha=a3 - v3;
 					j=eNT(w+t3, a3 - v3);
 					v3 += j;
-					//printl("vbegin=1",v3,"e_got=",j,"alpha=",alpha,w[t3])
 		#else
 					v3 += e(w+t3, a3 - v3);
-					printi
 		#endif
 				}
 				else {
 					v3 = -1;
 		#ifdef NO_TRUMP
-					//int alpha=a2+ v3;
 					j=eNT(w+t3, a2+ v3);
 					v3 -= j;
-					//v3 -= eNT(w+t3, a2+ v3);
-					//printl("vbegin=-1",v3,"e_got=",j,"alpha=",alpha,w[t3])
-//					for(j=0;j<4;j++){
-//						printCode(j);
-//					}
 		#else
 					v3 -= e(w+t3, a2+ v3);
 					printi
 		#endif
 				}
-				if(v3!=v31){
-					printl("not equal v31=",v31,"v3=",v3)
-					exit(1);
-				}
-				else{
+				if ( (t3%2==1 && ((v3<=1+alpha && v31<=1+alpha) || (v3>=3+alpha && v31>=3+alpha)))
+						|| (t3%2==0 && ((v3>=-1-alpha && v31>=-1-alpha) || (v3<=-3-alpha && v31<=-3-alpha)))
+						) {
 					static int counter=0;
 					if(++counter %1'000'000==0){
 						printl("ok",counter/1'000'000,"m")
 						fflush(stdout);
 					}
+				}
+				else{
+					printl("not equal v31=",v31,"v3=",v3)
+					exit(1);
 				}
 			}
 #endif

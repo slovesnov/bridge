@@ -111,12 +111,15 @@ class Bridge: public BridgePreferansBase {
 	static int* endgameLength[2];//NT+ trump
 	static int* endgameIndex[4];//4 number of rotates(players)
 	static int8_t* endgameEstimate[2];//NT+ trump
+#ifndef NDEBUG
 	static int endgameEstimateLength[2];//NT+ trump in bytes
+#endif
 	static void rotate(int n,int bits,int a[3]);
 	//TODO
 #endif
 public:
 	static const int endgameN=2;
+	static const int endgameCN;
 private:
 
 	struct HashItem {//2^4=16 bytes, assume structure alignment=4

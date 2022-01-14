@@ -29,7 +29,10 @@ int8_t **Bridge::m_moves;
 int32_t* Bridge::endgameLength[2];
 int32_t* Bridge::endgameIndex[4];
 int8_t* Bridge::endgameEstimate[2];
+#ifndef NDEBUG
 int Bridge::endgameEstimateLength[2];//NT+ trump
+#endif
+const int Bridge::endgameCN=endgameCm(true);
 #endif
 
 int Bridge::m_oc=0;
@@ -269,8 +272,8 @@ void Bridge::staticInit(){
 		pe[i].init(n, ntotal - n * i, COMBINATION);
 	}
 
-	//TODO 4*1024*1024
-	const int max=16*1024*1024;
+	c=ntotal*2-2;
+	const int max=1<<c;
 	for (i = 0; i < 4; i++) {
 		endgameIndex[i]=new int[max];
 #ifndef NDEBUG
@@ -284,12 +287,12 @@ void Bridge::staticInit(){
 	for (auto &p0 : pe[0]) {
 		for (auto &p1 : pe[1]) {
 			for (auto &p2 : pe[2]) {
-				k=bitCode(bridge,p0,p1,p2);
+				k=bitCode(bridge,p0,p1,p2) & (max-1);
 				assert(k<max);
 				endgameIndex[0][k]=j;
-				rotate(k,ntotal*2,a);
+				rotate(k,c,a);
 				for(i=0;i<3;i++){
-					//?? endgameIndex[i+1][k]=a[i];
+					assert(a[i]<max);
 					endgameIndex[i+1][a[i]]=j;
 				}
 				j++;
@@ -301,8 +304,10 @@ void Bridge::staticInit(){
 	for(auto& p:endgameEstimate){
 		//TODO path
 		std::string path("C:/slovesno/b"+std::string(i==0?"nt":"trump")+".bin");
-		endgameEstimateLength[i]=j=getFileSize(path);
-//		printl(j)
+		j=getFileSize(path);
+#ifndef NDEBUG
+		endgameEstimateLength[i]=j;
+#endif
 		p=new int8_t[j];
 		FILE*f=fopen(path.c_str(),"rb");
 		fread(p,j,1,f);
