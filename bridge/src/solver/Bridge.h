@@ -84,9 +84,7 @@ class Bridge: public BridgePreferansBase {
 	static const int HASH_SIZE = 1 << HASH_BITS;
 	static const int AND_KEY = HASH_SIZE - 1;
 	static_assert(HASH_BITS>=18);
-public://TODO
 	int m_cards, m_depth;
-private:
 	int m_code[4];
 	/* start four elements 0 1 2 3
 	 * for one trick need
