@@ -143,8 +143,7 @@
 				if ( t3%2==1) {
 					v3 = 1;
 		#ifdef NO_TRUMP
-					j=eNT(w+t3, a3 - v3);
-					v3 += j;
+					v3 += eNT(w+t3, a3 - v3);
 		#else
 					v3 += e(w+t3, a3 - v3);
 		#endif
@@ -152,11 +151,9 @@
 				else {
 					v3 = -1;
 		#ifdef NO_TRUMP
-					j=eNT(w+t3, a2+ v3);
-					v3 -= j;
+					v3 -= eNT(w+t3, a2+ v3);
 		#else
 					v3 -= e(w+t3, a2+ v3);
-					printi
 		#endif
 				}
 				if ( (t3%2==1 && ((v3<=1+alpha && v31<=1+alpha) || (v3>=3+alpha && v31>=3+alpha)))

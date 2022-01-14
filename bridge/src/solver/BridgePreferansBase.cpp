@@ -209,8 +209,9 @@ int BridgePreferansBase::endgameCm (bool bridge) {//if bridge=1 C^n_4n*C^n_3n*C^
 	int i=1;
 	const int n=endgameGetN(bridge);
 	Permutations p;
-	for(int j=0;j<3;j++){
-		p.init(n, ((bridge?4:3) -j)*n, COMBINATION);
+	const int k=bridge?4:3;
+	for(int j=0;j<k-1;j++){
+		p.init(n, (k -j)*n, COMBINATION);
 		i*=p.number();
 	}
 	return i;
