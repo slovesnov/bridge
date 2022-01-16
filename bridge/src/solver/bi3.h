@@ -107,6 +107,7 @@
 				const int in=1;
 #endif
 				int l[4];
+				int i,j,k;//?
 				k=0;
 
 				for(i=0;i<4;i++){
@@ -129,16 +130,37 @@
 				assert(endgameLength[in][j]!=-1);
 				i=endgameLength[in][j]*endgameCN + endgameIndex[w[t3]][k];
 				assert(i<endgameEstimateLength[in]*4);//mul 4 because length in bytes, 1 byte=4 chains
-				int v31,alpha;
+				int v31;
+				int alpha;
 				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
 				if ( t3%2==1) {
-					v31 = 1+j;//b alpha+1, else alpha+3
+					v31 = 1;//b alpha+1, else alpha+3
 					alpha=a3 - v31;
+					j=j<=alpha?alpha:alpha+2;
+					v31+=j;
 				}
 				else{
-					v31 = -1-j;//b -alpha-1, else -alpha-3
+					v31 = -1;//b -alpha-1, else -alpha-3
 					alpha=a2+ v31;
+					j=j<=alpha?alpha:alpha+2;
+					v31-=j;
 				}
+
+
+/*
+				v3=v31;
+				if (v3 > a3) {
+					further_count3=false;
+
+			#ifdef STOREBEST
+					SET_BEST(3)
+			#endif
+					a3 = v3;
+					break;
+
+				}
+*/
+
 
 				if ( t3%2==1) {
 					v3 = 1;
@@ -156,6 +178,20 @@
 					v3 -= e(w+t3, a2+ v3);
 		#endif
 				}
+
+				if ( v3==v31 ) {
+					static int counter=0;
+					if(++counter %1'000'000==0){
+						printl("ok",counter/1'000'000,"m")
+						fflush(stdout);
+					}
+				}
+				else{
+
+					printl("not equal v31=",v31,"v3=",v3)
+					exit(1);
+				}
+	/*
 				if ( (t3%2==1 && ((v3<=1+alpha && v31<=1+alpha) || (v3>=3+alpha && v31>=3+alpha)))
 						|| (t3%2==0 && ((v3>=-1-alpha && v31>=-1-alpha) || (v3<=-3-alpha && v31<=-3-alpha)))
 						) {
@@ -169,7 +205,15 @@
 					printl("not equal v31=",v31,"v3=",v3)
 					exit(1);
 				}
-			}
+*/
+
+
+
+			}//if(m_depth==endgameN)
+
+//			m_depth++;
+//
+//			RESTORE_CARD(3);
 #endif
 
 

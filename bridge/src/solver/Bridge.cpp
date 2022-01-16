@@ -242,27 +242,28 @@ void Bridge::staticInit(){
 	const bool bridge=true;
 	int a[3];
 	Permutations pe[3];
-	int32_t*pi;
 
-	for (i = 0; i < 2; i++) {
-		VVInt v = suitLengthVector(true, i ? EndgameType::TRUMP : EndgameType::NT);
+	i=0;
+	for (auto&p:endgameLength) {
+		VVInt v = suitLengthVector(bridge, i ? EndgameType::TRUMP : EndgameType::NT);
 		VInt const& max=*std::max_element(v.begin(), v.end(), [](auto &a, auto &b) {
 			return a[2] < b[2];
 		});
 
 		const int size=(max[2]+1)*169;
-		endgameLength[i]=pi=new int[size];
+		p=new int32_t[size];
 #ifndef NDEBUG
 		for(j=0;j<size;j++){
-			pi[j]=-1;
+			p[j]=-1;
 		}
 #endif
 		k=0;
 		for (auto a : v) {
 			j = a[0] + 13 * (a[1] + 13 * a[2]);
 			assert(j < size);
-			pi[j] = k++;
+			p[j] = k++;
 		}
+		i++;
 	}
 
 	const int n = endgameGetN(bridge);
@@ -274,11 +275,11 @@ void Bridge::staticInit(){
 
 	c=ntotal*2-2;
 	const int max=1<<c;
-	for (i = 0; i < 4; i++) {
-		endgameIndex[i]=new int[max];
+	for (auto&p:endgameIndex) {
+		p=new int32_t[max];
 #ifndef NDEBUG
 		for(j=0;j<max;j++){
-			endgameIndex[i][j]=-1;
+			p[j]=-1;
 		}
 #endif
 	}
@@ -337,18 +338,15 @@ void Bridge::staticDeinit(){
 #endif
 
 #ifdef BRIDGE_ENDGAME
-	//TODO for each both cycles
-	for (i = 0; i < 2; i++) {
-		delete[]endgameLength[i];
+	for (auto&p:endgameLength) {
+		delete[]p;
 	}
-	for (i = 0; i < 4; i++) {
-		delete[]endgameIndex[i];
+	for (auto&p:endgameIndex) {
+		delete[]p;
 	}
-
-	for(i=0;i<2;i++){
-		delete[]endgameEstimate[i];
+	for (auto&p:endgameEstimate) {
+		delete[]p;
 	}
-
 #endif
 
 }
