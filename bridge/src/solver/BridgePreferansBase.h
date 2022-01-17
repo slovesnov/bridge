@@ -74,12 +74,15 @@ protected:
 	bool compare2Cards(USC **ps, int i, int j);
 	int getTaker(USC **ps, int size);
 
-	//endgame functions
+public:
+	//endgame function (need also for test project)
 	static VVInt suitLengthVector(bool bridge,EndgameType option);
 	static int endgameGetN(bool bridge,bool total=false);
-	static int bitCode(bool bridge, VInt const &p0, VInt const &p1, VInt const &p2);
+	static VVInt suitLengthVector(const int n,bool bridge,EndgameType option);
 	static int endgameCm(bool bridge);
-public:
+	static int endgameCm(const int n,bool bridge);
+	static int bitCode(bool bridge, VInt const &p0, VInt const &p1, VInt const &p2);
+
 	int m_best;
 	std::vector<int> m_bestLine;
 

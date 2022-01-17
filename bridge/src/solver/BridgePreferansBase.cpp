@@ -130,10 +130,10 @@ int BridgePreferansBase::getTaker(USC **ps, int size) {
 	return t;
 }
 
-VVInt BridgePreferansBase::suitLengthVector(bool bridge,EndgameType option) {
+VVInt BridgePreferansBase::suitLengthVector(int n,bool bridge,EndgameType option) {
 	//l[] - number of cards in suit
 	int l[4];
-	int ntotal=endgameGetN(bridge,true);
+	int ntotal=(bridge?4:3)*n;
 	const int up = std::min(bridge ? 13 : 8, ntotal);
 	VVInt v;
 	VInt vi;
@@ -155,6 +155,10 @@ VVInt BridgePreferansBase::suitLengthVector(bool bridge,EndgameType option) {
 		}
 	}
 	return v;
+}
+
+VVInt BridgePreferansBase::suitLengthVector(bool bridge,EndgameType option) {
+	return suitLengthVector(endgameGetN(bridge),bridge,option);
 }
 
 int BridgePreferansBase::endgameGetN(bool bridge,bool total/*=false*/){
@@ -205,9 +209,8 @@ int BridgePreferansBase::bitCode(bool bridge, VInt const &p0, VInt const &p1, VI
 	return c;
 }
 
-int BridgePreferansBase::endgameCm (bool bridge) {//if bridge=1 C^n_4n*C^n_3n*C^n_2n, else C^n_3n*C^n_2n
+int BridgePreferansBase::endgameCm (int n,bool bridge) {//if bridge=1 C^n_4n*C^n_3n*C^n_2n, else C^n_3n*C^n_2n
 	int i=1;
-	const int n=endgameGetN(bridge);
 	Permutations p;
 	const int k=bridge?4:3;
 	for(int j=0;j<k-1;j++){
@@ -215,4 +218,8 @@ int BridgePreferansBase::endgameCm (bool bridge) {//if bridge=1 C^n_4n*C^n_3n*C^
 		i*=p.number();
 	}
 	return i;
+}
+
+int BridgePreferansBase::endgameCm (bool bridge) {//if bridge=1 C^n_4n*C^n_3n*C^n_2n, else C^n_3n*C^n_2n
+	return endgameCm(endgameGetN(bridge),bridge);
 }
