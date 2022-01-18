@@ -215,15 +215,14 @@ int BridgePreferansBase::bitCode(bool bridge, VInt const &p0, VInt const &p1, VI
 	return c;
 }
 
-void BridgePreferansBase::endgameRotate(bool bridge,int n,int bits,int a[]){
+void BridgePreferansBase::endgameRotate(const int mw[],int n,int bits,int a[]){
 	int i,j,r;
-	const int* m_w=bridge?Bridge::m_w:Preferans::m_w;
 
 	assert(bits % 2 == 0);
 	for (j = 0; j < 3; j++) {
 		r = 0;
 		for (i = 0; i < bits / 2; i++) {
-			r |= m_w[((n>>(2*i)) & 3)+j+1] << (2 * i);
+			r |= mw[((n>>(2*i)) & 3)+j+1] << (2 * i);
 		}
 		a[j] = r;
 	}

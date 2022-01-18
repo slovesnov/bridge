@@ -69,7 +69,6 @@ const int BRIDGE_ORDER_OTHER_MOVES_NT = 6;
  * */
 
 class Bridge: public BridgePreferansBase {
-	friend BridgePreferansBase;
 	/*
 	 * HASH_ITEMS=4
 	 * hashBits=22

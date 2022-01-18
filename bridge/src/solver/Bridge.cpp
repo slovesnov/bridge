@@ -291,7 +291,7 @@ void Bridge::staticInit(){
 				k=bitCode(bridge,p0,p1,p2) & (max-1);
 				assert(k<max);
 				endgameIndex[0][k]=j;
-				endgameRotate(true,k,c,a);
+				endgameRotate(m_w,k,c,a);
 				for(i=0;i<3;i++){
 					assert(a[i]<max);
 					endgameIndex[i+1][a[i]]=j;

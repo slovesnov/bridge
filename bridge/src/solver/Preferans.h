@@ -74,7 +74,6 @@ const int PREFERANS_ORDER_OTHER_MOVES_MISERE = 0;
 #endif
 
 class Preferans: public BridgePreferansBase {
-	friend BridgePreferansBase;
 	int m_andKey;
 	int m_hashSize;
 	int m_cards, m_depth;
@@ -87,7 +86,9 @@ class Preferans: public BridgePreferansBase {
 	 * need additional 2 elements for every trick, so for 9 additional tricks need 18 items
 	 * max size 5+18=23
 	 */
+public://TODO remove
 	static int m_w[23];
+private:
 
 	/* int8_t*p=m_moves[m_code[suit]]+w*5;
 	 * p[0] = length
