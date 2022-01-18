@@ -11,6 +11,7 @@
 #include <numeric>
 
 #include "Bridge.h"
+#include "Preferans.h"
 #include "Permutations.h"
 #include "BridgePreferansBase.h"
 
@@ -163,7 +164,7 @@ VVInt BridgePreferansBase::suitLengthVector(bool bridge,EndgameType option) {
 
 int BridgePreferansBase::endgameGetN(bool bridge,bool total/*=false*/){
 	//TODO
-	int i=bridge?Bridge::endgameN:4;//number of cards of each player
+	int i=bridge?Bridge::endgameN:Preferans::endgameN;//number of cards of each player
 	if(total){
 		i*= (bridge?4:3);
 	}
@@ -177,9 +178,9 @@ int BridgePreferansBase::bitCode(bool bridge, VInt const &p0, VInt const &p1, VI
 	VInt freepos(ntotal);
 	std::iota(freepos.begin(), freepos.end(), 0);
 
-	VInt vb[3];
-	for (i = 0; i < 3; i++) {
-		vb[i].resize(n);
+	VInt vb[2+bridge];
+	for (auto&a:vb) {
+		a.resize(n);
 	}
 
 	const VInt *pv[] = { &p0, &p1, &p2 };
@@ -197,16 +198,35 @@ int BridgePreferansBase::bitCode(bool bridge, VInt const &p0, VInt const &p1, VI
 			freepos.erase(freepos.begin() + *it);
 		}
 		i++;
-	}
-
-	// bit code v[0] - 01 bits, v[1] - 10, v[2] - 11
-	int c=0;
-	for(i=0;i<3;i++){
-		for(j=0;j<n;j++){
-			c |= (i+1)<<2*vb[i][j];
+		if(!bridge && i==2){
+			break;
 		}
 	}
+
+	// bit code v[0] - 01 bits, v[1] - 10, (if bridge=true v[2] - 11)
+	int c=0;
+	i=1;
+	for (auto&a:vb) {
+		for(j=0;j<n;j++){
+			c |= i<<2*a[j];
+		}
+		i++;
+	}
 	return c;
+}
+
+void BridgePreferansBase::endgameRotate(bool bridge,int n,int bits,int a[]){
+	int i,j,r;
+	const int* m_w=bridge?Bridge::m_w:Preferans::m_w;
+
+	assert(bits % 2 == 0);
+	for (j = 0; j < 3; j++) {
+		r = 0;
+		for (i = 0; i < bits / 2; i++) {
+			r |= m_w[((n>>(2*i)) & 3)+j+1] << (2 * i);
+		}
+		a[j] = r;
+	}
 }
 
 int BridgePreferansBase::endgameCm (int n,bool bridge) {//if bridge=1 C^n_4n*C^n_3n*C^n_2n, else C^n_3n*C^n_2n

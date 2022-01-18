@@ -69,6 +69,7 @@ const int BRIDGE_ORDER_OTHER_MOVES_NT = 6;
  * */
 
 class Bridge: public BridgePreferansBase {
+	friend BridgePreferansBase;
 	/*
 	 * HASH_ITEMS=4
 	 * hashBits=22
@@ -114,8 +115,6 @@ class Bridge: public BridgePreferansBase {
 #ifndef NDEBUG
 	static int endgameEstimateLength[2];//NT+ trump in bytes
 #endif
-	static void rotate(int n,int bits,int a[3]);
-	//TODO
 #endif
 public:
 	static const int endgameN=2;

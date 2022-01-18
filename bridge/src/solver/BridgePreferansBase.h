@@ -82,6 +82,7 @@ public:
 	static int endgameCm(bool bridge);
 	static int endgameCm(const int n,bool bridge);
 	static int bitCode(bool bridge, VInt const &p0, VInt const &p1, VInt const &p2);
+	static void endgameRotate(bool bridge,int n,int bits,int a[]);
 
 	int m_best;
 	std::vector<int> m_bestLine;

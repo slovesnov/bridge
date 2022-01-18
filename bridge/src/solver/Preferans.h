@@ -74,6 +74,7 @@ const int PREFERANS_ORDER_OTHER_MOVES_MISERE = 0;
 #endif
 
 class Preferans: public BridgePreferansBase {
+	friend BridgePreferansBase;
 	int m_andKey;
 	int m_hashSize;
 	int m_cards, m_depth;
@@ -96,6 +97,9 @@ class Preferans: public BridgePreferansBase {
 
 	static int m_oc;//object counter
 
+public:
+	static const int endgameN=3;//TODO 4
+private:
 	/* sizeof(HashItem)=8
 	 *
 	 * total size

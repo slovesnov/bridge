@@ -291,7 +291,7 @@ void Bridge::staticInit(){
 				k=bitCode(bridge,p0,p1,p2) & (max-1);
 				assert(k<max);
 				endgameIndex[0][k]=j;
-				rotate(k,c,a);
+				endgameRotate(true,k,c,a);
 				for(i=0;i<3;i++){
 					assert(a[i]<max);
 					endgameIndex[i+1][a[i]]=j;
@@ -1199,18 +1199,3 @@ void Bridge::suitableCardsNT(int suit, int w, SC& c){
 #include "moves.h"
 #undef ORDER
 }
-
-#ifdef BRIDGE_ENDGAME
-void Bridge::rotate(int n,int bits,int a[3]){
-	int i,j,r;
-
-	assert(bits % 2 == 0);
-	for (j = 0; j < 3; j++) {
-		r = 0;
-		for (i = 0; i < bits / 2; i++) {
-			r |= m_w[((n>>(2*i)) & 3)+j+1] << (2 * i);
-		}
-		a[j] = r;
-	}
-}
-#endif
