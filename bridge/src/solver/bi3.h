@@ -15,6 +15,136 @@
 	m_nodes++;
 	#endif
 
+
+#ifdef BRIDGE_ENDGAME
+//	if(m_depth<endgameN+1){
+//		printi
+//		exit(1);
+//	}
+
+	if(m_depth==endgameN+1){
+	for (i3 = 0; i3 < c3.length; i3++) {//like code below except mast
+//		if(!mask3[i3]){
+//			continue;
+//		}
+		sc3=c3[i3];
+		r3  = sc3.c;
+
+#define r0 sc0.c
+		ADJUST_RANK(3,0)
+		ADJUST_RANK(3,1)
+		ADJUST_RANK(3,2)
+#undef r0
+
+		REMOVE_CARD(3)
+
+#define t t3
+		SETT;
+#undef t
+
+		m_depth--;
+
+
+#ifdef NO_TRUMP
+				const int in=0;
+#else
+				const int in=1;
+#endif
+				int l[4];
+				int i,j,k;
+				k=0;
+
+				for(i=0;i<4;i++){
+					l[i]=m_code[i];
+				}
+				std::sort(l+in,l+4,[](auto&a,auto&b){
+					return (a&15)<(b&15);
+				});
+
+				j=0;
+				for(i=0;i<4;i++){
+					k|=(l[i]>>4)<<j;
+					l[i]&=15;
+					j+=2*l[i];
+				}
+				//remove two high bits
+				k &= (1<<(4*endgameN*2-2))-1;
+				j = l[0] + 13 * (l[1] + 13 * l[2]);
+				assert(endgameIndex[w[t3]][k]!=-1);
+				assert(endgameLength[in][j]!=-1);
+				i=endgameLength[in][j]*endgameCN + endgameIndex[w[t3]][k];
+				assert(i<endgameEstimateLength[in]*4);//mul 4 because length in bytes, 1 byte=4 chains
+//				int v31;
+//				int alpha;
+				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
+				if ( t3%2==1) {
+//					v31 = 1;//b alpha+1, else alpha+3
+//					alpha=a3 - v31;
+//					j=j<=alpha?alpha:alpha+2;
+//					v31+=j;
+
+					v3=1+j;
+				}
+				else{
+//					v31 = -1;//b -alpha-1, else -alpha-3
+//					alpha=a2+ v31;
+//					j=j<=alpha?alpha:alpha+2;
+//					v31-=j;
+
+					v3=-1-j;
+				}
+
+/*
+		if ( t3%2==1) {
+			v3 = 1;
+#ifdef NO_TRUMP
+			v3 += eNT(w+t3, a3 - v3);
+#else
+			v3 += e(w+t3, a3 - v3);
+#endif
+		}
+		else {
+			v3 = -1;
+#ifdef NO_TRUMP
+			v3 -= eNT(w+t3, a2+ v3);
+#else
+			v3 -= e(w+t3, a2+ v3);
+#endif
+		}*/
+		m_depth++;
+
+		RESTORE_CARD(3);
+/*
+		if ( (t3%2==1 && ((v3<=1+alpha && v31<=1+alpha) || (v3>=3+alpha && v31>=3+alpha)))
+				|| (t3%2==0 && ((v3>=-1-alpha && v31>=-1-alpha) || (v3<=-3-alpha && v31<=-3-alpha)))
+				) {
+//		if(v31==v3){
+
+//			static int counter=0;
+//			if(++counter %1'000'000==0){
+//				printl("ok",counter/1'000'000,"m")
+//				fflush(stdout);
+//			}
+		}
+		else{
+			printl("er",v3,v31);
+			exit(1);
+		}
+*/
+		if (v3 > a3) {
+//			printi
+//			exit(1);
+
+	#ifdef STOREBEST
+			SET_BEST(3)
+	#endif
+			a3 = v3;
+			break;
+		}
+	}}
+	else
+#endif//BRIDGE_ENDGAME
+
 #ifdef CUT4LASTLAYERS
 	if (m_depth == 2) {
 		for (i3 = 0; i3 < c3.length; i3 ++) {
@@ -98,125 +228,6 @@
 
 			m_depth--;
 
-
-#ifdef BRIDGE_ENDGAME
-			if(m_depth==endgameN){
-#ifdef NO_TRUMP
-				const int in=0;
-#else
-				const int in=1;
-#endif
-				int l[4];
-				int i,j,k;//?
-				k=0;
-
-				for(i=0;i<4;i++){
-					l[i]=m_code[i];
-				}
-				std::sort(l+in,l+4,[](auto&a,auto&b){
-					return (a&15)<(b&15);
-				});
-
-				j=0;
-				for(i=0;i<4;i++){
-					k|=(l[i]>>4)<<j;
-					l[i]&=15;
-					j+=2*l[i];
-				}
-				//remove two high bits
-				k &= (1<<(4*endgameN*2-2))-1;
-				j = l[0] + 13 * (l[1] + 13 * l[2]);
-				assert(endgameIndex[w[t3]][k]!=-1);
-				assert(endgameLength[in][j]!=-1);
-				i=endgameLength[in][j]*endgameCN + endgameIndex[w[t3]][k];
-				assert(i<endgameEstimateLength[in]*4);//mul 4 because length in bytes, 1 byte=4 chains
-				int v31;
-				int alpha;
-				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
-				if ( t3%2==1) {
-					v31 = 1;//b alpha+1, else alpha+3
-					alpha=a3 - v31;
-					j=j<=alpha?alpha:alpha+2;
-					v31+=j;
-				}
-				else{
-					v31 = -1;//b -alpha-1, else -alpha-3
-					alpha=a2+ v31;
-					j=j<=alpha?alpha:alpha+2;
-					v31-=j;
-				}
-
-
-/*
-				v3=v31;
-				if (v3 > a3) {
-					further_count3=false;
-
-			#ifdef STOREBEST
-					SET_BEST(3)
-			#endif
-					a3 = v3;
-					break;
-
-				}
-*/
-
-
-				if ( t3%2==1) {
-					v3 = 1;
-		#ifdef NO_TRUMP
-					v3 += eNT(w+t3, a3 - v3);
-		#else
-					v3 += e(w+t3, a3 - v3);
-		#endif
-				}
-				else {
-					v3 = -1;
-		#ifdef NO_TRUMP
-					v3 -= eNT(w+t3, a2+ v3);
-		#else
-					v3 -= e(w+t3, a2+ v3);
-		#endif
-				}
-
-				if ( v3==v31 ) {
-					static int counter=0;
-					if(++counter %1'000'000==0){
-						printl("ok",counter/1'000'000,"m")
-						fflush(stdout);
-					}
-				}
-				else{
-
-					printl("not equal v31=",v31,"v3=",v3)
-					exit(1);
-				}
-	/*
-				if ( (t3%2==1 && ((v3<=1+alpha && v31<=1+alpha) || (v3>=3+alpha && v31>=3+alpha)))
-						|| (t3%2==0 && ((v3>=-1-alpha && v31>=-1-alpha) || (v3<=-3-alpha && v31<=-3-alpha)))
-						) {
-					static int counter=0;
-					if(++counter %1'000'000==0){
-						printl("ok",counter/1'000'000,"m")
-						fflush(stdout);
-					}
-				}
-				else{
-					printl("not equal v31=",v31,"v3=",v3)
-					exit(1);
-				}
-*/
-
-
-
-			}//if(m_depth==endgameN)
-
-//			m_depth++;
-//
-//			RESTORE_CARD(3);
-#endif
-
-
 			if ( t3%2==1) {
 				v3 = 1;
 				v3 += ep(w+t3, a3 - v3);
@@ -246,6 +257,13 @@
 
 
 if(further_count3){
+//#ifdef BRIDGE_ENDGAME
+//	//TODO
+//	if(m_depth==endgameN+1){
+//		printi
+//		exit(1);
+//	}
+//#endif
 	for (i3 = 0; i3 < c3.length; i3++) {
 		if(!mask3[i3]){
 			continue;
