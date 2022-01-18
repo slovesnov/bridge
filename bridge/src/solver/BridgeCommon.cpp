@@ -36,7 +36,7 @@ bool south(CARD_INDEX i) {
 	return i == CARD_INDEX_SOUTH;
 }
 
-std::string binaryCodeString(int c, int miminumPrintBits /*= 0*/) {
+std::string binaryCodeString(int c, int miminumPrintBits /*= 0*/,char separator/*='_'*/) {
 	assert(miminumPrintBits<=32);
 	const int f=64;
 	char b[128], h[50], *pb=b+f, *ph=h;
@@ -48,8 +48,8 @@ std::string binaryCodeString(int c, int miminumPrintBits /*= 0*/) {
 	}
 	l = strlen(pb) & 1;
 	for (i = 0; *pb != 0; i++) {
-		if ((i & 1) == l && i != 0) {
-			*ph++ = '_';
+		if (separator && (i & 1) == l && i != 0) {
+			*ph++ = separator;
 		}
 		*ph++ = *pb++;
 	}

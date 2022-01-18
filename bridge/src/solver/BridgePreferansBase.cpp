@@ -163,7 +163,6 @@ VVInt BridgePreferansBase::suitLengthVector(bool bridge,EndgameType option) {
 }
 
 int BridgePreferansBase::endgameGetN(bool bridge,bool total/*=false*/){
-	//TODO
 	int i=bridge?Bridge::endgameN:Preferans::endgameN;//number of cards of each player
 	if(total){
 		i*= (bridge?4:3);
@@ -203,7 +202,7 @@ int BridgePreferansBase::bitCode(bool bridge, VInt const &p0, VInt const &p1, VI
 		}
 	}
 
-	// bit code v[0] - 01 bits, v[1] - 10, (if bridge=true v[2] - 11)
+	// bit code v[0] - 01 bits, v[1] - 10, (if bridge==true v[2] - 11)
 	int c=0;
 	i=1;
 	for (auto&a:vb) {

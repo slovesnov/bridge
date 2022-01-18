@@ -923,29 +923,16 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 
 }
 
-#ifndef FINAL_RELEASE
 void Bridge::printCode(int suit) {
-	int i;
 	int c = m_code[suit];
 	int l = c & 15;
-	int n = l * 2 + 4;
 	std::string s;
-
-	s+=format("%c ", SUITS_CHAR[suit]);
-
-	for (i = 0; i < n; i++) {
-		s+=format("%d", (c >> (n - 1 - i)) & 1);
-		if (i + 4 == n - 1) {
-			s+=format(".");
-		}
-		else if (i % 2 == 1 && i + 4 < n - 1) {
-			s+=format("_");
-		}
-	}
-	s+=format(" l=%d 0x%x", l,m_code[suit]);
+	s += SUITS_CHAR[suit];
+	s += " " + (l == 0 ? "" : binaryCodeString(c >> 4, l * 2) + '.')
+			+ binaryCodeString(l, 4, '\0')
+			+ format(" l=%d 0x%x", l, m_code[suit]);
 	printl(s)
 }
-#endif
 
 //TODO using include
 int Bridge::ep(const int* w, int a){

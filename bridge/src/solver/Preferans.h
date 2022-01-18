@@ -250,9 +250,7 @@ public:
 			SET_ESTIMATION_FUNCTION estimationFunction);
 #endif
 
-#ifndef FINAL_RELEASE
 	void printCode(int suit);
-#endif
 
 };
 

@@ -65,6 +65,8 @@ bool west(CARD_INDEX i);
 bool northOrSouth(CARD_INDEX i);
 bool north(CARD_INDEX i);
 bool south(CARD_INDEX i);
-std::string binaryCodeString(int c, int miminumPrintBits = 0);
+
+//separator==0 not used
+std::string binaryCodeString(int c, int miminumPrintBits = 0,char separator='_');
 
 #endif /* SOLVER_BRIDGECOMMON_H_ */
