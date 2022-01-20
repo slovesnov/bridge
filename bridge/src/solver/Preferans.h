@@ -96,7 +96,11 @@ class Preferans: public BridgePreferansBase {
 	 */
 	static int8_t (*m_moves)[3*5];
 
+	static const int MAX_SUIT_CODE=0x3aaaa;//240 298
+	static const int MAX_SUIT_CODE_ARRAY_SIZE=MAX_SUIT_CODE+1;//240 299
+
 #ifdef PREFERANS_ENDGAME
+	static int8_t endgameSuitLength[MAX_SUIT_CODE_ARRAY_SIZE];
 	static const int endgameTypes=3;//NT, trump, misere
 	static int32_t* endgameIndex[3];//3 - number of rotates (players)
 	static int32_t* endgameLength[endgameTypes];

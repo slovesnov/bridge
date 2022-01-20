@@ -27,11 +27,11 @@ int Bridge::m_oc=0;
 int8_t **Bridge::m_moves;
 
 #ifdef BRIDGE_ENDGAME
-int32_t* Bridge::endgameIndex[4];
-int32_t* Bridge::endgameLength[endgameTypes];
-int8_t* Bridge::endgameEstimate[endgameTypes];
+int32_t* Bridge::endgameIndex[];
+int32_t* Bridge::endgameLength[];
+int8_t* Bridge::endgameEstimate[];
 #ifndef NDEBUG
-int Bridge::endgameEstimateLength[endgameTypes];
+int Bridge::endgameEstimateLength[];
 #endif
 const int Bridge::endgameCN=endgameCm(true);
 const int Bridge::endgameMultiplier=getMinBijectionMultiplier(true);

@@ -60,7 +60,6 @@
 #endif
 				int l[4];
 				int i,j,k;
-				k=0;
 
 				for(i=0;i<4;i++){
 					l[i]=m_code[i];
@@ -69,6 +68,7 @@
 					return (a&15)<(b&15);
 				});
 
+				k=0;
 				j=0;
 				for(i=0;i<4;i++){
 					k|=(l[i]>>4)<<j;
@@ -160,12 +160,9 @@
 			a3 = v3;
 			break;
 		}
-
-
-
-#undef CHECK
 	}}
 	else
+#undef CHECK
 #endif//BRIDGE_ENDGAME
 
 #ifdef CUT4LASTLAYERS

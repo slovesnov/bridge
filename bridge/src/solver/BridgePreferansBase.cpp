@@ -215,11 +215,11 @@ int BridgePreferansBase::bitCode(bool bridge, VInt const &p0, VInt const &p1, VI
 	return c;
 }
 
-void BridgePreferansBase::endgameRotate(const int mw[],int n,int bits,int a[]){
+void BridgePreferansBase::endgameRotate(bool bridge,const int mw[],int n,int bits,int a[]){
 	int i,j,r;
 
 	assert(bits % 2 == 0);
-	for (j = 0; j < 3; j++) {
+	for (j = 0; j < ((bridge?4:3)-1); j++) {
 		r = 0;
 		for (i = 0; i < bits / 2; i++) {
 			r |= mw[((n>>(2*i)) & 3)+j+1] << (2 * i);
@@ -324,11 +324,6 @@ void BridgePreferansBase::endgameInit(bool bridge,
 		pe[i].init(n, ntotal - n * i, COMBINATION);
 	}
 
-	//TODO
-	for (i=0;i<endgameTypes;i++) {
-		endgameIndex[i]=0;
-	}
-
 	c=ntotal*2-2;
 	const int max=1<<c;
 	for (i=0;i<(bridge?4:3);i++) {
@@ -341,14 +336,19 @@ void BridgePreferansBase::endgameInit(bool bridge,
 #endif
 	}
 
+	//printl(max,c,pe[2].number());
+
 	j=0;
 	for (auto &p0 : pe[0]) {
 		for (auto &p1 : pe[1]) {
 			for (auto &p2 : pe[2]) {
 				k=bitCode(bridge,p0,p1,p2) & (max-1);
 				assert(k<max);
+//				if(k==169989){
+//					printi
+//				}
 				endgameIndex[0][k]=j;
-				endgameRotate(mw,k,c,a);
+				endgameRotate(bridge,mw,k,c,a);
 
 				for(i=0;i<(bridge?4:3)-1;i++){
 					assert(a[i]<max);
