@@ -23,7 +23,7 @@
 //	}
 
 	if(m_depth==endgameN+1){
-	for (i3 = 0; i3 < c3.length; i3++) {//like code below except mast
+	for (i3 = 0; i3 < c3.length; i3++) {//like code below except mask
 //		if(!mask3[i3]){
 //			continue;
 //		}
@@ -49,7 +49,6 @@
 
 
 #if CHECK!=0
-		assert(0);
 		m_depth--;
 #endif
 
@@ -129,7 +128,6 @@
 #endif //CHECK!=0
 
 #if CHECK!=0
-		assert(0);
 		m_depth++;
 #endif
 

@@ -243,37 +243,38 @@ int BridgePreferansBase::endgameCm (bool bridge) {//if bridge=1 C^n_4n*C^n_3n*C^
 	return endgameCm(endgameGetN(bridge),bridge);
 }
 
-bool BridgePreferansBase::isBijection(int n, bool bridge, int multiplier) {
-	int i;
+int BridgePreferansBase::getMinBijectionMultiplier(bool bridge) {
+	int i,j,k;
+	VVInt v[2];
+	bool b;
+	const int n=endgameGetN(bridge);
 	std::set<int> set;
 	for (i = 0; i < 2; i++) {
-		auto v = suitLengthVector(n, bridge,
+		v[i] = suitLengthVector(n, bridge,
 				i == 0 ? EndgameType::NT : EndgameType::TRUMP);
-		set.clear();
-		for (auto &a : v) {
-			int l = a[0] + multiplier * (a[1] + multiplier * a[2]);
-			if (set.find(l) == set.end()) {
-				set.insert(l);
-			} else {
-				return false;
+	}
+
+	for (j = 7; j < 15; j++) {
+		b=true;
+		for(i=0;i<2;i++){
+			set.clear();
+			for (auto &a : v[i]) {
+				k = a[0] + j * (a[1] + j * a[2]);
+				if (set.find(k) == set.end()) {
+					set.insert(k);
+				} else {
+					b=false;
+					goto l303;
+				}
 			}
 		}
-	}
-	return true;
-}
-
-int BridgePreferansBase::getMinBijectionMultiplier(int n, bool bridge) {
-	for (int k = 7; k < 15; k++) {
-		if (isBijection(n, bridge, k)) {
-			return k;
+		l303:
+		if(b){
+			return j;
 		}
 	}
 	assert(0);
 	return -1;
-}
-
-int BridgePreferansBase::getMinBijectionMultiplier(bool bridge) {
-	return getMinBijectionMultiplier(endgameGetN(bridge),bridge);
 }
 
 void BridgePreferansBase::endgameInit(bool bridge,
