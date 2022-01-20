@@ -9,6 +9,7 @@
  */
 
 #include <numeric>
+#include <set>
 
 #include "Bridge.h"
 #include "Preferans.h"
@@ -240,4 +241,137 @@ int BridgePreferansBase::endgameCm (int n,bool bridge) {//if bridge=1 C^n_4n*C^n
 
 int BridgePreferansBase::endgameCm (bool bridge) {//if bridge=1 C^n_4n*C^n_3n*C^n_2n, else C^n_3n*C^n_2n
 	return endgameCm(endgameGetN(bridge),bridge);
+}
+
+bool BridgePreferansBase::isBijection(int n, bool bridge, int multiplier) {
+	int i;
+	std::set<int> set;
+	for (i = 0; i < 2; i++) {
+		auto v = suitLengthVector(n, bridge,
+				i == 0 ? EndgameType::NT : EndgameType::TRUMP);
+		set.clear();
+		for (auto &a : v) {
+			int l = a[0] + multiplier * (a[1] + multiplier * a[2]);
+			if (set.find(l) == set.end()) {
+				set.insert(l);
+			} else {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+int BridgePreferansBase::getMinBijectionMultiplier(int n, bool bridge) {
+	for (int k = 7; k < 15; k++) {
+		if (isBijection(n, bridge, k)) {
+			return k;
+		}
+	}
+	assert(0);
+	return -1;
+}
+
+int BridgePreferansBase::getMinBijectionMultiplier(bool bridge) {
+	return getMinBijectionMultiplier(endgameGetN(bridge),bridge);
+}
+
+void BridgePreferansBase::endgameInit(bool bridge,
+		int32_t* endgameLength[],
+		int32_t* endgameIndex[],
+		int8_t* endgameEstimate[],
+	#ifndef NDEBUG
+		int endgameEstimateLength[],
+	#endif
+		const int endgameMultiplier,
+		const int endgameTypes,
+		const int mw[]
+		){
+
+	//clock_t begin=clock();
+	int i,j,k,c;
+	int a[3];
+	Permutations pe[3];
+
+	for (i=0;i<endgameTypes;i++) {
+		auto&p=endgameLength[i];
+		// i ? EndgameType::TRUMP : EndgameType::NT is ok for bridge and preferans
+		VVInt v = suitLengthVector(bridge, i ? EndgameType::TRUMP : EndgameType::NT);
+		VInt const& max=*std::max_element(v.begin(), v.end(), [](auto &a, auto &b) {
+			return a[2] < b[2];
+		});
+
+		const int size=(max[2]+1)*endgameMultiplier*endgameMultiplier;
+		p=new int32_t[size];
+#ifndef NDEBUG
+		for(j=0;j<size;j++){
+			p[j]=-1;
+		}
+#endif
+		k=0;
+		for (auto a : v) {
+			j = a[0] + endgameMultiplier * (a[1] + endgameMultiplier * a[2]);
+			assert(j < size);
+			p[j] = k++;
+		}
+	}
+
+	const int n = endgameGetN(bridge);
+	const int ntotal = endgameGetN(bridge ,true);
+
+	for (i = 0; i < 3; i++) {
+		pe[i].init(n, ntotal - n * i, COMBINATION);
+	}
+
+	//TODO
+	for (i=0;i<endgameTypes;i++) {
+		endgameIndex[i]=0;
+	}
+
+	c=ntotal*2-2;
+	const int max=1<<c;
+	for (i=0;i<(bridge?4:3);i++) {
+		auto&p=endgameIndex[i];
+		p=new int32_t[max];
+#ifndef NDEBUG
+		for(j=0;j<max;j++){
+			p[j]=-1;
+		}
+#endif
+	}
+
+	j=0;
+	for (auto &p0 : pe[0]) {
+		for (auto &p1 : pe[1]) {
+			for (auto &p2 : pe[2]) {
+				k=bitCode(bridge,p0,p1,p2) & (max-1);
+				assert(k<max);
+				endgameIndex[0][k]=j;
+				endgameRotate(mw,k,c,a);
+
+				for(i=0;i<(bridge?4:3)-1;i++){
+					assert(a[i]<max);
+					endgameIndex[i+1][a[i]]=j;
+				}
+				j++;
+			}
+		}
+	}
+
+	for (i=0;i<endgameTypes;i++) {
+		auto& p=endgameEstimate[i];
+		//TODO path
+		std::string path=format("C:/slovesno/%c%d%s.bin",bridge?'b':'p',n,i==0?"nt":"trump");
+		j=getFileSize(path);
+#ifndef NDEBUG
+		endgameEstimateLength[i]=j;
+#endif
+		p=new int8_t[j];
+		FILE*f=fopen(path.c_str(),"rb");
+		fread(p,j,1,f);
+		fclose(f);
+	}
+
+//	printl(bridge,timeElapse(begin));
+
 }

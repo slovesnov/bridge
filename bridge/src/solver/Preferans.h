@@ -67,6 +67,7 @@ const int PREFERANS_ORDER_OTHER_MOVES_MISERE = 0;
 
 #endif//CONSOLE
 
+#define PREFERANS_ENDGAME
 
 #ifndef FINAL_RELEASE
 //Note. Not use NODE_COUNT macro because Bridge class has its own macro
@@ -86,9 +87,8 @@ class Preferans: public BridgePreferansBase {
 	 * need additional 2 elements for every trick, so for 9 additional tricks need 18 items
 	 * max size 5+18=23
 	 */
-public://TODO remove
 	static int m_w[23];
-private:
+	static int m_oc;//object counter
 
 	/* int8_t*p=m_moves[m_code[suit]]+w*5;
 	 * p[0] = length
@@ -96,11 +96,21 @@ private:
 	 */
 	static int8_t (*m_moves)[3*5];
 
-	static int m_oc;//object counter
-
+#ifdef PREFERANS_ENDGAME
+	static const int endgameTypes=3;//NT, trump, misere
+	static int32_t* endgameIndex[3];//3 - number of rotates (players)
+	static int32_t* endgameLength[endgameTypes];
+	static int8_t* endgameEstimate[endgameTypes];
+#ifndef NDEBUG
+	static int endgameEstimateLength[endgameTypes];//length in bytes
+#endif
+#endif
 public:
 	static const int endgameN=3;//TODO 4
+	static const int endgameCN;
+	static const int endgameMultiplier;
 private:
+
 	/* sizeof(HashItem)=8
 	 *
 	 * total size

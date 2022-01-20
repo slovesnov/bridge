@@ -83,6 +83,20 @@ public:
 	static int endgameCm(const int n,bool bridge);
 	static int bitCode(bool bridge, VInt const &p0, VInt const &p1, VInt const &p2);
 	static void endgameRotate(const int mw[],int n,int bits,int a[]);
+	static bool isBijection(int n, bool bridge, int multiplier);
+	static int getMinBijectionMultiplier(int n, bool bridge);
+	static int getMinBijectionMultiplier(bool bridge);
+	static void endgameInit(bool bridge,
+			int32_t* endgameLength[],
+			int32_t* endgameIndex[],
+			int8_t* endgameEstimate[],
+		#ifndef NDEBUG
+			int endgameEstimateLength[],
+		#endif
+			const int endgameMultiplier,
+			const int endgameTypes,
+			const int mw[]
+			);
 
 	int m_best;
 	std::vector<int> m_bestLine;

@@ -16,11 +16,21 @@
 #endif
 
 int32_t*Preferans::m_r;
+int Preferans::m_w[];
 int Preferans::m_oc=0;//object counter
 const int MAX_SUIT_CODE=0x3aaaa;//240 298
 const int MAX_SUIT_CODE_ARRAY_SIZE=MAX_SUIT_CODE+1;//240 299
 
-int Preferans::m_w[];
+#ifdef PREFERANS_ENDGAME
+int32_t* Preferans::endgameIndex[3];
+int32_t* Preferans::endgameLength[endgameTypes];
+int8_t* Preferans::endgameEstimate[endgameTypes];
+#ifndef NDEBUG
+int Preferans::endgameEstimateLength[endgameTypes];
+#endif
+const int Preferans::endgameCN=endgameCm(false);
+const int Preferans::endgameMultiplier=getMinBijectionMultiplier(false);
+#endif
 
 int8_t (*Preferans::m_moves)[3*5];
 
@@ -79,7 +89,7 @@ void Preferans::staticInit(){
 	BridgePreferansBase::staticInit();
 
 	int i, j, k, l, d, c;
-	constexpr int s = MAX_SUIT_CODE_ARRAY_SIZE * 8;
+	const int s = MAX_SUIT_CODE_ARRAY_SIZE * 8;
 	m_r = new int32_t[s]; //240 299*8*4/1024/1024=7.33mb
 	for (d = 1; d < 9; d++) {
 		Permutations p(d, 3, PERMUTATIONS_WITH_REPLACEMENTS);
@@ -150,11 +160,40 @@ void Preferans::staticInit(){
 		}
 	}
 
+#ifdef PREFERANS_ENDGAME
+	endgameInit(false,
+			endgameLength,
+			endgameIndex,
+			endgameEstimate,
+		#ifndef NDEBUG
+			endgameEstimateLength,
+		#endif
+			endgameMultiplier,
+			endgameTypes,
+			m_w
+			);
+	printi
+#endif
+
+
 }
 
 void Preferans::staticDeinit(){
 	delete[]m_r;
 	delete[]m_moves;
+
+#ifdef PREFERANS_ENDGAME
+	for (auto&p:endgameLength) {
+		delete[]p;
+	}
+	for (auto&p:endgameIndex) {
+		delete[]p;
+	}
+	for (auto&p:endgameEstimate) {
+		delete[]p;
+	}
+#endif
+
 }
 
 #ifndef NDEBUG

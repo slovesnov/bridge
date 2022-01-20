@@ -22,20 +22,20 @@
 #endif
 
 int Bridge::m_w[];
+int Bridge::m_oc=0;
 
 int8_t **Bridge::m_moves;
 
 #ifdef BRIDGE_ENDGAME
-int32_t* Bridge::endgameLength[2];
 int32_t* Bridge::endgameIndex[4];
-int8_t* Bridge::endgameEstimate[2];
+int32_t* Bridge::endgameLength[endgameTypes];
+int8_t* Bridge::endgameEstimate[endgameTypes];
 #ifndef NDEBUG
-int Bridge::endgameEstimateLength[2];//NT+ trump
+int Bridge::endgameEstimateLength[endgameTypes];
 #endif
 const int Bridge::endgameCN=endgameCm(true);
+const int Bridge::endgameMultiplier=getMinBijectionMultiplier(true);
 #endif
-
-int Bridge::m_oc=0;
 
 #ifndef CONSOLE
 
@@ -235,90 +235,19 @@ void Bridge::staticInit(){
 		delete[] t;
 	}
 
-
 #ifdef BRIDGE_ENDGAME
-	//clock_t begin=clock();
-
-	const bool bridge=true;
-	int a[3];
-	Permutations pe[3];
-
-	i=0;
-	for (auto&p:endgameLength) {
-		VVInt v = suitLengthVector(bridge, i ? EndgameType::TRUMP : EndgameType::NT);
-		VInt const& max=*std::max_element(v.begin(), v.end(), [](auto &a, auto &b) {
-			return a[2] < b[2];
-		});
-
-		const int size=(max[2]+1)*169;
-		p=new int32_t[size];
-#ifndef NDEBUG
-		for(j=0;j<size;j++){
-			p[j]=-1;
-		}
+	endgameInit(true,
+			endgameLength,
+			endgameIndex,
+			endgameEstimate,
+		#ifndef NDEBUG
+			endgameEstimateLength,
+		#endif
+			endgameMultiplier,
+			endgameTypes,
+			m_w
+			);
 #endif
-		k=0;
-		for (auto a : v) {
-			j = a[0] + 13 * (a[1] + 13 * a[2]);
-			assert(j < size);
-			p[j] = k++;
-		}
-		i++;
-	}
-
-	const int n = endgameGetN(bridge);
-	const int ntotal = endgameGetN(bridge ,true);
-
-	for (i = 0; i < 3; i++) {
-		pe[i].init(n, ntotal - n * i, COMBINATION);
-	}
-
-	c=ntotal*2-2;
-	const int max=1<<c;
-	for (auto&p:endgameIndex) {
-		p=new int32_t[max];
-#ifndef NDEBUG
-		for(j=0;j<max;j++){
-			p[j]=-1;
-		}
-#endif
-	}
-
-	j=0;
-	for (auto &p0 : pe[0]) {
-		for (auto &p1 : pe[1]) {
-			for (auto &p2 : pe[2]) {
-				k=bitCode(bridge,p0,p1,p2) & (max-1);
-				assert(k<max);
-				endgameIndex[0][k]=j;
-				endgameRotate(m_w,k,c,a);
-				for(i=0;i<3;i++){
-					assert(a[i]<max);
-					endgameIndex[i+1][a[i]]=j;
-				}
-				j++;
-			}
-		}
-	}
-
-	i=0;
-	for(auto& p:endgameEstimate){
-		//TODO path
-		std::string path("C:/slovesno/b"+std::string(i==0?"nt":"trump")+".bin");
-		j=getFileSize(path);
-#ifndef NDEBUG
-		endgameEstimateLength[i]=j;
-#endif
-		p=new int8_t[j];
-		FILE*f=fopen(path.c_str(),"rb");
-		fread(p,j,1,f);
-		fclose(f);
-		i++;
-	}
-
-//	printl(timeElapse(begin));
-#endif
-
 
 #ifndef CONSOLE
 	g_mutex_init(&mutex);

@@ -42,7 +42,16 @@
 		SETT;
 #undef t
 
+		/* CHECK = 0 no check only take estimate from endgame
+		 * CHECK = 1 check v31(from database)==v3(by count)
+		 */
+#define CHECK 0
+
+
+#if CHECK!=0
+		assert(0);
 		m_depth--;
+#endif
 
 
 #ifdef NO_TRUMP
@@ -69,32 +78,38 @@
 				}
 				//remove two high bits
 				k &= (1<<(4*endgameN*2-2))-1;
-				j = l[0] + 13 * (l[1] + 13 * l[2]);
+				j = l[0] + endgameMultiplier * (l[1] + endgameMultiplier * l[2]);
 				assert(endgameIndex[w[t3]][k]!=-1);
 				assert(endgameLength[in][j]!=-1);
 				i=endgameLength[in][j]*endgameCN + endgameIndex[w[t3]][k];
 				assert(i<endgameEstimateLength[in]*4);//mul 4 because length in bytes, 1 byte=4 chains
-//				int v31;
-//				int alpha;
+#if CHECK!=0
+				int v31;
+				int alpha;
+#endif
 				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
 				if ( t3%2==1) {
-//					v31 = 1;//b alpha+1, else alpha+3
-//					alpha=a3 - v31;
-//					j=j<=alpha?alpha:alpha+2;
-//					v31+=j;
-
+#if CHECK==0
 					v3=1+j;
+#else
+					v31 = 1;//b alpha+1, else alpha+3
+					alpha=a3 - v31;
+					j=j<=alpha?alpha:alpha+2;
+					v31+=j;
+#endif
 				}
 				else{
-//					v31 = -1;//b -alpha-1, else -alpha-3
-//					alpha=a2+ v31;
-//					j=j<=alpha?alpha:alpha+2;
-//					v31-=j;
-
+#if CHECK==0
 					v3=-1-j;
+#else
+					v31 = -1;//b -alpha-1, else -alpha-3
+					alpha=a2+ v31;
+					j=j<=alpha?alpha:alpha+2;
+					v31-=j;
+#endif
 				}
 
-/*
+#if CHECK!=0
 		if ( t3%2==1) {
 			v3 = 1;
 #ifdef NO_TRUMP
@@ -110,16 +125,21 @@
 #else
 			v3 -= e(w+t3, a2+ v3);
 #endif
-		}*/
+		}
+#endif //CHECK!=0
+
+#if CHECK!=0
+		assert(0);
 		m_depth++;
+#endif
 
 		RESTORE_CARD(3);
-/*
-		if ( (t3%2==1 && ((v3<=1+alpha && v31<=1+alpha) || (v3>=3+alpha && v31>=3+alpha)))
-				|| (t3%2==0 && ((v3>=-1-alpha && v31>=-1-alpha) || (v3<=-3-alpha && v31<=-3-alpha)))
-				) {
-//		if(v31==v3){
 
+#if CHECK!=0
+		//		if ( (t3%2==1 && ((v3<=1+alpha && v31<=1+alpha) || (v3>=3+alpha && v31>=3+alpha)))
+		//				|| (t3%2==0 && ((v3>=-1-alpha && v31>=-1-alpha) || (v3<=-3-alpha && v31<=-3-alpha)))
+		//				) {
+		if(v31==v3){
 //			static int counter=0;
 //			if(++counter %1'000'000==0){
 //				printl("ok",counter/1'000'000,"m")
@@ -130,7 +150,8 @@
 			printl("er",v3,v31);
 			exit(1);
 		}
-*/
+#endif
+
 		if (v3 > a3) {
 //			printi
 //			exit(1);
@@ -141,6 +162,10 @@
 			a3 = v3;
 			break;
 		}
+
+
+
+#undef CHECK
 	}}
 	else
 #endif//BRIDGE_ENDGAME

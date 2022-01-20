@@ -93,6 +93,7 @@ class Bridge: public BridgePreferansBase {
 	 * max size 7+36=43
 	 */
 	static int m_w[43];
+	static int m_oc;//object counter
 
 	static const int MAX_MOVES =8;//1 byte for length+up to seven bytes for moves, need for MOVES_INIT macro (defined in Bridge.cpp) see bi.h
 	static int8_t **m_moves;
@@ -105,19 +106,19 @@ class Bridge: public BridgePreferansBase {
 	int m_nodes;
 #endif
 
-	static int m_oc;//object counter
-
 #ifdef BRIDGE_ENDGAME
-	static int* endgameLength[2];//NT+ trump
-	static int* endgameIndex[4];//4 number of rotates(players)
-	static int8_t* endgameEstimate[2];//NT+ trump
+	static const int endgameTypes=2;//NT, trump
+	static int32_t* endgameIndex[4];//4 - number of rotates (players)
+	static int32_t* endgameLength[endgameTypes];
+	static int8_t* endgameEstimate[endgameTypes];
 #ifndef NDEBUG
-	static int endgameEstimateLength[2];//NT+ trump in bytes
+	static int endgameEstimateLength[endgameTypes];//length in bytes
 #endif
 #endif
 public:
 	static const int endgameN=2;
 	static const int endgameCN;
+	static const int endgameMultiplier;
 private:
 
 	struct HashItem {//2^4=16 bytes, assume structure alignment=4
