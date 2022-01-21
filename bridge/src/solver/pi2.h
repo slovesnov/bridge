@@ -4,7 +4,10 @@
 	m_nodes++;
 #endif
 
-//#ifdef PREFERANS_ENDGAME
+	//TODO!!!
+//#define PREFERANS_ENDGAME
+
+#ifdef PREFERANS_ENDGAME
 	if(m_depth==endgameN+1){
 		for (i2 = 0; i2 < c2.length; i2 ++) {
 			sc2=c2[i2];
@@ -70,7 +73,7 @@
 		assert(endgameIndex[w[t2]][k]!=-1);
 		assert(endgameLength[in][j]!=-1);
 		i=endgameLength[in][j]*endgameCN + endgameIndex[w[t2]][k];
-		i*=3;
+		i*=3;//i*=3; because for every item have three problems
 		assert(i<endgameEstimateLength[in]*4);//mul 4 because length in bytes, 1 byte=4 chains
 #if CHECK!=0
 				int v21;
@@ -78,12 +81,13 @@
 #endif
 				//TODO
 				//DO NOT REMOVE j=-endgameN+2*((endgameEstimate[in][i/2]>>((i%2)*4))&15);
-				if(w[t2]==1){
-					i+=2;
-				}
-				else if(w[t2]==2){
-					i++;
-				}
+//				if(w[t2]==1){
+//					i+=2;
+//				}
+//				else if(w[t2]==2){
+//					i++;
+//				}
+				i+=w[t2];
 				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
 
 #define v2 v21
@@ -173,6 +177,7 @@
 				j=-j;
 				jv=-jv;
 #endif
+//				if(w[t2]==0){
 		if( (j<=alpha && jv<=alpha) || (j>=beta && jv>=beta) || (j>alpha && j<beta && jv>alpha && jv<beta)  ){
 //			static int counter=0;
 //			++counter;
@@ -184,9 +189,10 @@
 //			}
 		}
 		else{
-			printl("er",v2,v21);
+			printl("er",v2,v21,w[t2]);
 			exit(1);
 		}
+//				}
 #endif
 
 			if (v2 > a2) {
@@ -201,7 +207,7 @@
 	}
 	else
 #undef CHECK
-//#endif//PREFERANS_ENDGAME
+#endif//PREFERANS_ENDGAME
 
 #ifdef CUT3LASTLAYERS
 	if (m_depth == 2) {
