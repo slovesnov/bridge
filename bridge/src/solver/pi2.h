@@ -56,14 +56,6 @@
 		}
 
 
-//		for(i=0;i<4;i++){
-//			printl(binaryCodeString(m_code[i]))
-//		}
-
-//		for(i=0;i<4;i++){
-//			printl(binaryCodeString(l[i]),sl[i])
-//		}
-
 		k=0;
 		j=0;
 		for(i=0;i<4;i++){
@@ -71,34 +63,28 @@
 			k^=3<<(j+2*sl[i]);//remove two high bits
 			j+=2*sl[i];
 		}
-//		printl(binaryCodeString(k),"in=",in)
-//		if(sl[0]!=0 &&sl[1]!=0 &&sl[2]!=0 &&sl[3]!=0){
-//			exit(1);
-//		}
 
 		//remove two high bits
 		k &= (1<<(3*endgameN*2-2))-1;
-//		printl(binaryCodeString(k))
-
 		j = sl[0] + endgameMultiplier * (sl[1] + endgameMultiplier * sl[2]);
-//		if(endgameIndex[w[t2]][k]==-1){
-//			printl(int(w[t2]),binaryCodeString(k),k)
-//		}
 		assert(endgameIndex[w[t2]][k]!=-1);
-//		if(endgameLength[in][j]==-1){
-//			printl(j,JOINS(l,','),endgameMultiplier)
-//		}
 		assert(endgameLength[in][j]!=-1);
 		i=endgameLength[in][j]*endgameCN + endgameIndex[w[t2]][k];
-//		assert(i<endgameEstimateLength[in]*4);//mul 4 because length in bytes, 1 byte=4 chains
-		assert(i<endgameEstimateLength[in]*2);//mul 2 because length in bytes, 1 byte=2 chains
+		i*=3;
+		assert(i<endgameEstimateLength[in]*4);//mul 4 because length in bytes, 1 byte=4 chains
 #if CHECK!=0
-				int v21=1234567;
+				int v21;
 				int alpha,beta;
 #endif
 				//TODO
-				j=-endgameN+2*((endgameEstimate[in][i/2]>>((i%2)*2))&15);
-				//j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
+				//DO NOT REMOVE j=-endgameN+2*((endgameEstimate[in][i/2]>>((i%2)*4))&15);
+				if(w[t2]==1){
+					i+=2;
+				}
+				else if(w[t2]==2){
+					i++;
+				}
+				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
 
 #define v2 v21
 				if ((t2 == 0 && w[1] == 0) || (t2 == 1 && w[0] == 0) || t2 == 2) {
@@ -107,67 +93,71 @@
 					v2 = -1;
 					alpha=a2 - v2;
 					beta=b2 - v2;
-					j=j<=alpha?alpha:(j>=beta?beta:j);
-					v2 += j;//eMisere(w+t2, a2 - v2, b2 - v2);
 	#elif defined(NO_TRUMP)
 					v2 = 1;
 					alpha=a2 - v2;
 					beta=b2 - v2;
-					j=j<=alpha?alpha:(j>=beta?beta:j);
-					v2 += j;//eNT(w+t2, a2 - v2, b2 - v2);
 	#else
 					v2 = 1;
 					alpha=a2 - v2;
 					beta=b2 - v2;
-					j=j<=alpha?alpha:(j>=beta?beta:j);
-					v2 += j;//e(w+t2, a2 - v2, b2 - v2);
 	#endif
+					v2 += j;
 				}
 				else {
 	#ifdef MISERE
 					v2 = 1;
 					alpha=-b2 + v2;
 					beta=-a2 + v2;
-					j=j<=alpha?alpha:(j>=beta?beta:j);
-					v2 -= j;//eMisere(w+t2, -b2 + v2, -a2 + v2);
 	#elif defined(NO_TRUMP)
 					v2 = -1;
 					alpha=-b2 + v2;
 					beta=-a2 + v2;
-					j=j<=alpha?alpha:(j>=beta?beta:j);
-					v2 -= j;//eNT(w+t2, -b2 + v2, -a2 + v2);
 	#else
 					v2 = -1;
 					alpha=-b2 + v2;
 					beta=-a2 + v2;
-					j=j<=alpha?alpha:(j>=beta?beta:j);
-					v2 -= j;//e(w+t2, -b2 + v2, -a2 + v2);
 	#endif
+					v2 -= j;
 				}
 #undef v2
+
+				int jv;
 
 			if ((t2 == 0 && w[1] == 0) || (t2 == 1 && w[0] == 0) || t2 == 2) {
 #ifdef MISERE
 				v2 = -1;
-				v2 += eMisere(w+t2, a2 - v2, b2 - v2);
+				jv=eMisere(w+t2, a2 - v2, b2 - v2);
+				v2+=jv;
+				//v2 += eMisere(w+t2, a2 - v2, b2 - v2);
 #elif defined(NO_TRUMP)
 				v2 = 1;
-				v2 += eNT(w+t2, a2 - v2, b2 - v2);
+				jv=eNT(w+t2, a2 - v2, b2 - v2);
+				v2+=jv;
+				//v2 += eNT(w+t2, a2 - v2, b2 - v2);
 #else
 				v2 = 1;
-				v2 += e(w+t2, a2 - v2, b2 - v2);
+				jv=e(w+t2, a2 - v2, b2 - v2);
+				v2+=jv;
+				//v2 += e(w+t2, a2 - v2, b2 - v2);
 #endif
 			}
 			else {
 #ifdef MISERE
 				v2 = 1;
-				v2 -= eMisere(w+t2, -b2 + v2, -a2 + v2);
+				jv=eMisere(w+t2, -b2 + v2, -a2 + v2);;
+				v2-=jv;
+				//v2 -= eMisere(w+t2, -b2 + v2, -a2 + v2);
 #elif defined(NO_TRUMP)
 				v2 = -1;
-				v2 -= eNT(w+t2, -b2 + v2, -a2 + v2);
+				jv=eNT(w+t2, -b2 + v2, -a2 + v2);
+				v2-=jv;
+				//v2 -= eNT(w+t2, -b2 + v2, -a2 + v2);
 #else
 				v2 = -1;
-				v2 -= e(w+t2, -b2 + v2, -a2 + v2);
+				jv=e(w+t2, -b2 + v2, -a2 + v2);
+				v2-=jv;
+				//v2 -= e(w+t2, -b2 + v2, -a2 + v2);
 #endif
 			}
 #if CHECK!=0
@@ -177,19 +167,27 @@
 			RESTORE_CARD(2)
 
 #if CHECK!=0
-		if(v21==v2){
-			static int counter=0;
-			if(++counter %1'000'000==0){
-				printl("ok",counter/1'000'000,"m")
-				fflush(stdout);
-			}
+#ifdef MISERE
+				alpha=-alpha;
+				beta=-beta;
+				j=-j;
+				jv=-jv;
+#endif
+		if( (j<=alpha && jv<=alpha) || (j>=beta && jv>=beta) || (j>alpha && j<beta && jv>alpha && jv<beta)  ){
+//			static int counter=0;
+//			++counter;
+//			printl("ok",counter)
+//			fflush(stdout);
+//			if(++counter %1'000'000==0){
+//				printl("ok",counter/1'000'000,"m")
+//				fflush(stdout);
+//			}
 		}
 		else{
 			printl("er",v2,v21);
 			exit(1);
 		}
 #endif
-
 
 			if (v2 > a2) {
 #ifdef STOREBEST

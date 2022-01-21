@@ -344,7 +344,7 @@ void BridgePreferansBase::endgameInit(bool bridge,
 			for (auto &p2 : pe[2]) {
 				k=bitCode(bridge,p0,p1,p2) & (max-1);
 				assert(k<max);
-//				if(k==169989){
+//				if(k==99){
 //					printi
 //				}
 				endgameIndex[0][k]=j;
