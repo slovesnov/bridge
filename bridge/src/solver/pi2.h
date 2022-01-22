@@ -81,12 +81,6 @@
 #endif
 				//TODO
 				//DO NOT REMOVE j=-endgameN+2*((endgameEstimate[in][i/2]>>((i%2)*4))&15);
-//				if(w[t2]==1){
-//					i+=2;
-//				}
-//				else if(w[t2]==2){
-//					i++;
-//				}
 				i+=w[t2];
 				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
 

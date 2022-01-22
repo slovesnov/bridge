@@ -228,21 +228,6 @@ void BridgePreferansBase::endgameRotate(bool bridge,const int mw[],int n,int bit
 	}
 }
 
-int BridgePreferansBase::endgameCm (int n,bool bridge) {//if bridge=1 C^n_4n*C^n_3n*C^n_2n, else C^n_3n*C^n_2n
-	int i=1;
-	Permutations p;
-	const int k=bridge?4:3;
-	for(int j=0;j<k-1;j++){
-		p.init(n, (k -j)*n, COMBINATION);
-		i*=p.number();
-	}
-	return i;
-}
-
-int BridgePreferansBase::endgameCm (bool bridge) {//if bridge=1 C^n_4n*C^n_3n*C^n_2n, else C^n_3n*C^n_2n
-	return endgameCm(endgameGetN(bridge),bridge);
-}
-
 int BridgePreferansBase::getMinBijectionMultiplier(bool bridge) {
 	int i,j,k;
 	VVInt v[2];
@@ -293,16 +278,25 @@ void BridgePreferansBase::endgameInit(bool bridge,
 	int i,j,k,c;
 	int a[3];
 	Permutations pe[3];
+	const int n = endgameGetN(bridge);
+
+	i=std::min((n*(bridge ? 4 : 3))>>1,bridge ? 13 : 8);
+	const int size=(i+1)*endgameMultiplier*endgameMultiplier;
 
 	for (i=0;i<endgameTypes;i++) {
 		auto&p=endgameLength[i];
 		// i ? EndgameType::TRUMP : EndgameType::NT is ok for bridge and preferans
 		VVInt v = suitLengthVector(bridge, i ? EndgameType::TRUMP : EndgameType::NT);
+
+#ifndef NDEBUG
 		VInt const& max=*std::max_element(v.begin(), v.end(), [](auto &a, auto &b) {
 			return a[2] < b[2];
 		});
 
-		const int size=(max[2]+1)*endgameMultiplier*endgameMultiplier;
+		const int size1=(max[2]+1)*endgameMultiplier*endgameMultiplier;
+		assert(size==size1);
+#endif
+
 		p=new int32_t[size];
 #ifndef NDEBUG
 		for(j=0;j<size;j++){
@@ -317,7 +311,6 @@ void BridgePreferansBase::endgameInit(bool bridge,
 		}
 	}
 
-	const int n = endgameGetN(bridge);
 	const int ntotal = endgameGetN(bridge ,true);
 
 	for (i = 0; i < 3; i++) {
@@ -344,9 +337,6 @@ void BridgePreferansBase::endgameInit(bool bridge,
 			for (auto &p2 : pe[2]) {
 				k=bitCode(bridge,p0,p1,p2) & (max-1);
 				assert(k<max);
-//				if(k==99){
-//					printi
-//				}
 				endgameIndex[0][k]=j;
 				endgameRotate(bridge,mw,k,c,a);
 

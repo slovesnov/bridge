@@ -27,7 +27,6 @@ int8_t* Preferans::endgameEstimate[];
 #ifndef NDEBUG
 int Preferans::endgameEstimateLength[];
 #endif
-const int Preferans::endgameCN=endgameCm(false);
 const int Preferans::endgameMultiplier=getMinBijectionMultiplier(false);
 #endif
 

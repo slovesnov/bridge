@@ -79,8 +79,31 @@ public:
 	static VVInt suitLengthVector(bool bridge,EndgameType option);
 	static int endgameGetN(bool bridge,bool total=false);
 	static VVInt suitLengthVector(const int n,bool bridge,EndgameType option);
-	static int endgameCm(bool bridge);
-	static int endgameCm(const int n,bool bridge);
+
+	/*body of function should be defined here because
+	 * in Bridge.h static constexpr int endgameCN=endgameCm(endgameN, true);
+	 * in Preferans.h static constexpr int endgameCN=endgameCm(endgameN, false);
+	 */
+	static constexpr int getBinomialCoefficient(int k,int n){
+		int r = 1;
+		for (int i = 1; i <= k; i++) {
+			r *= n - k + i;
+			r /= i;
+		}
+		return r;
+	}
+	/*body of function should be defined here because
+	 * in Bridge.h static constexpr int endgameCN=endgameCm(endgameN, true);
+	 * in Preferans.h static constexpr int endgameCN=endgameCm(endgameN, false);
+	 */
+	static constexpr int endgameCm(const int n,bool bridge){
+		int r=getBinomialCoefficient(n,2*n)*getBinomialCoefficient(n,3*n);
+		if(bridge){
+			r*=getBinomialCoefficient(n,4*n);
+		}
+		return r;
+	}
+
 	static int bitCode(bool bridge, VInt const &p0, VInt const &p1, VInt const &p2);
 	static void endgameRotate(bool bridge,const int mw[],int n,int bits,int a[]);
 	static int getMinBijectionMultiplier(bool bridge);

@@ -33,7 +33,6 @@ int8_t* Bridge::endgameEstimate[];
 #ifndef NDEBUG
 int Bridge::endgameEstimateLength[];
 #endif
-const int Bridge::endgameCN=endgameCm(true);
 const int Bridge::endgameMultiplier=getMinBijectionMultiplier(true);
 #endif
 
