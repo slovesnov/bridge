@@ -33,8 +33,6 @@
 		m_depth--;
 #endif
 
-
-
 #ifdef MISERE
 		const int in=2;
 #elif defined(NO_TRUMP)
@@ -83,43 +81,53 @@
 				//DO NOT REMOVE j=-endgameN+2*((endgameEstimate[in][i/2]>>((i%2)*4))&15);
 				i+=w[t2];
 				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
+//#if CHECK==0
+//#ifdef MISERE
+//				j=-j;
+//#endif
+//#endif
 
+#if CHECK!=0
 #define v2 v21
+#endif
 				if ((t2 == 0 && w[1] == 0) || (t2 == 1 && w[0] == 0) || t2 == 2) {
 
 	#ifdef MISERE
 					v2 = -1;
+#if CHECK!=0
 					alpha=a2 - v2;
 					beta=b2 - v2;
-	#elif defined(NO_TRUMP)
-					v2 = 1;
-					alpha=a2 - v2;
-					beta=b2 - v2;
+#endif
 	#else
 					v2 = 1;
+#if CHECK!=0
 					alpha=a2 - v2;
 					beta=b2 - v2;
+#endif
 	#endif
 					v2 += j;
 				}
 				else {
 	#ifdef MISERE
 					v2 = 1;
+#if CHECK!=0
 					alpha=-b2 + v2;
 					beta=-a2 + v2;
-	#elif defined(NO_TRUMP)
-					v2 = -1;
-					alpha=-b2 + v2;
-					beta=-a2 + v2;
+#endif
 	#else
 					v2 = -1;
+#if CHECK!=0
 					alpha=-b2 + v2;
 					beta=-a2 + v2;
+#endif
 	#endif
 					v2 -= j;
 				}
+#if CHECK!=0
 #undef v2
+#endif
 
+#if CHECK!=0
 				int jv;
 
 			if ((t2 == 0 && w[1] == 0) || (t2 == 1 && w[0] == 0) || t2 == 2) {
@@ -143,7 +151,7 @@
 			else {
 #ifdef MISERE
 				v2 = 1;
-				jv=eMisere(w+t2, -b2 + v2, -a2 + v2);;
+				jv=eMisere(w+t2, -b2 + v2, -a2 + v2);
 				v2-=jv;
 				//v2 -= eMisere(w+t2, -b2 + v2, -a2 + v2);
 #elif defined(NO_TRUMP)
@@ -158,6 +166,8 @@
 				//v2 -= e(w+t2, -b2 + v2, -a2 + v2);
 #endif
 			}
+#endif	//CHECK!=0
+
 #if CHECK!=0
 			m_depth++;
 #endif
@@ -171,7 +181,6 @@
 				j=-j;
 				jv=-jv;
 #endif
-//				if(w[t2]==0){
 		if( (j<=alpha && jv<=alpha) || (j>=beta && jv>=beta) || (j>alpha && j<beta && jv>alpha && jv<beta)  ){
 //			static int counter=0;
 //			++counter;
@@ -186,7 +195,6 @@
 			printl("er",v2,v21,w[t2]);
 			exit(1);
 		}
-//				}
 #endif
 
 			if (v2 > a2) {

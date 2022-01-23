@@ -231,7 +231,6 @@ void BridgePreferansBase::endgameRotate(bool bridge,const int mw[],int n,int bit
 int BridgePreferansBase::getMinBijectionMultiplier(bool bridge) {
 	int i,j,k;
 	VVInt v[2];
-	bool b;
 	const int n=endgameGetN(bridge);
 	std::set<int> set;
 	for (i = 0; i < 2; i++) {
@@ -240,7 +239,6 @@ int BridgePreferansBase::getMinBijectionMultiplier(bool bridge) {
 	}
 
 	for (j = 7; j < 15; j++) {
-		b=true;
 		for(i=0;i<2;i++){
 			set.clear();
 			for (auto &a : v[i]) {
@@ -248,15 +246,12 @@ int BridgePreferansBase::getMinBijectionMultiplier(bool bridge) {
 				if (set.find(k) == set.end()) {
 					set.insert(k);
 				} else {
-					b=false;
 					goto l303;
 				}
 			}
 		}
-		l303:
-		if(b){
-			return j;
-		}
+		return j;
+		l303:;
 	}
 	assert(0);
 	return -1;
