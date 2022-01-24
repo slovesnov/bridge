@@ -17,15 +17,8 @@
 		ADJUST_RANK(2,0)
 		ADJUST_RANK(2,1)
 #undef r0
-//		for(int ii=0;ii<4;ii++){
-//			printCode(ii);
-//		}
 
 			REMOVE_CARD(2)
-
-//		for(int ii=0;ii<4;ii++){
-//			printCode(ii);
-//		}
 
 #define t t2
 			SETT;
@@ -34,7 +27,7 @@
 		/* CHECK = 0 no check only take estimate from endgame
 		 * CHECK = 1 check v21(from database)==v2(by count)
 		 */
-#define CHECK 1
+#define CHECK 0
 
 #if CHECK!=0
 		m_depth--;
@@ -54,7 +47,7 @@
 		for(i=0;i<4;i++){
 			l[i]=m_code[i];
 		}
-		std::sort(l+(in==0?0:1),l+4,[](auto&a,auto&b){
+		std::sort(l+(in==1),l+4,[](auto&a,auto&b){
 			return a<b;
 		});
 
@@ -75,8 +68,10 @@
 		//remove two high bits
 		k &= (1<<(3*endgameN*2-2))-1;
 		j = sl[0] + endgameMultiplier * (sl[1] + endgameMultiplier * sl[2]);
-		printl( endgameLength[in][j], endgameIndex[w[t2]][k] )
 		assert(endgameIndex[w[t2]][k]!=-1);
+		if(endgameLength[in][j]==-1){
+			printl(in,j,JOIN(sl))
+		}
 		assert(endgameLength[in][j]!=-1);
 		i=endgameLength[in][j]*endgameCN + endgameIndex[w[t2]][k];
 		i*=3;//i*=3; because for every item have three problems
@@ -88,9 +83,10 @@
 				//TODO
 				//DO NOT REMOVE j=-endgameN+2*((endgameEstimate[in][i/2]>>((i%2)*4))&15);
 				i+=w[t2];
-				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
 #ifdef MISERE
-				//j=-j;
+				j=endgameN-2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
+#else
+				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
 #endif
 
 #if CHECK!=0
@@ -197,7 +193,7 @@
 //				printl("ok",counter/1'000'000,"m")
 //				fflush(stdout);
 //			}
-			printi
+//			printi
 		}
 		else{
 			printl("er",v2,v21,w[t2]);

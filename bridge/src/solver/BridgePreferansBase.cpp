@@ -280,7 +280,6 @@ void BridgePreferansBase::endgameInit(bool bridge,
 
 	for (i=0;i<endgameTypes;i++) {
 		auto&p=endgameLength[i];
-		//24jan2022 i==1 ? EndgameType::TRUMP : EndgameType::NT is ok for bridge and preferans
 		VVInt v = suitLengthVector(bridge, i==1 ? EndgameType::TRUMP : EndgameType::NT);
 
 #ifndef NDEBUG
@@ -344,10 +343,12 @@ void BridgePreferansBase::endgameInit(bool bridge,
 		}
 	}
 
+	const char* T[]={"nt", "trump","misere"};
+
 	for (i=0;i<endgameTypes;i++) {
 		auto& p=endgameEstimate[i];
 		//TODO path
-		std::string path=format("C:/slovesno/%c%d%s.bin",bridge?'b':'p',n,i==0?"nt":"trump");
+		std::string path=format("C:/slovesno/%c%d%s.bin",bridge?'b':'p',n,T[i]);
 		j=getFileSize(path);
 #ifndef NDEBUG
 		endgameEstimateLength[i]=j;
