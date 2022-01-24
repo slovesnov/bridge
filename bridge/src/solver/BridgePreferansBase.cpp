@@ -280,8 +280,8 @@ void BridgePreferansBase::endgameInit(bool bridge,
 
 	for (i=0;i<endgameTypes;i++) {
 		auto&p=endgameLength[i];
-		// i ? EndgameType::TRUMP : EndgameType::NT is ok for bridge and preferans
-		VVInt v = suitLengthVector(bridge, i ? EndgameType::TRUMP : EndgameType::NT);
+		//24jan2022 i==1 ? EndgameType::TRUMP : EndgameType::NT is ok for bridge and preferans
+		VVInt v = suitLengthVector(bridge, i==1 ? EndgameType::TRUMP : EndgameType::NT);
 
 #ifndef NDEBUG
 		VInt const& max=*std::max_element(v.begin(), v.end(), [](auto &a, auto &b) {

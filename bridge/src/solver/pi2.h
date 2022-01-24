@@ -17,8 +17,15 @@
 		ADJUST_RANK(2,0)
 		ADJUST_RANK(2,1)
 #undef r0
+//		for(int ii=0;ii<4;ii++){
+//			printCode(ii);
+//		}
 
 			REMOVE_CARD(2)
+
+//		for(int ii=0;ii<4;ii++){
+//			printCode(ii);
+//		}
 
 #define t t2
 			SETT;
@@ -68,6 +75,7 @@
 		//remove two high bits
 		k &= (1<<(3*endgameN*2-2))-1;
 		j = sl[0] + endgameMultiplier * (sl[1] + endgameMultiplier * sl[2]);
+		printl( endgameLength[in][j], endgameIndex[w[t2]][k] )
 		assert(endgameIndex[w[t2]][k]!=-1);
 		assert(endgameLength[in][j]!=-1);
 		i=endgameLength[in][j]*endgameCN + endgameIndex[w[t2]][k];
@@ -81,11 +89,9 @@
 				//DO NOT REMOVE j=-endgameN+2*((endgameEstimate[in][i/2]>>((i%2)*4))&15);
 				i+=w[t2];
 				j=-endgameN+2*((endgameEstimate[in][i/4]>>((i%4)*2))&3);
-//#if CHECK==0
-//#ifdef MISERE
-//				j=-j;
-//#endif
-//#endif
+#ifdef MISERE
+				//j=-j;
+#endif
 
 #if CHECK!=0
 #define v2 v21
@@ -176,23 +182,30 @@
 
 #if CHECK!=0
 #ifdef MISERE
-				alpha=-alpha;
-				beta=-beta;
-				j=-j;
-				jv=-jv;
+//				alpha=-alpha;
+//				beta=-beta;
+//				j=-j;
+//				jv=-jv;
 #endif
-		if( (j<=alpha && jv<=alpha) || (j>=beta && jv>=beta) || (j>alpha && j<beta && jv>alpha && jv<beta)  ){
+//				if(in==2 && j>alpha && j<beta && jv>alpha /*&& j!=jv*/){
+//					printvi(j,jv,alpha,beta,in);
+//					exit(1);
+//				}
+		if( (j<=alpha && jv<=alpha) || (j>=beta && jv>=beta) || (j>alpha && j<beta && jv>alpha && jv<beta && j==jv)  ){
 //			static int counter=0;
-//			++counter;
-//			printl("ok",counter)
-//			fflush(stdout);
 //			if(++counter %1'000'000==0){
 //				printl("ok",counter/1'000'000,"m")
 //				fflush(stdout);
 //			}
+			printi
 		}
 		else{
 			printl("er",v2,v21,w[t2]);
+			printvi(j,jv,alpha,beta);
+			for(i=0;i<4;i++){
+				printl(i,sl[i])
+				println("%s %x\n",binaryCodeString(l[i]).c_str(),l[i]);
+			}
 			exit(1);
 		}
 #endif
