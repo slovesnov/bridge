@@ -110,7 +110,7 @@ class Preferans: public BridgePreferansBase {
 #endif
 #endif
 public:
-	static const int endgameN=3;
+	static const int endgameN=4;
 	static constexpr int endgameCN=endgameCm(endgameN, false);
 	static const int endgameMultiplier;
 private:
