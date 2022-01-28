@@ -228,26 +228,19 @@ void BridgePreferansBase::endgameRotate(bool bridge,const int mw[],int n,int bit
 	}
 }
 
-int BridgePreferansBase::getMinBijectionMultiplier(bool bridge) {
-	int i,j,k;
-	VVInt v[2];
-	const int n=endgameGetN(bridge);
+int BridgePreferansBase::getMinBijectionMultiplier(const int n,bool bridge) {
+	int i,j;
 	std::set<int> set;
-	for (i = 0; i < 2; i++) {
-		v[i] = suitLengthVector(n, bridge,
-				i == 0 ? EndgameType::NT : EndgameType::TRUMP);
-	}
+	auto v = suitLengthVector(n, bridge, EndgameType::TRUMP);
 
 	for (j = 7; j < 15; j++) {
-		for(i=0;i<2;i++){
-			set.clear();
-			for (auto &a : v[i]) {
-				k = a[0] + j * (a[1] + j * a[2]);
-				if (set.find(k) == set.end()) {
-					set.insert(k);
-				} else {
-					goto l303;
-				}
+		set.clear();
+		for (auto &a : v) {
+			i = a[0] + j * (a[1] + j * a[2]);
+			if (set.find(i) == set.end()) {
+				set.insert(i);
+			} else {
+				goto l303;
 			}
 		}
 		return j;
@@ -255,6 +248,10 @@ int BridgePreferansBase::getMinBijectionMultiplier(bool bridge) {
 	}
 	assert(0);
 	return -1;
+}
+
+int BridgePreferansBase::getMinBijectionMultiplier(bool bridge) {
+	return getMinBijectionMultiplier(endgameGetN(bridge),bridge);
 }
 
 void BridgePreferansBase::endgameInit(bool bridge,
@@ -274,22 +271,13 @@ void BridgePreferansBase::endgameInit(bool bridge,
 	int a[3];
 	Permutations pe[3];
 	const int n = endgameGetN(bridge);
-
-	i=std::min((n*(bridge ? 4 : 3))>>1,bridge ? 13 : 8);
-	const int size=(i+1)*endgameMultiplier*endgameMultiplier;
+	const int ntotal = endgameGetN(bridge ,true);
+	const int size=endgameMultiplier*endgameMultiplier*(ntotal/2)+endgameMultiplier*(ntotal%2)+1;
+	printl(bridge,size)
 
 	for (i=0;i<endgameTypes;i++) {
 		auto&p=endgameLength[i];
 		VVInt v = suitLengthVector(bridge, i==1 ? EndgameType::TRUMP : EndgameType::NT);
-
-#ifndef NDEBUG
-		VInt const& max=*std::max_element(v.begin(), v.end(), [](auto &a, auto &b) {
-			return a[2] < b[2];
-		});
-
-		const int size1=(max[2]+1)*endgameMultiplier*endgameMultiplier;
-		assert(size==size1);
-#endif
 
 		p=new int32_t[size];
 #ifndef NDEBUG
@@ -304,8 +292,6 @@ void BridgePreferansBase::endgameInit(bool bridge,
 			p[j] = k++;
 		}
 	}
-
-	const int ntotal = endgameGetN(bridge ,true);
 
 	for (i = 0; i < 3; i++) {
 		pe[i].init(n, ntotal - n * i, COMBINATION);
@@ -347,8 +333,11 @@ void BridgePreferansBase::endgameInit(bool bridge,
 
 	for (i=0;i<endgameTypes;i++) {
 		auto& p=endgameEstimate[i];
-		//TODO path
-		std::string path=format("C:/slovesno/%c%d%s.bin",bridge?'b':'p',n,T[i]);
+		std::string path=format("%c%d%s.bin",bridge?'b':'p',n,T[i]);
+#ifndef FINAL_RELEASE
+		path="C:/slovesno/"+path;
+#endif
+
 		j=getFileSize(path);
 #ifndef NDEBUG
 		endgameEstimateLength[i]=j;

@@ -76,9 +76,10 @@ protected:
 
 public:
 	//endgame function (need also for test project)
-	static VVInt suitLengthVector(bool bridge,EndgameType option);
 	static int endgameGetN(bool bridge,bool total=false);
 	static VVInt suitLengthVector(const int n,bool bridge,EndgameType option);
+	static VVInt suitLengthVector(bool bridge,EndgameType option);
+
 
 	/*body of function should be defined here because
 	 * in Bridge.h static constexpr int endgameCN=endgameCm(endgameN, true);
@@ -106,8 +107,8 @@ public:
 
 	static int bitCode(bool bridge, VInt const &p0, VInt const &p1, VInt const &p2);
 	static void endgameRotate(bool bridge,const int mw[],int n,int bits,int a[]);
+	static int getMinBijectionMultiplier(const int n,bool bridge);
 	static int getMinBijectionMultiplier(bool bridge);
-
 
 	static void endgameInit(bool bridge,
 			int32_t* endgameLength[],
