@@ -67,7 +67,7 @@ const int PREFERANS_ORDER_OTHER_MOVES_MISERE = 0;
 
 #endif//CONSOLE
 
-#define PREFERANS_ENDGAME
+//#define PREFERANS_ENDGAME
 
 #ifndef FINAL_RELEASE
 //Note. Not use NODE_COUNT macro because Bridge class has its own macro

@@ -16,7 +16,7 @@
 #include "dialogs/PbnEditorDialog.h"
 #include "dialogs/SolveAllDealsDialog.h"
 #include "solver/Bridge.h"
-#include "solver/Permutations.h"
+#include "Permutations.h"
 #include "solver/Preferans.h"
 
 //not use member of DrawingArea to avoid long compilation time
@@ -2196,7 +2196,7 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 		int *result, Bridge *pb, Preferans *pp) {
 	int i, j,k, v;
 	SolveAll &sa = m_vSolveAll[index];
-	Permutations p(sa.k, sa.n, COMBINATION);
+	Permutations p(sa.k, sa.n, Permutations::COMBINATION);
 	g_mutex_lock(&m_solveAllMutex);
 	const int MAXV = getSolveAllDealsSteps(p);
 	g_mutex_unlock(&m_solveAllMutex);
@@ -2311,7 +2311,7 @@ void DrawingArea::solveAllDeals() {
 
 	k = state.countCards(c[0])-v[0].size();
 	n = state.countCards(c[1])-v[1].size() + k;
-	p.init(k, n, COMBINATION);
+	p.init(k, n, Permutations::COMBINATION);
 	const int steps = getSolveAllDealsSteps(p);
 
 	/* m_vSolveAll[i].positions uses in m_solveAllDealsDialog

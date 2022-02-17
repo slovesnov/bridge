@@ -90,7 +90,7 @@ void Preferans::staticInit(){
 	const int s = MAX_SUIT_CODE_ARRAY_SIZE * 8;
 	m_r = new int32_t[s]; //240 299*8*4/1024/1024=7.33mb
 	for (d = 1; d < 9; d++) {
-		Permutations p(d, 3, PERMUTATIONS_WITH_REPLACEMENTS);
+		Permutations p(d, 3, Permutations::PERMUTATIONS_WITH_REPLACEMENTS);
 		do {
 			c = 3 << (2 * d);
 			for (i = 0; i < d; i++) {
@@ -132,7 +132,7 @@ void Preferans::staticInit(){
 	memcpy(m_moves + c, t, sz * sizeof(int8_t));
 
 	for(k=1;k<9;k++){
-		p.init(k,3,PERMUTATIONS_WITH_REPLACEMENTS);
+		p.init(k,3,Permutations::PERMUTATIONS_WITH_REPLACEMENTS);
 		for (auto& z : p) {
 			for(i=0;i<3;i++){
 				o[i]=0;

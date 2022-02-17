@@ -294,7 +294,7 @@ void BridgePreferansBase::endgameInit(bool bridge,
 	}
 
 	for (i = 0; i < 3; i++) {
-		pe[i].init(n, ntotal - n * i, COMBINATION);
+		pe[i].init(n, ntotal - n * i, Permutations::COMBINATION);
 	}
 
 	c=ntotal*2-2;

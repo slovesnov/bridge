@@ -19,7 +19,7 @@
 #include "helper/Enums.h"
 #include "helper/SolveAll.h"
 #include "problem/ProblemVector.h"
-#include "solver/Permutations.h"
+#include "Permutations.h"
 
 class SolveForAllDeclarersDialog;
 class SolveAllDealsDialog;
