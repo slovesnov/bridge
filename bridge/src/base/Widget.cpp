@@ -547,7 +547,6 @@ GtkWidget* Widget::createTextCombobox(const STRING_ID id, int length){
 	return createTextCombobox(vs);
 }
 
-
 GtkTreeModel* Widget::createTextModel(const VString& text) {
 	GtkTreeIter iter;
 	GtkTreeStore *store;

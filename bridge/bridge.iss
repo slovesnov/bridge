@@ -3,7 +3,7 @@
 #define GTKPATH "C:\soft\msys64\mingw64\"
 #define SITE "http://slovesnov.users.sf.net/"
 #define APPNAME "bridge"
-#define VERSION "5.2"
+#define VERSION "5.3"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.

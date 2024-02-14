@@ -97,7 +97,7 @@ const int MAX_BRIDGE_HAND_CARDS = 13;
 const int MAX_PREFERANS_HAND_CARDS = 10;
 const int MAX_RESULT_SIZE = MAX_BRIDGE_HAND_CARDS + 1;
 
-const double CURRENT_VERSION = 5.2;
+const double CURRENT_VERSION = 5.3;
 const std::string CURRENT_VERSION_STR = forma(CURRENT_VERSION);
 const std::string BASE_ADDRESS = "http://bridge-studio.sourceforge.net/";
 const std::string DOWNLOAD_URL = "http://sourceforge.net/projects/bridge-studio/files/latest/download";
