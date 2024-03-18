@@ -25,14 +25,14 @@ const STRING_ID SID[] = {
 const char* IMG[] = { "undo24.png", NULL, "insert24.png", "cancel24.png" };
 
 static void button_clicked(GtkWidget *widget, int i) {
-	dialog->click(EDIT_LIST_BUTTON(i)); //click(int) used for ButtonDialog
+	dialog->clickEL(EDIT_LIST_BUTTON(i)); //click(int) used for ButtonDialog
 }
 
 static gboolean mouse_press_event(GtkWidget *widget, GdkEventButton *event,
 		int i) {
 	//event->button =1 left mouse button
 	if (event->button == 1) {
-		dialog->click(EDIT_LIST_BUTTON(i)); //click(int) used for ButtonDialog
+		dialog->clickEL(EDIT_LIST_BUTTON(i)); //click(int) used for ButtonDialog
 	}
 	return TRUE;
 }
@@ -180,7 +180,7 @@ void EditListDialog::redrawProblem() {
 
 }
 
-void EditListDialog::click(EDIT_LIST_BUTTON e) {
+void EditListDialog::clickEL(EDIT_LIST_BUTTON e) {
 	bool redraw = true;
 
 	switch (e) {

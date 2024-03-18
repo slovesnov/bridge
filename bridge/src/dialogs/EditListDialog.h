@@ -41,8 +41,7 @@ public:
 	EditListDialog();
 	virtual ~EditListDialog() {
 	}
-
-	void click(EDIT_LIST_BUTTON e);
+	void clickEL(EDIT_LIST_BUTTON e);
 };
 
 #endif /* DIALOGS_EDITLISTDIALOG_H_ */
