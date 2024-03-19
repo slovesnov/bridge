@@ -1,3 +1,6 @@
+changes 5.3
+remove warnings for new gcc/gtk versions
+
 changes 5.2
 development of version 5.2 began on November 7, 2020 and ended on December 15, 2021
 
