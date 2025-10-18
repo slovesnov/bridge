@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef PBNEDITORDIALOG_H_
@@ -35,14 +35,14 @@ enum PBN_EDITOR_LABEL {
 };
 
 class PbnEditorDialog: public ButtonsDialog, public ProblemVectorModified {
-	GtkWidget* m_grid;
-	GtkWidget* m_combo[PBN_EDITOR_COMBO_SIZE];
-	GtkWidget* m_label[PBN_EDITOR_LABEL_SIZE];
-	GtkWidget*m_auction;
+	GtkWidget *m_grid;
+	GtkWidget *m_combo[PBN_EDITOR_COMBO_SIZE];
+	GtkWidget *m_label[PBN_EDITOR_LABEL_SIZE];
+	GtkWidget *m_auction;
 	VGtkWidgetPtr m_entry;
 
-	GtkWidget* m_labelProblem; //shows problem number
-	GtkWidget* m_button[4]; //next, previous problem
+	GtkWidget *m_labelProblem; //shows problem number
+	GtkWidget *m_button[4]; //next, previous problem
 
 	//need to redefine functions use own problem
 	const Problem& getProblem() const {
@@ -59,7 +59,7 @@ class PbnEditorDialog: public ButtonsDialog, public ProblemVectorModified {
 	void updateDealLabel();
 	bool storeProblem();
 
-	bool click(int index)override;
+	bool click(int index) override;
 
 public:
 	PbnEditorDialog();

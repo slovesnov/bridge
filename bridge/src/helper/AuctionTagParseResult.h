@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef PROBLEM_AUCTIONTAGPARSERESULT_H_
@@ -18,8 +18,8 @@ struct AuctionTagParseResult {
 	std::string s;
 	char declarer;
 
-	AuctionTagParseResult(STRING_ID _id, std::string _s = "",
-			char _declarer = ' ') {
+	AuctionTagParseResult(STRING_ID _id, std::string _s = "", char _declarer =
+			' ') {
 		id = _id;
 		s = _s;
 		declarer = _declarer;

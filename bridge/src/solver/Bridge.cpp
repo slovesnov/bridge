@@ -5,7 +5,7 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2020-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 #include "Bridge.h"
@@ -22,7 +22,7 @@
 #endif
 
 int Bridge::m_w[];
-int Bridge::m_oc=0;
+int Bridge::m_oc = 0;
 
 int8_t **Bridge::m_moves;
 
@@ -54,9 +54,9 @@ static int solveParametersIndex;
 static std::vector<SolveParameters> solveParameters;
 static GMutex mutex;
 static SET_ESTIMATION_FUNCTION gEstimationFunction;
-static std::vector<GThread*>gEstimateThreadV;
-static Bridge* gBase;
-static Bridge*gb;
+static std::vector<GThread*> gEstimateThreadV;
+static Bridge *gBase;
+static Bridge *gb;
 
 static gpointer estimate_all_thread(gpointer d) {
 	((Bridge*) d)->estimateAllThread();
@@ -138,7 +138,6 @@ else {\
 
 #else
 
-
 #define MOVES_INIT_BRIDGE(suit,w,p,q,mm) 	k = m_code[suit];\
 l = k & 15;\
 k >>= 4;\
@@ -175,47 +174,47 @@ else {\
 
 #endif
 
-void Bridge::staticInit(){
+void Bridge::staticInit() {
 	int i;
 
 	BridgePreferansBase::staticInit();
 
-	i=0;
-	for(int& a:m_w){
-		a=i%4;
+	i = 0;
+	for (int &a : m_w) {
+		a = i % 4;
 		i++;
 	}
 
-	const int players=4;
-	int8_t*pm;
-	int j,k,c,w,v;
-	int8_t* t;
-	int8_t*p[players];
+	const int players = 4;
+	int8_t *pm;
+	int j, k, c, w, v;
+	int8_t *t;
+	int8_t *p[players];
 
 //	clock_t begin=clock();
-	m_moves=new int8_t*[BRIDGE_MAX_PRECOUNT_SUIT_CARDS+1];
+	m_moves = new int8_t*[BRIDGE_MAX_PRECOUNT_SUIT_CARDS + 1];
 
-	pm=m_moves[0]=new int8_t[players*MAX_MOVES];
+	pm = m_moves[0] = new int8_t[players * MAX_MOVES];
 
-	for(i=0;i<players;i++,pm+=MAX_MOVES){
-		*pm=0;
+	for (i = 0; i < players; i++, pm += MAX_MOVES) {
+		*pm = 0;
 	}
 
-	for(k=1;k<=BRIDGE_MAX_PRECOUNT_SUIT_CARDS;k++){
-		t=new int8_t[players*MAX_MOVES];
+	for (k = 1; k <= BRIDGE_MAX_PRECOUNT_SUIT_CARDS; k++) {
+		t = new int8_t[players * MAX_MOVES];
 		int n[players];
 
-		const int size=1<<(2*k);
-		pm=m_moves[k]=new int8_t[size*players*MAX_MOVES];
+		const int size = 1 << (2 * k);
+		pm = m_moves[k] = new int8_t[size * players * MAX_MOVES];
 		//faster without permutations
-		for (c = 0; c < size; c++,pm+=players * MAX_MOVES) {
-			p[0]=pm+1;
+		for (c = 0; c < size; c++, pm += players * MAX_MOVES) {
+			p[0] = pm + 1;
 			for (i = 1; i < players; i++) {
-				p[i]=p[i-1]+MAX_MOVES;
+				p[i] = p[i - 1] + MAX_MOVES;
 			}
 
 			for (i = 0; i < players; i++) {
-				n[i]=0;
+				n[i] = 0;
 			}
 
 			w = -1;
@@ -223,12 +222,12 @@ void Bridge::staticInit(){
 				v = j & 3;
 				if (v != w) {
 					w = v;
-					*p[w]++=i;
+					*p[w]++ = i;
 					n[w]++;
 				}
 			}
 			for (w = 0; w < players; w++) {
-				pm[w*MAX_MOVES]=n[w];
+				pm[w * MAX_MOVES] = n[w];
 			}
 		}
 		delete[] t;
@@ -254,12 +253,12 @@ void Bridge::staticInit(){
 
 }
 
-void Bridge::staticDeinit(){
+void Bridge::staticDeinit() {
 	int i;
-	for(i=0;i<=BRIDGE_MAX_PRECOUNT_SUIT_CARDS;i++){
-		delete[]m_moves[i];
+	for (i = 0; i <= BRIDGE_MAX_PRECOUNT_SUIT_CARDS; i++) {
+		delete[] m_moves[i];
 	}
-	delete[]m_moves;
+	delete[] m_moves;
 
 #ifndef CONSOLE
 	g_mutex_clear(&mutex);
@@ -281,7 +280,7 @@ void Bridge::staticDeinit(){
 
 Bridge::Bridge() {
 	//println("create bridge object %llx",uint64_t(this))
-	if(m_oc++==0){
+	if (m_oc++ == 0) {
 		staticInit();
 	}
 	m_hashTable = new Hash[HASH_SIZE];
@@ -290,10 +289,10 @@ Bridge::Bridge() {
 
 Bridge::~Bridge() {
 //	println("%llx",uint64_t(this));
-	if(--m_oc==0){
+	if (--m_oc == 0) {
 		staticDeinit();
 	}
-	delete[]m_hashTable;
+	delete[] m_hashTable;
 }
 
 int Bridge::removeCard(int suit, int pos) {
@@ -301,48 +300,46 @@ int Bridge::removeCard(int suit, int pos) {
 	pos <<= 1;
 	int c = m_code[suit];
 	//-1 decrease suit length
-	m_code[suit] = (((c >> (pos + 2)) << pos) | (c & ((1 << pos) - 1)))-1;
+	m_code[suit] = (((c >> (pos + 2)) << pos) | (c & ((1 << pos) - 1))) - 1;
 	return c;
 }
 
 void Bridge::solveFull(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 		bool trumpChanged, int lowTricks, int highTricks) {
-	if(trump==NT){
-		solvebNT(c, trump, first,trumpChanged, lowTricks, highTricks);
-	}
-	else{
-		solveb(c, trump, first,trumpChanged, lowTricks, highTricks);
+	if (trump == NT) {
+		solvebNT(c, trump, first, trumpChanged, lowTricks, highTricks);
+	} else {
+		solveb(c, trump, first, trumpChanged, lowTricks, highTricks);
 	}
 }
 
-void Bridge::solveEstimateOnly(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-		bool trumpChanged, int lowTricks, int highTricks) {
-	if(trump==NT){
-		solveNT(c, trump, first,trumpChanged, lowTricks, highTricks);
-	}
-	else{
-		solve(c, trump, first,trumpChanged, lowTricks, highTricks);
+void Bridge::solveEstimateOnly(const CARD_INDEX c[52], int trump,
+		CARD_INDEX first, bool trumpChanged, int lowTricks, int highTricks) {
+	if (trump == NT) {
+		solveNT(c, trump, first, trumpChanged, lowTricks, highTricks);
+	} else {
+		solve(c, trump, first, trumpChanged, lowTricks, highTricks);
 	}
 }
 
 //BEGIN AUTOMATICALLY GENERATED TEXT
-int Bridge::e(const int* w, int a) {
+int Bridge::e(const int *w, int a) {
 #include "bi.h"
 }
 
-int Bridge::eb(const int* w, int a) {
+int Bridge::eb(const int *w, int a) {
 #define STOREBEST
 #include "bi.h"
 #undef STOREBEST
 }
 
-int Bridge::eNT(const int* w, int a) {
+int Bridge::eNT(const int *w, int a) {
 #define NO_TRUMP
 #include "bi.h"
 #undef NO_TRUMP
 }
 
-int Bridge::ebNT(const int* w, int a) {
+int Bridge::ebNT(const int *w, int a) {
 #define STOREBEST
 #define NO_TRUMP
 #include "bi.h"
@@ -351,13 +348,13 @@ int Bridge::ebNT(const int* w, int a) {
 }
 
 void Bridge::solve(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	bool trumpChanged, int lowTricks, int highTricks) {
+		bool trumpChanged, int lowTricks, int highTricks) {
 	assert(trump!=NT);
 #include "bsolve.h"
 }
 
 void Bridge::solveb(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	bool trumpChanged, int lowTricks, int highTricks) {
+		bool trumpChanged, int lowTricks, int highTricks) {
 	assert(trump!=NT);
 #define STOREBEST
 #include "bsolve.h"
@@ -365,7 +362,7 @@ void Bridge::solveb(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 }
 
 void Bridge::solveNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	bool trumpChanged, int lowTricks, int highTricks) {
+		bool trumpChanged, int lowTricks, int highTricks) {
 	assert(trump==NT);
 #define NO_TRUMP
 #include "bsolve.h"
@@ -373,7 +370,7 @@ void Bridge::solveNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 }
 
 void Bridge::solvebNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-	bool trumpChanged, int lowTricks, int highTricks) {
+		bool trumpChanged, int lowTricks, int highTricks) {
 	assert(trump==NT);
 #define STOREBEST
 #define NO_TRUMP
@@ -385,21 +382,21 @@ void Bridge::solvebNT(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 
 #ifndef CONSOLE
 
-void Bridge::solve(const Problem& p, bool trumpChanged) {
+void Bridge::solve(const Problem &p, bool trumpChanged) {
 	CARD_INDEX cid[52];
 	p.getClearCid(cid);
 	CARD_INDEX first = p.getFirst();
-	gBase=0;
-	if(p.m_trump==NT){
+	gBase = 0;
+	if (p.m_trump == NT) {
 		solvebNT(cid, p.m_trump, first, trumpChanged);
-	}
-	else{
+	} else {
 		solveb(cid, p.m_trump, first, trumpChanged);
 	}
 }
 
-void Bridge::estimateAll(const Problem& p, ESTIMATE estimateType,
-		SET_ESTIMATION_FUNCTION estimationFunction,bool beforeBest,bool trumpChanged) {
+void Bridge::estimateAll(const Problem &p, ESTIMATE estimateType,
+		SET_ESTIMATION_FUNCTION estimationFunction, bool beforeBest,
+		bool trumpChanged) {
 	/* make wrapper function, to avoid restore variables leaks
 	 * store m_e,m_cards for bestLine function
 	 */
@@ -408,8 +405,8 @@ void Bridge::estimateAll(const Problem& p, ESTIMATE estimateType,
 	M(cards)
 #undef M
 
-	estimateAllInner( p, estimateType,
-			 estimationFunction,beforeBest,trumpChanged);
+	estimateAllInner(p, estimateType, estimationFunction, beforeBest,
+			trumpChanged);
 
 #define M(a) m_##a=a;
 	M(e)
@@ -423,41 +420,40 @@ void Bridge::estimateAll(const Problem& p, ESTIMATE estimateType,
  * leave parameter to compare speed of fast and slow options
  * function works correct when table is full
  */
-void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
-		SET_ESTIMATION_FUNCTION estimationFunction,bool beforeBest,bool trumpChanged) {
+void Bridge::estimateAllInner(const Problem &p, ESTIMATE estimateType,
+		SET_ESTIMATION_FUNCTION estimationFunction, bool beforeBest,
+		bool trumpChanged) {
 
-	const bool fast=true;
-	const int toIndex = beforeBest?-1:m_best;
+	const bool fast = true;
+	const int toIndex = beforeBest ? -1 : m_best;
 
-	int i, j, e,low,high;
+	int i, j, e, low, high;
 	bool im;
 	CARD_INDEX l;
 	VSC v;
 
 	Problem z = p;
-	State& st = z.getState();
+	State &st = z.getState();
 	if (p.isTableFull()) {
 		st.clearInner();
 	}
 	State so = st; //save cleared state
-	CARD_INDEX* cid = st.m_cid;
+	CARD_INDEX *cid = st.m_cid;
 
 	CARD_INDEX next = p.getNextMove();
 	CARD_INDEX first = p.getFirst();
-	const bool ns= northOrSouth(beforeBest? next: cid[toIndex]);
-	const int bestE = ns ? m_ns :m_ew;
+	const bool ns = northOrSouth(beforeBest ? next : cid[toIndex]);
+	const int bestE = ns ? m_ns : m_ew;
 
+	i = st.findInner(first);
 
-	i=st.findInner(first);
-
-	if (i == -1) {//no cards on table
+	if (i == -1) { //no cards on table
 		//any card
 		for (i = 0; i < 4; i++) {
 			addSuitableGroups(i, cid, next, v, toIndex);
 		}
-	}
-	else {
-		j=i/13;
+	} else {
+		j = i / 13;
 		addSuitableGroups(j, cid, next, v, toIndex);
 		if (v.empty()) {
 			for (i = 0; i < 4; i++) {
@@ -471,21 +467,22 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 	//Note if bestBefore==true x.o=false always
 
 	//set best
-	for(SC const& x: v){
-		if(x.o){
-			for(i=0;i<x.length;i++){
+	for (SC const &x : v) {
+		if (x.o) {
+			for (i = 0; i < x.length; i++) {
 				estimationFunction(x[i].toIndex(), bestE);
 			}
 			break;
 		}
 	}
 
-	if (estimateType != ESTIMATE_ALL_LOCAL && estimateType != ESTIMATE_ALL_TOTAL){
+	if (estimateType != ESTIMATE_ALL_LOCAL
+			&& estimateType != ESTIMATE_ALL_TOTAL) {
 		return;
 	}
 
 	//set question for all card groups, except bestmove
-	for (SC const& x : v) {
+	for (SC const &x : v) {
 		if (x.o) {
 			continue;
 		}
@@ -497,10 +494,10 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 	//now estimate
 	SolveParameters sp;
 	sp.trump = p.m_trump;
-	sp.ns=ns;
-	solveParameters.clear();//CLEAR PREVIOUS
+	sp.ns = ns;
+	solveParameters.clear();		//CLEAR PREVIOUS
 
-	for (SC const& x : v) {
+	for (SC const &x : v) {
 		if (x.o) {
 			continue;
 		}
@@ -515,8 +512,7 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 			if (l == c || l == getBridgePartner(c)) {
 				e = 1;		//extra trick
 			}
-		}
-		else {
+		} else {
 			l = first;
 		}
 
@@ -533,8 +529,8 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 		 */
 		im = 0;
 		std::copy(cid, cid + 52, sp.c);
-		sp.e=e;
-		sp.first=l;
+		sp.e = e;
+		sp.first = l;
 		if (fast && !beforeBest) {
 			if (e == 1) {
 				high = bestE - 1;
@@ -543,8 +539,7 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 						im = 1;
 						//TODO remove, cann't model such situation
 						println("high == 0 GOT IT")
-					}
-					else {
+					} else {
 						/* Here high=1, do search in [0,1] window in solve
 						 * function this interval became [0,2] because of
 						 * if(highTricks!=DEFAULT_TRICKS){
@@ -557,12 +552,10 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 						 */
 						low = 0;
 					}
-				}
-				else {
+				} else {
 					low = 0;
 				}
-			}
-			else {
+			} else {
 				/* in case when low=m_cards, cann't use high as default value -1, which means high=m_cards+1
 				 * because cycle while (low + 1 < high) in solve function returns immediately,
 				 * so in this case just use estimate=m_cards. This case happens in #1.bts file without very 1st turn
@@ -570,13 +563,11 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 				low = m_cards - bestE;
 				if (low == m_cards) {
 					im = 1;
-				}
-				else {
+				} else {
 					high = DEFAULT_TRICKS;
 				}
 			}
-		}
-		else {
+		} else {
 			low = high = DEFAULT_TRICKS;
 		}
 
@@ -585,8 +576,7 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 			for (i = 0; i < x.length; i++) {
 				estimationFunction(x[i].toIndex(), e);
 			}
-		}
-		else {
+		} else {
 			sp.lowTricks = low;
 			sp.highTricks = high;
 			sp.sc.copy(x);
@@ -600,7 +590,7 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 	 * also number of threads should be <= solveParameters.size()
 	 * so <=std::min(gconfig->m_maxThreads,solveParameters.size())
 	 */
-	j=std::min(gconfig->m_maxThreads,int(solveParameters.size()));
+	j = std::min(gconfig->m_maxThreads, int(solveParameters.size()));
 
 	/* if n=0 always solve without threads
 	 * if n=1 run j-1 threads and solve in this thread (fastest option)
@@ -609,13 +599,14 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 	 * need to estimate only one move solveParameters.size()=1 then don't
 	 * need use threads
 	 */
-	const int n=1;
+	const int n = 1;
 
 	//j==0 only one best move solveParameters.size()=0, nothing to estimate, so use j<=1
 
 	if (n == 0 || (!beforeBest && m_time < 1) || j <= 1) {
-		for (auto&v : solveParameters) {
-			solveEstimateOnly(v.c, v.trump, v.first, trumpChanged, v.lowTricks, v.highTricks);
+		for (auto &v : solveParameters) {
+			solveEstimateOnly(v.c, v.trump, v.first, trumpChanged, v.lowTricks,
+					v.highTricks);
 			e = v.e + (v.ns ? m_ns : m_ew);
 			for (i = 0; i < v.sc.length; i++) {
 				estimationFunction(v.sc[i].toIndex(), e);
@@ -627,33 +618,34 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 		return;
 	}
 
-	solveParametersIndex=0;
-	gEstimationFunction=estimationFunction;
-	gBase=this;
+	solveParametersIndex = 0;
+	gEstimationFunction = estimationFunction;
+	gBase = this;
 	gEstimateThreadV.clear();
 
 	j--;
-	gb=new Bridge[j];
+	gb = new Bridge[j];
 
 	//copy hashtable
-	if( (beforeBest && !trumpChanged) || !beforeBest){
-		auto begin=clock();
+	if ((beforeBest && !trumpChanged) || !beforeBest) {
+		auto begin = clock();
 		for (i = 0; i < j; i++) {
-			memcpy ( gb[i].m_hashTable, m_hashTable, HASH_SIZE*sizeof(Hash) );
+			memcpy(gb[i].m_hashTable, m_hashTable, HASH_SIZE * sizeof(Hash));
 		}
-		println("hashcopy %.3lf",double(clock()-begin)/CLOCKS_PER_SEC);
+		println("hashcopy %.3lf", double(clock()-begin)/CLOCKS_PER_SEC);
 	}
 
 	for (i = 0; i < j; i++) {
-		Bridge*p= gb+i;
-		p->m_estimateTrumpChanged=trumpChanged;
+		Bridge *p = gb + i;
+		p->m_estimateTrumpChanged = trumpChanged;
 #ifndef FINAL_RELEASE
 		p->m_threadIndex=i+1;
 #endif
-		gEstimateThreadV.push_back( g_thread_new("", estimate_all_thread, gpointer(p)));
+		gEstimateThreadV.push_back(
+				g_thread_new("", estimate_all_thread, gpointer(p)));
 	}
 
-	m_estimateTrumpChanged=trumpChanged;
+	m_estimateTrumpChanged = trumpChanged;
 #ifndef FINAL_RELEASE
 	m_threadIndex=0;
 #endif
@@ -664,17 +656,17 @@ void Bridge::estimateAllInner(const Problem& p, ESTIMATE estimateType,
 
 }
 
-void Bridge::finishEstimateAll(){
+void Bridge::finishEstimateAll() {
 //	println("%lld",gEstimateThreadV.size())
-	for(GThread* a:gEstimateThreadV){
+	for (GThread *a : gEstimateThreadV) {
 //		println("%llx",int64_t(a))
 		g_thread_join(a);
 	}
-	delete[]gb;
+	delete[] gb;
 }
 
-void Bridge::estimateAllThread(){
-	int i,j,e;
+void Bridge::estimateAllThread() {
+	int i, j, e;
 #ifndef FINAL_RELEASE
 	auto begint=clock();
 	auto t=format("t%d",m_threadIndex);
@@ -691,14 +683,14 @@ void Bridge::estimateAllThread(){
 			return;
 		}
 
-		auto& v=solveParameters[i];
+		auto &v = solveParameters[i];
 
 #ifndef FINAL_RELEASE
 		auto begin=clock();
 #endif
 
-		solveEstimateOnly(v.c, v.trump, v.first, m_estimateTrumpChanged, v.lowTricks,
-				v.highTricks);
+		solveEstimateOnly(v.c, v.trump, v.first, m_estimateTrumpChanged,
+				v.lowTricks, v.highTricks);
 
 #ifndef FINAL_RELEASE
 		printl(m_estimateTrumpChanged ? "trump changed" : "trump not changed",
@@ -706,9 +698,9 @@ void Bridge::estimateAllThread(){
 #endif
 
 		e = v.e + (v.ns ? m_ns : m_ew);
-		m_estimateTrumpChanged=false;
+		m_estimateTrumpChanged = false;
 		for (i = 0; i < v.sc.length; i++) {
-			j=v.sc[i].toIndex();
+			j = v.sc[i].toIndex();
 			gEstimationFunction(j, e);
 		}
 
@@ -716,15 +708,15 @@ void Bridge::estimateAllThread(){
 }
 #endif
 
-void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
+void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first) {
 	/* fast - is fast zero window search, otherwise search with full alpha beta window
 	 * leave parameter to compare speed of fast and slow options
 	 * function works correct when table is full
 	 */
-	const bool fast=true;
+	const bool fast = true;
 	int i, j, k = 0, t, l, m = 0, fi;
 	CARD_INDEX o[52];
-	const CARD_INDEX*p;
+	const CARD_INDEX *p;
 	USC sc0, sc1, sc2, sc3;
 	int low = DEFAULT_TRICKS, high = DEFAULT_TRICKS, mc = m_cards, es = m_e;
 
@@ -735,26 +727,25 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 
 	m_bestLine.clear();
 
-	USC* ps[]={&sc0,&sc1,&sc2,&sc3};
-	for(USC*p:ps){
-		p->set(-1,-1);
+	USC *ps[] = { &sc0, &sc1, &sc2, &sc3 };
+	for (USC *p : ps) {
+		p->set(-1, -1);
 	}
 
-	fi=first-1;
+	fi = first - 1;
 
 	int y[4];
-	for(i=0;i<4;i++){
-		y[i]=(fi+i) % 4 + 1;
+	for (i = 0; i < 4; i++) {
+		y[i] = (fi + i) % 4 + 1;
 	}
 
 	for (i = 0; i < 4; i++) {
 		p = c + i * 13;
 		for (j = 0; j < 13; j++) {
 			l = *p++;
-			if(l>0 && l<5){
+			if (l > 0 && l < 5) {
 				m++;
-			}
-			else if(l>=5){
+			} else if (l >= 5) {
 				for (t = 0; t < 4; t++) {
 					if (l == y[t] + 4) {
 						ps[t]->set(j, i);
@@ -765,8 +756,8 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 		}
 	}
 
-	for(i=0;i<52;i++){
-		o[i]=c[i];
+	for (i = 0; i < 52; i++) {
+		o[i] = c[i];
 	}
 
 	if (k == 4) {		//full table
@@ -776,15 +767,15 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 		 * because problems is solved too fast.
 		 */
 		k = 0;
-		t=getTaker(ps, SIZE(ps));
-		if (t%2) {
+		t = getTaker(ps, SIZE(ps));
+		if (t % 2) {
 			es--;
 		}
 		mc--;
 
-		fi+=t;
-		fi%=4;
-		
+		fi += t;
+		fi %= 4;
+
 		//clear inner cards
 		for (i = 0; i < 52; i++) {
 			if (c[i] >= 5) {
@@ -797,24 +788,24 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 	const bool nes = (k + fi) % 2;
 
 	for (j = 0; j < (m + k) / 4; j++) {
-		for (i = (j==0 ? k: 0); i < 4; i++) {
-			if(fast){
-				high =(i+ (j==0?k:fi+nes))%2 ? es : mc - es;
-/* here analog of upper condition
-				if(j==0){
-					high =  (i-k) % 2  ? es : mc - es;
-				}
-				else{
+		for (i = (j == 0 ? k : 0); i < 4; i++) {
+			if (fast) {
+				high = (i + (j == 0 ? k : fi + nes)) % 2 ? es : mc - es;
+				/* here analog of upper condition
+				 if(j==0){
+				 high =  (i-k) % 2  ? es : mc - es;
+				 }
+				 else{
 
-					if((fi+i)%2==0){//ns
-						high =nes ? es : mc - es;
-					}
-					else{
-						high =!nes ? es : mc - es;
+				 if((fi+i)%2==0){//ns
+				 high =nes ? es : mc - es;
+				 }
+				 else{
+				 high =!nes ? es : mc - es;
 
-					}
-				}
-*/
+				 }
+				 }
+				 */
 				low = high - 2;
 			}
 
@@ -829,24 +820,24 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first){
 			ps[i]->fromIndex(m_best);
 
 		}
-		if(j==0){
-			for(l=0;l<k;l++){
-				o[ps[l]->toIndex()]= CARD_INDEX_ABSENT;
+		if (j == 0) {
+			for (l = 0; l < k; l++) {
+				o[ps[l]->toIndex()] = CARD_INDEX_ABSENT;
 			}
 		}
-		for (i = 0; i < 4-(j==0 ? k: 0); i++) {
+		for (i = 0; i < 4 - (j == 0 ? k : 0); i++) {
 			o[m_bestLine[m_bestLine.size() - 1 - i]] = CARD_INDEX_ABSENT;
 		}
 
-		t=getTaker(ps, SIZE(ps));
+		t = getTaker(ps, SIZE(ps));
 
-		if( (fi+t+nes)%2 ){// (nes && (fi+t)%2==0) || (!nes &&  (fi+t)%2==1)
+		if ((fi + t + nes) % 2) {// (nes && (fi+t)%2==0) || (!nes &&  (fi+t)%2==1)
 			es--;
 		}
 		mc--;
 
-		fi+=t;
-		fi%=4;
+		fi += t;
+		fi %= 4;
 	}
 
 }
@@ -863,34 +854,33 @@ void Bridge::printCode(int suit) {
 }
 
 //TODO using include
-int Bridge::ep(const int* w, int a){
-	if (a >= m_depth){
+int Bridge::ep(const int *w, int a) {
+	if (a >= m_depth) {
 		return a;
 	}
-	if (a + 2 <= -m_depth){
+	if (a + 2 <= -m_depth) {
 		return a + 2;
 	}
 
-	int i,j;
+	int i, j;
 
-	Hash& he = m_hashTable[HASH_KEY];
-	for(j=0;j<HASH_ITEMS;j++){
-		HashItem& h = he.i[j];
-		if (h.f != HASH_INVALID && (m_code[3]>>16) == h.code3 ) {
+	Hash &he = m_hashTable[HASH_KEY];
+	for (j = 0; j < HASH_ITEMS; j++) {
+		HashItem &h = he.i[j];
+		if (h.f != HASH_INVALID && (m_code[3] >> 16) == h.code3) {
 			for (i = 0; i < 3 && h.code[i] == m_code[i]; i++)
 				;
 			if (i == 3) {
 				if (h.f == HASH_ALPHA && h.v <= a) {
 					return a;
 				}
-				if (h.f == HASH_BETA && h.v >= a+2) {
-					return a+2;
+				if (h.f == HASH_BETA && h.v >= a + 2) {
+					return a + 2;
 				}
 			}
 		}
 
 	}
-
 
 	return 100;
 }
@@ -1012,7 +1002,7 @@ void Bridge::suitableCardsInverseOneSuit(int suit, int w, SC& c1){
 }
 #endif
 
-void Bridge::suitableCards3(int suit, const int* w, SC& c1, SC& c2, SC& c3){
+void Bridge::suitableCards3(int suit, const int *w, SC &c1, SC &c2, SC &c3) {
 #ifdef NEW_MOVES_ORDER
 
 	suitableCards(suit, w[1], c1);
@@ -1060,7 +1050,7 @@ void Bridge::suitableCards3(int suit, const int* w, SC& c1, SC& c2, SC& c3){
 
 }
 
-void Bridge::suitableCards3NT(int suit, const int* w, SC& c1, SC& c2, SC& c3){
+void Bridge::suitableCards3NT(int suit, const int *w, SC &c1, SC &c2, SC &c3) {
 #ifdef NEW_MOVES_ORDER
 	suitableCardsNT(suit, w[1], c1);
 	suitableCardsNT(suit, w[2], c2);
@@ -1103,13 +1093,13 @@ void Bridge::suitableCards3NT(int suit, const int* w, SC& c1, SC& c2, SC& c3){
 
 }
 
-void Bridge::suitableCards(int suit, int w, SC& c){
+void Bridge::suitableCards(int suit, int w, SC &c) {
 #define ORDER BRIDGE_ORDER_OTHER_MOVES
 #include "moves.h"
 #undef ORDER
 }
 
-void Bridge::suitableCardsNT(int suit, int w, SC& c){
+void Bridge::suitableCardsNT(int suit, int w, SC &c) {
 #define ORDER BRIDGE_ORDER_OTHER_MOVES_NT
 #include "moves.h"
 #undef ORDER

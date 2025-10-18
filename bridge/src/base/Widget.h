@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef WIDGET_H_
@@ -30,8 +30,8 @@ class Widget {
 
 	//add 'widget' to names to allow descendant classes use normal names
 	VString m_widgetFiles;
-	void widgetAddFile(char* url);
-	void widgetAddDir(char* url);
+	void widgetAddFile(char *url);
+	void widgetAddDir(char *url);
 
 protected:
 	/* use isBridge() isPreferans() isMisere() etc functions here not in Base because
@@ -90,7 +90,7 @@ protected:
 	bool isModified() const;
 
 	bool isEditEnable() const;
-	void enableEdit(bool enable,bool anyway=false);
+	void enableEdit(bool enable, bool anyway = false);
 
 	bool isUndoEnable() const;
 	bool isRedoEnable() const;
@@ -103,10 +103,10 @@ protected:
 		return MAX_THREADS[getGameType()];
 	}
 
-	gint getComboPosition(GtkWidget*w) {
+	gint getComboPosition(GtkWidget *w) {
 		return gtk_combo_box_get_active(GTK_COMBO_BOX(w));
 	}
-	void setComboPosition(GtkWidget*w, gint position) {
+	void setComboPosition(GtkWidget *w, gint position) {
 		gtk_combo_box_set_active(GTK_COMBO_BOX(w), position);
 	}
 
@@ -120,17 +120,19 @@ protected:
 
 //	GtkWidget* getToolbarImage(TOOLBAR_BUTTON id, bool small);
 //	GtkWidget* getToolbarImage(TOOLBAR_BUTTON id, bool small, bool enabled);
-	GtkWidget* getToolbarImage(TOOLBAR_BUTTON id, bool small, BUTTON_STATE state);
+	GtkWidget* getToolbarImage(TOOLBAR_BUTTON id, bool small,
+			BUTTON_STATE state);
 //	GdkPixbuf* getToolbarPixbuf(TOOLBAR_BUTTON id, bool small);
 //	GdkPixbuf* getToolbarPixbuf(TOOLBAR_BUTTON id, bool small, bool enabled);
-	GdkPixbuf* getToolbarPixbuf(TOOLBAR_BUTTON id, bool small, BUTTON_STATE state);
+	GdkPixbuf* getToolbarPixbuf(TOOLBAR_BUTTON id, bool small,
+			BUTTON_STATE state);
 
 	int getArrowNumber() const {
 		return gconfig->m_arrowNumber;
 	}
 
 	int getArrowSize();
-	void setArrowParameters(int arrow, int arrowSize=SKIP_ARROW_SIZE);
+	void setArrowParameters(int arrow, int arrowSize = SKIP_ARROW_SIZE);
 
 	CSize getCardSize() const;
 	int getCardWidth();
@@ -138,7 +140,7 @@ protected:
 
 	int indexOfPreferansPlayer(CARD_INDEX player) const {
 		//can't use INDEX_OF macro for pointer
-		return indexOf(player,getPreferansPlayer(), 3 );
+		return indexOf(player, getPreferansPlayer(), 3);
 	}
 
 	CARD_INDEX getPreferansPlayer(int i) const {
@@ -149,14 +151,14 @@ protected:
 		return getProblem().m_preferansPlayer;
 	}
 
-	ProblemSelector& getProblemSelector()const;
+	ProblemSelector& getProblemSelector() const;
 	Problem& getProblem() const;
 	CARD_INDEX getAbsent() const {
 		return getProblem().m_absent;
 	}
 public:
 
-	Widget(GtkWidget*widget);
+	Widget(GtkWidget *widget);
 	virtual ~Widget();
 
 	static void staticInit();
@@ -171,7 +173,7 @@ public:
 
 	void updateModified();
 
-	void setDragDrop(GtkWidget* widget);
+	void setDragDrop(GtkWidget *widget);
 
 	void showAll() {
 		gtk_widget_show_all(m_widget);
@@ -185,24 +187,24 @@ public:
 	LastTrick& getLastTrick() const;
 	Toolbar& getToolbar() const;
 
-	void setFont(cairo_t* cr,int height);
+	void setFont(cairo_t *cr, int height);
 
-	void addFileExtension(std::string& filepath, FILE_TYPE filetype);
+	void addFileExtension(std::string &filepath, FILE_TYPE filetype);
 	//correctFileExtension if need
-	void correctFileExtension(std::string& filepath, FILE_TYPE filetype);
+	void correctFileExtension(std::string &filepath, FILE_TYPE filetype);
 
 	inline gboolean isVisible() const {
 		return gtk_widget_get_visible(getWidget());
 	}
 
-	inline GtkWidget *getWidget() const {
+	inline GtkWidget* getWidget() const {
 		return m_widget;
 	}
 
 	//begin helper functions (short names), to use function() instead of gconfig->function()
 
 	GtkWidget* getSuitImage(int suit, int size) const {
-		GdkPixbuf* pixbuf = getSuitPixbuf(suit, size);
+		GdkPixbuf *pixbuf = getSuitPixbuf(suit, size);
 		return gtk_image_new_from_pixbuf(pixbuf);
 	}
 
@@ -217,16 +219,16 @@ public:
 	//save and correct filename
 	FileChooserResult fileChooserSave(FILE_TYPE filetype);
 
-	FileChooserResult fileChooser(MENU_ID menu, const std::string& filepath,
+	FileChooserResult fileChooser(MENU_ID menu, const std::string &filepath,
 			bool allowSplit);
 	FileChooserResult fileChooser(MENU_ID menu, FILE_TYPE filetype,
-			CHOOSER_OPTION option, const std::string& filepath);
+			CHOOSER_OPTION option, const std::string &filepath);
 
-	virtual void openUris(char**uris);
-	void openFiles(const std::string& files) {
+	virtual void openUris(char **uris);
+	void openFiles(const std::string &files) {
 		openFiles(files.c_str());
 	}
-	void openFiles(const char*files);
+	void openFiles(const char *files);
 	//end helper functions
 
 	GtkWidget* createImageCombobox();
@@ -235,19 +237,19 @@ public:
 	GtkTreeModel* createContractModel();
 	GdkPixbuf* getStringPixbuf(bool nt, int size = SUIT_PIXBUF_SIZE);
 
-	static const VString createStringVector(const char* text[], guint size);
-	static GtkTreeModel* createTextModel(const VString& text);
-	GtkWidget* createTextCombobox(const VString& text);
-	GtkWidget* createTextCombobox(const char* text[], guint size) {
+	static const VString createStringVector(const char *text[], guint size);
+	static GtkTreeModel* createTextModel(const VString &text);
+	GtkWidget* createTextCombobox(const VString &text);
+	GtkWidget* createTextCombobox(const char *text[], guint size) {
 		return createTextCombobox(createStringVector(text, size));
 	}
 	GtkWidget* createTextCombobox(const STRING_ID i1, const STRING_ID i2);
 	GtkWidget* createTextCombobox(const STRING_ID id, int length);
 
 	GtkWidget* createTextCombobox(int from, int to, int step = 1,
-			const char* additionalString = NULL);
+			const char *additionalString = NULL);
 
-	const VString& getValidFilesList(char** uris);
+	const VString& getValidFilesList(char **uris);
 
 	void menuClick(MENU_ID id);
 
@@ -269,20 +271,20 @@ public:
 		return getProblem().getPlayer(player, next, count);
 	}
 
-	void parsePreferansSolveAllDeclarersParameters(int v, int& trump, bool& misere,
-			CARD_INDEX& player);
+	void parsePreferansSolveAllDeclarersParameters(int v, int &trump,
+			bool &misere, CARD_INDEX &player);
 
 	int getMaxRunThreads() const;
 
-	int getMaxHandCards()const;
+	int getMaxHandCards() const;
 
-	int countTableSize(int cardHeight,int arrowSize,int y);
+	int countTableSize(int cardHeight, int arrowSize, int y);
 	int countTableTop(int cardHeight);
-	int countAreaHeight(int cardHeight,int arrowSize,int y);
-	CSize countMaxCardSizeForY(int arrowSize,int y=MIN_COUNT_SIZE_Y);
-	int countMaxArrowSizeForY(int cardHeight,int y=MIN_COUNT_SIZE_Y);
+	int countAreaHeight(int cardHeight, int arrowSize, int y);
+	CSize countMaxCardSizeForY(int arrowSize, int y = MIN_COUNT_SIZE_Y);
+	int countMaxArrowSizeForY(int cardHeight, int y = MIN_COUNT_SIZE_Y);
 
-	GdkPixbuf * getSvgPixbuf(bool isDeck);
+	GdkPixbuf* getSvgPixbuf(bool isDeck);
 
 	bool isScalableArrow();
 	static bool isScalableArrow(int arrow);
@@ -295,14 +297,14 @@ public:
 	 * if center=true then draw centered text in rectangle r
 	 * if center=false then draw text in point r.left,r.top. Parameters r.right, r.bottom ignore
 	 */
-	void drawTextToCairo(cairo_t* cr, TextWithAttributes text, CRect r, bool centerx,
-			bool centery);
+	void drawTextToCairo(cairo_t *cr, TextWithAttributes text, CRect r,
+			bool centerx, bool centery);
 
-	GdkRGBA getTextColor()const;
+	GdkRGBA getTextColor() const;
 	GdkRGBA* getFontColorPointer();
 	PangoLayout* createPangoLayout(cairo_t *cr, TextWithAttributes text);
 
-	CSize getMaxSize()const;
+	CSize getMaxSize() const;
 
 	void updateUndoRedoAll();
 	void updateFindBestStateAll();
@@ -319,35 +321,36 @@ public:
 	bool isEmptyDeal() const;
 	DEAL_STATE getDealState(bool checkTrump = true) const;
 
-	void showAllExclude(VGtkWidgetPtr const& v);
+	void showAllExclude(VGtkWidgetPtr const &v);
 	static void showAllExclude(GtkWidget *w, VGtkWidgetPtr const &v);
 
-	cairo_surface_t * getBackgroundFullSurface();
+	cairo_surface_t* getBackgroundFullSurface();
 
-	static void copy(cairo_surface_t * source, cairo_t * dest, int destx,
+	static void copy(cairo_surface_t *source, cairo_t *dest, int destx,
 			int desty, int width, int height) {
 		copy(source, dest, destx, desty, width, height, destx, desty);
 	}
 
-	static void copy(cairo_surface_t * source, cairo_t * dest, int destx,
+	static void copy(cairo_surface_t *source, cairo_t *dest, int destx,
 			int desty, int width, int height, int sourcex, int sourcey) {
-		cairo_set_source_surface(dest, source, destx - sourcex, desty - sourcey);
+		cairo_set_source_surface(dest, source, destx - sourcex,
+				desty - sourcey);
 		cairo_rectangle(dest, destx, desty, width, height);
 		cairo_fill(dest);
 	}
 
-	static void copy(cairo_surface_t * source, cairo_t * dest, CRect r) {
+	static void copy(cairo_surface_t *source, cairo_t *dest, CRect r) {
 		copy(source, dest, r.left, r.top, r.width(), r.height(), r.left, r.top);
 	}
 
-	static void copy(cairo_surface_t * source, cairo_t * dest) {
+	static void copy(cairo_surface_t *source, cairo_t *dest) {
 		cairo_set_source_surface(dest, source, 0, 0);
 		cairo_paint(dest);
 	}
 
 	void setSkin(int skin);
 
-	CSize getBestLineSize()const;
+	CSize getBestLineSize() const;
 
 	/* do not allow use copy constructor of class and all inheritance classes
 	 * so auto p=getProblemSelect(); isn't possible
@@ -355,27 +358,29 @@ public:
 	 */
 	Widget(const Widget&) = delete;
 
-	GtkWidget* label(STRING_ID id){
+	GtkWidget* label(STRING_ID id) {
 		return gtk_label_new(getString(id));
 	}
 
-	GtkWidget* label(){
+	GtkWidget* label() {
 		return gtk_label_new("");
 	}
 
-	GtkWidget* label(std::string s){
+	GtkWidget* label(std::string s) {
 		return gtk_label_new(s.c_str());
 	}
 
+	void openHomepage();
+
 	int getTricks(CARD_INDEX player) const;
-	bool isDeclarerNorthOrSouth()const;
+	bool isDeclarerNorthOrSouth() const;
 	CARD_INDEX getDeclarer() const;
 	int languages();
 	bool isLanguage(MENU_ID id);
 
 	int getActiveCardShift();
-	CARD_INDEX& getPlayer();//preferans player
-	CARD_INDEX getPlayer()const;//preferans player
+	CARD_INDEX& getPlayer(); //preferans player
+	CARD_INDEX getPlayer() const; //preferans player
 
 	VString& recent();
 	std::string recent(int i);

@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef PROBLEMSELECTOR_H_
@@ -19,12 +19,12 @@
  */
 
 class ProblemSelector: public FrameItemArea, public ProblemVectorModified {
-	GtkWidget*m_label;
+	GtkWidget *m_label;
 	std::string m_filepath; //utf8 m_filepath="" means empty document
-	GtkToolItem* m_button[TOOLBAR_BUTTON_SIZE]; //toolbar buttons
-	GtkWidget*m_commentView;
+	GtkToolItem *m_button[TOOLBAR_BUTTON_SIZE]; //toolbar buttons
+	GtkWidget *m_commentView;
 public:
-	GtkWidget*m_toolbar;
+	GtkWidget *m_toolbar;
 	std::string m_comment;
 
 	CairoSurface m_backgroundFull;
@@ -37,7 +37,7 @@ public:
 	Pixbuf m_svgScaledPixbuf;
 	SvgParameters m_svgDeckParameters[N_VECTOR_DECKS];
 	SvgParameters m_svgArrowParameters[N_VECTOR_ARROWS];
-	bool m_deckChanged,m_arrowChanged;
+	bool m_deckChanged, m_arrowChanged;
 	CSize m_bestLineSize;
 
 private:
@@ -46,7 +46,7 @@ private:
 
 	void setAreaProblem();
 
-	bool setCheckLabelFit(int option, int width, std::string& s);
+	bool setCheckLabelFit(int option, int width, std::string &s);
 
 	void updateLabel();
 
@@ -63,20 +63,20 @@ public:
 	ProblemSelector();
 	virtual ~ProblemSelector();
 
-	 void draw()override;
-	 void init()override;
-	 CSize getSize() const override;
-	 void updateLanguage()override;
-	 void updateSkin()override;
-	 void updateDeckSelection()override;
-	 void updateFontSelection()override;
+	void draw() override;
+	void init() override;
+	CSize getSize() const override;
+	void updateLanguage() override;
+	void updateSkin() override;
+	void updateDeckSelection() override;
+	void updateFontSelection() override;
 
-	 void updateArrowSelection() override{
+	void updateArrowSelection() override {
 		setArrows();
 		initResizeRedraw();
 	}
 
-	void updateAfterCreation()override;
+	void updateAfterCreation() override;
 
 	std::string getFile() const {
 		return m_filepath;
@@ -88,15 +88,15 @@ public:
 
 	bool isModified() const;
 
-	void newGame()override;
-	void resize()override;
+	void newGame() override;
+	void resize() override;
 
-	void setDeal(bool random)override {
+	void setDeal(bool random) override {
 		getProblem().setDeal(random);
 		currentProblemChanged(false);
 	}
 
-	void updateGameType()override {
+	void updateGameType() override {
 		getProblem().changeGameType();
 		currentProblemChanged(true);
 	}
@@ -125,15 +125,15 @@ public:
 		return m_label;
 	}
 
-	void clickToolbar(GtkToolItem* w);
+	void clickToolbar(GtkToolItem *w);
 	bool mouseClick(guint32 time);
 
-	void changeShowOption()override;
-	void openUris(char**uris)override; //=set
-	void openFiles(const char*files); //=set
+	void changeShowOption() override;
+	void openUris(char **uris) override; //=set
+	void openFiles(const char *files); //=set
 
 	//set or add files
-	void set(VString const& v, bool add);
+	void set(VString const &v, bool add);
 
 	void save(std::string filepath, bool split);
 
@@ -145,20 +145,20 @@ public:
 
 	std::string getTitle() const;
 
-	void setFrom(ProblemVectorModified const& pvm);
+	void setFrom(ProblemVectorModified const &pvm);
 
 	void setArrows();
 
 	void fillSvgParameters();
-	void drawSvg(CSize const& size,int n,bool isDeck,gdouble value);
+	void drawSvg(CSize const &size, int n, bool isDeck, gdouble value);
 	void createSvgPixbufs(bool isDeck);
-	double getSvgMaxWHRatio()const;
-	SvgParameters& getSvgParameters(int n,bool isDeck);
+	double getSvgMaxWHRatio() const;
+	SvgParameters& getSvgParameters(int n, bool isDeck);
 
-	void updateThink()override;
+	void updateThink() override;
 
 };
 
-extern ProblemSelector* gproblemselector;
+extern ProblemSelector *gproblemselector;
 
 #endif /* PROBLEMSELECTOR_H_ */

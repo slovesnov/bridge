@@ -5,11 +5,11 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2021-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 /* O should be defined
-  total MOVES_ONE_SUIT_OPTIONS options
+ total MOVES_ONE_SUIT_OPTIONS options
 
  0 high->low
  1 low, high->low
@@ -19,10 +19,10 @@
  4 high, low->high
  5 low, high, low->high
 
-*/
+ */
 
 #ifndef NO_DECLARATION
-	int8_t*p,*q;
+int8_t *p, *q;
 #endif
 #ifdef BRIDGE_H_
 	int8_t _mm[MAX_MOVES];
@@ -31,9 +31,8 @@
 #ifdef BRIDGE_H_
 	MOVES_INIT_BRIDGE(suit,w,p,q,_mm)
 #else
-	MOVES_INIT_PREFERANS(suit,w,p,q)
+MOVES_INIT_PREFERANS(suit,w,p,q)
 #endif
-
 
 if( O==1 || O==5) {
 	MOVES_LOW(suit,w,c,p,q)

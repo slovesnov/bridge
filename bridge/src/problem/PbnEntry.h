@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2016-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef HELPER_PBNENTRY_H_
@@ -24,17 +24,17 @@ public:
 	PbnEntry() {
 	}
 
-	PbnEntry(const std::string& t, const std::string& v, const std::string& a) {
+	PbnEntry(const std::string &t, const std::string &v, const std::string &a) {
 		tag = t;
 		value = v;
 		add = a;
 	}
 
-	bool operator==(const PbnEntry& e) const {
+	bool operator==(const PbnEntry &e) const {
 		return tag == e.tag && value == e.value && add == e.add;
 	}
 
-	bool operator!=(const PbnEntry& e) const {
+	bool operator!=(const PbnEntry &e) const {
 		return !(*this == e);
 	}
 

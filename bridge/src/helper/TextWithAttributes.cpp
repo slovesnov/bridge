@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "../base/Config.h"
@@ -29,7 +29,7 @@ TextWithAttributes::TextWithAttributes(std::string text, bool underlined) {
 	init(text, gconfig->getFontHeight(), underlined, false, false);
 }
 
-TextWithAttributes::TextWithAttributes(const gchar* text) {
+TextWithAttributes::TextWithAttributes(const gchar *text) {
 	init(text, gconfig->getFontHeight(), false, false, false);
 }
 

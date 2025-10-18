@@ -5,7 +5,7 @@
  *      Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef HELPER_DEALRESULT_H_
@@ -15,9 +15,9 @@
 
 class DealResult {
 public:
-	char a[2][17];//max 13cards +3points + null character = 17 chars
+	char a[2][17]; //max 13cards +3points + null character = 17 chars
 	char result;
-	bool operator<(const DealResult& dr)const;
+	bool operator<(const DealResult &dr) const;
 };
 
 using VDealResult = std::vector<DealResult>;

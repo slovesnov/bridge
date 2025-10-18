@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "SaveModifiedWarningDialog.h"
@@ -14,7 +14,7 @@
 
 SaveModifiedWarningDialog::SaveModifiedWarningDialog() :
 		ButtonsDialog(MENU_INVALID, BUTTONS_DIALOG_YES_NO_CANCEL) {
-	GtkWidget*w;
+	GtkWidget *w;
 
 	w = gtk_label_new(getString(STRING_DOCUMENT_MODIFIED_WARNING_MESSAGE));
 	gtk_label_set_line_wrap(GTK_LABEL(w), TRUE);

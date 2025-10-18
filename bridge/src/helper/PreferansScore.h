@@ -5,7 +5,7 @@
  *      Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef PREFERANSSCORE_H_
@@ -13,7 +13,7 @@
 
 typedef std::vector<double> VDouble;
 
-enum WHIST_OPTION{
+enum WHIST_OPTION {
 	WHIST_OPTION_WHIST,/*first player whist, others pass*/
 	WHIST_OPTION_HALFWHIST,/*first player half-whist, others pass*/
 	WHIST_OPTION_ALLPASS,/*all players pass*/
@@ -21,17 +21,17 @@ enum WHIST_OPTION{
 };
 
 class PreferansScore {
-	int m_players,m_contract,m_tricks;
+	int m_players, m_contract, m_tricks;
 	WHIST_OPTION m_whistOption;
 	int m_pg[4];
 	VDouble m_score;
 	int m_whist[16];
 public:
 	//from,to 0-players-1
-	int& whist(int from,int to);
+	int& whist(int from, int to);
 
-	static const int player=0;
-	static const int whister=1;
+	static const int player = 0;
+	static const int whister = 1;
 
 	/* players 3,4
 	 * contract 6-10,0-misere
@@ -39,15 +39,17 @@ public:
 	 *
 	 * assume player is always first player, active whister(only one) second player
 	 */
-	void setGame(int players, int contract, int tricks,WHIST_OPTION whistOption=WHIST_OPTION_WHIST);
+	void setGame(int players, int contract, int tricks,
+			WHIST_OPTION whistOption = WHIST_OPTION_WHIST);
 
 	void setNonPlayingGame(int players, int contract, bool halfwhist) {
 		setGame(players, contract, contract,
 				halfwhist ? WHIST_OPTION_HALFWHIST : WHIST_OPTION_ALLPASS);
 	}
 
-	VDouble getGameScore(int players, int contract, int tricks,WHIST_OPTION whistOption){
-		setGame(players, contract, tricks,whistOption);
+	VDouble getGameScore(int players, int contract, int tricks,
+			WHIST_OPTION whistOption) {
+		setGame(players, contract, tricks, whistOption);
 		return m_score;
 	}
 
@@ -62,30 +64,30 @@ public:
 		setNonPlayingGame(players, contract, halfwhist);
 	}
 
-	double score(int i){
+	double score(int i) {
 		return m_score[i];
 	}
 
-	int pool(int i){
-		int v=m_pg[i];
-		return v>0 ? v:0;
+	int pool(int i) {
+		int v = m_pg[i];
+		return v > 0 ? v : 0;
 	}
 
-	int dump(int i){
-		int v=m_pg[i];
-		return v<0 ? -v:0;
+	int dump(int i) {
+		int v = m_pg[i];
+		return v < 0 ? -v : 0;
 	}
 
-/*
-	double playerScore(){
-		return m_score[player];
-	}
+	/*
+	 double playerScore(){
+	 return m_score[player];
+	 }
 
-	//active whister
-	double whisterScore(){
-		return m_score[whister];
-	}
-*/
+	 //active whister
+	 double whisterScore(){
+	 return m_score[whister];
+	 }
+	 */
 
 	void print();
 };

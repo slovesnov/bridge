@@ -5,13 +5,13 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "FrameItem.h"
 #include "../Frame.h"
 
-FrameItem::FrameItem(GtkWidget*widget) :
+FrameItem::FrameItem(GtkWidget *widget) :
 		Widget(widget) {
 	setDragDrop(getWidget());
 }

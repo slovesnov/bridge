@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "EditDescriptionDialog.h"
@@ -13,13 +13,14 @@
 #include "../ProblemSelector.h"
 
 EditDescriptionDialog::EditDescriptionDialog() :
-		ButtonsDialog(MENU_EDIT_DESCRIPTION, BUTTONS_DIALOG_OK_CANCEL_CLEAR, NULL,
-				true) {
-	GtkWidget*scrolled;
+		ButtonsDialog(MENU_EDIT_DESCRIPTION, BUTTONS_DIALOG_OK_CANCEL_CLEAR,
+				NULL, true) {
+	GtkWidget *scrolled;
 
 	m_comment = gtk_text_view_new();
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(m_comment));
-	gtk_text_buffer_set_text(buffer, getProblemSelector().m_comment.c_str(), -1);
+	gtk_text_buffer_set_text(buffer, getProblemSelector().m_comment.c_str(),
+			-1);
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	CSize sz = getArea().getSize();
@@ -40,13 +41,15 @@ EditDescriptionDialog::~EditDescriptionDialog() {
 
 bool EditDescriptionDialog::click(int index) {
 	if (index == 2) {
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(m_comment));
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer(
+				GTK_TEXT_VIEW(m_comment));
 		gtk_text_buffer_set_text(buffer, "", -1);
 		return false;
 	}
 
 	if (index == 0) {
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(m_comment));
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer(
+				GTK_TEXT_VIEW(m_comment));
 		GtkTextIter start;
 		GtkTextIter end;
 		gtk_text_buffer_get_start_iter(buffer, &start);

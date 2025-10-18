@@ -5,18 +5,18 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "SolveForAllDeclarersDialog.h"
 #include "../Frame.h"
 
-static void close_dialog(SolveForAllDeclarersDialog *, gint response_id,
+static void close_dialog(SolveForAllDeclarersDialog*, gint response_id,
 		gpointer) {
 	gdraw->stopSolveAllDeclarersBridgeThreads();
 }
 
-SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int*r) :
+SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int *r) :
 		BaseDialog(MENU_SOLVE_FOR_ALL_DECLARERS, false) {
 	int i, j, k, l;
 	GtkWidget *w, *g, *w1, *w2, *border;
@@ -48,7 +48,9 @@ SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int*r) :
 			}
 
 			w = gtk_label_new(
-					getString(k == 0 ? STRING_NUMBER_OF_TRICKS : STRING_CONTRACT));
+					getString(
+							k == 0 ?
+									STRING_NUMBER_OF_TRICKS : STRING_CONTRACT));
 			gtk_grid_attach(GTK_GRID(g), w, 0, 0, 6 + isPreferans(), 1);
 			if (bridge) {
 				addClass(w, BIG_FONT);
@@ -57,12 +59,13 @@ SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int*r) :
 			for (i = 0; i < COLUMNS; i++) {
 				if (i >= NT) {
 					w = gtk_label_new(
-							i == NT ? getNTString().c_str() : getString(STRING_MISERE));
+							i == NT ?
+									getNTString().c_str() :
+									getString(STRING_MISERE));
 					if (bridge) {
 						addClass(w, BIG_FONT);
 					}
-				}
-				else {
+				} else {
 					w = getSuitImage(i, titleH);
 				}
 				gtk_grid_attach(GTK_GRID(g), w, i + 1, 1, 1, 1);
@@ -72,13 +75,15 @@ SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int*r) :
 				for (j = 0; j <= COLUMNS; j++) {
 					if (j == 0) {
 						w = gtk_label_new(
-								getPlayerString(bridge ? PLAYER[i] : getPreferansPlayer(i)));
+								getPlayerString(
+										bridge ?
+												PLAYER[i] :
+												getPreferansPlayer(i)));
 						if (bridge) {
 							addClass(w, BIG_FONT);
 						}
 						gtk_label_set_xalign(GTK_LABEL(w), 0);
-					}
-					else {
+					} else {
 						m_label[i][j - 1][l][k] = w = gtk_label_new("?");
 						if (bridge) {
 							addClass(w, BIG_FONT);
@@ -94,8 +99,7 @@ SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int*r) :
 		}
 		if (bridge) {
 			gtk_container_add(GTK_CONTAINER(w2), w1);
-		}
-		else {
+		} else {
 			s = getString(STRING_FIRST_MOVE);
 			s += " - ";
 			s1 = getPlayerString(getPreferansPlayer(l));
@@ -111,8 +115,7 @@ SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int*r) :
 	if (bridge) {
 		g_signal_connect(getWidget(), "response", G_CALLBACK(close_dialog),
 				gpointer(0));
-	}
-	else {
+	} else {
 		int trump, v, first;
 		bool misere;
 		CARD_INDEX player;
@@ -126,13 +129,13 @@ SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int*r) :
 				 */
 				l = r[v * 3 + first];
 				s = std::to_string(l);
-				auto q = m_label[indexOfPreferansPlayer(player)][misere ? 5 : trump][first];
+				auto q = m_label[indexOfPreferansPlayer(player)][
+						misere ? 5 : trump][first];
 				gtk_label_set_label(GTK_LABEL(q[0]), s.c_str());
 
 				if (misere) {
 					s1 = l == 0 ? "+" : "-";
-				}
-				else {
+				} else {
 					s1 = l > 5 ? s : "-";
 				}
 				gtk_label_set_label(GTK_LABEL(q[1]), s1.c_str());
@@ -148,8 +151,8 @@ SolveForAllDeclarersDialog::SolveForAllDeclarersDialog(const int*r) :
 }
 
 void SolveForAllDeclarersDialog::setBridgeLabel(int trump) {
-	int i,v;
-	GtkWidget**w;
+	int i, v;
+	GtkWidget **w;
 
 	for (i = 0; i < SIZEI(PLAYER); i++) {
 		/* 5nov2021 no additional tricks need
@@ -159,7 +162,7 @@ void SolveForAllDeclarersDialog::setBridgeLabel(int trump) {
 		 */
 		//PLAYER[i] - first move
 		CARD_INDEX declarer = getPreviousBridgePlayer(PLAYER[i]);
-		v=gdraw->m_solveAllDeclarersBridgeResult[trump][i];
+		v = gdraw->m_solveAllDeclarersBridgeResult[trump][i];
 		w = m_label[indexOfPlayer(declarer)][trump][0];
 		gtk_label_set_text(GTK_LABEL(w[0]), format("%d", v).c_str());
 		gtk_label_set_text(GTK_LABEL(w[1]),
@@ -168,7 +171,7 @@ void SolveForAllDeclarersDialog::setBridgeLabel(int trump) {
 	}
 	if (--m_searches == 0) {
 		for (i = 0; i < 2; i++) {
-			gtk_spinner_stop (GTK_SPINNER(m_loading[i]));
+			gtk_spinner_stop(GTK_SPINNER(m_loading[i]));
 		}
 	}
 }

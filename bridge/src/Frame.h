@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef FRAME_H_
@@ -25,7 +25,7 @@ class Frame: public FrameItem {
 	VFrameItemPointer m_childs;
 	gulong m_sizeAllocateSignal;
 	std::string m_saveImagePath;
-	GtkWidget*m_vbox1,*m_vbox2;
+	GtkWidget *m_vbox1, *m_vbox2;
 	CheckNewVersion m_newVersion;
 public:
 	Menu m_menu;
@@ -57,10 +57,10 @@ public:
 	gboolean saveIfModified();
 	void callFrameItemFunction(FrameItemFunction f, int option);
 
-	Frame(GtkApplication *application, const char* filepath);
+	Frame(GtkApplication *application, const char *filepath);
 	virtual ~Frame();
 
-	void enableEdit(bool enable,bool anyway=false);
+	void enableEdit(bool enable, bool anyway = false);
 
 	void menuClick(MENU_ID id);
 
@@ -80,22 +80,22 @@ public:
 
 	void changeGameType();
 
-	void setDeal(bool random)override;
+	void setDeal(bool random) override;
 
 #define CALL_FRAME_ITEM_FUNCTION(a,p) callFrameItemFunction(&FrameItem::a,p)
 
-	void newGame() override{
+	void newGame() override {
 		if (!saveIfModified()) {
 			return;
 		}
-		CALL_FRAME_ITEM_FUNCTION(newGame,0);
+		CALL_FRAME_ITEM_FUNCTION(newGame, 0);
 		enableEdit(true);
 		updateUndoRedo(); //after FrameItem::newGame
 		updateFindBestState();
 		updateModified(); //also updates title
 	}
 
-	void updateLanguage() override{
+	void updateLanguage() override {
 		gconfig->loadLanguageFile();
 		updateTitle();
 		CALL_FRAME_ITEM_FUNCTION(updateLanguage, 1);
@@ -143,8 +143,9 @@ public:
 
 	void setCustomSkin();
 
-	static void addWidget(bool add,GtkWidget* container,GtkWidget* child);
-	static void addRemoveWidget(bool add,GtkWidget* container,GtkWidget* child);
+	static void addWidget(bool add, GtkWidget *container, GtkWidget *child);
+	static void addRemoveWidget(bool add, GtkWidget *container,
+			GtkWidget *child);
 
 #ifndef NDEBUG
 	struct FS {
@@ -213,6 +214,6 @@ public:
 	void test();
 };
 
-extern Frame* gframe;
+extern Frame *gframe;
 
 #endif /* FRAME_H_ */

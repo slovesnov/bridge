@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef PROBLEM_H_
@@ -41,7 +41,8 @@ const char DF_LEAD_L[] = "lead:";
 const char DF_RESULT_L[] = "result:";
 const char DF_COMMENTARY_L[] = "commentary:";
 
-const char PROBLEM_HTML_BEGIN[] = "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body>";
+const char PROBLEM_HTML_BEGIN[] =
+		"<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body>";
 const char PROBLEM_HTML_END[] = "</body></html>";
 
 class Problem {
@@ -83,25 +84,25 @@ private:
 	/* always should call initialization before and check after, so make
 	 * this functions private, use parse() function
 	 */
-	void parsePbn(const std::string& s);
-	void parseDf(const std::string& s);
-	void parseBts(const std::string& s);
-	void parseBtsOldFormat(const std::string& s, GAME_TYPE gameType);
+	void parsePbn(const std::string &s);
+	void parseDf(const std::string &s);
+	void parseBts(const std::string &s);
+	void parseBtsOldFormat(const std::string &s, GAME_TYPE gameType);
 
 	//========== BEGIN HELRER PARSER FUNCTIONS ==================================
 public:
 	//string should be in lowercase
-	void parseDealString(const char*s, CARD_INDEX player);
+	void parseDealString(const char *s, CARD_INDEX player);
 private:
 	//string should be in lowercase
-	void parsePlayString(const char*s);
+	void parsePlayString(const char *s);
 	//string should be in lowercase
-	const char* parseDfHand(const char*s, CARD_INDEX player);
+	const char* parseDfHand(const char *s, CARD_INDEX player);
 
 	//helper function for Df format
 	std::string getDfContentHelper(int n) const;
 
-	void fillPbnTags(const std::string& s);
+	void fillPbnTags(const std::string &s);
 
 	void checkFirstCardsRepeat();
 	//========== END HELRER PARSER FUNCTIONS ====================================
@@ -110,7 +111,7 @@ private:
 
 	bool isTableFullOrEmpty(int stateIndex) const {
 		assert(stateIndex >= 0 && stateIndex < TOTAL_STATES);
-		const State & s = m_states[stateIndex];
+		const State &s = m_states[stateIndex];
 		const int i = s.countInnerCards();
 		return i == 0 || i == maxTableCards();
 	}
@@ -118,9 +119,8 @@ private:
 	bool compare(int index1, int index2) const;
 
 	CARD_INDEX dealFirst() const {
-		return
-				isPreferans() && m_absent == CARD_INDEX_NORTH ?
-						CARD_INDEX_EAST : CARD_INDEX_NORTH;
+		return isPreferans() && m_absent == CARD_INDEX_NORTH ?
+				CARD_INDEX_EAST : CARD_INDEX_NORTH;
 	}
 public:
 	void makeMove(int index, int stateIndex);
@@ -131,7 +131,7 @@ public:
 
 	inline bool isTableFull(int stateIndex) const {
 		assert(stateIndex >= 0 && stateIndex < TOTAL_STATES);
-		const State & s = m_states[stateIndex];
+		const State &s = m_states[stateIndex];
 		return s.countInnerCards() == maxTableCards();
 	}
 
@@ -146,7 +146,7 @@ public:
 
 	bool hasLeadingSuit(CARD_INDEX player, int stateIndex) const {
 		assert(stateIndex >= 0 && stateIndex < TOTAL_STATES);
-		const State & s = m_states[stateIndex];
+		const State &s = m_states[stateIndex];
 		return s.hasSuit(player, getLeadingSuit(stateIndex));
 	}
 
@@ -158,19 +158,20 @@ public:
 		return isTableFull() ? getNextMove() : getFirstMove();
 	}
 
-	void getClearCid(CARD_INDEX*cid) const;
+	void getClearCid(CARD_INDEX *cid) const;
 	//========== END MOVE FUNCTIONS =============================================
 	static void staticInit();
 
 	//type=0 just create, type=1 newGame, type=2 randomDeal
-	Problem(GAME_TYPE gt = BRIDGE, CARD_INDEX a = CARD_INDEX_SOUTH, int type = 0);
-	const Problem& operator=(const Problem& p);
-	bool operator==(const Problem& p) const;
-	bool operator!=(const Problem& p) const {
+	Problem(GAME_TYPE gt = BRIDGE, CARD_INDEX a = CARD_INDEX_SOUTH,
+			int type = 0);
+	const Problem& operator=(const Problem &p);
+	bool operator==(const Problem &p) const;
+	bool operator!=(const Problem &p) const {
 		return !(*this == p);
 	}
 
-	VPbnEntryI findPbnEntry(const char* tag);
+	VPbnEntryI findPbnEntry(const char *tag);
 	std::string getPbnTagsString() const;
 
 	VPbnEntryCI pbnEntryBegin() const {
@@ -199,8 +200,7 @@ public:
 	void setDeal(bool random) {
 		if (random) {
 			randomDeal();
-		}
-		else {
+		} else {
 			newDeal();
 		}
 	}
@@ -246,7 +246,7 @@ public:
 
 	void rotate(bool clockwise, bool likeBridge);
 	//index is changed so use reference
-	void rotate(CARD_INDEX& index, bool clockwise, bool likeBridge) const;
+	void rotate(CARD_INDEX &index, bool clockwise, bool likeBridge) const;
 
 	inline bool isBridge() const {
 		return m_gameType == BRIDGE;
@@ -290,21 +290,22 @@ public:
 	std::string getHTMLContent(int nproblem, int bestMoveIndex, int tricks[2],
 			bool forConverter, int totaproblems) const;
 
-	void parse(FILE_TYPE t, const std::string& s, bool useOldBtsParser = false,
+	void parse(FILE_TYPE t, const std::string &s, bool useOldBtsParser = false,
 			GAME_TYPE gameType = BRIDGE);
 	std::string getContent(FILE_TYPE t, int nproblem, int totaproblems);
 
 	std::string getShortFileName() const;
 
 	//for store functions
-	static std::string postproceedHTML(const std::string& s, bool images);
+	static std::string postproceedHTML(const std::string &s, bool images);
 	std::string getHTMLRow(int row, CARD_INDEX player, bool cr) const;
 	static std::string htmlWrapInner(int columns, const std::string a[],
-			const int* index, int size);
-	static std::string htmlWrapNOBR(const std::string& s) {
+			const int *index, int size);
+	static std::string htmlWrapNOBR(const std::string &s) {
 		return "<span style='white-space:nowrap'>" + s + "</span>";
 	}
-	std::string getHTMLnorthSouth(int columns, bool north, bool tdAtFirst) const;
+	std::string getHTMLnorthSouth(int columns, bool north,
+			bool tdAtFirst) const;
 
 	//also allow player=CARD_INDEX_ABSENT
 	VInt getSuitVectorIndex(int suit, CARD_INDEX player) const;
@@ -320,20 +321,20 @@ public:
 	}
 	std::string getBtsDealString(CARD_INDEX dealer) const;
 
-	CARD_INDEX getLastTrick(int* moves) const;
+	CARD_INDEX getLastTrick(int *moves) const;
 
 	//fill all four cards starts from firstmove
-	void fillInner4(int* index) const {
+	void fillInner4(int *index) const {
 		fillInner4(index, getState().m_firstmove);
 	}
 
 	//fill all four cards starts from CARD_INDEX_NORTH
-	void fillInner4NorthFirst(int* index) const {
+	void fillInner4NorthFirst(int *index) const {
 		fillInner4(index, CARD_INDEX_NORTH);
 	}
 
 	//fill all four cards starts from 'from'
-	void fillInner4(int* index, CARD_INDEX from) const;
+	void fillInner4(int *index, CARD_INDEX from) const;
 
 	/* user can load problem and make some modifications after that
 	 * change trump, contract, result, deal etc...

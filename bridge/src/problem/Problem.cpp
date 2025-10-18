@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "Problem.h"
@@ -13,15 +13,9 @@
 
 #define throwOnError(_Expression,error,addon) if(!(_Expression))throw ParseException(#_Expression,error,__FILE__,__LINE__,__func__,m_content,addon);
 
-const char* CHANGE_HTML_SIMPLE[] = {
-		"&spades;",
-		"<font color='red'>&hearts;</font>",
-		"<font color='red'>&diams;</font>",
-		"&clubs;",
-		"&uarr;",
-		"&rarr;",
-		"&darr;",
-		"&larr;" };
+const char *CHANGE_HTML_SIMPLE[] = { "&spades;",
+		"<font color='red'>&hearts;</font>", "<font color='red'>&diams;</font>",
+		"&clubs;", "&uarr;", "&rarr;", "&darr;", "&larr;" };
 
 /* M(BEGIN_MARKER)	char DF_BEGIN_MARKER[SIZE(DF_BEGIN_MARKER_L)];
  * const char DF_BEGIN_MARKER[]="Deal:";
@@ -72,8 +66,7 @@ Problem::Problem(GAME_TYPE gt, CARD_INDEX a, int type) {
 
 	if (type == 1) {
 		newDeal();
-	}
-	else if (type == 2) {
+	} else if (type == 2) {
 		randomDeal();
 	}
 }
@@ -85,8 +78,8 @@ std::string Problem::getDfContent(int nproblem) const {
 	assert(isBridge());
 
 	s = DF_CONTRACT;
-	s += " " + getValidContractTrumpStringDfPbn() + "-" + LEADER[getDeclarerInt()]
-			+ " ";
+	s += " " + getValidContractTrumpStringDfPbn() + "-"
+			+ LEADER[getDeclarerInt()] + " ";
 	s += getDfContentHelper(0);
 
 	//north cards
@@ -128,8 +121,7 @@ std::string Problem::getDfContent(int nproblem) const {
 	//j-leave, because can be four cards on table which produce infinite cycle
 	if (m_firstCard[0] == CARD_INDEX_INVALID) {
 		s += "";
-	}
-	else {
+	} else {
 		i = m_firstCard[0];
 		s += toupper(SUITS_CHAR[i / 13]);
 		s += toupper(RANK[i % 13]);
@@ -161,17 +153,18 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 		int tricks[2], bool forConverter, int totaproblems) const {
 	int i;
 	int a[4];
-	std::string s, q,w, inner[9];
+	std::string s, q, w, inner[9];
 	const CARD_INDEX nextmove = getNextMove();
 
-	if(totaproblems>1){
-		w=format("%d", nproblem);
+	if (totaproblems > 1) {
+		w = format("%d", nproblem);
 	}
 	q = getFileInfo(m_filepath, FILEINFO::SHORT_NAME);
-	s = "\n<p id='" + q + w
-			+ "'>\n<table border=1 cellspacing=0 cellpadding=1>\n<tr><td valign='top'><table border=0 cellspacing=2 cellpadding=1>\n<tr><td><b>"
-			+ getString(MENU_PROBLEM) + "</b><td align='right'>" + q
-			+ " "+w + "\n";
+	s =
+			"\n<p id='" + q + w
+					+ "'>\n<table border=1 cellspacing=0 cellpadding=1>\n<tr><td valign='top'><table border=0 cellspacing=2 cellpadding=1>\n<tr><td><b>"
+					+ getString(MENU_PROBLEM) + "</b><td align='right'>" + q
+					+ " " + w + "\n";
 
 	s += "<tr><td>";
 	s += getString(STRING_DECLARER);
@@ -184,22 +177,18 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 
 	if (isPreferans() && m_misere) {
 		s += getString(STRING_MISERE);
-	}
-	else {
+	} else {
 		if (m_contract == NO_CONTRACT_SET) {
 			s += NO_CONTRACT_OR_NO_TRUMP_CHAR;
-		}
-		else {
+		} else {
 			s += format("%d", m_contract);
 		}
 
 		if (m_trump == NT) {
 			s += getNTString();
-		}
-		else if (m_trump == NO_TRUMP_SET) {
+		} else if (m_trump == NO_TRUMP_SET) {
 			s += NO_CONTRACT_OR_NO_TRUMP_CHAR;
-		}
-		else {
+		} else {
 			s += "!";
 			s += SUIT_ARROW_CHAR[m_trump];
 		}
@@ -226,12 +215,13 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 					getCardRankString(a[i]) + "!" + SUIT_ARROW_CHAR[a[i] / 13]);
 		}
 	}
-	i = INDEX_OF(nextmove,PLAYER);
-	inner[a[i] ==-1 ? i + 4 : i] = format("!%c", SUIT_ARROW_CHAR[i + 4]);
+	i = INDEX_OF(nextmove, PLAYER);
+	inner[a[i] == -1 ? i + 4 : i] = format("!%c", SUIT_ARROW_CHAR[i + 4]);
 
 	inner[8] = "&nbsp;";
 
-	const int columns = inner[1].length() != 0 || inner[3].length() != 0 ? 5 : 3; //inner table columns
+	const int columns =
+			inner[1].length() != 0 || inner[3].length() != 0 ? 5 : 3; //inner table columns
 
 	if (!forConverter && gconfig->m_htmlStoreBestMove) {
 		s += "<tr><td>";
@@ -249,19 +239,16 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 		s += "<td align='right'>";
 
 		if (isPreferans()) {
-			s += format("<u>%d</u>/%d\n", tricks[HTML_TRICKS_PLAYER], tricks[HTML_TRICKS_WHISTERS]);
-		}
-		else {
-			s += format("%d/%d\n", tricks[HTML_TRICKS_NORTH_SOUTH], tricks[HTML_TRICKS_EAST_WEST]);
+			s += format("<u>%d</u>/%d\n", tricks[HTML_TRICKS_PLAYER],
+					tricks[HTML_TRICKS_WHISTERS]);
+		} else {
+			s += format("%d/%d\n", tricks[HTML_TRICKS_NORTH_SOUTH],
+					tricks[HTML_TRICKS_EAST_WEST]);
 		}
 	}
 
 	//saved by bridge studio
-	w=BASE_ADDRESS;
-	if(w.back()=='/'){//remove last '/'
-		w=w.substr(0,w.length()-1);
-	}
-	s += "<tr><td colspan='2'><a href='" + w + "'><small>";
+	s += "<tr><td colspan='2'><a href='" + BASE_ADDRESS + "'><small>";
 	s += getString(STRING_SAVED_BY_BRIDGE_STUDIO);
 	s += "</small></a>\n";
 
@@ -269,8 +256,7 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 	s += "<tr><td colspan='2' width='200' align='justify'><small>";
 	if (m_pbnEntry.size() == 0) {
 		s += m_comment;
-	}
-	else {
+	} else {
 		s += replaceAll(m_comment, "\n", "<br>");
 	}
 	s += "</small>";
@@ -303,8 +289,7 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 		if (i == 1) {
 			const int b[] = { 3, 7, 8, 5, 1 };
 			s += htmlWrapInner(columns, inner, b + (columns == 3), columns);
-		}
-		else {
+		} else {
 			const int b[] = { 4, -1, 6, 2 }; //second index never used
 			s += htmlWrapInner(columns, inner, &b[i], 1);
 		}
@@ -343,7 +328,7 @@ std::string Problem::getHTMLnorthSouth(int columns, bool north,
 }
 
 std::string Problem::htmlWrapInner(int columns, const std::string a[],
-		const int* index, int size) {
+		const int *index, int size) {
 	int i;
 	std::string s;
 	std::string q[2];
@@ -365,8 +350,7 @@ std::string Problem::htmlWrapInner(int columns, const std::string a[],
 	for (i = 0; i < columns; i++) {
 		if (i - j >= 0 && i - j < size) {
 			s += q[1] + a[index[i - j]];
-		}
-		else {
+		} else {
 			s += q[0];
 		}
 	}
@@ -394,13 +378,12 @@ std::string Problem::getHTMLString(int columns, CARD_INDEX player,
 
 	if (columns == 1) {
 		return "<td>" + s;
-	}
-	else {
+	} else {
 		return format("<td colspan='%d'>", columns) + s;
 	}
 }
 
-VInt Problem::getSuitVectorIndex(int suit, CARD_INDEX player) const{
+VInt Problem::getSuitVectorIndex(int suit, CARD_INDEX player) const {
 	VInt v;
 	int i, k;
 	for (i = 0; i < 13; i++) {
@@ -412,18 +395,18 @@ VInt Problem::getSuitVectorIndex(int suit, CARD_INDEX player) const{
 	return v;
 }
 
-VInt Problem::getRowVectorIndex(int row, CARD_INDEX player) const{
-	return getSuitVectorIndex(getSuitsOrder(row),player);
+VInt Problem::getRowVectorIndex(int row, CARD_INDEX player) const {
+	return getSuitVectorIndex(getSuitsOrder(row), player);
 }
 
 std::string Problem::getRow(int row, CARD_INDEX player) const {
-	VInt v=getRowVectorIndex(row, player);
+	VInt v = getRowVectorIndex(row, player);
 	std::string s;
-	if(v.empty()){
+	if (v.empty()) {
 		return " -";
 	}
-	for(auto a:v){
-		s+=" "+getCardRankString(a);
+	for (auto a : v) {
+		s += " " + getCardRankString(a);
 	}
 	return s;
 }
@@ -450,7 +433,7 @@ std::string Problem::getDfContentHelper(int n) const {
 	return s;
 }
 
-VPbnEntryI Problem::findPbnEntry(const char* tag) {
+VPbnEntryI Problem::findPbnEntry(const char *tag) {
 	VPbnEntryI it;
 	for (it = m_pbnEntry.begin(); it != m_pbnEntry.end(); it++) {
 		if (strcasecmp(it->tag.c_str(), tag) == 0) {
@@ -477,9 +460,9 @@ std::string Problem::getPbnTagsString() const {
 	return s;
 }
 
-const char* Problem::parseDfHand(const char*p, CARD_INDEX player) {
+const char* Problem::parseDfHand(const char *p, CARD_INDEX player) {
 	int i, suit;
-	const char*pc;
+	const char *pc;
 	for (; *p == ' '; p++)
 		;
 	for (suit = 0; *p != 0 && *p != 0xa && *p != 0xd; p++) {
@@ -490,8 +473,7 @@ const char* Problem::parseDfHand(const char*p, CARD_INDEX player) {
 			if (suit == 3) {
 				if (player == CARD_INDEX_WEST) {
 					return p;
-				}
-				else {
+				} else {
 					throwOnError(0, STRING_ERROR_INVALID_DEAL, "");
 				}
 			}
@@ -510,7 +492,7 @@ const char* Problem::parseDfHand(const char*p, CARD_INDEX player) {
 
 }
 
-void Problem::parseDf(const std::string& content) {
+void Problem::parseDf(const std::string &content) {
 	const char *p, *pc;
 	std::string s;
 	char comment[16];
@@ -529,8 +511,7 @@ void Problem::parseDf(const std::string& content) {
 	p = strstr(s.c_str(), comment);
 	if (p == NULL) {
 		m_comment = "";
-	}
-	else {
+	} else {
 		m_comment = content.c_str() + (p + strlen(comment) - s.c_str()); //from original case not lower
 		m_comment = localeToUtf8(m_comment);
 	}
@@ -586,22 +567,19 @@ std::string Problem::getContent(FILE_TYPE t, int nproblem, int totaproblems) {
 
 	if (t == FILE_TYPE_DF) {
 		return getDfContent(nproblem);
-	}
-	else if (t == FILE_TYPE_HTML) { //can be call from converter
-		int tricks[]={0,0};
-		return getHTMLContent(nproblem, 0, tricks, true,totaproblems);
-	}
-	else if (t == FILE_TYPE_PBN) {
+	} else if (t == FILE_TYPE_HTML) { //can be call from converter
+		int tricks[] = { 0, 0 };
+		return getHTMLContent(nproblem, 0, tricks, true, totaproblems);
+	} else if (t == FILE_TYPE_PBN) {
 		return getPbnContent(nproblem, nproblem == 1);
-	}
-	else {
+	} else {
 		return getBtsContent(nproblem, nproblem == 1);
 	}
 }
 
-void Problem::parsePlayString(const char*p) {
+void Problem::parsePlayString(const char *p) {
 	int i = 0;
-	const char*q, *w;
+	const char *q, *w;
 
 	//empty string is possible see Richard Pavlicek Deals.txt Deal48
 	if (*p != 0) {
@@ -612,9 +590,10 @@ void Problem::parsePlayString(const char*p) {
 			p++;
 			assert(*p != 0);
 			w = strchr(RANK, *p);
-			throwOnError(w, STRING_ERROR_UNRECOGNIZED_CARD_RANK, format("[%c]", *p));
-			throwOnError(i < TOTAL_STATES - 1, STRING_ERROR_TOO_MANY_LEADING_CARDS,
-					"");
+			throwOnError(w, STRING_ERROR_UNRECOGNIZED_CARD_RANK,
+					format("[%c]", *p));
+			throwOnError(i < TOTAL_STATES - 1,
+					STRING_ERROR_TOO_MANY_LEADING_CARDS, "");
 			m_firstCard[i] = 13 * (q - SUITS_CHAR) + w - RANK;
 			i++;
 
@@ -630,9 +609,9 @@ void Problem::parsePlayString(const char*p) {
 
 }
 
-void Problem::parseDealString(const char* p, CARD_INDEX _player) {
+void Problem::parseDealString(const char *p, CARD_INDEX _player) {
 	int i, j;
-	const char*q;
+	const char *q;
 	CARD_INDEX player = _player;
 	std::string s = p;
 	assert(player >= CARD_INDEX_NORTH && player <= CARD_INDEX_WEST);
@@ -642,14 +621,12 @@ void Problem::parseDealString(const char* p, CARD_INDEX _player) {
 		if (*p == ' ') { //change player
 			i = 0;
 			player = getNextPlayer(player);
-		}
-		else if (*p == '.') { //change suit
+		} else if (*p == '.') { //change suit
 			if (i == 3) {
 				throwOnError(0, STRING_ERROR_INVALID_DEAL, "");
 			}
 			i++;
-		}
-		else {
+		} else {
 			assert(*p != 0);
 			q = strchr(RANK, *p); //strchr(RANK,'\0')=13!
 			throwOnError(q!=NULL, STRING_ERROR_UNRECOGNIZED_CARD_RANK,
@@ -657,7 +634,8 @@ void Problem::parseDealString(const char* p, CARD_INDEX _player) {
 			j = i * 13 + q - RANK;
 
 			throwOnError(m_states[0].m_cid[j] == CARD_INDEX_ABSENT,
-					STRING_ERROR_FOUND_TWO_CARD_OCCURENCE_IN_DEAL, getCardString(j));
+					STRING_ERROR_FOUND_TWO_CARD_OCCURENCE_IN_DEAL,
+					getCardString(j));
 			m_states[0].m_cid[j] = player;
 		}
 		p++;
@@ -671,22 +649,23 @@ std::string Problem::getShortFileName() const {
 	return getFileInfo(m_filepath, FILEINFO::NAME);
 }
 
-std::string Problem::postproceedHTML(const std::string& s, bool images) {
+std::string Problem::postproceedHTML(const std::string &s, bool images) {
 	std::string r = s;
 	char b[] = "!*"; //first symbol '!' as search tag, second is variable char
 	unsigned i;
-	const char*p = SUIT_ARROW_CHAR;
+	const char *p = SUIT_ARROW_CHAR;
 	for (r = s, i = 0; *p != 0; i++, p++) {
 		b[1] = *p;
 		r = replaceAll(r, b,
 				images ?
-						format("<img src='%s/%c.png'>", HTML_IMAGE_DIRECTORY, *p) :
+						format("<img src='%s/%c.png'>", HTML_IMAGE_DIRECTORY.c_str(),
+								*p) :
 						CHANGE_HTML_SIMPLE[i]);
 	}
 	return r;
 }
 
-bool Problem::operator==(const Problem& p) const {
+bool Problem::operator==(const Problem &p) const {
 	int i, j;
 	VPbnEntryCI it, it1;
 
@@ -722,7 +701,7 @@ bool Problem::operator==(const Problem& p) const {
 	return true;
 }
 
-const Problem& Problem::operator=(const Problem& p) {
+const Problem& Problem::operator=(const Problem &p) {
 	int i;
 
 	m_currentState = p.m_currentState;
@@ -759,19 +738,16 @@ std::string Problem::getBtsContent(int nproblem, bool caption) {
 	s += ' ';
 	if (isPreferans() && m_misere) {
 		s += BTS_MISERE;
-	}
-	else {
+	} else {
 		if (m_contract == NO_CONTRACT_SET) {
 			s += NO_CONTRACT_OR_NO_TRUMP_CHAR;
-		}
-		else {
+		} else {
 			s += format("%d", m_contract);
 		}
 
 		if (m_trump == NO_TRUMP_SET) {
 			s += NO_CONTRACT_OR_NO_TRUMP_CHAR;
-		}
-		else {
+		} else {
 			s += getEnglishTrumpString();
 		}
 
@@ -825,7 +801,7 @@ std::string Problem::getBtsContent(int nproblem, bool caption) {
 	return s + "\n";
 }
 
-void Problem::parsePbn(const std::string& s) {
+void Problem::parsePbn(const std::string &s) {
 	const char *e, *q;
 	std::string tag, value, add;
 	char playValue = 0;
@@ -834,7 +810,7 @@ void Problem::parsePbn(const std::string& s) {
 	int a[4];
 	Problem problem;
 	problem.m_gameType = BRIDGE;
-	State& state = problem.m_states[0];
+	State &state = problem.m_states[0];
 	VPbnEntryCI it;
 
 	//m_comment=s; user can change for example declarer, so should change many tags
@@ -854,9 +830,9 @@ void Problem::parsePbn(const std::string& s) {
 			if (cmpnocase(value, "pass")) {
 				m_contract = NO_CONTRACT_SET;
 				m_trump = NO_TRUMP_SET;
-			}
-			else {
-				throwOnError(value.length() > 1, STRING_ERROR_INVALID_TAG_STRING, tag);
+			} else {
+				throwOnError(value.length() > 1,
+						STRING_ERROR_INVALID_TAG_STRING, tag);
 				m_contract = value[0] - '0';
 				throwOnError(m_contract >= 1 && m_contract <= 7,
 						STRING_ERROR_UNRECOGNIZED_CONTRACT, "");
@@ -866,12 +842,10 @@ void Problem::parsePbn(const std::string& s) {
 				throwOnError(e!=NULL, STRING_ERROR_UNRECOGNIZED_TRUMP, "");
 				m_trump = e - SUITS_CHAR;
 			}
-		}
-		else if (cmpnocase(tag, PBN_DECLARER_TAG)) {
+		} else if (cmpnocase(tag, PBN_DECLARER_TAG)) {
 			if (value.length() == 0) {
 				setVeryFirstMove(CARD_INDEX_NORTH);
-			}
-			else {
+			} else {
 				player = playerFromChar(value[0]);
 				if (player == CARD_INDEX_INVALID && value[0] == '^') { //available "^s"
 					player = playerFromChar(value[1]);
@@ -880,21 +854,21 @@ void Problem::parsePbn(const std::string& s) {
 					}
 				}
 				if (!declarerError) {
-					assert(player >= CARD_INDEX_NORTH && player <= CARD_INDEX_WEST);
+					assert(
+							player >= CARD_INDEX_NORTH && player <= CARD_INDEX_WEST);
 					setVeryFirstMove(getNextPlayer(player));
 				}
 			}
-		}
-		else if (cmpnocase(tag, PBN_PLAY_TAG)) {
+		} else if (cmpnocase(tag, PBN_PLAY_TAG)) {
 			//I saw play tags like this "HK SJ H2 H9\n - CK - -"
-			throwOnError(value.length() == 1, STRING_ERROR_INVALID_TAG_STRING, tag);
+			throwOnError(value.length() == 1, STRING_ERROR_INVALID_TAG_STRING,
+					tag);
 			playValue = value[0];
 			k = 0;
 			for (q = add.c_str(); *q != 0 && q[1] != 0;) {
 				if (*q == '-') {
 					k++; //may be can read other cards
-				}
-				else {
+				} else {
 					assert(*q != 0);
 					e = strchr(SUITS_CHAR, *q);
 					if (!e) {
@@ -907,12 +881,14 @@ void Problem::parsePbn(const std::string& s) {
 					q++;
 
 					e = strchr(RANK, *q);
-					throwOnError(e!=NULL, STRING_ERROR_UNRECOGNIZED_CARD_RANK, "");
+					throwOnError(e!=NULL, STRING_ERROR_UNRECOGNIZED_CARD_RANK,
+							"");
 					assert(*e != 0); //after e!=NULL
 
 					j += (e - RANK);
 					//j automatically >=0 & <52
-					throwOnError(k < 52, STRING_ERROR_TOO_MANY_LEADING_CARDS, "");
+					throwOnError(k < 52, STRING_ERROR_TOO_MANY_LEADING_CARDS,
+							"");
 					m_firstCard[k++] = j;
 				}
 
@@ -926,9 +902,9 @@ void Problem::parsePbn(const std::string& s) {
 			 * HQ HK H4 H2
 			 * D5 DK D8 D2 -> here D5 means East card, but m_firstCard[4] it should be a taker card
 			 */
-		}
-		else if (cmpnocase(tag, PBN_DEAL_TAG)) {
-			throwOnError(value.length() > 2, STRING_ERROR_INVALID_TAG_STRING, tag);
+		} else if (cmpnocase(tag, PBN_DEAL_TAG)) {
+			throwOnError(value.length() > 2, STRING_ERROR_INVALID_TAG_STRING,
+					tag);
 
 			player = playerFromChar(value[0]);
 			throwOnError(player != CARD_INDEX_INVALID,
@@ -997,12 +973,12 @@ void Problem::parsePbn(const std::string& s) {
 	}
 }
 
-void Problem::parseBts(const std::string& content) {
-	const char*f;
-	const char*p, *p1;
+void Problem::parseBts(const std::string &content) {
+	const char *f;
+	const char *p, *p1;
 	char b[32];
 	char c;
-	char*q;
+	char *q;
 	CARD_INDEX ci;
 	std::string s;
 	int i;
@@ -1015,11 +991,11 @@ void Problem::parseBts(const std::string& content) {
 	p = strstr(f, b);
 	if (p == NULL) {
 		ci = CARD_INDEX_SOUTH; //version below 5.1
-	}
-	else {
+	} else {
 		p += strlen(b);
 		ci = playerFromChar(*p);
-		throwOnError(ci != CARD_INDEX_INVALID, STRING_ERROR_UNRECOGNIZED_ABSENT, "");
+		throwOnError(ci != CARD_INDEX_INVALID, STRING_ERROR_UNRECOGNIZED_ABSENT,
+				"");
 	}
 	setAbsent(ci);
 
@@ -1039,8 +1015,7 @@ void Problem::parseBts(const std::string& content) {
 			p = strchr(PLAYER_CHAR, *p);
 			throwOnError(p, STRING_ERROR_UNRECOGNIZED_PLAYER, "");
 			setVeryFirstMove(PLAYER[p - PLAYER_CHAR]);
-		}
-		else if (*p != '\n') {
+		} else if (*p != '\n') {
 			parsePlayString(p);
 		}
 	}
@@ -1059,29 +1034,26 @@ void Problem::parseBts(const std::string& content) {
 	if (*p == NO_CONTRACT_OR_NO_TRUMP_CHAR) {
 		m_contract = NO_CONTRACT_SET;
 		p++;
-	}
-	else {
+	} else {
 		m_contract = strtol(p, &q, 10); //invalid contract checked later when game type will be set
 		assert(*q != 0);
 		p = q;
 	}
 	if (*p == NO_CONTRACT_OR_NO_TRUMP_CHAR) {
 		m_trump = NO_TRUMP_SET;
-	}
-	else {
+	} else {
 		c = *p;
 		p = strchr(SUITS_CHAR, c);
 		if (p == NULL) {
-			if (startsWith(q, BTS_MISERE) || startsWith(q, BTS_MISERE_OLD) ) {
+			if (startsWith(q, BTS_MISERE) || startsWith(q, BTS_MISERE_OLD)) {
 				//set misere
 				m_misere = true;
 				m_trump = NT;
+			} else {
+				throwOnError(0, STRING_ERROR_UNRECOGNIZED_TRUMP,
+						format("[%c]", c));
 			}
-			else {
-				throwOnError(0, STRING_ERROR_UNRECOGNIZED_TRUMP, format("[%c]", c));
-			}
-		}
-		else {
+		} else {
 			m_trump = p - SUITS_CHAR;
 		}
 	}
@@ -1091,8 +1063,7 @@ void Problem::parseBts(const std::string& content) {
 	p = strstr(f, b);
 	if (p == NULL) { //can be empty
 		m_gameType = BRIDGE;
-	}
-	else {
+	} else {
 		m_gameType = PREFERANS;
 		throwOnError(strlen(p) > strlen(b), STRING_UNKNOWN_ERROR, "")
 		p += strlen(b);
@@ -1116,15 +1087,13 @@ void Problem::parseBts(const std::string& content) {
 		if (m_trump != NO_TRUMP_SET || m_contract != NO_CONTRACT_SET) { //not pass contract
 			throwOnError(getVeryFirstMove() != CARD_INDEX_INVALID,
 					STRING_ERROR_PLAY_NOT_FOUND, "");
-		}
-		else {
+		} else {
 			//first move not set in 'play' section 'pass contract'
 			if (getVeryFirstMove() == CARD_INDEX_INVALID) {
 				setVeryFirstMove(CARD_INDEX_NORTH); //should be set anyway
 			}
 		}
-	}
-	else {
+	} else {
 		ci = m_states[0].m_cid[m_firstCard[0]];
 		if (isInner(ci)) {
 			ci = getOuter(ci);
@@ -1143,8 +1112,7 @@ void Problem::parseBts(const std::string& content) {
 
 	if (q == NULL) {
 		m_comment = p1;
-	}
-	else {
+	} else {
 		assert(q >= p);
 		m_comment = std::string(p1, q - p);
 		fillPbnTags(content.c_str() + (q - f) + strlen(b)); //from original case not lower
@@ -1168,7 +1136,7 @@ void Problem::parseBts(const std::string& content) {
 
 }
 
-void Problem::parseBtsOldFormat(const std::string& content,
+void Problem::parseBtsOldFormat(const std::string &content,
 		GAME_TYPE gameType) {
 	int i, j, k;
 	Stream stream;
@@ -1211,12 +1179,11 @@ void Problem::parseBtsOldFormat(const std::string& content,
 	//if file in old format then number of tricks=0 (set in Problem constructor)
 	if (stream.integersLeft() < 4) {
 		goto end;
-	}
-	else {
+	} else {
 		stream.readDummyIntegers(4);	//tricks
 	}
 
-	if (isBridge()) {	//in case of bridge game description will go after common tricks
+	if (isBridge()) {//in case of bridge game description will go after common tricks
 		if (stream.end()) {
 			goto end;
 		}
@@ -1266,7 +1233,8 @@ void Problem::parseBtsOldFormat(const std::string& content,
 		stream.readDummyIntegers(10);
 
 		j = stream.readInteger();
-		throwOnError(j>=0 && j<SIZEI(PLAYER), STRING_ERROR_UNRECOGNIZED_PLAYER, "");
+		throwOnError(j>=0 && j<SIZEI(PLAYER), STRING_ERROR_UNRECOGNIZED_PLAYER,
+				"");
 		m_states[i].m_firstmove = PLAYER[j];
 
 		stream.readDummyIntegers(2);
@@ -1281,7 +1249,7 @@ void Problem::parseBtsOldFormat(const std::string& content,
 //	problem.m_currentState=stream.readInteger();
 //	maxindex=stream.readInteger();//StoreMaxIndex;
 
-	if (m_maxState <= 0) {		//restore veryFirstMove check on 7.pts (maxindex=0)
+	if (m_maxState <= 0) {	//restore veryFirstMove check on 7.pts (maxindex=0)
 		setVeryFirstMove(veryFirstMove);
 	}
 
@@ -1311,11 +1279,10 @@ void Problem::parseBtsOldFormat(const std::string& content,
 
 }
 
-void Problem::parse(FILE_TYPE t, const std::string& s, bool useOldBtsParser,
+void Problem::parse(FILE_TYPE t, const std::string &s, bool useOldBtsParser,
 		GAME_TYPE gameType) {
 	assert(
-			t == FILE_TYPE_DF || t == FILE_TYPE_PBN || t == FILE_TYPE_BRIDGE
-					|| t == FILE_TYPE_PREFERANS);
+			t == FILE_TYPE_DF || t == FILE_TYPE_PBN || t == FILE_TYPE_BRIDGE || t == FILE_TYPE_PREFERANS);
 
 	int i, j;
 	m_gameType = BRIDGE;
@@ -1334,15 +1301,12 @@ void Problem::parse(FILE_TYPE t, const std::string& s, bool useOldBtsParser,
 
 	if (t == FILE_TYPE_DF) {
 		parseDf(s);
-	}
-	else if (t == FILE_TYPE_PBN) {
+	} else if (t == FILE_TYPE_PBN) {
 		parsePbn(s);
-	}
-	else {
+	} else {
 		if (useOldBtsParser) {
 			parseBtsOldFormat(s, gameType);
-		}
-		else {
+		} else {
 			parseBts(s);
 		}
 	}
@@ -1387,9 +1351,9 @@ void Problem::parse(FILE_TYPE t, const std::string& s, bool useOldBtsParser,
 
 }
 
-void Problem::fillPbnTags(const std::string& s) {
+void Problem::fillPbnTags(const std::string &s) {
 	SString set;
-	const char*p, *e;
+	const char *p, *e;
 	std::string tag, value, add;
 	p = s.c_str();
 	throwOnError(*p == '[', STRING_UNKNOWN_ERROR, "");
@@ -1411,15 +1375,13 @@ void Problem::fillPbnTags(const std::string& s) {
 		if (*e == 0) {
 			add = "";
 			p = NULL;
-		}
-		else {
+		} else {
 			throwOnError(*e == '\n', STRING_ERROR_INVALID_TAG_STRING, tag);
 			p = strchr(e, '[');
 
 			if (p == NULL) {
 				add = std::string(e + 1);
-			}
-			else {
+			} else {
 				if (p - 1 > e) {
 					e++;
 				}
@@ -1428,8 +1390,8 @@ void Problem::fillPbnTags(const std::string& s) {
 		}
 		m_pbnEntry.push_back(PbnEntry(tag, value, add));
 
-		throwOnError(set.find(tag) == set.end(), STRING_ERROR_DUPLICATE_TAG_FOUND,
-				tag);
+		throwOnError(set.find(tag) == set.end(),
+				STRING_ERROR_DUPLICATE_TAG_FOUND, tag);
 		set.insert(tag);
 	} while (p);
 
@@ -1494,18 +1456,17 @@ void Problem::randomDeal() {
 	m_comment = "";
 }
 
-CARD_INDEX Problem::getLastTrick(int* moves) const {
+CARD_INDEX Problem::getLastTrick(int *moves) const {
 	int i;
-	int*p;
+	int *p;
 	CARD_INDEX result, c;
 	const int max = maxTableCards();
-	State const& state = getState();
+	State const &state = getState();
 	i = state.countInnerCards();
 	if (i == max) {
 		i = m_currentState;
 		result = state.m_firstmove;
-	}
-	else {
+	} else {
 		i = m_currentState - i;
 		//bridge state index should be at least 3=max-1
 		//preferans state index should be at least 2=max-1
@@ -1514,7 +1475,7 @@ CARD_INDEX Problem::getLastTrick(int* moves) const {
 
 	//fill moves
 	if (result != CARD_INDEX_INVALID && moves != NULL) {
-		State const& state = m_states[i];
+		State const &state = m_states[i];
 		c = result;
 		p = moves;
 		do {
@@ -1588,12 +1549,10 @@ DEAL_STATE Problem::getDealState(bool checkTrump) const {
 		if (getState().m_cid[i] == CARD_INDEX_ABSENT
 				|| getState().m_cid[i] == CARD_INDEX_INVALID) {	//invalid 2-6 for preferans
 			continue;
-		}
-		else if (isOuter(getState().m_cid[i])) {
+		} else if (isOuter(getState().m_cid[i])) {
 			player = getState().m_cid[i];
 			empty = false;
-		}
-		else {
+		} else {
 			player = getOuter(getState().m_cid[i]);
 		}
 		ncards[indexOfPlayer(player)]++;
@@ -1610,8 +1569,7 @@ DEAL_STATE Problem::getDealState(bool checkTrump) const {
 	}
 	if (i == k) {
 		return empty ? DEAL_STATE_EMPTY : DEAL_STATE_VALID;
-	}
-	else {
+	} else {
 		return DEAL_STATE_ERROR;
 	}
 }
@@ -1620,12 +1578,10 @@ bool Problem::supportFileFormat(FILE_TYPE t) const {
 	assert(t == FILE_TYPE_DF || t == FILE_TYPE_PBN);
 	if (t == FILE_TYPE_DF) {
 		return !noTrumpOrContract();
-	}
-	else {
+	} else {
 		if (noTrumpAndContract()) {
 			return true;
-		}
-		else {
+		} else {
 			return !noTrumpOrContract();
 		}
 	}
@@ -1634,15 +1590,15 @@ bool Problem::supportFileFormat(FILE_TYPE t) const {
 std::string Problem::getValidTrumpStringDfPbn() const {
 	if (m_trump == NO_TRUMP_SET) {
 		return ::getEnglishTrumpString(0);
-	}
-	else {
+	} else {
 		return getEnglishTrumpString();
 	}
 }
 
 std::string Problem::getValidContractStringDfPbn() const {
 	return format("%d",
-			m_contract == NO_CONTRACT_SET ? MIN_CONTRACT[m_gameType] : m_contract);
+			m_contract == NO_CONTRACT_SET ?
+					MIN_CONTRACT[m_gameType] : m_contract);
 }
 
 #ifndef FINAL_RELEASE
@@ -1655,10 +1611,10 @@ void Problem::printcids(int problemIndex) {
 std::string Problem::getBtsDealString(CARD_INDEX dealer) const {
 	std::string s;
 	CARD_INDEX ci = dealer;
-	const CARD_INDEX* cid = m_states[0].m_cid;
+	const CARD_INDEX *cid = m_states[0].m_cid;
 
 	while (1) {
-		s+=getPlayerString(cid,ci,true);
+		s += getPlayerString(cid, ci, true);
 
 		ci = getNextPlayer(ci);
 		if (ci == dealer) {		//3 times for preferans, 4 for bridge
@@ -1673,17 +1629,15 @@ std::string Problem::getBtsDealString(CARD_INDEX dealer) const {
 
 CARD_INDEX Problem::getNextMove(int stateIndex) const {
 	assert(stateIndex >= 0 && stateIndex < TOTAL_STATES);
-	const State & s = m_states[stateIndex];
+	const State &s = m_states[stateIndex];
 
 	int inner = s.countInnerCards();
 
 	if (inner == 0) {
 		return s.m_firstmove;
-	}
-	else if (inner == maxTableCards()) {
+	} else if (inner == maxTableCards()) {
 		return getTaker(inner, stateIndex);
-	}
-	else {
+	} else {
 		return getPlayer(s.m_firstmove, true, inner);
 	}
 }
@@ -1692,8 +1646,8 @@ void Problem::makeMove(int index, int stateIndex) {
 	int i;
 	assert(stateIndex + 1 < TOTAL_STATES);
 	assert(stateIndex >= 0);
-	State& prev = m_states[stateIndex];
-	State& state = m_states[stateIndex + 1];
+	State &prev = m_states[stateIndex];
+	State &state = m_states[stateIndex + 1];
 	for (i = 0; i < 52; i++) {
 		state.m_cid[i] = prev.m_cid[i];
 	}
@@ -1705,8 +1659,7 @@ void Problem::makeMove(int index, int stateIndex) {
 
 	if (isTableFull(stateIndex)) {
 		state.m_firstmove = getNextMove(stateIndex);
-	}
-	else {
+	} else {
 		state.m_firstmove = prev.m_firstmove;
 	}
 
@@ -1720,7 +1673,7 @@ void Problem::makeMove(int index, int stateIndex) {
 
 bool Problem::isValidTurn(int index, int stateIndex, bool drawarea) {
 	assert(stateIndex >= 0 && stateIndex < TOTAL_STATES);
-	const State & s = m_states[stateIndex];
+	const State &s = m_states[stateIndex];
 
 	CARD_INDEX player = s.m_cid[index];
 
@@ -1730,21 +1683,17 @@ bool Problem::isValidTurn(int index, int stateIndex, bool drawarea) {
 		}
 	}
 
-	if (isTableFullOrEmpty(stateIndex)) {		// first turn every card is valid
+	if (isTableFullOrEmpty(stateIndex)) {	// first turn every card is valid
 		return true;
-	}
-	else if (hasLeadingSuit(player, stateIndex)) {//player has leading suit, valid is suit of card is the same with leading suit
+	} else if (hasLeadingSuit(player, stateIndex)) {//player has leading suit, valid is suit of card is the same with leading suit
 		return index / 13 == getLeadingSuit(stateIndex);
-	}
-	else {		//player has not leading suit
+	} else {		//player has not leading suit
 		if (m_gameType == BRIDGE) {
 			return true;		//for bridge is always valid
-		}
-		else {		//for preferans
+		} else {		//for preferans
 			if (m_trump == NT || !s.hasSuit(player, m_trump)) {
 				return true;
-			}
-			else {
+			} else {
 				return index / 13 == m_trump;		//trump suit
 			}
 		}
@@ -1754,7 +1703,7 @@ bool Problem::isValidTurn(int index, int stateIndex, bool drawarea) {
 
 int Problem::getLeadingSuit(int stateIndex) const {
 	assert(stateIndex >= 0 && stateIndex < TOTAL_STATES);
-	const State & s = m_states[stateIndex];
+	const State &s = m_states[stateIndex];
 
 	if (isTableFullOrEmpty(stateIndex)) {
 		return NT;
@@ -1771,7 +1720,7 @@ int Problem::getLeadingSuit(int stateIndex) const {
 CARD_INDEX Problem::getTaker(const int inner, int stateIndex) const {
 	int i, j;
 	assert(stateIndex >= 0 && stateIndex < TOTAL_STATES);
-	const State & s = m_states[stateIndex];
+	const State &s = m_states[stateIndex];
 
 	CARD_INDEX player[4];
 	player[0] = s.m_firstmove;
@@ -1826,20 +1775,19 @@ void Problem::rotate(bool clockwise, bool likeBridge) {
 
 }
 
-void Problem::rotate(CARD_INDEX& index, bool clockwise, bool likeBridge) const {
+void Problem::rotate(CARD_INDEX &index, bool clockwise, bool likeBridge) const {
 	if (index != CARD_INDEX_INVALID && index != CARD_INDEX_ABSENT) {
 		if (likeBridge) {
 			index = getBridgePlayer(index, clockwise);
-		}
-		else {
+		} else {
 			index = getPlayer(index, clockwise);
 		}
 	}
 }
 
-void Problem::fillInner4(int* index, CARD_INDEX from) const {
-	State const& s = getState();
-	int*p = index;
+void Problem::fillInner4(int *index, CARD_INDEX from) const {
+	State const &s = getState();
+	int *p = index;
 	CARD_INDEX c = from;
 	do {
 		*p++ = s.findInner(c);
@@ -1855,29 +1803,12 @@ void Problem::fillAdjustPbnInfo(int nproblem) {
 	//no dealer info assume 'N'
 	const CARD_INDEX dealer = CARD_INDEX_NORTH;
 
-	const char *tag[] = {
-			PBN_EVENT_TAG,
-			PBN_SITE_TAG,
-			PBN_DATE_TAG,
-			PBN_BOARD_TAG,
-			PBN_WEST_TAG,
-			PBN_NORTH_TAG,
-			PBN_EAST_TAG,
-			PBN_SOUTH_TAG,
-			PBN_DEALER_TAG,
-			PBN_VULNERABLE_TAG,
-			PBN_DEAL_TAG,
-			PBN_DECLARER_TAG,
-			PBN_CONTRACT_TAG,
-			PBN_RESULT_TAG,
-			PBN_HOMETEAM_TAG,
-			PBN_ROOM_TAG,
-			PBN_ROUND_TAG,
-			PBN_SCORE_TAG,
-			PBN_SECTION_TAG,
-			PBN_TABLE_TAG,
-			PBN_VISITTEAM_TAG,
-			PBN_AUCTION_TAG,
+	const char *tag[] = { PBN_EVENT_TAG, PBN_SITE_TAG, PBN_DATE_TAG,
+			PBN_BOARD_TAG, PBN_WEST_TAG, PBN_NORTH_TAG, PBN_EAST_TAG,
+			PBN_SOUTH_TAG, PBN_DEALER_TAG, PBN_VULNERABLE_TAG, PBN_DEAL_TAG,
+			PBN_DECLARER_TAG, PBN_CONTRACT_TAG, PBN_RESULT_TAG,
+			PBN_HOMETEAM_TAG, PBN_ROOM_TAG, PBN_ROUND_TAG, PBN_SCORE_TAG,
+			PBN_SECTION_TAG, PBN_TABLE_TAG, PBN_VISITTEAM_TAG, PBN_AUCTION_TAG,
 			PBN_PLAY_TAG };
 
 	if (m_pbnEntry.empty()) {
@@ -1889,32 +1820,23 @@ void Problem::fillAdjustPbnInfo(int nproblem) {
 				//date 1997.06.27
 				strftime(buffer, 80, "%Y.%m.%d", localtime(&rawtime));
 				value = buffer;
-			}
-			else if (cmpnocase(tag[i], PBN_DEALER_TAG)) {
+			} else if (cmpnocase(tag[i], PBN_DEALER_TAG)) {
 				value = DEALER[dealer - CARD_INDEX_NORTH];
-			}
-			else if (cmpnocase(tag[i], PBN_DEAL_TAG)) {
+			} else if (cmpnocase(tag[i], PBN_DEAL_TAG)) {
 				value = getPbnDealString(dealer);
-			}
-			else if (cmpnocase(tag[i], PBN_TABLE_TAG)) {
+			} else if (cmpnocase(tag[i], PBN_TABLE_TAG)) {
 				value = format("%d", nproblem);
-			}
-			else if (cmpnocase(tag[i], PBN_VULNERABLE_TAG)) {
+			} else if (cmpnocase(tag[i], PBN_VULNERABLE_TAG)) {
 				value = VULNERABLE[0];
-			}
-			else if (cmpnocase(tag[i], PBN_ROOM_TAG)) {
+			} else if (cmpnocase(tag[i], PBN_ROOM_TAG)) {
 				value = ROOM[0];
-			}
-			else if (cmpnocase(tag[i], PBN_RESULT_TAG)) {
+			} else if (cmpnocase(tag[i], PBN_RESULT_TAG)) {
 				value = "0";
-			}
-			else if (cmpnocase(tag[i], PBN_SCORE_TAG)) {
+			} else if (cmpnocase(tag[i], PBN_SCORE_TAG)) {
 				value = "NS 0";
-			}
-			else if (cmpnocase(tag[i], PBN_AUCTION_TAG)) {
+			} else if (cmpnocase(tag[i], PBN_AUCTION_TAG)) {
 				value = DEALER[dealer - CARD_INDEX_NORTH];
-			}
-			else {		//some tags will be set later usually empty tag has value="#"
+			} else {//some tags will be set later usually empty tag has value="#"
 				value = "#";
 			}
 
@@ -1931,7 +1853,7 @@ void Problem::adjustPbnInfo() {
 	std::string value, add;
 	VPbnEntryI it;
 	bool br;
-	char*p;
+	char *p;
 
 	//correct some tags
 	it = findPbnEntry(PBN_CONTRACT_TAG);
@@ -1940,7 +1862,8 @@ void Problem::adjustPbnInfo() {
 	assert(j <= 2);
 	it->value =
 			noTrumpAndContract() ?
-					"Pass" : getValidContractTrumpStringDfPbn() + DOUBLE_REDOUBLE[j];
+					"Pass" :
+					getValidContractTrumpStringDfPbn() + DOUBLE_REDOUBLE[j];
 
 	it = findPbnEntry(PBN_DECLARER_TAG);
 	assert(it != m_pbnEntry.end());
@@ -1952,8 +1875,7 @@ void Problem::adjustPbnInfo() {
 		add = "";
 		CARD_INDEX fci[4] = { getVeryFirstMove() };
 		assert(
-				getVeryFirstMove() >= CARD_INDEX_NORTH
-						&& getVeryFirstMove() <= CARD_INDEX_WEST);
+				getVeryFirstMove() >= CARD_INDEX_NORTH && getVeryFirstMove() <= CARD_INDEX_WEST);
 		for (j = 1; j < 4; j++) {
 			fci[j] = getNextPlayer(fci[j - 1]);
 		}
@@ -1987,8 +1909,7 @@ void Problem::adjustPbnInfo() {
 				if (k == 4) {
 					br = true;
 					k = -1;
-				}
-				else {
+				} else {
 					k = m_firstCard[i + k];
 				}
 				add += k == -1 ? "-" : getCardString(k);
@@ -2036,18 +1957,18 @@ void Problem::adjustPbnInfo() {
 
 	if (noTrumpOrContract()) {
 		j = 0;
-	}
-	else {
+	} else {
 		it = findPbnEntry(PBN_VULNERABLE_TAG);
 		assert(it != m_pbnEntry.end());
-		k = INDEX_OF_NO_CASE(it->value,VULNERABLE);
+		k = INDEX_OF_NO_CASE(it->value, VULNERABLE);
 
-		j = countBridgeScore(m_contract, m_trump, result, i, getDeclarerInt(), k);
+		j = countBridgeScore(m_contract, m_trump, result, i, getDeclarerInt(),
+				k);
 	}
 
 	it = findPbnEntry(PBN_SCORE_TAG);		//sometimes not found
 	if (it != m_pbnEntry.end()) {
-		i = INDEX_OF_NO_CASE(it->value.substr(0, 2),SCORE );
+		i = INDEX_OF_NO_CASE(it->value.substr(0, 2), SCORE);
 		assert(i>=0 && i<SIZEI(SCORE));
 		if (getDeclarerInt() % 2 != i) {
 			j = -j;
@@ -2068,8 +1989,7 @@ void Problem::adjustPbnInfo() {
 			}
 			if (doubleRedouble == 1) {
 				add += "X ";
-			}
-			else if (doubleRedouble == 2) {
+			} else if (doubleRedouble == 2) {
 				add += "XX ";
 			}
 
@@ -2087,22 +2007,23 @@ void Problem::adjustPbnInfo() {
 }
 
 bool Problem::isSolveAllDealsEnable() const {
-	if(think()){
+	if (think()) {
 		return false;
 	}
 
 	CARD_INDEX c[2];
-	if(isBridge()){
-		c[0]=isBridgeSolveAllDealsAbsentNS() ? CARD_INDEX_NORTH:CARD_INDEX_EAST;
-		c[1]=getBridgePartner(c[0]);
-	}
-	else{
-		c[0]=getNextPlayer(m_player);
-		c[1]=getNextPlayer(c[0]);
+	if (isBridge()) {
+		c[0] = isBridgeSolveAllDealsAbsentNS() ?
+				CARD_INDEX_NORTH : CARD_INDEX_EAST;
+		c[1] = getBridgePartner(c[0]);
+	} else {
+		c[0] = getNextPlayer(m_player);
+		c[1] = getNextPlayer(c[0]);
 	}
 	//valid deal and players with unknown cards have at least one card
-	auto&s=getState();
-	return (s.countCards(c[0])>0 || s.countCards(c[1])>0) && getDealState()==DEAL_STATE_VALID;
+	auto &s = getState();
+	return (s.countCards(c[0]) > 0 || s.countCards(c[1]) > 0)
+			&& getDealState() == DEAL_STATE_VALID;
 }
 
 void Problem::setAbsent(CARD_INDEX absent) {
@@ -2120,20 +2041,18 @@ void Problem::setAbsent(CARD_INDEX absent) {
 CARD_INDEX Problem::getPlayer(CARD_INDEX player, bool next, int count) const {
 	if (m_gameType == BRIDGE) {
 		return getBridgePlayer(player, next, count);
-	}
-	else {
+	} else {
 		return getPlayerForArray(player, m_preferansPlayer, 3, next, count);
 	}
 }
 
 CARD_INDEX Problem::getBasePlayer() const {
-	return
-			isPreferans() && m_absent == CARD_INDEX_WEST ?
-					CARD_INDEX_EAST : CARD_INDEX_WEST;
+	return isPreferans() && m_absent == CARD_INDEX_WEST ?
+			CARD_INDEX_EAST : CARD_INDEX_WEST;
 }
 
-void Problem::getClearCid(CARD_INDEX*cid) const {
-	State const& state = getState();
+void Problem::getClearCid(CARD_INDEX *cid) const {
+	State const &state = getState();
 	for (int i = 0; i < 52; i++) {
 		cid[i] =
 				isTableFull() && isInner(state.m_cid[i]) ?
@@ -2142,10 +2061,9 @@ void Problem::getClearCid(CARD_INDEX*cid) const {
 }
 
 CARD_INDEX Problem::getDeclarer() const {
-	if(m_gameType == BRIDGE){
+	if (m_gameType == BRIDGE) {
 		return getPreviousPlayer(getVeryFirstMove());
-	}
-	else{
+	} else {
 		return m_player;
 	}
 }

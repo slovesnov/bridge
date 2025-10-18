@@ -5,7 +5,7 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2020-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 #include <cstring>
@@ -36,15 +36,16 @@ bool south(CARD_INDEX i) {
 	return i == CARD_INDEX_SOUTH;
 }
 
-std::string binaryCodeString(int c, int miminumPrintBits /*= 0*/,char separator/*='_'*/) {
+std::string binaryCodeString(int c, int miminumPrintBits /*= 0*/,
+		char separator/*='_'*/) {
 	assert(miminumPrintBits<=32);
-	const int f=64;
-	char b[128], h[50], *pb=b+f, *ph=h;
-	itoa(c, b+f, 2);
-	int i,l = strlen(b+f);
-	if (miminumPrintBits && (i=miminumPrintBits-l)>0 ) {
-		memset(b+f-i, '0', i);
-		pb-=i;
+	const int f = 64;
+	char b[128], h[50], *pb = b + f, *ph = h;
+	itoa(c, b + f, 2);
+	int i, l = strlen(b + f);
+	if (miminumPrintBits && (i = miminumPrintBits - l) > 0) {
+		memset(b + f - i, '0', i);
+		pb -= i;
 	}
 	l = strlen(pb) & 1;
 	for (i = 0; *pb != 0; i++) {

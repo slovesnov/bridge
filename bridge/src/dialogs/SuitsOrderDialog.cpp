@@ -5,20 +5,21 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "../Frame.h"
 #include "../Toolbar.h"
 #include "SuitsOrderDialog.h"
 
-static gboolean combo_changed(GtkWidget *w, SuitsOrderDialog* d) {
+static gboolean combo_changed(GtkWidget *w, SuitsOrderDialog *d) {
 	d->comboChanged(w);
 	return TRUE;
 }
 
 SuitsOrderDialog::SuitsOrderDialog() :
-		ButtonsDialog(MENU_SUITS_ORDER, BUTTONS_DIALOG_OK_CANCEL_RESTORE_DEFAULT) {
+		ButtonsDialog(MENU_SUITS_ORDER,
+				BUTTONS_DIALOG_OK_CANCEL_RESTORE_DEFAULT) {
 	unsigned i;
 	char b[16];
 	GtkWidget *hbox, *label, *border, *radioButton, *combobox;
@@ -36,7 +37,8 @@ SuitsOrderDialog::SuitsOrderDialog() :
 		gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 2);
 
 		m_combo[i] = combobox = createImageCombobox();
-		gtk_combo_box_set_model(GTK_COMBO_BOX(combobox), createTrumpModel(true));
+		gtk_combo_box_set_model(GTK_COMBO_BOX(combobox),
+				createTrumpModel(true));
 		gtk_combo_box_set_active(GTK_COMBO_BOX(combobox), getSuitsOrder(i));
 		g_signal_connect(combobox, "changed", G_CALLBACK(combo_changed),
 				gpointer(this));
@@ -53,8 +55,7 @@ SuitsOrderDialog::SuitsOrderDialog() :
 		if (i == 0) {
 			radioButton = gtk_radio_button_new(NULL);
 			rb = GTK_RADIO_BUTTON(radioButton);
-		}
-		else {
+		} else {
 			radioButton = gtk_radio_button_new_from_widget(rb);
 		}
 		m_radio[i] = radioButton;
@@ -65,7 +66,8 @@ SuitsOrderDialog::SuitsOrderDialog() :
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radioButton), TRUE);
 		}
 
-		img = image( std::string(i == 0 ? "ascending" : "descending")+"32.png");
+		img = image(
+				std::string(i == 0 ? "ascending" : "descending") + "32.png");
 		gtk_container_add(GTK_CONTAINER(hbox), img);
 
 	}
@@ -108,8 +110,8 @@ bool SuitsOrderDialog::click(int index) {
 	return true;
 }
 
-void SuitsOrderDialog::comboChanged(GtkWidget* w) {
-	int n = INDEX_OF(w,m_combo);
+void SuitsOrderDialog::comboChanged(GtkWidget *w) {
+	int n = INDEX_OF(w, m_combo);
 	int suit = gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[n]));
 	int i, notFound = 0;
 	bool found[4];
@@ -127,7 +129,9 @@ void SuitsOrderDialog::comboChanged(GtkWidget* w) {
 	}
 
 	for (i = 0; i < 4; i++) {
-		if (i != n && gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[i])) == suit) {
+		if (i != n
+				&& gtk_combo_box_get_active(GTK_COMBO_BOX(m_combo[i]))
+						== suit) {
 			gtk_combo_box_set_active(GTK_COMBO_BOX(m_combo[i]), notFound);
 			break;
 		}

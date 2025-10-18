@@ -5,16 +5,15 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2020-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
-	int i3, v3, t3, r3, rc3;
-	USC sc3;
+int i3, v3, t3, r3, rc3;
+USC sc3;
 
-	#ifdef BRIDGE_NODE_COUNT
+#ifdef BRIDGE_NODE_COUNT
 	m_nodes++;
 	#endif
-
 
 #ifdef BRIDGE_ENDGAME
 //	if(m_depth<endgameN+1){
@@ -226,57 +225,55 @@
 	else{
 #endif
 
-		bool mask3[13];
-		bool further_count3=true;
+bool mask3[13];
+bool further_count3 = true;
 
-		for (i3 = 0; i3 < c3.length; i3++) {
-			mask3[i3]=1;
-			sc3=c3[i3];
-			r3  = sc3.c;
+for (i3 = 0; i3 < c3.length; i3++) {
+	mask3[i3]=1;
+	sc3=c3[i3];
+	r3 = sc3.c;
 
-	#define r0 sc0.c
-			ADJUST_RANK(3,0)
-			ADJUST_RANK(3,1)
-			ADJUST_RANK(3,2)
-	#undef r0
+#define r0 sc0.c
+	ADJUST_RANK(3,0)
+	ADJUST_RANK(3,1)
+	ADJUST_RANK(3,2)
+#undef r0
 
-			REMOVE_CARD(3)
+	REMOVE_CARD(3)
 
-	#define t t3
-			SETT;
-	#undef t
+#define t t3
+	SETT;
+#undef t
 
-			m_depth--;
+	m_depth--;
 
-			if ( t3%2==1) {
-				v3 = 1;
-				v3 += ep(w+t3, a3 - v3);
-			}
-			else {
-				v3 = -1;
-				v3 -= ep(w+t3, a2+ v3);
-			}
-			m_depth++;
+	if ( t3%2==1) {
+		v3 = 1;
+		v3 += ep(w+t3, a3 - v3);
+	}
+	else {
+		v3 = -1;
+		v3 -= ep(w+t3, a2+ v3);
+	}
+	m_depth++;
 
-			RESTORE_CARD(3);
-			if(v3!=101 && v3!=-101) {
-				if (v3 > a3) {
-					further_count3=false;
-			#ifdef STOREBEST
+	RESTORE_CARD(3);
+	if(v3!=101 && v3!=-101) {
+		if (v3 > a3) {
+			further_count3=false;
+#ifdef STOREBEST
 					SET_BEST(3)
 			#endif
-					a3 = v3;
-					break;
-				}
-				else{
-					mask3[i3]=0;
-				}
-			}
+			a3 = v3;
+			break;
 		}
+		else {
+			mask3[i3]=0;
+		}
+	}
+}
 
-
-
-if(further_count3){
+if(further_count3) {
 //#ifdef BRIDGE_ENDGAME
 //	//TODO
 //	if(m_depth==endgameN+1){
@@ -285,11 +282,11 @@ if(further_count3){
 //	}
 //#endif
 	for (i3 = 0; i3 < c3.length; i3++) {
-		if(!mask3[i3]){
+		if(!mask3[i3]) {
 			continue;
 		}
 		sc3=c3[i3];
-		r3  = sc3.c;
+		r3 = sc3.c;
 
 #define r0 sc0.c
 		ADJUST_RANK(3,0)
@@ -326,14 +323,14 @@ if(further_count3){
 
 		if (v3 > a3) {
 
-	#ifdef STOREBEST
+#ifdef STOREBEST
 			SET_BEST(3)
 	#endif
 			a3 = v3;
 			break;
 		}
 	}
-}//further_count3
+} //further_count3
 #ifdef CUT4LASTLAYERS
 	}
 #endif //CUT4LASTLAYERS

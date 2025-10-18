@@ -5,14 +5,14 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "../Frame.h"
 #include "AboutDialog.h"
 
 static gboolean label_clicked(GtkWidget *label, const gchar *uri,
-		AboutDialog*d) {
+		AboutDialog *d) {
 	d->click(label);
 	return TRUE;
 }
@@ -22,26 +22,27 @@ AboutDialog::AboutDialog() :
 	int i;
 	GtkWidget *box, *hbox, *label, *g;
 	bool link;
-	VString v;
+	VString v, q;
 	Pixbuf pb, np;
 	std::string s;
 	const CSize LMARGIN(5, 0);
-	const int spacing=5;
+	const int spacing = 5;
 
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	v = split(getString(STRING_ABOUT), "\n");
 	v.push_back(getBuildVersionString(false));
-	v.push_back("executable file size " + toString(getApplicationFileSize(),','));
+	v.push_back(
+			"executable file size " + toString(getApplicationFileSize(), ','));
 
 	i = (getArea().getTextExtents(
 			TextWithAttributes::createUnderlinedText("Qy")).cy + 2 * LMARGIN.cy)
-			* v.size()-spacing;
-	if(i%2==1){
+			* v.size() - spacing;
+	if (i % 2 == 1) {
 		i--;
 	}
-	createSvgSuits(i/2);
+	createSvgSuits(i / 2);
 
-	const int T[]={1,0,3,2};
+	const int T[] = { 1, 0, 3, 2 };
 	g = gtk_grid_new();
 	gtk_grid_set_row_spacing(GTK_GRID(g), spacing);
 	gtk_grid_set_row_spacing(GTK_GRID(g), spacing);
@@ -51,26 +52,33 @@ AboutDialog::AboutDialog() :
 	}
 
 	char *markup;
-	i=0;
-	for (auto a: v) {
-		link = i == 5;
+	i = 0;
+	for (auto a : v) {
+		link = i == 4;
 		//Note mailto:... works incorrect. Background window with error appears.
-		const char *format = link ? "<a href=\"#\">\%s</a>" : "%s";
+		if (link) {
+			q = split(a, "#");
+		}
 
-		label = gtk_label_new("");
-		m_label.push_back(label);
-		markup = g_markup_printf_escaped(format, a.c_str());
-		gtk_label_set_markup(GTK_LABEL(label), markup);
-		g_free(markup);
-
+		label = gtk_label_new((link ? q[0] : a).c_str());
 		gtk_label_set_xalign(GTK_LABEL(label), 0);
 		gtk_widget_set_margin_start(label, LMARGIN.cx);
 		gtk_widget_set_margin_end(label, LMARGIN.cx);
-		gtk_container_add(GTK_CONTAINER(box), label);
+
 		if (link) {
+			hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, spacing);
+			gtk_container_add(GTK_CONTAINER(hbox), label);
+			label = gtk_label_new("");
+			gtk_container_add(GTK_CONTAINER(hbox), label);
+			markup = g_markup_printf_escaped("<a href=\"#\">\%s</a>",
+					q[1].c_str());
+			gtk_label_set_markup(GTK_LABEL(label), markup);
+			g_free(markup);
 			g_signal_connect(label, "activate-link", G_CALLBACK(label_clicked),
 					gpointer(this));
 		}
+
+		gtk_container_add(GTK_CONTAINER(box), link ? hbox : label);
 
 		/* label style in css if need later
 		 dialog.background.solid-csd box.vertical.dialog-vbox box.horizontal box.vertical label{
@@ -88,8 +96,8 @@ AboutDialog::AboutDialog() :
 	show();
 }
 
-void AboutDialog::click(GtkWidget* label) {
-	openURL(BASE_ADDRESS);
+void AboutDialog::click(GtkWidget *label) {
+	openHomepage();
 }
 
 void AboutDialog::createSvgSuits(int size) {

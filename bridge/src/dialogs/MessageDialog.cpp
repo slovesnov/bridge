@@ -5,22 +5,22 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "MessageDialog.h"
 #include "../Frame.h"
 
-static MessageDialog* pd;
+static MessageDialog *pd;
 
-static const char* IMG[] = { "ok24.png", "cancel24.png" };
+static const char *IMG[] = { "ok24.png", "cancel24.png" };
 
 static void button_clicked(GtkWidget *widget, int i) {
 	pd->clickButton(i);
 }
 
-MessageDialog::MessageDialog(MESSAGE_ICON_TYPE iconType, const char* s,
-		BUTTONS_DIALOG_TYPE type, Widget* parent) :
+MessageDialog::MessageDialog(MESSAGE_ICON_TYPE iconType, const char *s,
+		BUTTONS_DIALOG_TYPE type, Widget *parent) :
 		ButtonsDialog(MENU_INVALID, type, parent, true) {
 	GtkWidget *w, *w1;
 
@@ -34,8 +34,7 @@ MessageDialog::MessageDialog(MESSAGE_ICON_TYPE iconType, const char* s,
 	if (sz.cx > 800) {
 		width = 800;
 		height = sz.cy * sz.cx / width;
-	}
-	else {
+	} else {
 		width = sz.cx;
 		height = sz.cy;
 	}
@@ -52,7 +51,7 @@ MessageDialog::MessageDialog(MESSAGE_ICON_TYPE iconType, const char* s,
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(w1));
 //	gtk_text_buffer_set_text(buffer, s, -1);
 
-	//markup for SolveAllDealsDialog
+//markup for SolveAllDealsDialog
 	GtkTextIter iter;
 	gtk_text_buffer_get_iter_at_offset(buffer, &iter, 0);
 	gtk_text_buffer_insert_markup(buffer, &iter, s, -1);
@@ -60,12 +59,11 @@ MessageDialog::MessageDialog(MESSAGE_ICON_TYPE iconType, const char* s,
 	w = gtk_scrolled_window_new(NULL, NULL);
 	gtk_container_add(GTK_CONTAINER(w), w1);
 	//+1 somehow ProblemVector::showError() not fully showed don't know why
-	gtk_widget_set_size_request(w, width+1, height);
+	gtk_widget_set_size_request(w, width + 1, height);
 
 	if (iconType == MESSAGE_ICON_NONE) {
 		w1 = w;
-	}
-	else {
+	} else {
 		w1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
 		gtk_container_add(GTK_CONTAINER(w1),
 				image(IMG[iconType == MESSAGE_ICON_ERROR])); //no stretch
@@ -77,8 +75,8 @@ MessageDialog::MessageDialog(MESSAGE_ICON_TYPE iconType, const char* s,
 	show();
 }
 
-MessageDialog::MessageDialog(const VParseException& e, BUTTONS_DIALOG_TYPE type,
-		Widget* parent) :
+MessageDialog::MessageDialog(const VParseException &e, BUTTONS_DIALOG_TYPE type,
+		Widget *parent) :
 		ButtonsDialog(MENU_INVALID, type, parent) {
 	GtkWidget *w, *g;
 	int i, j;
@@ -92,7 +90,8 @@ MessageDialog::MessageDialog(const VParseException& e, BUTTONS_DIALOG_TYPE type,
 	gtk_grid_set_column_spacing(GTK_GRID(g), 3);
 	gtk_grid_set_row_spacing(GTK_GRID(g), 3);
 
-	w = gtk_label_new(getString(STRING_ERRORS_WAS_FOUND_DURING_FILE_PROCEEDING));
+	w = gtk_label_new(
+			getString(STRING_ERRORS_WAS_FOUND_DURING_FILE_PROCEEDING));
 	gtk_grid_attach(GTK_GRID(g), w, 0, 0, 4, 1);
 
 	i = 0;
@@ -108,8 +107,8 @@ MessageDialog::MessageDialog(const VParseException& e, BUTTONS_DIALOG_TYPE type,
 	w = gtk_label_new(getString(MENU_VIEW));
 	gtk_grid_attach(GTK_GRID(g), w, i++, 1, 1, 1);
 
-	j=2;
-	for ( auto& a: e) {
+	j = 2;
+	for (auto &a : e) {
 		i = 0;
 		w = gtk_label_new(getFileInfo(a.m_parseFile, FILEINFO::NAME).c_str());
 		gtk_grid_attach(GTK_GRID(g), w, i++, j, 1, 1);
@@ -148,8 +147,7 @@ MessageDialog::MessageDialog(const VParseException& e, BUTTONS_DIALOG_TYPE type,
 
 		hide(); //if not call hide() position of window is bad
 
-	}
-	else {
+	} else {
 		gtk_container_add(GTK_CONTAINER(getContentArea()), g);
 	}
 

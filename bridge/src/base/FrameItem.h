@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef FRAMEITEM_H_
@@ -16,7 +16,7 @@
 class FrameItem: public Widget {
 
 public:
-	FrameItem(GtkWidget*widget);
+	FrameItem(GtkWidget *widget);
 	virtual ~FrameItem();
 	virtual void updateAfterCreation()=0; //update item when all objects are created
 	virtual void updateEdit() {

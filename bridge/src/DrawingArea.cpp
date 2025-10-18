@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "DrawingArea.h"
@@ -35,13 +35,8 @@ Preferans preferans;
  */
 
 //#define BRIDGE_BEST_MULTITHREAD
-
-const CARD_INDEX OUTER_REGION[] = {
-		CARD_INDEX_ABSENT,
-		CARD_INDEX_NORTH,
-		CARD_INDEX_EAST,
-		CARD_INDEX_SOUTH,
-		CARD_INDEX_WEST };
+const CARD_INDEX OUTER_REGION[] = { CARD_INDEX_ABSENT, CARD_INDEX_NORTH,
+		CARD_INDEX_EAST, CARD_INDEX_SOUTH, CARD_INDEX_WEST };
 
 /* number of steps should be PREFERANS_SOLVE_ALL_DEALS_STEPS%CORES=0 to get max processor loading
  * usually cores=2,4,6,8 so PREFERANS_SOLVE_ALL_DEALS_STEPS%24=0 is good solution
@@ -51,7 +46,7 @@ const int PREFERANS_SOLVE_ALL_DEALS_STEPS = 48;
 
 const GdkRGBA ESTIMATE_COLOR = { 1, 1, 204. / 255, 1 };
 const int TABLE_ROUND_CORNER_SIZE = 48;
-DrawingArea* gdraw;
+DrawingArea *gdraw;
 
 static gpointer solve_thread(gpointer data) {
 	gdraw->solveThread((Problem*) data);
@@ -112,8 +107,8 @@ static gboolean update_inside_region_thread(gpointer) {
 }
 
 static gboolean make_move_thread(gpointer data) {
-	int i=GP2INT(data);
-	gdraw->makeMove(i&0xff,i>>8);
+	int i = GP2INT(data);
+	gdraw->makeMove(i & 0xff, i >> 8);
 	return G_SOURCE_REMOVE;
 }
 
@@ -129,8 +124,7 @@ static gboolean mouse_press_event(GtkWidget *widget, GdkEventButton *event,
 	//event->button =3 right mouse button
 	if (event->button == 1) {
 		gdraw->mouseLeftButtonDown(event);
-	}
-	else if (event->button == 3) {
+	} else if (event->button == 3) {
 		//only one click
 		if (event->type != GDK_DOUBLE_BUTTON_PRESS && gdraw->isValidDeal()) {
 			gdraw->menuClick(MENU_FIND_BEST_MOVE);//do all calls using menuClick, because of additional functions, for example hide ProblemSelector
@@ -164,7 +158,7 @@ DrawingArea::DrawingArea() :
 		FrameItemArea() {
 
 	gdraw = this;
-	m_solveThread=0;
+	m_solveThread = 0;
 	m_vSolveAll.resize(getMaxRunThreads());
 
 	m_selectedCard = -1;
@@ -174,14 +168,14 @@ DrawingArea::DrawingArea() :
 	m_lastRegion = CARD_INDEX_NORTH;//click with control moves cards to NORTH by default
 
 	m_timer = 0;
-	m_animationTimer=0;
+	m_animationTimer = 0;
 	m_startTime = 0;
 	m_estimateFontHeight = 1;
 
 	m_animationStep = 0;
 
-	m_pstate=0;
-	m_pstateSize=0;
+	m_pstate = 0;
+	m_pstateSize = 0;
 
 	g_mutex_init(&m_mutex);
 	g_cond_init(&m_condition);
@@ -190,8 +184,8 @@ DrawingArea::DrawingArea() :
 
 	//enable mouse down & up & motion
 	gtk_widget_add_events(getWidget(),
-			GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK
-					| GDK_LEAVE_NOTIFY_MASK);
+			GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK
+					| GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK);
 	g_signal_connect(getWidget(), "button_press_event",
 			G_CALLBACK(mouse_press_event), NULL);
 	g_signal_connect(getWidget(), "button-release-event",
@@ -220,8 +214,7 @@ void DrawingArea::draw() {
 	if (m_tableRect.top == 0) {
 		drawHorizontalLine(m_tableRect.left + TABLE_ROUND_CORNER_SIZE, 0,
 				m_tableRect.right - TABLE_ROUND_CORNER_SIZE);
-	}
-	else {
+	} else {
 		drawHorizontalLine(0, m_tableRect.top, m_windowSize.cx);
 	}
 
@@ -233,7 +226,7 @@ void DrawingArea::draw() {
 
 	x = m_tableRect.left;
 	y = m_tableRect.top;
-	cairo_t* cr=m_cs;
+	cairo_t *cr = m_cs;
 	cairo_new_sub_path(cr);
 	double x1 = x + m_tableRect.width() - TABLE_ROUND_CORNER_SIZE;
 	double y1 = y + TABLE_ROUND_CORNER_SIZE + .5;
@@ -241,8 +234,8 @@ void DrawingArea::draw() {
 	double y2 = y + m_tableRect.height() + 1 - TABLE_ROUND_CORNER_SIZE - .5;
 	cairo_arc(cr, x1, y1, TABLE_ROUND_CORNER_SIZE, -G_PI / 2, 0);	//top right
 	cairo_arc(cr, x1, y2, TABLE_ROUND_CORNER_SIZE, 0, G_PI / 2);//bottom right
-	cairo_arc(cr, x2, y2, TABLE_ROUND_CORNER_SIZE, G_PI / 2, G_PI);//bottom left
-	cairo_arc(cr, x2, y1, TABLE_ROUND_CORNER_SIZE, G_PI, 3 * G_PI / 2);//top left
+	cairo_arc(cr, x2, y2, TABLE_ROUND_CORNER_SIZE, G_PI / 2, G_PI);	//bottom left
+	cairo_arc(cr, x2, y1, TABLE_ROUND_CORNER_SIZE, G_PI, 3 * G_PI / 2);	//top left
 	cairo_stroke(cr);
 
 	updateAllRegions();
@@ -288,8 +281,7 @@ void DrawingArea::updateRegion(CARD_INDEX index, bool paint) {
 			drawText(TextWithAttributes(s), x, y);
 			i++;
 		}
-	}
-	else if (index >= CARD_INDEX_NORTH && index <= CARD_INDEX_WEST) {
+	} else if (index >= CARD_INDEX_NORTH && index <= CARD_INDEX_WEST) {
 		updateTricks(index, paint);
 	}
 
@@ -335,7 +327,7 @@ void DrawingArea::updateTricks(CARD_INDEX index, bool paint) {
 		return;
 	}
 
-	int i,j;
+	int i, j;
 	bool underline = isPreferans() && getPlayer() == index;
 	double x, y;
 	CSize sz;
@@ -348,7 +340,7 @@ void DrawingArea::updateTricks(CARD_INDEX index, bool paint) {
 		sz = getTextExtents(text);
 		update = CRect(CPoint(x, y + 1), sz);
 		if (index == CARD_INDEX_EAST) {
-			j=m_tableRect.right+m_tableRect.left;
+			j = m_tableRect.right + m_tableRect.left;
 			if (update.right > j) {
 				update.right = j;
 			}
@@ -367,7 +359,7 @@ void DrawingArea::updateTricks(CARD_INDEX index, bool paint) {
 
 }
 
-bool DrawingArea::pointInCaption(CARD_INDEX index, GdkEventButton* event) {
+bool DrawingArea::pointInCaption(CARD_INDEX index, GdkEventButton *event) {
 	int i = 0;
 	CSize sz;
 	double x, y;
@@ -382,18 +374,18 @@ bool DrawingArea::pointInCaption(CARD_INDEX index, GdkEventButton* event) {
 	return false;
 }
 
-void DrawingArea::getCaptionPoint(CARD_INDEX index, int piece, double&x,
-		double&y) {
+void DrawingArea::getCaptionPoint(CARD_INDEX index, int piece, double &x,
+		double &y) {
 	auto i = getRealRegion(index);
 	auto v = getCaptions(index);
 	assert(piece < int(v.size()));
-	CSize sz = getTextExtents(TextWithAttributes::createUnderlinedText(v[piece]));
+	CSize sz = getTextExtents(
+			TextWithAttributes::createUnderlinedText(v[piece]));
 
 	if (eastOrWest(i)) {
 		if (index == CARD_INDEX_ABSENT) {
 			x = (m_tableRect.left - sz.cx) / 2;
-		}
-		else {
+		} else {
 			assert((!piece) < int(v.size()));
 			int wo = getTextExtents(
 					TextWithAttributes::createUnderlinedText(v[!piece])).cx;
@@ -416,8 +408,7 @@ void DrawingArea::getCaptionPoint(CARD_INDEX index, int piece, double&x,
 		y = (m_tableRect.top - sz.cy) / 2;
 		if (isBridge()) {
 			y += m_tableRect.bottom + m_tableRect.top;
-		}
-		else if (i == CARD_INDEX_SOUTH) {
+		} else if (i == CARD_INDEX_SOUTH) {
 			y += m_tableRect.bottom;
 		}
 		return;
@@ -430,8 +421,7 @@ void DrawingArea::getCaptionPoint(CARD_INDEX index, int piece, double&x,
 		if (piece == 1) {
 			y += sz.cy;
 		}
-	}
-	else {
+	} else {
 		y += (m_tableTop - sz.cy) / 2;
 	}
 }
@@ -443,8 +433,7 @@ VString DrawingArea::getCaptions(CARD_INDEX index) {
 		if (isPreferans() && eastOrWest(getAbsent())) {
 			s = getString(STRING_ROTATE_BY_90_DEGREES);
 			v.push_back(s);
-		}
-		else {
+		} else {
 			s = getString(STRING_DRAG_ABSENT_CARDS_HERE);
 			if (isPreferans()) {
 				s += "\n";
@@ -452,8 +441,7 @@ VString DrawingArea::getCaptions(CARD_INDEX index) {
 			}
 			v.push_back(s);
 		}
-	}
-	else {
+	} else {
 		/*return always 2 strings even not show every player tricks
 		 2nd string uses to count coordinates of first string in vector
 		 */
@@ -464,7 +452,9 @@ VString DrawingArea::getCaptions(CARD_INDEX index) {
 		 */
 		v.push_back(
 				getString(STRING_TRICKS)
-						+ format(" %d", isPreferans() && getAbsent() == index ? 0 : getTricks(index)));
+						+ format(" %d",
+								isPreferans() && getAbsent() == index ?
+										0 : getTricks(index)));
 	}
 	return v;
 }
@@ -511,8 +501,7 @@ void DrawingArea::updateInsideRegion() {
 			if (isBridge()) {
 				k = i == 0 ? 1 : 0;
 				j = getState().m_tricks[k] + getState().m_tricks[k + 2];
-			}
-			else {
+			} else {
 				for (j = k = 0; k < 3; k++) {
 					if ((i == 0 && getPreferansPlayer(k) == getPlayer())
 							|| (i != 0 && getPreferansPlayer(k) != getPlayer())) {
@@ -522,8 +511,9 @@ void DrawingArea::updateInsideRegion() {
 			}
 			//Note background has the same color for all skins, so for tricks text always is black
 			drawText(
-					TextWithAttributes::createAllTricksText(j, i == 0 && isPreferans()),
-					m_totalTricksRect[i], true, true);
+					TextWithAttributes::createAllTricksText(j,
+							i == 0 && isPreferans()), m_totalTricksRect[i],
+					true, true);
 		}
 	}
 
@@ -547,7 +537,8 @@ CRect DrawingArea::getRegionRect(CARD_INDEX index) {
 		return CRect(
 				CPoint(
 						(i == CARD_INDEX_WEST ? 0 : m_tableRect.right + 1)
-								+ gconfig->m_eastWestCardsMargin, m_tableRect.top + 1),
+								+ gconfig->m_eastWestCardsMargin,
+						m_tableRect.top + 1),
 				CSize(m_tableRect.left - 2 * gconfig->m_eastWestCardsMargin,
 						m_tableRect.height() - 1));
 
@@ -555,11 +546,9 @@ CRect DrawingArea::getRegionRect(CARD_INDEX index) {
 		if (i == CARD_INDEX_ABSENT) {
 			y = m_tableRect.bottom + 1 + (m_tableRect.top + 1);
 			assert(isBridge());
-		}
-		else if (i == CARD_INDEX_NORTH) {
+		} else if (i == CARD_INDEX_NORTH) {
 			y = 0;
-		}
-		else {	//SOUTH_INDEX
+		} else {	//SOUTH_INDEX
 			y = m_tableRect.bottom + 1;
 		}
 		//m_windowSize.cx-1 - because of separation line between area & last trick/description
@@ -567,7 +556,7 @@ CRect DrawingArea::getRegionRect(CARD_INDEX index) {
 	}
 }
 
-void DrawingArea::mouseLeftButtonDown(GdkEventButton* event) {
+void DrawingArea::mouseLeftButtonDown(GdkEventButton *event) {
 	if (think()) {
 		return;
 	}
@@ -631,7 +620,8 @@ void DrawingArea::mouseLeftButtonDown(GdkEventButton* event) {
 	//click on card //pull cards & setup new problem
 	i = m_selectedCard;
 
-	if (m_selectedCard != -1 && isOuterOrAbsent(i) && m_cardrect[i].in(event) && (//if turns are already done then turn can do only where arrow shows
+	if (m_selectedCard != -1 && isOuterOrAbsent(i) && m_cardrect[i].in(event)
+			&& (//if turns are already done then turn can do only where arrow shows
 			isEditEnable() || getState().m_cid[i] > CARD_INDEX_WEST
 					|| (!isEditEnable() && getState().m_cid[i] == getNextMove()))) {
 		if (m_selectedCard != -1) {
@@ -653,23 +643,22 @@ void DrawingArea::mouseLeftButtonDown(GdkEventButton* event) {
 
 		if (getState().m_cid[i] > CARD_INDEX_WEST) {
 			updateInsideRegion();
-		}
-		else {
+		} else {
 			updateRegion(getState().m_cid[i]);
 			mouseMove(event);
 		}
 	}
 
 	//click on one of inner cards -> makes some undos
-	i=countUndos(event);
-	if(i>0){
+	i = countUndos(event);
+	if (i > 0) {
 		undoRedo(true, false, i);
 		return;
 	}
 
 }
 
-void DrawingArea::mouseMove(GdkEventButton* event) {
+void DrawingArea::mouseMove(GdkEventButton *event) {
 	if (think()) {
 		return;
 	}
@@ -690,22 +679,19 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 				M(point.x, m_currentPoint.y,
 						getCardSize().cx - point.x + m_currentPoint.x,
 						point.y - m_currentPoint.y);
-			}
-			else {
+			} else {
 				M(point.x, point.y + getCardSize().cy,
 						getCardSize().cx - point.x + m_currentPoint.x,
 						getCardSize().cy - point.y + m_currentPoint.y);
 			}
-		}
-		else {
+		} else {
 			M(point.x + getCardSize().cx, m_currentPoint.y,
 					m_currentPoint.x - point.x, getCardSize().cy);
 			if (point.y >= m_currentPoint.y) {
 				M(m_currentPoint.x, m_currentPoint.y,
 						getCardSize().cx - m_currentPoint.x + point.x,
 						point.y - m_currentPoint.y);
-			}
-			else {
+			} else {
 				M(m_currentPoint.x, point.y + getCardSize().cy,
 						getCardSize().cx - m_currentPoint.x + point.x,
 						m_currentPoint.y - point.y);
@@ -731,7 +717,8 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 
 			if (m_cardrect[i].in(event)
 					&& (isOuter(i)
-							|| (isEditEnable() && getState().m_cid[i] == CARD_INDEX_ABSENT))) {
+							|| (isEditEnable()
+									&& getState().m_cid[i] == CARD_INDEX_ABSENT))) {
 				found = true;
 				if ((isEditEnable() || getNextMove() == getState().m_cid[i])
 						&& isValidTurn(i)) {
@@ -757,12 +744,9 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 		return;
 	}
 	if (region == CLICABLE_REGION_CAPTION) {
-		const STRING_ID csid[] = {
-				STRING_DECLARER,
-				STRING_MISERE_PLAYER,
+		const STRING_ID csid[] = { STRING_DECLARER, STRING_MISERE_PLAYER,
 				STRING_CLICK_TO_SWITCH_PLAYER,
-				STRING_CLICK_TO_SWITCH_MISERE_PLAYER,
-				STRING_WHISTER,
+				STRING_CLICK_TO_SWITCH_MISERE_PLAYER, STRING_WHISTER,
 				STRING_CATCHER };
 		k = isEditEnable() ? 2 : (regionIndex == getPlayer() ? 0 : 4);
 		showToolTip(csid[k + isMisere()]);
@@ -775,16 +759,16 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 		sid =
 				isBridge() ?
 						STRING_TRICKS_OF_WEST_AND_EAST :
-						(isMisere() ? STRING_TRICKS_OF_MISERE_PLAYER : STRING_TRICKS_OF_PLAYER);
+						(isMisere() ?
+								STRING_TRICKS_OF_MISERE_PLAYER :
+								STRING_TRICKS_OF_PLAYER);
 		showToolTip(sid);
 		return;
-	}
-	else if (region == CLICABLE_REGION_CAPTION_VERTICAL_TRICKS) {
-		sid =
-				isBridge() ?
-						STRING_TRICKS_OF_NORTH_AND_SOUTH :
-						(isMisere() ?
-								STRING_TRICKS_OF_CATCHERS : STRING_TRICKS_OF_WHISTERS);
+	} else if (region == CLICABLE_REGION_CAPTION_VERTICAL_TRICKS) {
+		sid = isBridge() ?
+				STRING_TRICKS_OF_NORTH_AND_SOUTH :
+				(isMisere() ?
+						STRING_TRICKS_OF_CATCHERS : STRING_TRICKS_OF_WHISTERS);
 		showToolTip(sid);
 		return;
 	}
@@ -795,12 +779,12 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 		return;
 	}
 
-	if(region==CLICABLE_REGION_UNDO_MOVE){
+	if (region == CLICABLE_REGION_UNDO_MOVE) {
 		showToolTip(STRING_CLICK_TO_UNDO_MOVE);
 		return;
 	}
 
-	if(region==CLICABLE_REGION_UNDO_MOVES){
+	if (region == CLICABLE_REGION_UNDO_MOVES) {
 		showToolTip(STRING_CLICK_TO_UNDO_MOVES);
 		return;
 	}
@@ -809,7 +793,7 @@ void DrawingArea::mouseMove(GdkEventButton* event) {
 
 }
 
-void DrawingArea::mouseLeave(GdkEventCrossing* event) {
+void DrawingArea::mouseLeave(GdkEventCrossing *event) {
 	if (think()) {
 		return;
 	}
@@ -830,7 +814,7 @@ void DrawingArea::mouseLeave(GdkEventCrossing* event) {
 	}
 }
 
-void DrawingArea::mouseLeftButtonUp(GdkEventButton* event) {
+void DrawingArea::mouseLeftButtonUp(GdkEventButton *event) {
 	if (think()) {
 		return;
 	}
@@ -867,21 +851,20 @@ void DrawingArea::mouseLeftButtonUp(GdkEventButton* event) {
 				if ((event->state & GDK_CONTROL_MASK) != 0) {
 					getState().m_cid[storecurid] = m_lastRegion;
 					updateModified();
-				}
-				else {
+				} else {
 					auto base = getBasePlayer();
 
 					if (getFindBestState() == BUTTON_STATE_ENABLED
 							&& getNextMove() == getState().m_cid[storecurid]) {
 						ci = getInner(storecurid);//click on card in valid position and in arrow do a move to inside rectangle
-					}
-					else if (from == base) {
+					} else if (from == base) {
 						auto pci = isBridge() ? PLAYER[0] : getNextPlayer(base);
 
 						//j - counting to understand how many cards need to move to player
 						j = countCards(CARD_INDEX_ABSENT) / maxTableCards();
 
-						for (i = 0; i < maxTableCards(); i++, pci = getNextPlayer(pci)) {
+						for (i = 0; i < maxTableCards(); i++, pci =
+								getNextPlayer(pci)) {
 							if (countCards(pci) < getMaxHandCards() - j) {
 								ci = pci;
 								break;
@@ -890,8 +873,7 @@ void DrawingArea::mouseLeftButtonUp(GdkEventButton* event) {
 						if (isPreferans() && i == maxTableCards()) {
 							ci = CARD_INDEX_ABSENT;
 						}
-					}
-					else {
+					} else {
 						ci = base;
 					}
 
@@ -904,8 +886,7 @@ void DrawingArea::mouseLeftButtonUp(GdkEventButton* event) {
 					getState().m_cid[storecurid] = ci;
 					updateModified();
 				}
-			}
-			else {
+			} else {
 				m_lastRegion = getState().m_cid[storecurid];
 			}
 			recalcRects();
@@ -913,8 +894,7 @@ void DrawingArea::mouseLeftButtonUp(GdkEventButton* event) {
 			if (isInner(storecurid)) {
 				enableEdit(false);
 				updateInsideRegion();
-			}
-			else {
+			} else {
 				updateRegion(getState().m_cid[storecurid]);
 			}
 
@@ -936,7 +916,7 @@ void DrawingArea::mouseLeftButtonUp(GdkEventButton* event) {
 	//if pulling to inner square
 	if (isValidTurn(storecurid)) {
 		//check that position is correct at first
-		if (!isValidDeal()) {			//drag to table but position is incorrect
+		if (!isValidDeal()) {		//drag to table but position is incorrect
 			recalcRects();
 			updateRegion(from);
 			return;
@@ -964,9 +944,8 @@ void DrawingArea::setPlayer(CARD_INDEX player) {
 	getPlayer() = player;
 }
 
-
-CLICABLE_REGION DrawingArea::getClickableRegion(GdkEventButton* event,
-		CARD_INDEX& region) {
+CLICABLE_REGION DrawingArea::getClickableRegion(GdkEventButton *event,
+		CARD_INDEX &region) {
 
 	int i;
 
@@ -1011,18 +990,18 @@ CLICABLE_REGION DrawingArea::getClickableRegion(GdkEventButton* event,
 	if (isEditEnable() && gconfig->m_showCommonTricks) {
 		for (i = 0; i < SIZEI(m_totalTricksRect); i++) {
 			if (m_totalTricksRect[i].in(event)) {
-				return
-						i == 0 ?
-								CLICABLE_REGION_CAPTION_HORIZONTAL_TRICKS :
-								CLICABLE_REGION_CAPTION_VERTICAL_TRICKS;
+				return i == 0 ?
+						CLICABLE_REGION_CAPTION_HORIZONTAL_TRICKS :
+						CLICABLE_REGION_CAPTION_VERTICAL_TRICKS;
 			}
 		}
 	}
 
-	if(!think()){
-		i=countUndos(event);
-		if(i>0){
-			return i==1 ? CLICABLE_REGION_UNDO_MOVE : CLICABLE_REGION_UNDO_MOVES;
+	if (!think()) {
+		i = countUndos(event);
+		if (i > 0) {
+			return i == 1 ?
+					CLICABLE_REGION_UNDO_MOVE : CLICABLE_REGION_UNDO_MOVES;
 		}
 	}
 	return CLICABLE_REGION_NOT_FOUND;
@@ -1042,19 +1021,17 @@ void DrawingArea::redrawState() {
 void DrawingArea::undoRedo(bool undo, bool full, int count) {
 	//use ignore think versions because this function calls when computer find best move which is next
 	assert(
-			(undo && isUndoEnableIgnoreThink())
-					|| (!undo && isRedoEnableIgnoreThink()));
+			(undo && isUndoEnableIgnoreThink()) || (!undo && isRedoEnableIgnoreThink()));
 
 	if (full) {
 		getProblem().m_currentState = undo ? 0 : getProblem().m_maxState;
-	}
-	else {
+	} else {
 		getProblem().m_currentState += undo ? -count : count;
 	}
 	redrawState();
 }
 
-void DrawingArea::showCard(cairo_t * cr, int index, int x, int y) {
+void DrawingArea::showCard(cairo_t *cr, int index, int x, int y) {
 	if (index == m_selectedCard) {
 		y -= getActiveCardShift();
 	}
@@ -1063,11 +1040,10 @@ void DrawingArea::showCard(cairo_t * cr, int index, int x, int y) {
 		if (x < m_windowSize.cx - 1) {
 			//prevent right vertical line between DrawingArea and LastTrick/Description from damage
 			//it occurs when user do rotate of empty problem
-			copyFromDeck(cr, x, y, m_windowSize.cx - 1 - x, getCardSize().cy, index,
-					0, 0);
+			copyFromDeck(cr, x, y, m_windowSize.cx - 1 - x, getCardSize().cy,
+					index, 0, 0);
 		}
-	}
-	else {
+	} else {
 		copyFromDeck(cr, x, y, getCardSize().cx, getCardSize().cy, index, 0, 0);
 		showEstimation(cr, index, x, y);
 	}
@@ -1083,11 +1059,12 @@ void DrawingArea::init() {
 	//TODO not set any time only if font changed
 	setFont(m_cs, getFontHeight());
 
-	const int dx = getIndentInsideSuit() - 1;			//-1 because of card border
+	const int dx = getIndentInsideSuit() - 1;		//-1 because of card border
 
 	for (i = 2;
 			i < 2 * dx
-					&& getTextExtents(TextWithAttributes::createEstimateText("13", i)).cx
+					&& getTextExtents(
+							TextWithAttributes::createEstimateText("13", i)).cx
 							<= dx; i++)
 		;
 	m_estimateFontHeight = i - 1;
@@ -1097,42 +1074,42 @@ void DrawingArea::init() {
 }
 
 void DrawingArea::countSize(int y) {
-	int i,j,w;
+	int i, j, w;
 	std::string s;
 	//println("%d",y)
-	int height=getMaxCardSize().cy;
-	int as=getArrowSize();
-	const int tableSize =countTableSize(height,as,y);
+	int height = getMaxCardSize().cy;
+	int as = getArrowSize();
+	const int tableSize = countTableSize(height, as, y);
 	/* in case of north cards in preferans is visible m_tableTop=m_tableRect.top
 	 * otherwise m_tableTop = height of north/south regions
 	 */
 	m_tableTop = countTableTop(height);
 
 	//140dpi for smallest decks
-	cairo_t*pc=m_cs;
-	if(!pc){//for getTextExtents
+	cairo_t *pc = m_cs;
+	if (!pc) {			//for getTextExtents
 		init();
 	}
 
 	w = (maxCardsInSuit() - 1) * getIndentInsideSuit() + getMaxCardSize().cx;
 
-	for(i=0;i<2;i++){
-		s=format("%s %s 13",getString(i==0?STRING_EAST:STRING_WEST),getString(STRING_TRICKS));
-		j=getTextExtents(s).cx;
-		w=std::max(w,j);
+	for (i = 0; i < 2; i++) {
+		s = format("%s %s 13", getString(i == 0 ? STRING_EAST : STRING_WEST),
+				getString(STRING_TRICKS));
+		j = getTextExtents(s).cx;
+		w = std::max(w, j);
 	}
-
 
 	m_tableRect = CRect(
 			CPoint(2 * gconfig->m_eastWestCardsMargin + w,
 					northInvisible() ? 0 : m_tableTop),
 			CSize(tableSize, tableSize));//includes top/left lines and not includes bottom/right ones
 	m_windowSize = CSize(2 * (m_tableRect.left + 1) + tableSize,
-			countAreaHeight(height,as, y));
+			countAreaHeight(height, as, y));
 
 	//Note [for m_windowSize] -1 for sizey because we don't need include last right/lower line
 	//images was 48x36
-	i=tableSize*.16;
+	i = tableSize * .16;
 	CSize sz = { i, i * 3 / 4 };
 	//printv(tableSize,sz)
 
@@ -1184,7 +1161,8 @@ void DrawingArea::recalcRects() {
 
 		//center cards of east&west horizontally
 		const int STARTX24 = (ci == CARD_INDEX_EAST ? m_tableRect.right + 1 : 0)
-				+ (m_tableRect.left - ((maxCardsInSuit() - 1)) * getIndentInsideSuit()
+				+ (m_tableRect.left
+						- ((maxCardsInSuit() - 1)) * getIndentInsideSuit()
 						- getCardSize().cx) / 2;
 
 		r = isBridge() ? ci : getRealRegion(ci);
@@ -1192,12 +1170,12 @@ void DrawingArea::recalcRects() {
 		if (eastOrWest(r)) {
 			begin = CPoint(STARTX24,
 					m_tableRect.bottom - getCardSize().cy - 3 * AY24);
-		}
-		else {
+		} else {
 			begin.x = 0;
 
 			//center (card&selected card) vertically cards for north,south,absent regions
-			begin.y = (m_tableTop - getCardSize().cy + getActiveCardShift()) / 2;
+			begin.y = (m_tableTop - getCardSize().cy + getActiveCardShift())
+					/ 2;
 			if (ci == CARD_INDEX_ABSENT || ci == CARD_INDEX_SOUTH) {
 				begin.y += m_tableRect.bottom + 1;
 				if (ci == CARD_INDEX_ABSENT && isBridge()) {
@@ -1226,13 +1204,12 @@ void DrawingArea::recalcRects() {
 			if (eastOrWest(rid)) {
 				begin.y += AY24;
 				begin.x = STARTX24;
-			}
-			else if ((isBridge() && northOrSouth(rid))
+			} else if ((isBridge() && northOrSouth(rid))
 					|| (isPreferans() && id != CARD_INDEX_ABSENT)) {
 				if (!needAdd && begin.x != 0) {
 					needAdd = true;
-					begin.x += (gconfig->m_indentBetweenSuits - getIndentInsideSuit())
-							+ getCardSize().cx;
+					begin.x += (gconfig->m_indentBetweenSuits
+							- getIndentInsideSuit()) + getCardSize().cx;
 				}
 			}
 		}			//for(k)
@@ -1308,8 +1285,7 @@ CRect DrawingArea::getArrowRect(CARD_INDEX index) {
 void DrawingArea::setDeal(bool random) {
 	if (isMisere()) {
 		getToolbar().setMisere();
-	}
-	else {
+	} else {
 		getToolbar().setTrump(getProblem().m_trump);
 		getToolbar().setContract(getProblem().m_contract);
 	}
@@ -1325,24 +1301,20 @@ void DrawingArea::setDeal(bool random) {
 	redraw();
 }
 
-void DrawingArea::copySurface(cairo_t* cr) {
-	cairo_set_source_surface(cr, m_currentId == -1 ? m_cs : m_csEnd,
-			0, 0);
+void DrawingArea::copySurface(cairo_t *cr) {
+	cairo_set_source_surface(cr, m_currentId == -1 ? m_cs : m_csEnd, 0, 0);
 	cairo_paint(cr);
 }
-
 
 CSize DrawingArea::getSize() const {
 	CSize size(m_windowSize);
 	int c;
 	if (isBridge()) {
 		c = !isEditEnable();
-	}
-	else {
+	} else {
 		if (northOrSouth(getAbsent())) {
 			c = 1 + !isEditEnable();
-		}
-		else {
+		} else {
 			c = 1;
 		}
 	}
@@ -1358,8 +1330,7 @@ void DrawingArea::invalidateRect(gint x, gint y, gint width, gint height) {
 }
 
 CSize DrawingArea::getMaxCardSize() {
-	return
-			gconfig->m_resizeOnDeckChanged ? getCardSize() : MAX_CARD_SIZE;
+	return gconfig->m_resizeOnDeckChanged ? getCardSize() : MAX_CARD_SIZE;
 }
 
 void DrawingArea::hideArrow(bool paint) {
@@ -1370,14 +1341,14 @@ void DrawingArea::hideArrow(bool paint) {
 	}
 }
 
-void DrawingArea::findBest(const Problem* problem) {
+void DrawingArea::findBest(const Problem *problem) {
 	int i;
 	hideToolTip();
 	if (problem == NULL) {
 		if (think()) {
 			stopCountThread();
 			endSolveThread();
-			for(i=0;i<52;i++){
+			for (i = 0; i < 52; i++) {
 				if (getState().m_estimate[i] == UNKNOWN_ESTIMATE) {
 					setShowEstimation(i, ESTIMATE_CLEAR, false);
 				}
@@ -1399,13 +1370,13 @@ void DrawingArea::findBest(const Problem* problem) {
 			updateRegion(getState().m_cid[i]);
 		}
 
-		m_timer = g_timeout_add_seconds(1, timer_handler, (gpointer)0);
+		m_timer = g_timeout_add_seconds(1, timer_handler, (gpointer) 0);
 		m_startTime = clock();
 		enableEdit(false);
 		updateThinkAll();
 	}
 
-	m_solveThread=g_thread_new("", solve_thread, gpointer(problem));
+	m_solveThread = g_thread_new("", solve_thread, gpointer(problem));
 }
 
 void DrawingArea::edit() {
@@ -1435,10 +1406,10 @@ void DrawingArea::edit() {
 }
 
 void DrawingArea::saveHtml(std::string filepath, bool images,
-		const ProblemVector& p) {
+		const ProblemVector &p) {
 	std::string s;
 	int i;
-	FILE*f = open(filepath, "wb+");
+	FILE *f = open(filepath, "wb+");
 	if (f == NULL) {
 		message(MESSAGE_ICON_ERROR, STRING_ERROR_COULD_NOT_OPEN_FILE);
 		return;
@@ -1451,15 +1422,16 @@ void DrawingArea::saveHtml(std::string filepath, bool images,
 			|| gconfig->m_htmlStoreNumberOfTricks;
 
 	fprintf(f, PROBLEM_HTML_BEGIN);
-	i=1;
-	for (auto& pr : p.m_problems) {
+	i = 1;
+	for (auto &pr : p.m_problems) {
 		if (solveHtml && getFindBestState() == BUTTON_STATE_ENABLED) {//if getFindBestState()!=BUTTON_STATE_ENABLED then we will wait condition infinitely
 			m_functionWait = true;
 			findBest(&pr);
 			//wait for finish
 			waitForFunction();
 		}
-		s = pr.getHTMLContent(i, m_bestHtml, m_tricksHtml, false,p.m_problems.size());
+		s = pr.getHTMLContent(i, m_bestHtml, m_tricksHtml, false,
+				p.m_problems.size());
 		s = Problem::postproceedHTML(s, images);
 		fprintf(f, "%s", s.c_str());
 		i++;
@@ -1469,11 +1441,10 @@ void DrawingArea::saveHtml(std::string filepath, bool images,
 
 	if (gconfig->m_htmlPreview) {
 		//29oct2021 working
-		openURL("file:///"+filepath);
+		openURL("file:///" + filepath);
 	}
 
 }
-
 
 void DrawingArea::setShowEstimation(int index, int estimation, bool thread) {
 	assert(index >= 0 && index < 52);
@@ -1485,14 +1456,13 @@ void DrawingArea::setShowEstimation(int index, int estimation, bool thread) {
 	if (index != m_currentId) {			//for animation fly
 		if (thread) {
 			gdk_threads_add_idle(show_estimation_thread, GP(index));
-		}
-		else {
+		} else {
 			showEstimation(index);
 		}
 	}
 }
 
-void DrawingArea::showEstimation(cairo_t* cr, int index, int x, int y) {
+void DrawingArea::showEstimation(cairo_t *cr, int index, int x, int y) {
 	char s[4];
 	auto e = getEstimateType();
 	int estimation =
@@ -1500,8 +1470,7 @@ void DrawingArea::showEstimation(cairo_t* cr, int index, int x, int y) {
 
 	if (estimation == UNKNOWN_ESTIMATE) {
 		sprintf(s, "?");
-	}
-	else if (estimation != ESTIMATE_CLEAR) {
+	} else if (estimation != ESTIMATE_CLEAR) {
 		if ((e == ESTIMATE_ALL_LOCAL || e == ESTIMATE_ALL_TOTAL)
 				&& getProblem().m_currentState > 0) {
 			auto c = getState().m_cid[index];
@@ -1515,10 +1484,12 @@ void DrawingArea::showEstimation(cairo_t* cr, int index, int x, int y) {
 
 	}
 
-	const int width = getIndentInsideSuit() - 1;			//-1 because of card border
+	const int width = getIndentInsideSuit() - 1;	//-1 because of card border
 	//need only text height,even for estimation==ESTIMATE_CLEAR when 's' isn't set, so always use "13" as string
-	const int height = getTextExtents(
-			TextWithAttributes::createEstimateText("13", m_estimateFontHeight)).cy;
+	const int height =
+			getTextExtents(
+					TextWithAttributes::createEstimateText("13",
+							m_estimateFontHeight)).cy;
 
 	const int dx = 1;	//+1 because of card border
 	const int dy = gconfig->getEstimationIndent();
@@ -1526,9 +1497,8 @@ void DrawingArea::showEstimation(cairo_t* cr, int index, int x, int y) {
 	y += dy;
 
 	if (estimation == ESTIMATE_CLEAR) {
-		copyFromDeck(cr, x, y, width, height, index, dx, dy);	//copy from cards picture
-	}
-	else {
+		copyFromDeck(cr, x, y, width, height, index, dx, dy);//copy from cards picture
+	} else {
 		gdk_cairo_set_source_rgba(cr, &ESTIMATE_COLOR);
 		cairo_set_line_width(cr, 0);
 		cairo_rectangle(cr, x, y, width, height);
@@ -1556,7 +1526,7 @@ void DrawingArea::updateEstimationType() {
 }
 
 //Note cann't call updateModified(); from makeMove because this function is used when loading some problem and do sequence of turns
-void DrawingArea::makeMove(int index,bool estimateBeforeBest) {
+void DrawingArea::makeMove(int index, bool estimateBeforeBest) {
 	int i;
 	CARD_INDEX ci;
 
@@ -1588,7 +1558,7 @@ void DrawingArea::makeMove(int index,bool estimateBeforeBest) {
 
 	/* in case !estimateBeforeBest clear in solveThread() function
 	 */
-	if(!estimateBeforeBest){
+	if (!estimateBeforeBest) {
 		for (i = 0; i < 52; i++) {	//clear all estimations
 			setShowEstimation(i, ESTIMATE_CLEAR, false);
 		}
@@ -1639,8 +1609,7 @@ CARD_INDEX DrawingArea::getPartner(CARD_INDEX index) {
 	assert(isOuter(index));
 	if (isBridge()) {
 		return getBridgePartner(index);
-	}
-	else {
+	} else {
 		assert(index != getPlayer());
 		for (i = 0; i < 3; i++) {
 			if (getPreferansPlayer()[i] != getPlayer()
@@ -1672,8 +1641,7 @@ bool DrawingArea::needPlayNextTurn() const {
 	//turn2-4 & player has no leading suit
 	if (nextPlayerHasOnlyOneSuit(suit)) {
 		return nextPlayerIsSequenceSuit(suit);
-	}
-	else {
+	} else {
 		if (isBridge()) {
 			return false;
 		}
@@ -1688,14 +1656,13 @@ bool DrawingArea::needPlayNextTurn() const {
 
 }
 
-bool DrawingArea::nextPlayerHasOnlyOneSuit(int& suit) const {
+bool DrawingArea::nextPlayerHasOnlyOneSuit(int &suit) const {
 	suit = -1;
 	for (int i = 0; i < NT; i++) {
 		if (getState().hasSuit(getNextMove(), i)) {
 			if (suit == -1) {
 				suit = i;
-			}
-			else {
+			} else {
 				return false;
 			}
 		}
@@ -1733,11 +1700,11 @@ bool DrawingArea::nextPlayerIsSequenceSuit(int suit) const {
 			if (otherFound) {
 				return false;
 			}
-		}
-		else {
+		} else {
 			//check inner card which is not taker
 			if (isInner(i)
-					&& (countInnerCards() == maxTableCards() || taker != getOuter(i))) {
+					&& (countInnerCards() == maxTableCards()
+							|| taker != getOuter(i))) {
 				continue;
 			}
 			otherFound = true;
@@ -1751,29 +1718,28 @@ void DrawingArea::updateProblem() {
 
 	if (isMisere()) {
 		getToolbar().setMisere();
-	}
-	else {
+	} else {
 		getToolbar().setTrump(getProblem().m_trump);
 		getToolbar().setContract(getProblem().m_contract);
 	}
 
 	DEAL_STATE st = getDealState(false);
-	enableEdit(st == DEAL_STATE_ERROR,true);
+	enableEdit(st == DEAL_STATE_ERROR, true);
 
 	redrawState();
 }
 
-void DrawingArea::solveThread(Problem* problem) {
-	int i,j,k,se[52];
+void DrawingArea::solveThread(Problem *problem) {
+	int i, j, k, se[52];
 	const bool forHTML = problem != NULL;
-	Problem& p = forHTML ? *problem : getProblem();
+	Problem &p = forHTML ? *problem : getProblem();
 	Problem old(p);
 	auto e = getEstimateType();
 
 #ifdef BRIDGE_BEST_MULTITHREAD
 	const bool estimateBeforeBest= p.isBridge() && (getEstimateType() == ESTIMATE_ALL_LOCAL || getEstimateType() == ESTIMATE_ALL_TOTAL);
 #else
-	const bool estimateBeforeBest=false;
+	const bool estimateBeforeBest = false;
 #endif
 
 #ifndef FINAL_RELEASE
@@ -1796,38 +1762,37 @@ void DrawingArea::solveThread(Problem* problem) {
 //		println("%s",s.c_str() )
 //		println("%d %d",p.m_trump, isTrumpChanged() )
 
-		if(estimateBeforeBest){
+		if (estimateBeforeBest) {
 			//setEstimateFunction should write estimates to next state which is not created
 			for (i = 0; i < 52; i++) {	//clear all estimations
-				se[i]=getState().m_estimate[i];
+				se[i] = getState().m_estimate[i];
 				setShowEstimation(i, ESTIMATE_CLEAR, true);
 			}
 
-			bridge.estimateAll(old,e, setEstimateFunction,true, isTrumpChanged());
+			bridge.estimateAll(old, e, setEstimateFunction, true,
+					isTrumpChanged());
 
 			//initialize i to prevent warning
-			i=k=-1;
-			j=0;
-			for(int q:getState().m_estimate){
-				if(q!=ESTIMATE_CLEAR && q>k){
-					i=j;
-					k=q;
+			i = k = -1;
+			j = 0;
+			for (int q : getState().m_estimate) {
+				if (q != ESTIMATE_CLEAR && q > k) {
+					i = j;
+					k = q;
 				}
 				j++;
 			}
 			//i - is the best turn
 			//bridge.m_best=i;
-		}
-		else{
+		} else {
 			bridge.solve(p, isTrumpChanged());
 			i = bridge.m_best;
 			if (forHTML) {
-				m_tricksHtml[HTML_TRICKS_NORTH_SOUTH] =  bridge.m_ns;
-				m_tricksHtml[HTML_TRICKS_EAST_WEST] =  bridge.m_ew;
+				m_tricksHtml[HTML_TRICKS_NORTH_SOUTH] = bridge.m_ns;
+				m_tricksHtml[HTML_TRICKS_EAST_WEST] = bridge.m_ew;
 			}
 		}
-	}
-	else {
+	} else {
 		preferans.solve(p, isTrumpChanged());
 		i = preferans.m_best;
 		if (forHTML) {
@@ -1857,16 +1822,15 @@ void DrawingArea::solveThread(Problem* problem) {
 	}
 
 	m_currentPoint = m_cardrect[i].topLeft();
-	startWaitFunction(make_move_thread, GP(i | (estimateBeforeBest<<8)));
+	startWaitFunction(make_move_thread, GP(i | (estimateBeforeBest << 8)));
 	waitForFunction();
-	if(needStopThread()){
+	if (needStopThread()) {
 		return;
 	}
 
 	if (gconfig->m_animation) {	//animation fly
-		startWaitFunction(timer_animation_handler, GP(i));	//do step 0 immediately. First step also runs animation timer
-	}
-	else {
+		startWaitFunction(timer_animation_handler, GP(i));//do step 0 immediately. First step also runs animation timer
+	} else {
 		gdk_threads_add_idle(update_inside_region_thread, NULL);//gdk call use main thread
 	}
 
@@ -1876,11 +1840,10 @@ void DrawingArea::solveThread(Problem* problem) {
 		begin=clock();
 #endif
 		if (p.isBridge()) {
-			if(!estimateBeforeBest){
-				bridge.estimateAll(old, e, setEstimateFunction,false,false);
+			if (!estimateBeforeBest) {
+				bridge.estimateAll(old, e, setEstimateFunction, false, false);
 			}
-		}
-		else {
+		} else {
 			preferans.estimateAll(old, e, setEstimateFunction);
 		}
 
@@ -1895,7 +1858,8 @@ void DrawingArea::solveThread(Problem* problem) {
 			if (estimateBeforeBest) {
 				for (i = 0; i < 52; i++) {
 					if (getPreviousState().m_estimate[i] != ESTIMATE_CLEAR) {
-						getState().m_estimate[i] = getPreviousState().m_estimate[i];
+						getState().m_estimate[i] =
+								getPreviousState().m_estimate[i];
 					}
 					getPreviousState().m_estimate[i] = se[i];
 				}
@@ -1912,10 +1876,9 @@ void DrawingArea::solveThread(Problem* problem) {
 //#endif
 	if (isBridge()) {
 		bridge.bestLine(getState().m_cid, old.getFirst());
-	}
-	else {
-		preferans.bestLine(getState().m_cid, old.getFirst(), p.m_player, p.m_misere,
-				p.m_preferansPlayer);
+	} else {
+		preferans.bestLine(getState().m_cid, old.getFirst(), p.m_player,
+				p.m_misere, p.m_preferansPlayer);
 	}
 
 //#ifndef FINAL_RELEASE
@@ -1923,21 +1886,21 @@ void DrawingArea::solveThread(Problem* problem) {
 //		println("bestline %.3lf", double(clock()-begin)/CLOCKS_PER_SEC);
 //	}
 //#endif
-	getState().setBestLine(isBridge() ? bridge.m_bestLine : preferans.m_bestLine);
+	getState().setBestLine(
+			isBridge() ? bridge.m_bestLine : preferans.m_bestLine);
 	gdk_threads_add_idle(draw_bestline_thread, 0);
 
 	if (gconfig->m_animation) {
 		waitForFunction();
 	}
 
-	if(needStopThread()){
+	if (needStopThread()) {
 		return;
 	}
 
 	if (gconfig->m_autoPlaySequence && needPlayNextTurn()) {
 		solveThread(NULL);
-	}
-	else {
+	} else {
 		gdk_threads_add_idle(end_solve_thread, NULL);
 	}
 
@@ -1962,16 +1925,17 @@ void DrawingArea::timer() {
 		return;
 	}
 
-	const double radius = 36;//3*TABLE_ROUND_CORNER_SIZE/4;
+	const double radius = 36;	//3*TABLE_ROUND_CORNER_SIZE/4;
 
 	CSize sz = getTextExtents(TextWithAttributes("000:00"));
 	CRect r(CPoint(m_tableRect.left + radius, m_totalTricksRect[0].top),
-			CSize(sz.cx, m_totalTricksRect[0].height()-1));
+			CSize(sz.cx, m_totalTricksRect[0].height() - 1));
 	copyFromBackground(r);
 
 	if (think()) {
 		drawText(
-				TextWithAttributes(format("%02d:%02d", seconds / 60, seconds % 60)), r,
+				TextWithAttributes(
+						format("%02d:%02d", seconds / 60, seconds % 60)), r,
 				false, true);
 	}
 
@@ -1982,41 +1946,42 @@ gboolean DrawingArea::animationStep(int index) {
 	if (index != -1) {	//means first step
 		m_animationStep = 0;
 		m_currentId = index;
-		m_animationTimer=g_timeout_add(ANIMATION_STEP_TIME, timer_animation_handler, gpointer(-1));
+		m_animationTimer = g_timeout_add(ANIMATION_STEP_TIME,
+				timer_animation_handler, gpointer(-1));
 	}
 
 	animationDraw(false);
 
 	if (m_animationStep++ == ANIMATION_STEPS) {
-		m_animationTimer=0;
+		m_animationTimer = 0;
 		endAnimation(false);
 		return G_SOURCE_REMOVE;
-	}
-	else if (index != -1) {
+	} else if (index != -1) {
 		return G_SOURCE_REMOVE;
-	}
-	else {
+	} else {
 		return G_SOURCE_CONTINUE;
 	}
 }
 
-void DrawingArea::animationDraw(bool stop){
-	CRect r(CPoint(0, 0), getSize());	//some of estimations could change so invalidate full rectangle
+void DrawingArea::animationDraw(bool stop) {
+	CRect r(CPoint(0, 0), getSize());//some of estimations could change so invalidate full rectangle
 	copy(m_cs, m_csEnd);
 
 	if (!stop) {
 		CPoint p = m_cardrect[m_currentId].topLeft();
 		showCard(m_csEnd, m_currentId,
 				m_currentPoint.x
-						+ (p.x - m_currentPoint.x) * m_animationStep / ANIMATION_STEPS,
+						+ (p.x - m_currentPoint.x) * m_animationStep
+								/ ANIMATION_STEPS,
 				m_currentPoint.y
-						+ (p.y - m_currentPoint.y) * m_animationStep / ANIMATION_STEPS);
+						+ (p.y - m_currentPoint.y) * m_animationStep
+								/ ANIMATION_STEPS);
 	}
 	invalidateRect(r);
 }
 
-void DrawingArea::endAnimation(bool stop){
-	if(stop){
+void DrawingArea::endAnimation(bool stop) {
+	if (stop) {
 		animationDraw(true);
 	}
 	CARD_INDEX id = getOuter(m_currentId);
@@ -2107,7 +2072,7 @@ void DrawingArea::solveAllDeclarersPreferansThread() {
 }
 
 void DrawingArea::solveAllDeclarersBridgeThread(int thread) {
-	int i,v,trump;
+	int i, v, trump;
 	CARD_INDEX c[52];
 	Bridge b;
 	const int MAXV = m_maxv;
@@ -2125,7 +2090,7 @@ void DrawingArea::solveAllDeclarersBridgeThread(int thread) {
 
 		for (i = 0; i < SIZEI(PLAYER); i++) {
 			b.solveEstimateOnly(c, trump, PLAYER[i], i == 0);
-			m_solveAllDeclarersBridgeResult[trump][i] = i%2 ? b.m_ns : b.m_ew;
+			m_solveAllDeclarersBridgeResult[trump][i] = i % 2 ? b.m_ns : b.m_ew;
 		}
 		gdk_threads_add_idle(solve_all_bridge_set_labels, GP(trump));
 
@@ -2137,23 +2102,22 @@ void DrawingArea::solveAllDeclarersBridgeThread(int thread) {
 	}
 }
 
-int DrawingArea::getSolveAllDealsSteps(Permutations const& p){
+int DrawingArea::getSolveAllDealsSteps(Permutations const &p) {
 	/* later using i%(p.number()/steps)
 	 * so steps>=1 & p.number()/steps>=1 ~ (p.number()>=steps)
 	 *
 	 */
 	int steps;
-	if(isBridge()){
+	if (isBridge()) {
 		//is case of bridge speed very differs from problem to problem
-		const int deals=40;
-		steps=p.number()/deals;
-	}
-	else{
-		steps=PREFERANS_SOLVE_ALL_DEALS_STEPS;
+		const int deals = 40;
+		steps = p.number() / deals;
+	} else {
+		steps = PREFERANS_SOLVE_ALL_DEALS_STEPS;
 	}
 
-	if(steps==0 || p.number()/steps==0){
-		steps=p.number();
+	if (steps == 0 || p.number() / steps == 0) {
+		steps = p.number();
 	}
 
 	return steps;
@@ -2161,40 +2125,38 @@ int DrawingArea::getSolveAllDealsSteps(Permutations const& p){
 
 void DrawingArea::solveAllDealsThread(int index) {
 	g_mutex_lock(&m_solveAllMutex);
-	const bool bridge=isBridge();
-	const int sz=getMaxHandCards()+1;
+	const bool bridge = isBridge();
+	const int sz = getMaxHandCards() + 1;
 	g_mutex_unlock(&m_solveAllMutex);
 
-	int* result=new int[sz];
+	int *result = new int[sz];
 
 	/* Bridge object allocate memory for hash table so create
 	 * bridge object only if solve bridge deals. The same true
 	 * for preferans
 	 */
-	Bridge*pb=nullptr;
-	Preferans*pp=nullptr;
+	Bridge *pb = nullptr;
+	Preferans *pp = nullptr;
 
-	if(bridge){
-		pb=new Bridge();
-	}
-	else{
-		pp=new Preferans(false);
+	if (bridge) {
+		pb = new Bridge();
+	} else {
+		pp = new Preferans(false);
 	}
 
 	solveAllDealsThreadInner(index, bridge, sz, result, pb, pp);
 
-	if(bridge){
+	if (bridge) {
 		delete pb;
-	}
-	else{
+	} else {
 		delete pp;
 	}
-	delete[]result;
+	delete[] result;
 }
 
-void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const int sz,
-		int *result, Bridge *pb, Preferans *pp) {
-	int i, j,k, v;
+void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,
+		const int sz, int *result, Bridge *pb, Preferans *pp) {
+	int i, j, k, v;
 	SolveAll &sa = m_vSolveAll[index];
 	Permutations p(sa.k, sa.n, Permutations::COMBINATION);
 	g_mutex_lock(&m_solveAllMutex);
@@ -2206,7 +2168,10 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 	int *o = sa.o;
 	clock_t t, lastUpdate = clock();
 	bool ur;
-	auto updateResults=[&] () {gdk_threads_add_idle(solve_all_deals_update_result, gpointer(m_solveAllDealsDialog->m_id));};
+	auto updateResults = [&]() {
+		gdk_threads_add_idle(solve_all_deals_update_result,
+				gpointer(m_solveAllDealsDialog->m_id));
+	};
 	std::string s;
 	preventThreadSleep();
 	DealResult dr;
@@ -2216,33 +2181,32 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 			result[i] = 0;
 		}
 
-		const auto&state=m_pstate[v];
+		const auto &state = m_pstate[v];
 		p.loadState(state);
 
 		for (j = 0; j < state.parameter; j++, p.next()) {
-			for (i=0; i < sa.n; i++) {
+			for (i = 0; i < sa.n; i++) {
 				ptr[o[i]] = sa.p[1];
 			}
 
-			for(auto& v:p.getIndexes()){
+			for (auto &v : p.getIndexes()) {
 				ptr[o[v]] = sa.p[0];
 			}
 
-			if(bridge){
-				pb->solveEstimateOnly(ptr,sa.trump,sa.first,trumpChanged);
-				i=sa.ns ? pb->m_ns:pb->m_ew;
-			}
-			else{
-				pp->solveEstimateOnly(ptr, sa.trump, sa.first, sa.player, sa.misere,
-						sa.preferansPlayer, trumpChanged);
+			if (bridge) {
+				pb->solveEstimateOnly(ptr, sa.trump, sa.first, trumpChanged);
+				i = sa.ns ? pb->m_ns : pb->m_ew;
+			} else {
+				pp->solveEstimateOnly(ptr, sa.trump, sa.first, sa.player,
+						sa.misere, sa.preferansPlayer, trumpChanged);
 				i = pp->m_playerTricks;
 			}
 
-			for(k=0;k<2;k++){
-				s=::getPlayerString(ptr,sa.p[k]);
-				strcpy(dr.a[k],s.c_str());
+			for (k = 0; k < 2; k++) {
+				s = ::getPlayerString(ptr, sa.p[k]);
+				strcpy(dr.a[k], s.c_str());
 			}
-			dr.result=char(i);
+			dr.result = char(i);
 			sa.addDealResult(dr);
 			trumpChanged = false;
 
@@ -2250,7 +2214,7 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 			result[i]++;
 
 			//check only preferans, bridge in solve() function file bi.h
-			if(!bridge && j % 50 == 0 && needStopThread() ){
+			if (!bridge && j % 50 == 0 && needStopThread()) {
 				//println("alldeals exit (user break) %d",index)
 				return;
 			}
@@ -2258,43 +2222,42 @@ void DrawingArea::solveAllDealsThreadInner(int index, const bool bridge,const in
 		}
 
 		for (i = 0; i < sz; i++) {
-			sa.positions+=result[i];
+			sa.positions += result[i];
 		}
 
 		m_solveAllDealsDialog->updateResult(result, sz);
-		sa.end=clock();
+		sa.end = clock();
 
-		ur=true;
-		if(bridge){
-			t=clock();
-			if( double(t-lastUpdate)/CLOCKS_PER_SEC < 1.5 ){
-				ur=false;
-			}
-			else{
-				lastUpdate=t;
+		ur = true;
+		if (bridge) {
+			t = clock();
+			if (double(t - lastUpdate) / CLOCKS_PER_SEC < 1.5) {
+				ur = false;
+			} else {
+				lastUpdate = t;
 			}
 		}
-		if(ur){
+		if (ur) {
 			updateResults();
 		}
 	}
 
-	if(bridge){
+	if (bridge) {
 		updateResults();
 	}
 }
 
-void DrawingArea::createAllDealsDialog(){
+void DrawingArea::createAllDealsDialog() {
 	m_solveAllDealsDialog = new SolveAllDealsDialog();
 	solveAllDeals();
 }
 
 void DrawingArea::solveAllDeals() {
 	int i, j, k, n, *pi;
-	State& state = getState();
+	State &state = getState();
 	Permutations p;
-	VCardIndex c=getVariablePlayers();
-	auto&pr=getProblem();
+	VCardIndex c = getVariablePlayers();
+	auto &pr = getProblem();
 	const CARD_INDEX player = pr.m_player;
 
 	//if table full
@@ -2305,12 +2268,12 @@ void DrawingArea::solveAllDeals() {
 	m_solveAllNumber = 0;
 
 	VInt v[2];
-	for(i=0;i<2;i++){
-		v[i]=m_solveAllDealsDialog->fixedCards(i);
+	for (i = 0; i < 2; i++) {
+		v[i] = m_solveAllDealsDialog->fixedCards(i);
 	}
 
-	k = state.countCards(c[0])-v[0].size();
-	n = state.countCards(c[1])-v[1].size() + k;
+	k = state.countCards(c[0]) - v[0].size();
+	n = state.countCards(c[1]) - v[1].size() + k;
 	p.init(k, n, Permutations::COMBINATION);
 	const int steps = getSolveAllDealsSteps(p);
 
@@ -2320,14 +2283,13 @@ void DrawingArea::solveAllDeals() {
 	for (i = 0; i < getMaxRunThreads(); i++) {
 		m_vSolveAll[i].positions = 0;
 	}
-	SolveAll& s = m_vSolveAll[0];
-	s.init(k,n,first,getTrump(),c,cid,m_solveAllDealsDialog->m_id,v);
+	SolveAll &s = m_vSolveAll[0];
+	s.init(k, n, first, getTrump(), c, cid, m_solveAllDealsDialog->m_id, v);
 	m_solveAllDealsDialog->setPositions(p.number());
 
-	if(isBridge()){
-		s.ns=!northOrSouth(pr.getVeryFirstMove());
-	}
-	else {
+	if (isBridge()) {
+		s.ns = !northOrSouth(pr.getVeryFirstMove());
+	} else {
 		s.player = player;
 		s.misere = isMisere();
 		for (i = 0; i < 3; i++) {
@@ -2336,15 +2298,15 @@ void DrawingArea::solveAllDeals() {
 	}
 
 	//begin save permutations states
-	if(steps>m_pstateSize){
+	if (steps > m_pstateSize) {
 		freePState();
-		m_pstate=new Permutations::State[steps];
+		m_pstate = new Permutations::State[steps];
 	}
 
 	//shuffle states
-	pi=new int[steps];
-	for(i=0;i<steps;i++){
-		pi[i]=i;
+	pi = new int[steps];
+	for (i = 0; i < steps; i++) {
+		pi[i] = i;
 	}
 
 	if (isBridge()) {
@@ -2358,21 +2320,21 @@ void DrawingArea::solveAllDeals() {
 		}
 	}
 
-	i=j=0;
-	do{
-		if(i%(p.number()/steps)==0 && j<steps){
+	i = j = 0;
+	do {
+		if (i % (p.number() / steps) == 0 && j < steps) {
 			p.saveState(m_pstate[pi[j]]);
-			if(j!=0){
-				m_pstate[pi[j-1]].parameter=i;
+			if (j != 0) {
+				m_pstate[pi[j - 1]].parameter = i;
 			}
 			j++;
-			i=0;
+			i = 0;
 		}
 		i++;
-	}while(p.next());
+	} while (p.next());
 	//j=steps;
-	m_pstate[pi[j-1]].parameter=i;
-	delete[]pi;
+	m_pstate[pi[j - 1]].parameter = i;
+	delete[] pi;
 	//end save permutations states
 
 	m_vThread.clear();
@@ -2380,7 +2342,7 @@ void DrawingArea::solveAllDeals() {
 		if (i > 0) {
 			m_vSolveAll[i].copyParametersClearDealResult(m_vSolveAll[0]);
 		}
-		m_vThread.push_back( g_thread_new("", solve_all_deals_thread, GP(i)));
+		m_vThread.push_back(g_thread_new("", solve_all_deals_thread, GP(i)));
 	}
 }
 
@@ -2398,13 +2360,14 @@ void DrawingArea::solveAllDeclarers() {
 
 #ifdef SOLVEALLDECLARERSPREFERANS_USE_THREADS
 		m_solveAllNumber = 0;
-		m_maxv=getMaxSolveAllThreads();
+		m_maxv = getMaxSolveAllThreads();
 		for (i = 0; i < getMaxRunThreads(); i++) {
-			m_vThread.push_back ( g_thread_new("", solve_all_declarers_preferans_thread,
-					gpointer(0)));
+			m_vThread.push_back(
+					g_thread_new("", solve_all_declarers_preferans_thread,
+							gpointer(0)));
 		}
 
-		for (auto a:m_vThread) {
+		for (auto a : m_vThread) {
 			g_thread_join(a);
 		}
 
@@ -2438,26 +2401,26 @@ void DrawingArea::solveAllDeclarers() {
 		m_solveAllDeclarersDialog = new SolveForAllDeclarersDialog(
 				m_solveAllDeclarersPreferansResult);
 
-	}
-	else {
+	} else {
 		m_solveAllDeclarersDialog = new SolveForAllDeclarersDialog();
 		m_solveAllNumber = 0;
-		m_maxv=getMaxSolveAllThreads();
+		m_maxv = getMaxSolveAllThreads();
 
 		for (i = 0; i < getSolveAllDeclarersThreads(); i++) {
-			m_vThread.push_back( g_thread_new("", solve_all_declarers_bridge_thread, GP(i)));
+			m_vThread.push_back(
+					g_thread_new("", solve_all_declarers_bridge_thread, GP(i)));
 		}
 	}
 
 }
 
-int DrawingArea::getSolveAllDeclarersThreads(){
-	return std::min(getMaxRunThreads(),getMaxSolveAllThreads());
+int DrawingArea::getSolveAllDeclarersThreads() {
+	return std::min(getMaxRunThreads(), getMaxSolveAllThreads());
 }
 
 void DrawingArea::solveAllBridgeSetLabels(int trump) {
 	//Dialog could be closed, before this function, so need to check
-	if(m_solveAllDeclarersDialog){
+	if (m_solveAllDeclarersDialog) {
 		m_solveAllDeclarersDialog->setBridgeLabel(trump);
 	}
 }
@@ -2470,10 +2433,9 @@ void DrawingArea::solveAllDealsUpdateResult(gint64 id) {
 		 * just call updateData(), but it give more clarify code
 		 * so leave this checking. Also later some parameters can appear
 		 */
-		if(m_solveAllDealsDialog->m_id==id){
+		if (m_solveAllDealsDialog->m_id == id) {
 			m_solveAllDealsDialog->updateData();
-		}
-		else{
+		} else {
 			//println("wrong id skip")
 		}
 	}
@@ -2484,7 +2446,7 @@ void DrawingArea::stopSolveAllDealsThreads() {
 	/* some solveAllDealsUpdateResult() can be in loop, so make
 	 * m_solveAllDealsDialog=0 to indicate that dialog is closed
 	 */
-	m_solveAllDealsDialog=0;
+	m_solveAllDealsDialog = 0;
 }
 
 void DrawingArea::stopSolveAllDeclarersBridgeThreads() {
@@ -2492,14 +2454,14 @@ void DrawingArea::stopSolveAllDeclarersBridgeThreads() {
 	/* some solveAllBridgeSetLabels() can be in loop, so make
 	 * m_solveAllDeclarersDialog=0 to indicate that dialog is closed
 	 */
-	m_solveAllDeclarersDialog=0;
+	m_solveAllDeclarersDialog = 0;
 }
 
-void DrawingArea::stopSolveAllThreads(){
+void DrawingArea::stopSolveAllThreads() {
 	g_atomic_int_set(&BridgePreferansBase::m_stop, 1);
 
 //	clock_t begin=clock();
-	for (auto a:m_vThread) {
+	for (auto a : m_vThread) {
 		g_thread_join(a);
 	}
 //	println("%.3lf",double(clock()-begin)/CLOCKS_PER_SEC);
@@ -2507,10 +2469,9 @@ void DrawingArea::stopSolveAllThreads(){
 	g_atomic_int_set(&BridgePreferansBase::m_stop, 0);
 }
 
-
-int DrawingArea::countUndos(GdkEventButton* event){
+int DrawingArea::countUndos(GdkEventButton *event) {
 	int i = countInnerCards();
-	int j,k;
+	int j, k;
 	CARD_INDEX ci;
 	if (i > 0) {
 		ci = getInner(getPlayer(getState().m_firstmove, true, i - 1));
@@ -2519,7 +2480,7 @@ int DrawingArea::countUndos(GdkEventButton* event){
 				if (m_cardrect[k].in(event) && getState().m_cid[k] == ci) {
 					//number of undos j+1
 					if (getProblem().m_currentState > j) {//check can make needed number of undos
-						return j+1;
+						return j + 1;
 						//undoRedo(true, false, j + 1);
 					}
 					return 0;
@@ -2532,11 +2493,11 @@ int DrawingArea::countUndos(GdkEventButton* event){
 	return 0;
 }
 
-void DrawingArea::stopCountThread(){
-	if(m_solveThread){
+void DrawingArea::stopCountThread() {
+	if (m_solveThread) {
 //		START_TIMER
 		g_atomic_int_set(&BridgePreferansBase::m_stop, 1);
-		finishWaitFunction();//add 23feb2021
+		finishWaitFunction();	//add 23feb2021
 		stopTimer(m_timer);
 		if (m_animationTimer) {
 			stopTimer(m_animationTimer);
@@ -2547,52 +2508,54 @@ void DrawingArea::stopCountThread(){
 		 * call two times so set m_solveThread=0 to prevents two times calls of
 		 * g_thread_join(m_solveThread)
 		 */
-		m_solveThread=0;
+		m_solveThread = 0;
 		g_atomic_int_set(&BridgePreferansBase::m_stop, 0);
 //		OUT_TIMER
 	}
 }
 
-void DrawingArea::stopTimer(guint& t){
-	if(t){
+void DrawingArea::stopTimer(guint &t) {
+	if (t) {
 		g_source_remove(t);
-		t=0;
+		t = 0;
 	}
 }
 
-bool DrawingArea::needStopThread(){
+bool DrawingArea::needStopThread() {
 	return g_atomic_int_get(&BridgePreferansBase::m_stop);
 }
 
 void DrawingArea::drawCardback(int i) {
-	CRect r=m_totalTricksRect[i];
-	int x=r.left;
-	int y=r.top;
-	double width=r.width();
+	CRect r = m_totalTricksRect[i];
+	int x = r.left;
+	int y = r.top;
+	double width = r.width();
 	double height = r.height();
-	double margin = std::min(width,height) / 5;
-	double radius = std::min(width,height) / 7;
+	double margin = std::min(width, height) / 5;
+	double radius = std::min(width, height) / 7;
 
-	cairo_t* cr=m_cs;
-	cairo_new_sub_path (cr);
-	cairo_arc (cr, x + width - radius, y + radius, radius, -G_PI/2, 0);
-	cairo_arc (cr, x + width - radius, y + height - radius, radius, 0, G_PI/2);
-	cairo_arc (cr, x + radius, y + height - radius, radius, G_PI/2, G_PI);
-	cairo_arc (cr, x + radius, y + radius, radius, G_PI, 3*G_PI/2);
-	cairo_close_path (cr);
+	cairo_t *cr = m_cs;
+	cairo_new_sub_path(cr);
+	cairo_arc(cr, x + width - radius, y + radius, radius, -G_PI / 2, 0);
+	cairo_arc(cr, x + width - radius, y + height - radius, radius, 0, G_PI / 2);
+	cairo_arc(cr, x + radius, y + height - radius, radius, G_PI / 2, G_PI);
+	cairo_arc(cr, x + radius, y + radius, radius, G_PI, 3 * G_PI / 2);
+	cairo_close_path(cr);
 
-	cairo_set_source_rgb (cr, 1, 1, 1);
-	cairo_fill_preserve (cr);
-	cairo_set_source_rgb (cr, 0, 0, 0);
-	cairo_set_line_width (cr, 1);
-	cairo_stroke (cr);
+	cairo_set_source_rgb(cr, 1, 1, 1);
+	cairo_fill_preserve(cr);
+	cairo_set_source_rgb(cr, 0, 0, 0);
+	cairo_set_line_width(cr, 1);
+	cairo_stroke(cr);
 
-	const double w1=width-2*margin;
-	const double h1=height-2*margin;
-	cairo_pattern_t *pat1 = cairo_pattern_create_linear(x+margin, y+margin, x+w1, y+h1);
+	const double w1 = width - 2 * margin;
+	const double h1 = height - 2 * margin;
+	cairo_pattern_t *pat1 = cairo_pattern_create_linear(x + margin, y + margin,
+			x + w1, y + h1);
 	cairo_pattern_add_color_stop_rgb(pat1, 0, 1, 1, 1);
-	cairo_pattern_add_color_stop_rgb(pat1, 1, 188/255., 181/255., 173/255.);
-	cairo_rectangle(cr, x+margin, y+margin, w1, h1);
+	cairo_pattern_add_color_stop_rgb(pat1, 1, 188 / 255., 181 / 255.,
+			173 / 255.);
+	cairo_rectangle(cr, x + margin, y + margin, w1, h1);
 	cairo_set_source(cr, pat1);
 	cairo_fill(cr);
 	cairo_pattern_destroy(pat1);

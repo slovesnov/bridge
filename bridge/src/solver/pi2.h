@@ -1,10 +1,10 @@
-	int i2, v2, t2, r2, rc2;
-	USC sc2;
+int i2, v2, t2, r2, rc2;
+USC sc2;
 #ifdef PREFERANS_NODE_COUNT
 	m_nodes++;
 #endif
 
-	//TODO!!!
+//TODO!!!
 //#define PREFERANS_ENDGAME
 
 #ifdef PREFERANS_ENDGAME
@@ -296,23 +296,23 @@
 	else {
 #endif //CUT3LASTLAYERS
 
-		for (i2 = 0; i2 < c2.length; i2 ++) {
-			sc2=c2[i2];
-			r2  = sc2.c;
+for (i2 = 0; i2 < c2.length; i2 ++) {
+	sc2=c2[i2];
+	r2 = sc2.c;
 
 #define r0 sc0.c
-		ADJUST_RANK(2,0)
-		ADJUST_RANK(2,1)
+	ADJUST_RANK(2,0)
+	ADJUST_RANK(2,1)
 #undef r0
 
-			REMOVE_CARD(2)
+	REMOVE_CARD(2)
 
 #define t t2
-			SETT;
+	SETT;
 #undef t
 
-			m_depth--;
-			if ((t2 == 0 && w[1] == 0) || (t2 == 1 && w[0] == 0) || t2 == 2) {
+	m_depth--;
+	if ((t2 == 0 && w[1] == 0) || (t2 == 1 && w[0] == 0) || t2 == 2) {
 #ifdef MISERE
 				v2 = -1;
 				v2 += eMisere(w+t2, a2 - v2, b2 - v2);
@@ -320,12 +320,12 @@
 				v2 = 1;
 				v2 += eNT(w+t2, a2 - v2, b2 - v2);
 #else
-				v2 = 1;
-				v2 += e(w+t2, a2 - v2, b2 - v2);
+		v2 = 1;
+		v2 += e(w+t2, a2 - v2, b2 - v2);
 #endif
 
-			}
-			else {
+	}
+	else {
 #ifdef MISERE
 				v2 = 1;
 				v2 -= eMisere(w+t2, -b2 + v2, -a2 + v2);
@@ -333,24 +333,24 @@
 				v2 = -1;
 				v2 -= eNT(w+t2, -b2 + v2, -a2 + v2);
 #else
-				v2 = -1;
-				v2 -= e(w+t2, -b2 + v2, -a2 + v2);
+		v2 = -1;
+		v2 -= e(w+t2, -b2 + v2, -a2 + v2);
 #endif
 
-			}
-			m_depth++;
+	}
+	m_depth++;
 
-			RESTORE_CARD(2)
+	RESTORE_CARD(2)
 
-			if (v2 > a2) {
+	if (v2 > a2) {
 #ifdef STOREBEST
 				m_best = sc2.toIndex();
 #endif
-				if ((a2 = v2) >= b2) {
-					break;
-				}
-			}
+		if ((a2 = v2) >= b2) {
+			break;
 		}
+	}
+}
 #ifdef CUT3LASTLAYERS
 	}
 #endif //CUT3LASTLAYERS

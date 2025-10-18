@@ -5,33 +5,27 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "ButtonsDialogWithProblem.h"
 
 const CPoint REGION_INNER[] = {
 //inner card position
-		CPoint(2, 1),
-		CPoint(3, 2),
-		CPoint(2, 3),
-		CPoint(1, 2),
+		CPoint(2, 1), CPoint(3, 2), CPoint(2, 3), CPoint(1, 2),
 
 		//arrow position (on full table)
-		CPoint(2, 0),
-		CPoint(4, 2),
-		CPoint(2, 4),
-		CPoint(0, 2) };
+		CPoint(2, 0), CPoint(4, 2), CPoint(2, 4), CPoint(0, 2) };
 
 const CPoint ButtonsDialogWithProblem::EDIT_LIST_REGION_POSITION[] = { CPoint(1,
 		0), CPoint(2, 1), CPoint(1, 2), CPoint(0, 1) };
 
 ButtonsDialogWithProblem::ButtonsDialogWithProblem(MENU_ID id, bool modal,
-		BUTTONS_DIALOG_TYPE type, Widget* parent, bool resizable) :
+		BUTTONS_DIALOG_TYPE type, Widget *parent, bool resizable) :
 		ButtonsDialog(id, modal, type, parent, resizable) {
 
 	int i, j;
-	GdkPixbuf*px;
+	GdkPixbuf *px;
 
 	assert(SIZE(m_suit)==SIZE(m_labelCard));
 
@@ -39,7 +33,7 @@ ButtonsDialogWithProblem::ButtonsDialogWithProblem(MENU_ID id, bool modal,
 		m_suitPixbuf[i] = getSuitPixbuf(i, getFontHeight());
 	}
 
-	px = pixbuf(getArrowFileName(1,false));//48x48
+	px = pixbuf(getArrowFileName(1, false)); //48x48
 	m_arrowPixbuf[0] = gdk_pixbuf_scale_simple(px, getFontHeight(),
 			getFontHeight(), GDK_INTERP_BILINEAR);
 	g_object_unref(px);
@@ -78,14 +72,15 @@ ButtonsDialogWithProblem::~ButtonsDialogWithProblem() {
 
 GtkWidget* ButtonsDialogWithProblem::createPlayerBox(CARD_INDEX ci,
 		PLAYERBOX_NAME_TYPE type /*= PLAYERBOX_NAME_TYPE_SIMPLE*/) {
-	GtkWidget *w, *w1, *w2,*w3;
+	GtkWidget *w, *w1, *w2, *w3;
 	int i;
 	std::string s;
 
 	w = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	w1 =m_playerNameBox[indexOfPlayer(ci)]= gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-	if(type!=PLAYERBOX_NAME_TYPE_EMPTY_BOX){
-		w2 = type==PLAYERBOX_NAME_TYPE_UNDERLINED ?
+	w1 = m_playerNameBox[indexOfPlayer(ci)] = gtk_box_new(
+			GTK_ORIENTATION_HORIZONTAL, 0);
+	if (type != PLAYERBOX_NAME_TYPE_EMPTY_BOX) {
+		w2 = type == PLAYERBOX_NAME_TYPE_UNDERLINED ?
 				createUnderlinedLabel(ci) : gtk_label_new(getPlayerString(ci));
 		gtk_label_set_xalign(GTK_LABEL(w2), 0);
 		gtk_label_set_yalign(GTK_LABEL(w2), 0.5);
@@ -103,7 +98,8 @@ GtkWidget* ButtonsDialogWithProblem::createPlayerBox(CARD_INDEX ci,
 		gtk_label_set_xalign(GTK_LABEL(w3), 0);
 		gtk_label_set_yalign(GTK_LABEL(w3), 0.5);
 
-		w2 = m_playerBox[indexOfPlayer(ci)][i]=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+		w2 = m_playerBox[indexOfPlayer(ci)][i] = gtk_box_new(
+				GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_container_add(GTK_CONTAINER(w2), w3);
 		gtk_container_add(GTK_CONTAINER(w1), w2);
 
@@ -113,10 +109,10 @@ GtkWidget* ButtonsDialogWithProblem::createPlayerBox(CARD_INDEX ci,
 	return w;
 }
 
-void ButtonsDialogWithProblem::attachInnerTable(GtkWidget*g) {
+void ButtonsDialogWithProblem::attachInnerTable(GtkWidget *g) {
 	int i;
-	GtkWidget*w;
-	GtkWidget*w1 = gtk_grid_new();
+	GtkWidget *w;
+	GtkWidget *w1 = gtk_grid_new();
 	gtk_grid_set_column_spacing(GTK_GRID(w1), 0);
 	gtk_grid_set_row_spacing(GTK_GRID(w1), 0);
 	gtk_grid_set_column_homogeneous(GTK_GRID(w1), TRUE);
@@ -129,8 +125,8 @@ void ButtonsDialogWithProblem::attachInnerTable(GtkWidget*g) {
 		gtk_widget_set_halign(w, GTK_ALIGN_CENTER);
 		//gtk_widget_set_hexpand(w, TRUE);
 		//gtk_widget_set_vexpand(w, TRUE);
-		gtk_grid_attach(GTK_GRID(w1), w, REGION_INNER[i].x, REGION_INNER[i].y, 1,
-				1);
+		gtk_grid_attach(GTK_GRID(w1), w, REGION_INNER[i].x, REGION_INNER[i].y,
+				1, 1);
 	}
 
 	//attach some m_arrow[], to the same cells with m_suit & m_labelCard, for good horizontal center in cell
@@ -138,8 +134,8 @@ void ButtonsDialogWithProblem::attachInnerTable(GtkWidget*g) {
 		w = m_arrow[i];
 		gtk_widget_set_hexpand(w, TRUE);
 		gtk_widget_set_vexpand(w, TRUE);
-		gtk_grid_attach(GTK_GRID(w1), w, REGION_INNER[i].x, REGION_INNER[i].y, 1,
-				1);
+		gtk_grid_attach(GTK_GRID(w1), w, REGION_INNER[i].x, REGION_INNER[i].y,
+				1, 1);
 	}
 
 	gtk_grid_attach(GTK_GRID(g), w1, 1, 1, 1, 1);
@@ -151,20 +147,20 @@ void ButtonsDialogWithProblem::attachInnerTable(GtkWidget*g) {
 
 }
 
-void ButtonsDialogWithProblem::setInnerTable(const Problem& p) {
+void ButtonsDialogWithProblem::setInnerTable(const Problem &p) {
 	int i, j, k, a[4];
 
 	p.fillInner4NorthFirst(a);
 	for (i = 0; i < SIZEI(PLAYER); i++) {
 		j = a[i];
-		if (j ==-1) {
+		if (j == -1) {
 			gtk_label_set_text(GTK_LABEL(m_labelCard[i]), "");
 			gtk_image_clear(GTK_IMAGE(m_suit[i]));
-		}
-		else {
+		} else {
 			gtk_label_set_text(GTK_LABEL(m_labelCard[i]),
 					getCardRankString(j).c_str());
-			gtk_image_set_from_pixbuf(GTK_IMAGE(m_suit[i]), m_suitPixbuf[j / 13]);
+			gtk_image_set_from_pixbuf(GTK_IMAGE(m_suit[i]),
+					m_suitPixbuf[j / 13]);
 		}
 	}
 

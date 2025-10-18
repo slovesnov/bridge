@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef DIALOGS_EDITLISTDIALOG_H_
@@ -15,17 +15,24 @@
 #include "../problem/ProblemVectorModified.h"
 
 enum EDIT_LIST_BUTTON {
-	EDIT_LIST_MOVE_LEFT, EDIT_LIST_MOVE_RIGHT, EDIT_LIST_INSERT, EDIT_LIST_DELETE,
+	EDIT_LIST_MOVE_LEFT,
+	EDIT_LIST_MOVE_RIGHT,
+	EDIT_LIST_INSERT,
+	EDIT_LIST_DELETE,
 
-	EDIT_LIST_MOVE_0, EDIT_LIST_MOVE_1, EDIT_LIST_MOVE_2, EDIT_LIST_MOVE_3,
+	EDIT_LIST_MOVE_0,
+	EDIT_LIST_MOVE_1,
+	EDIT_LIST_MOVE_2,
+	EDIT_LIST_MOVE_3,
 
 	EDIT_LIST_DIALOG_BUTTON_SIZE
 };
 
-class EditListDialog: public ButtonsDialogWithProblem, public ProblemVectorModified {
+class EditListDialog: public ButtonsDialogWithProblem,
+		public ProblemVectorModified {
 
-	GtkWidget* m_button[EDIT_LIST_DIALOG_BUTTON_SIZE];
-	GtkWidget* m_grid;
+	GtkWidget *m_button[EDIT_LIST_DIALOG_BUTTON_SIZE];
+	GtkWidget *m_grid;
 	CARD_INDEX m_lastHide;
 	void redrawProblem();
 	//need to redefine functions use own problem

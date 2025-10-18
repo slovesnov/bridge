@@ -5,9 +5,8 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2021-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
-
 
 #ifdef STOREBEST
 
@@ -41,5 +40,4 @@
 #endif// NEW_MOVES_ORDER
 
 #endif//STOREBEST
-
 

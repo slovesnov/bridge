@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "Stream.h"
@@ -25,9 +25,11 @@ int Stream::readInteger() {
 	return i;
 }
 
-void Stream::getLastTwoIntegers(int& i1, int& i2) {
-	memcpy(&i1, m_content.c_str() + m_contentPtr + bytesLeft() - 8, sizeof(int));
-	memcpy(&i2, m_content.c_str() + m_contentPtr + bytesLeft() - 4, sizeof(int));
+void Stream::getLastTwoIntegers(int &i1, int &i2) {
+	memcpy(&i1, m_content.c_str() + m_contentPtr + bytesLeft() - 8,
+			sizeof(int));
+	memcpy(&i2, m_content.c_str() + m_contentPtr + bytesLeft() - 4,
+			sizeof(int));
 }
 
 std::string Stream::readString() {
@@ -46,8 +48,7 @@ std::string Stream::readString() {
 	if (l1 == 0xff) { //first byte =-1 means next two bytes have length
 		memcpy((void*) (&length), m_content.c_str() + m_contentPtr, 2); //read two bytes
 		m_contentPtr += 2;
-	}
-	else {
+	} else {
 		length = l1;
 	}
 

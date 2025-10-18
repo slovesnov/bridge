@@ -5,19 +5,18 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2019-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 #ifndef PREFERANS_H_
 #define PREFERANS_H_
-
 
 #include "BridgePreferansBase.h"
 
 #ifdef CONSOLE
 	#include <cmath>
 #else
-	#include "../problem/Problem.h"
+#include "../problem/Problem.h"
 #endif
 
 /* denote O1=MOVES_ONE_SUIT_OPTIONS
@@ -42,7 +41,6 @@
 //#define _O1 0
 //#define _O2 2
 //#define	PREFERANS_ORDER_OTHER_MOVES	((_O2*MOVES_ONE_SUIT_OPTIONS+_O1)*MOVES_ONE_SUIT_OPTIONS+_O)
-
 #ifdef CONSOLE
 
 extern int PREFERANS_ORDER_FIRST_MOVE;
@@ -79,7 +77,7 @@ class Preferans: public BridgePreferansBase {
 	int m_hashSize;
 	int m_cards, m_depth;
 	int32_t m_code[4];
-	static int32_t*m_r;
+	static int32_t *m_r;
 
 	/* start three elements 0 1 2
 	 * for one trick need
@@ -88,16 +86,16 @@ class Preferans: public BridgePreferansBase {
 	 * max size 5+18=23
 	 */
 	static int m_w[23];
-	static int m_oc;//object counter
+	static int m_oc; //object counter
 
 	/* int8_t*p=m_moves[m_code[suit]]+w*5;
 	 * p[0] = length
 	 * p[1..] = high -> low
 	 */
-	static int8_t (*m_moves)[3*5];
+	static int8_t (*m_moves)[3 * 5];
 
-	static const int MAX_SUIT_CODE=0x3aaaa;//240 298
-	static const int MAX_SUIT_CODE_ARRAY_SIZE=MAX_SUIT_CODE+1;//240 299
+	static const int MAX_SUIT_CODE = 0x3aaaa; //240 298
+	static const int MAX_SUIT_CODE_ARRAY_SIZE = MAX_SUIT_CODE + 1; //240 299
 
 #ifdef PREFERANS_ENDGAME
 	static int8_t endgameSuitLength[MAX_SUIT_CODE_ARRAY_SIZE];
@@ -110,8 +108,8 @@ class Preferans: public BridgePreferansBase {
 #endif
 #endif
 public:
-	static const int endgameN=4;
-	static constexpr int endgameCN=endgameCm(endgameN, false);
+	static const int endgameN = 4;
+	static constexpr int endgameCN = endgameCm(endgameN, false);
 	static const int endgameMultiplier;
 private:
 
@@ -150,7 +148,7 @@ private:
 	static const int HASH_BITS = 23;
 #endif
 
-	#pragma pack (4)
+#pragma pack (4)
 	struct HashItem {
 		int16_t code[3];
 		int8_t f;
@@ -161,33 +159,32 @@ private:
 	#define PREFERANS_ONE_HASH_ITEM
 	using Hash = HashItem;
 #else
-	#pragma pack (4)
-	struct Hash{
+#pragma pack (4)
+	struct Hash {
 		HashItem i[HASH_ITEMS];
 		int32_t next;
 	};
 #endif
-	Hash*m_hashTable;
+	Hash *m_hashTable;
 
-
-	int e(const int* w, int a, int b);
-	int eb(const int* w, int a, int b);
-	int eNT(const int* w, int a, int b);
-	int ebNT(const int* w, int a, int b);
-	int eMisere(const int* w, int a, int b);
-	int ebMisere(const int* w, int a, int b);
+	int e(const int *w, int a, int b);
+	int eb(const int *w, int a, int b);
+	int eNT(const int *w, int a, int b);
+	int ebNT(const int *w, int a, int b);
+	int eMisere(const int *w, int a, int b);
+	int ebMisere(const int *w, int a, int b);
 
 	//find all suitable cards of one/two player(s) for game with trump
-	void suitableCards(int suit, int w, SC& c);
-	void suitableCards2(int suit, const int* w, SC& c1, SC& c2);
+	void suitableCards(int suit, int w, SC &c);
+	void suitableCards2(int suit, const int *w, SC &c1, SC &c2);
 
 	//find all suitable cards of one/two player(s) for no trump and no misere game
-	void suitableCardsNT(int suit, int w, SC& c);
-	void suitableCards2NT(int suit, const int* w, SC& c1, SC& c2);
+	void suitableCardsNT(int suit, int w, SC &c);
+	void suitableCards2NT(int suit, const int *w, SC &c1, SC &c2);
 
 	//find all suitable cards of one/two player(s) for misere game
-	void suitableCardsMisere(int suit, int w, SC& c);
-	void suitableCards2Misere(int suit, const int* w, SC& c1, SC& c2);
+	void suitableCardsMisere(int suit, int w, SC &c);
+	void suitableCards2Misere(int suit, const int *w, SC &c1, SC &c2);
 
 #ifndef NDEBUG
 	int getW(int suit, int pos);
@@ -231,11 +228,11 @@ public:
 	 * but if smallHash=false the one problem counts about 0.3 seconds
 	 * if smallHash=false then count solve_all_deals 184,756 positions much faster
 	 */
-	Preferans(bool smallHash=true);
+	Preferans(bool smallHash = true);
 	~Preferans();
 
-	int whistersTricks(){
-		return m_cards-m_playerTricks;
+	int whistersTricks() {
+		return m_cards - m_playerTricks;
 	}
 	/* c [0-12 - spades A-2], [13-25 hearts A-2], [26-38 diamonds A-2], [39-51 clubs A-2]
 	 * trump - like in bridge 0-spades, 1-hearts, 2-diamonds, 3-clubs, 4-NT
@@ -254,13 +251,12 @@ public:
 			bool trumpChanged);
 
 	//	function works correct when table is full
-	void bestLine(const CARD_INDEX c[52], CARD_INDEX first,
-			CARD_INDEX player, bool misere, const CARD_INDEX preferansPlayer[3]);
-
+	void bestLine(const CARD_INDEX c[52], CARD_INDEX first, CARD_INDEX player,
+			bool misere, const CARD_INDEX preferansPlayer[3]);
 
 #ifndef CONSOLE
-	void solve(const Problem& p, bool trumpChanged);
-	void estimateAll(const Problem& p, ESTIMATE estimateType,
+	void solve(const Problem &p, bool trumpChanged);
+	void estimateAll(const Problem &p, ESTIMATE estimateType,
 			SET_ESTIMATION_FUNCTION estimationFunction);
 #endif
 

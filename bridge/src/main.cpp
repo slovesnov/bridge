@@ -5,17 +5,17 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "Frame.h"
 #include "aslov.h"
 
 //signature https://developer.gnome.org/gio/stable/GApplication.html#GApplication-open
-static void application_open(GtkApplication *application, GFile **files, gint n_files,
-		const gchar *hint, gpointer data) {
+static void application_open(GtkApplication *application, GFile **files,
+		gint n_files, const gchar *hint, gpointer data) {
 	int i;
-	char* c;
+	char *c;
 	std::string s;
 
 	//no encode string here, tested on russian filenames using windows association
@@ -29,12 +29,11 @@ static void application_open(GtkApplication *application, GFile **files, gint n_
 	}
 
 	//list is always is NULL if application is created with G_APPLICATION_NON_UNIQUE flag
-	GList* list = gtk_application_get_windows(application);
+	GList *list = gtk_application_get_windows(application);
 	if (list) {
 		g_signal_emit_by_name(list->data, OPEN_FILE_SIGNAL_NAME, s.c_str());
 		gtk_window_present(GTK_WINDOW(list->data));
-	}
-	else {
+	} else {
 		Config config;
 		//Frame constructor & g_signal_emit_by_name call the same function which do check for empty string
 		Frame(application, s.c_str());
@@ -56,14 +55,17 @@ static void activate(GtkApplication *application, gpointer data) {
  * so in main() function call only static Config functions, and do fully load Config in open() function
  */
 int main(int argc, char *argv[]) {
-	aslovInit(argv,true);
+	aslovInit(argv, true);
 	GApplicationFlags flags = GApplicationFlags(
 			G_APPLICATION_HANDLES_OPEN
 					| (Config::allowOnlyOneInstance() ?
-							G_APPLICATION_DEFAULT_FLAGS : G_APPLICATION_NON_UNIQUE));
-	GtkApplication *app = gtk_application_new(Config::getUniqueApplicationName().c_str(), flags);
+							G_APPLICATION_DEFAULT_FLAGS :
+							G_APPLICATION_NON_UNIQUE));
+	GtkApplication *app = gtk_application_new(
+			Config::getUniqueApplicationName().c_str(), flags);
 	g_signal_connect(app, "activate", G_CALLBACK (activate), gpointer(argv[0])); //this function is called when application has no arguments
-	g_signal_connect(app, "open", G_CALLBACK (application_open), gpointer(argv[0])); //this function is called when application has arguments
+	g_signal_connect(app, "open", G_CALLBACK (application_open),
+			gpointer(argv[0])); //this function is called when application has arguments
 	g_application_run(G_APPLICATION(app), argc, argv);
 	g_object_unref(app);
 	return 0;

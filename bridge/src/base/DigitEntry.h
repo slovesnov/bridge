@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef BASE_DIGITENTRY_H_
@@ -15,14 +15,14 @@
 
 class DigitEntry {
 public:
-	GtkWidget* m_widget;
+	GtkWidget *m_widget;
 	int m_min;
 	int m_max;
 	bool m_valid;
 	int m_value;
-	ButtonsDialog* m_dialog;
+	ButtonsDialog *m_dialog;
 
-	void create(int min, int max, int startValue, ButtonsDialog*dialog);
+	void create(int min, int max, int startValue, ButtonsDialog *dialog);
 	virtual ~DigitEntry();
 
 	void check();

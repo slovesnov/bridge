@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include <glib.h>
@@ -18,62 +18,53 @@
 #include "../dialogs/MessageDialog.h"
 
 //ordered by alphabet
-const char* DEALER[] = { "N", "E", "S", "W" }; //same it's in pbn
-const char* DOUBLE_REDOUBLE[] = { "", "X", "XX" }; //same it's in pbn
-const char* LEADER[] = { "North", "East", "South", "West" }; //not depend on the current language used to save df and pbn files
-const char* ROOM[] = { "Open", "Closed" }; //same it's in pbn
-const char* SCORE[] = { "NS", "EW" }; //same it's in pbn
-const char* VULNERABLE[] = { "None", "NS", "EW", "All" }; //same it's in pbn
+const char *DEALER[] = { "N", "E", "S", "W" }; //same it's in pbn
+const char *DOUBLE_REDOUBLE[] = { "", "X", "XX" }; //same it's in pbn
+const char *LEADER[] = { "North", "East", "South", "West" }; //not depend on the current language used to save df and pbn files
+const char *ROOM[] = { "Open", "Closed" }; //same it's in pbn
+const char *SCORE[] = { "NS", "EW" }; //same it's in pbn
+const char *VULNERABLE[] = { "None", "NS", "EW", "All" }; //same it's in pbn
 
-const char SVG[]="svg";
-const char PNG[]="png";
-
+const char SVG[] = "svg";
+const char PNG[] = "png";
 
 FILE_TYPE getFileType(std::string filepath) {
 	std::string ext = getFileInfo(filepath, FILEINFO::LOWER_EXTENSION);
 	if (ext == "pbn") {
 		return FILE_TYPE_PBN;
-	}
-	else if (ext == "bts") {
+	} else if (ext == "bts") {
 		return FILE_TYPE_BRIDGE;
-	}
-	else if (ext == "pts") {
+	} else if (ext == "pts") {
 		return FILE_TYPE_PREFERANS;
-	}
-	else if (ext == "txt" || ext == "dat") {
+	} else if (ext == "txt" || ext == "dat") {
 		return FILE_TYPE_DF;
-	}
-	else if (ext == "htm" || ext == "html") {
+	} else if (ext == "htm" || ext == "html") {
 		return FILE_TYPE_HTML;
-	}
-	else if (ext == "csv") {
+	} else if (ext == "csv") {
 		return FILE_TYPE_CSV;
-	}
-	else {
+	} else {
 		if (gconfig->isWritableImage(ext)) {
 			return FILE_TYPE_IMAGE;
-		}
-		else {
+		} else {
 			return FILE_TYPE_ERROR;
 		}
 	}
 }
 
 CARD_INDEX playerFromChar(char c) {
-	const char*p = strchr(PLAYER_CHAR, c);
+	const char *p = strchr(PLAYER_CHAR, c);
 	if (p == NULL) {
 		return CARD_INDEX_INVALID;
-	}
-	else {
+	} else {
 		return PLAYER[p - PLAYER_CHAR];
 	}
 }
 
-const gchar* getString(const STRING_ID& id) {
+const gchar* getString(const STRING_ID &id) {
 	return gconfig->getString(id);
 }
 
-const gchar* getString(const MENU_ID& id) {
+const gchar* getString(const MENU_ID &id) {
 	return gmenu->getString(id);
 }
 
@@ -96,17 +87,15 @@ int countBridgeScore(const int contract, const int trump, const int tricks,
 	//checked!
 	if (vulnerable == 0 || vulnerable == 3) {
 		zone = vulnerable == 3;
-	}
-	else {
+	} else {
 		zone = declarer % 2 != vulnerable % 2;
 	}
 
-	return countBridgeScore(contract, trump, tricks,
-			doubleRedouble, zone);
+	return countBridgeScore(contract, trump, tricks, doubleRedouble, zone);
 }
 
 int countBridgeScore(const int contract, const int trump, const int tricks,
-		const int doubleRedouble, const bool vulnerable){
+		const int doubleRedouble, const bool vulnerable) {
 	int i, j;
 	int res = 0;
 	int additionalTricks = tricks - contract - 6;
@@ -126,13 +115,11 @@ int countBridgeScore(const int contract, const int trump, const int tricks,
 		//2 premium for partial notation,game, small helmet and big helmet
 		if (res < 100) {
 			res += 50;
-		}
-		else {
+		} else {
 			res += zone ? 500 : 300;
 			if (contract == 6) {
 				res += zone ? 750 : 500;
-			}
-			else if (contract == 7) {
+			} else if (contract == 7) {
 				res += zone ? 1500 : 1000;
 			}
 		}
@@ -141,29 +128,24 @@ int countBridgeScore(const int contract, const int trump, const int tricks,
 		if (additionalTricks > 0) {
 			if (doubleRedouble == 0) {
 				res += (suitType == 0 ? 20 : 30) * additionalTricks;
-			}
-			else {
+			} else {
 				res += 100 * (zone + 1) * doubleRedouble * additionalTricks;
 			}
 		}
 
 		//4 premium for contra & recontra
 		res += 50 * doubleRedouble;
-	}
-	else { //lost contract
+	} else { //lost contract
 		j = -additionalTricks;
 		if (doubleRedouble == 0) {
 			res = -(zone ? 100 : 50) * j;
-		}
-		else {
+		} else {
 			for (i = 1; i < j + 1; i++) {
 				if (i == 1) {
 					res -= zone ? 200 : 100;
-				}
-				else if (i == 2 || i == 3) {
+				} else if (i == 2 || i == 3) {
 					res -= zone ? 300 : 200;
-				}
-				else {
+				} else {
 					res -= 300;
 				}
 			}
@@ -180,8 +162,8 @@ const std::string getNTString() {
 	return utf8ToUpperCase(s);
 }
 
-std::string getLowercasedPlayerString(CARD_INDEX player){
-	std::string s=getPlayerString(player);
+std::string getLowercasedPlayerString(CARD_INDEX player) {
+	std::string s = getPlayerString(player);
 	return utf8ToLowerCase(s);
 }
 
@@ -193,8 +175,7 @@ std::string getCardRankString(int index) {
 	int card = 12 - index % 13; //0 - two, 8 - ten, 9 - jack
 	if (card < 9) {
 		return format("%d", card + 2);
-	}
-	else {
+	} else {
 		return getString(static_cast<STRING_ID>(STRING_J + card - 9));
 	}
 }
@@ -209,9 +190,10 @@ int getSuitsOrder(int i) {
 	return gconfig->getSuitsOrder(i);
 }
 
-int getInverseSuitsOrder(int i){
+int getInverseSuitsOrder(int i) {
 	int j;
-	for(j=0;j<4 && gconfig->getSuitsOrder(j)!=i;j++);
+	for (j = 0; j < 4 && gconfig->getSuitsOrder(j) != i; j++)
+		;
 	assert(j<4);
 	return j;
 }
@@ -240,19 +222,19 @@ int getAreaMaxHeight() {
 	return gconfig->getAreaMaxHeight();
 }
 
-int countEndX(const std::string& s) {
+int countEndX(const std::string &s) {
 	int i, j = s.length() - 1;
 	for (i = j; i >= 0 && tolower(s[i]) == 'x'; i--)
 		;
 	return j - i;
 }
 
-AuctionTagParseResult parseAuctionTag(const std::string& auctionValue,
-		const std::string& auctionAdd) {
+AuctionTagParseResult parseAuctionTag(const std::string &auctionValue,
+		const std::string &auctionAdd) {
 	VStringCI it, ito;
 	VString a, o;
 	std::string s;
-	const char*p, *q;
+	const char *p, *q;
 	char c;
 	int i, pass, ncontract, ntrump, contract, trump, declarer;
 	int doubleredouble;
@@ -344,31 +326,31 @@ AuctionTagParseResult parseAuctionTag(const std::string& auctionValue,
 		}
 
 		if (it->length() < 2 || it->length() > 3) {
-			return AuctionTagParseResult(STRING_ERROR_AUCTION_TAG_INVALID_CALL_STRING,
-					*ito);
+			return AuctionTagParseResult(
+					STRING_ERROR_AUCTION_TAG_INVALID_CALL_STRING, *ito);
 		}
 
 		c = (*it)[0];
 		if (!isdigit(c)) {
-			return AuctionTagParseResult(STRING_ERROR_AUCTION_TAG_INVALID_CALL_STRING,
-					*ito);
+			return AuctionTagParseResult(
+					STRING_ERROR_AUCTION_TAG_INVALID_CALL_STRING, *ito);
 		}
 
 		if (it->length() == 3 && (*it)[2] != 't') {
-			return AuctionTagParseResult(STRING_ERROR_AUCTION_TAG_INVALID_CALL_STRING,
-					*ito);
+			return AuctionTagParseResult(
+					STRING_ERROR_AUCTION_TAG_INVALID_CALL_STRING, *ito);
 		}
 
 		ncontract = c - '0';
 		if (ncontract > 7) {
-			return AuctionTagParseResult(STRING_ERROR_AUCTION_TAG_INVALID_CALL_STRING,
-					*ito);
+			return AuctionTagParseResult(
+					STRING_ERROR_AUCTION_TAG_INVALID_CALL_STRING, *ito);
 		}
 
 		p = strchr(SO, (*it)[1]);
 		if (p == NULL) {
-			return AuctionTagParseResult(STRING_ERROR_AUCTION_TAG_INVALID_CALL_STRING,
-					*ito);
+			return AuctionTagParseResult(
+					STRING_ERROR_AUCTION_TAG_INVALID_CALL_STRING, *ito);
 		}
 		ntrump = p - SO;
 
@@ -388,7 +370,7 @@ AuctionTagParseResult parseAuctionTag(const std::string& auctionValue,
 	}
 
 	//need 'trump' for firstDeclarer
-	ntrump = INDEX_OF(SO[trump],SUITS_CHAR );
+	ntrump = INDEX_OF(SO[trump], SUITS_CHAR);
 	assert(ntrump != -1);
 
 	s = format("%d", contract) + getEnglishTrumpString(ntrump);
@@ -402,29 +384,30 @@ AuctionTagParseResult parseAuctionTag(const std::string& auctionValue,
 
 	return AuctionTagParseResult(STRING_OK, s,
 			toupper(
-					PLAYER_CHAR[(p - PLAYER_CHAR + firstDeclarer[declarer % 2][trump]) % 4]));
+					PLAYER_CHAR[(p - PLAYER_CHAR
+							+ firstDeclarer[declarer % 2][trump]) % 4]));
 }
 
 /*
-std::string getLowerTrumpString(int trump){
-	if(trump==NT){
-		return getString(STRING_NT);
-	}
+ std::string getLowerTrumpString(int trump){
+ if(trump==NT){
+ return getString(STRING_NT);
+ }
 
-	std::string s=getString(STRING_ID(STRING_SPADES+trump));
-	return utf8Substring(s, 0, 1);
-}
+ std::string s=getString(STRING_ID(STRING_SPADES+trump));
+ return utf8Substring(s, 0, 1);
+ }
 
-std::string getUpperTrumpString(int trump){
-	if(trump==NT){
-		return getNTString();
-	}
+ std::string getUpperTrumpString(int trump){
+ if(trump==NT){
+ return getNTString();
+ }
 
-	std::string s=getString(STRING_ID(STRING_SPADES+trump));
-	s=utf8Substring(s, 0, 1);
-	return utf8ToUpperCase(s);
-}
-*/
+ std::string s=getString(STRING_ID(STRING_SPADES+trump));
+ s=utf8Substring(s, 0, 1);
+ return utf8ToUpperCase(s);
+ }
+ */
 
 std::string getEnglishTrumpString(int trump) {
 	std::string s;
@@ -446,9 +429,9 @@ std::string rgbaToString(const GdkRGBA c) {
 			int(c.blue * 255), int(c.alpha * 255));
 }
 
-unsigned rgbaToUnsigned(const GdkRGBA c){
-	return unsigned(c.red * 255)<<24 | unsigned(c.green * 255)<<16 |
-			unsigned(c.blue * 255)<<8 | unsigned(c.alpha * 255);
+unsigned rgbaToUnsigned(const GdkRGBA c) {
+	return unsigned(c.red * 255) << 24 | unsigned(c.green * 255) << 16
+			| unsigned(c.blue * 255) << 8 | unsigned(c.alpha * 255);
 }
 
 #ifndef FINAL_RELEASE
@@ -492,8 +475,8 @@ void exploreAllChildrenRecursive(GtkWidget* w) {
 }
 #endif
 
-CARD_INDEX getPlayerForArray(CARD_INDEX player, const CARD_INDEX*a,
-		int size, bool next, int count) {
+CARD_INDEX getPlayerForArray(CARD_INDEX player, const CARD_INDEX *a, int size,
+		bool next, int count) {
 
 	const bool inner = isInner(player);
 	CARD_INDEX ci = player;
@@ -501,7 +484,7 @@ CARD_INDEX getPlayerForArray(CARD_INDEX player, const CARD_INDEX*a,
 		ci = getOuter(player);
 	}
 
-	int i = indexOf(ci,a, size);
+	int i = indexOf(ci, a, size);
 
 	assert(i != -1);
 
@@ -521,12 +504,12 @@ ESTIMATE getEstimateType() {
 	return gconfig->getEstimateType();
 }
 
-int isBridgeSolveAllDealsAbsentNS(){
+int isBridgeSolveAllDealsAbsentNS() {
 	return gconfig->m_bridgeSolveAllDealsAbsentNS;
 }
 
-void setBridgeSolveAllDealsAbsentNS(int ns){
-	gconfig->m_bridgeSolveAllDealsAbsentNS=ns;
+void setBridgeSolveAllDealsAbsentNS(int ns) {
+	gconfig->m_bridgeSolveAllDealsAbsentNS = ns;
 }
 
 int indexOfPlayer(CARD_INDEX player) {
@@ -548,8 +531,7 @@ std::string getBgImageName(int i) {
 }
 
 //using CRect so not aslov lib function
-void copyFromPixbuf(GdkPixbuf* source, cairo_t * dest,
-		CRect const& rect) {
+void copyFromPixbuf(GdkPixbuf *source, cairo_t *dest, CRect const &rect) {
 	const int destx = rect.left;
 	const int desty = rect.top;
 	gdk_cairo_set_source_pixbuf(dest, source, destx, desty);
@@ -557,8 +539,7 @@ void copyFromPixbuf(GdkPixbuf* source, cairo_t * dest,
 	cairo_fill(dest);
 }
 
-CARD_INDEX getBridgePlayer(CARD_INDEX player, bool next,
-		int count) {
+CARD_INDEX getBridgePlayer(CARD_INDEX player, bool next, int count) {
 	return getPlayerForArray(player, PLAYER, 4, next, count);
 }
 
@@ -574,35 +555,34 @@ CARD_INDEX getBridgePartner(CARD_INDEX player) {
 	return getBridgePlayer(player, true, 2);
 }
 
-
-BUTTON_STATE boolToButtonState(bool b){
-	return b? BUTTON_STATE_ENABLED : BUTTON_STATE_DISABLED;
+BUTTON_STATE boolToButtonState(bool b) {
+	return b ? BUTTON_STATE_ENABLED : BUTTON_STATE_DISABLED;
 }
 
-gint message(MESSAGE_ICON_TYPE iconType, const char* s,
+gint message(MESSAGE_ICON_TYPE iconType, const char *s,
 		BUTTONS_DIALOG_TYPE type) {
 	MessageDialog d(iconType, s, type);
 	return d.getReturnCode();
 }
 
-gint message(MESSAGE_ICON_TYPE t, const std::string& s,
+gint message(MESSAGE_ICON_TYPE t, const std::string &s,
 		BUTTONS_DIALOG_TYPE type) {
 	return message(t, s.c_str(), type);
 }
 
-void message(MESSAGE_ICON_TYPE t, const char* s) {
+void message(MESSAGE_ICON_TYPE t, const char *s) {
 	message(t, s, BUTTONS_DIALOG_OK);
 }
 
-void message(MESSAGE_ICON_TYPE t, const std::string& s) {
+void message(MESSAGE_ICON_TYPE t, const std::string &s) {
 	message(t, s.c_str());
 }
 
-void message(MESSAGE_ICON_TYPE t, STRING_ID id,BUTTONS_DIALOG_TYPE type){
-	message(t, getString(id),type);
+void message(MESSAGE_ICON_TYPE t, STRING_ID id, BUTTONS_DIALOG_TYPE type) {
+	message(t, getString(id), type);
 }
 
-bool selectColor(const char* s, GdkRGBA* color) {
+bool selectColor(const char *s, GdkRGBA *color) {
 	/* GLib-GIO-Message: gregistrysettingsbackend: error parsing key /org/gtk/settings/color-chooser/custom-colors: 76-99:number too big for any type
 	 * warning appear even if just call GtkWidget *dialog = gtk_color_chooser_dialog_new (getString(MENU_CUSTOM_SKIN),GTK_WINDOW(getWidget()));
 	 */
@@ -619,7 +599,7 @@ bool selectColor(const char* s, GdkRGBA* color) {
 	return r;
 }
 
-bool selectFont(const char* s, PangoFontDescription*& font) {
+bool selectFont(const char *s, PangoFontDescription *&font) {
 	GtkWidget *dialog = gtk_font_chooser_dialog_new(s,
 			GTK_WINDOW(gframe->getWidget()));
 	gtk_font_chooser_set_font_desc(GTK_FONT_CHOOSER(dialog), font);
@@ -633,16 +613,16 @@ bool selectFont(const char* s, PangoFontDescription*& font) {
 	return r;
 }
 
-bool think(){
+bool think() {
 	return gdraw->think();
 }
 
-std::string getArrowFileName(int n,bool svg) {
-	return format("arrow%d.%s", n,svg?SVG:PNG);
+std::string getArrowFileName(int n, bool svg) {
+	return format("arrow%d.%s", n, svg ? SVG : PNG);
 }
 
-std::string getDeckFileName(int n,bool svg) {
-	return format("deck%d.%s", n,svg?SVG:PNG);
+std::string getDeckFileName(int n, bool svg) {
+	return format("deck%d.%s", n, svg ? SVG : PNG);
 }
 
 std::string getDeckFileName() {
@@ -654,15 +634,15 @@ GdkPixbuf* getContractPixbuf(int n) {
 }
 
 GdkPixbuf* getSuitPixbuf(int suit, int size) {
-	GdkPixbuf* p = pixbuf(getSuitString(suit));
+	GdkPixbuf *p = pixbuf(getSuitString(suit));
 	if (size != SUIT_PIXBUF_SIZE) {
 		p = gdk_pixbuf_scale_simple(p, size, size, GDK_INTERP_BILINEAR);
 	}
 	return p;
 }
 
-std::string intToStringLocaled(int v){
-	return toString(v,gconfig->m_thousandsSeparatorString[0]);
+std::string intToStringLocaled(int v) {
+	return toString(v, gconfig->m_thousandsSeparatorString[0]);
 }
 
 void unsignedToGdkRGBA(unsigned v, GdkRGBA &c) {
@@ -672,55 +652,55 @@ void unsignedToGdkRGBA(unsigned v, GdkRGBA &c) {
 	c.red = ((v >> 24) & 0xff) / 255.;
 }
 
-GtkWidget* createMarkupLabel(std::string const& s,int maxChars/*=0*/){
+GtkWidget* createMarkupLabel(std::string const &s, int maxChars/*=0*/) {
 	auto l = gtk_label_new(0);
 	auto a = GTK_LABEL(l);
 	gtk_label_set_markup(a, s.c_str());
 	gtk_label_set_justify(a, GTK_JUSTIFY_FILL);
 	gtk_label_set_line_wrap(a, TRUE);
-	if(maxChars){
+	if (maxChars) {
 		gtk_label_set_max_width_chars(a, maxChars);
 	}
 	return l;
 }
 
 GtkWidget* createMarkupLabel(STRING_ID id, int maxChars/*=0*/) {
-	std::string s=getString(id);
-	return createMarkupLabel(s,maxChars);
+	std::string s = getString(id);
+	return createMarkupLabel(s, maxChars);
 }
 
-GtkWidget* createBoldLabel(STRING_ID id){
-	std::string s=getString(id);
+GtkWidget* createBoldLabel(STRING_ID id) {
+	std::string s = getString(id);
 	return createBoldLabel(s);
 }
 
-GtkWidget* createBoldLabel(std::string const& s){
-	return createMarkupLabel("<b>"+s+"</b>");
+GtkWidget* createBoldLabel(std::string const &s) {
+	return createMarkupLabel("<b>" + s + "</b>");
 }
 
-GtkWidget* createUnderlinedLabel(STRING_ID id){
-	std::string s=getString(id);
+GtkWidget* createUnderlinedLabel(STRING_ID id) {
+	std::string s = getString(id);
 	return createUnderlinedLabel(s);
 }
 
-GtkWidget* createUnderlinedLabel(CARD_INDEX id){
-	std::string s=getPlayerString(id);
+GtkWidget* createUnderlinedLabel(CARD_INDEX id) {
+	std::string s = getPlayerString(id);
 	return createUnderlinedLabel(s);
 }
 
-GtkWidget* createUnderlinedLabel(std::string const& s){
-	return createMarkupLabel("<u>"+s+"</u>");
+GtkWidget* createUnderlinedLabel(std::string const &s) {
+	return createMarkupLabel("<u>" + s + "</u>");
 }
 
-GtkWidget* containerGetChild(GtkWidget* w,int n){
+GtkWidget* containerGetChild(GtkWidget *w, int n) {
 	assert(GTK_IS_CONTAINER(w));
-	int i=0;
+	int i = 0;
 	GList *iter;
-	GtkWidget*r=nullptr;
+	GtkWidget *r = nullptr;
 	GList *children = gtk_container_get_children(GTK_CONTAINER(w));
-	for(iter = children; iter != NULL; iter = g_list_next(iter)){
-		if(i==n){
-			r=GTK_WIDGET(iter->data);//store before g_list_free
+	for (iter = children; iter != NULL; iter = g_list_next(iter)) {
+		if (i == n) {
+			r = GTK_WIDGET(iter->data); //store before g_list_free
 			break;
 		}
 		i++;
@@ -730,13 +710,14 @@ GtkWidget* containerGetChild(GtkWidget* w,int n){
 	return r;
 }
 
-
-std::string getPlayerString(const CARD_INDEX cid[52],CARD_INDEX player,bool includeInner/*=false*/){
+std::string getPlayerString(const CARD_INDEX cid[52], CARD_INDEX player,
+		bool includeInner/*=false*/) {
 	std::string s;
-	int i,j;
+	int i, j;
 	for (i = 0; i < 4; ++i) {
 		for (j = 0; j < 13; ++j) {
-			if (cid[i * 13 + j] == player || (includeInner && cid[i * 13 + j] == player + 4)) {	//sometimes can be ci+4 on very first state
+			if (cid[i * 13 + j] == player
+					|| (includeInner && cid[i * 13 + j] == player + 4)) {//sometimes can be ci+4 on very first state
 				s += toupper(RANK[j]);
 			}
 		}
@@ -747,16 +728,17 @@ std::string getPlayerString(const CARD_INDEX cid[52],CARD_INDEX player,bool incl
 	return s;
 }
 
-void showOpenFileError(){
-	std::string s=getString(STRING_ERROR_COULD_NOT_OPEN_FILE_FOR_WRITING);
-	message(MESSAGE_ICON_ERROR,s+".\n"+strerror(errno)+".");
+void showOpenFileError() {
+	std::string s = getString(STRING_ERROR_COULD_NOT_OPEN_FILE_FOR_WRITING);
+	message(MESSAGE_ICON_ERROR, s + ".\n" + strerror(errno) + ".");
 }
 
-void clearContainer(GtkWidget*container){
+void clearContainer(GtkWidget *container) {
 	auto children = gtk_container_get_children(GTK_CONTAINER(container));
 	if (g_list_length(children) > 0) {
 		for (auto iter = children; iter != NULL; iter = g_list_next(iter)) {
-			gtk_container_remove(GTK_CONTAINER(container), GTK_WIDGET(iter->data));
+			gtk_container_remove(GTK_CONTAINER(container),
+					GTK_WIDGET(iter->data));
 		}
 	}
 	g_list_free(children);

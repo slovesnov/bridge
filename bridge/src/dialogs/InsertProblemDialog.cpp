@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "InsertProblemDialog.h"
@@ -13,11 +13,11 @@
 
 const int MIN_QUANTITY = 1;
 
-static void toggle_radio(GtkWidget *w, InsertProblemDialog*d) {
+static void toggle_radio(GtkWidget *w, InsertProblemDialog *d) {
 	d->toggle(w);
 }
 
-InsertProblemDialog::InsertProblemDialog(EditListDialog* eld) :
+InsertProblemDialog::InsertProblemDialog(EditListDialog *eld) :
 		ButtonsDialog(STRING_INSERT, BUTTONS_DIALOG_OK_CANCEL, eld) {
 	int i;
 	GtkWidget *w, *w1;
@@ -43,8 +43,7 @@ InsertProblemDialog::InsertProblemDialog(EditListDialog* eld) :
 					getString(INSERT_PROBLEM_DIALOG_RID[i]));
 			rb = GTK_RADIO_BUTTON(m_radio[i]);
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(m_radio[i]), TRUE);
-		}
-		else {
+		} else {
 			m_radio[i] = gtk_radio_button_new_with_label_from_widget(rb,
 					getString(INSERT_PROBLEM_DIALOG_RID[i]));
 		}
@@ -106,8 +105,8 @@ bool InsertProblemDialog::click(int index) {
 		}
 		assert(i<SIZEI(m_radio));
 
-		before = getComboPosition(m_combo[INSERT_PROBLEM_DIALOG_COMBO_BEFORE_AFTER])
-				== 0;
+		before = getComboPosition(
+				m_combo[INSERT_PROBLEM_DIALOG_COMBO_BEFORE_AFTER]) == 0;
 
 		if (i == 2) {
 			FileChooserResult r = fileChooser(MENU_OPEN, FILE_TYPE_ANY,
@@ -115,35 +114,34 @@ bool InsertProblemDialog::click(int index) {
 			if (r.ok()) {
 				assert(r.m_response == GTK_RESPONSE_OK);
 				m_pvm->insert(r.m_files, before);
-			}
-			else {
+			} else {
 				return false;
 			}
 
-		}
-		else {
+		} else {
 			m_pvm->insert(i == 0, before,
-					getComboPosition(m_combo[INSERT_PROBLEM_DIALOG_COMBO_QUANTITY])
+					getComboPosition(
+							m_combo[INSERT_PROBLEM_DIALOG_COMBO_QUANTITY])
 							+ MIN_QUANTITY,
 					GAME_TYPE(
-							getComboPosition(m_combo[INSERT_PROBLEM_DIALOG_COMBO_GAMETYPE])));
+							getComboPosition(
+									m_combo[INSERT_PROBLEM_DIALOG_COMBO_GAMETYPE])));
 		}
 	}
 	return true;
 }
 
-void InsertProblemDialog::toggle(GtkWidget* w) {
+void InsertProblemDialog::toggle(GtkWidget *w) {
 	int i;
 	bool fromFile;
-	GtkWidget*w1;
+	GtkWidget *w1;
 	if ((gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w)))) {
 		fromFile = INDEX_OF(w,m_radio) == 2;
 		for (i = 0; i < 2; i++) {
 			w1 = gtk_grid_get_child_at(GTK_GRID(m_grid), 1, i);
 			if (fromFile) {
 				gtk_widget_hide(w1);
-			}
-			else {
+			} else {
 				gtk_widget_show_all(w1);
 			}
 		}

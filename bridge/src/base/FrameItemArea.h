@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef FRAMEITEMAREA_H_
@@ -19,7 +19,7 @@ protected:
 	CairoSurface m_cs;
 
 public:
-	FrameItemArea(GtkWidget*widget = NULL);
+	FrameItemArea(GtkWidget *widget = NULL);
 	virtual ~FrameItemArea();
 
 	inline void redraw() { //redraw in memory & show on screen
@@ -29,14 +29,14 @@ public:
 
 	virtual void changeShowOption();
 
-	virtual void copySurface(cairo_t* cr) {
+	virtual void copySurface(cairo_t *cr) {
 		cairo_set_source_surface(cr, m_cs, 0, 0);
 		cairo_paint(cr);
 	}
 
 	void initResizeRedraw();
 
-	virtual CSize getSize() const=0;
+	virtual CSize getSize() const =0;
 
 protected:
 
@@ -74,7 +74,7 @@ protected:
 		copyFromBackground(x, y, width, height, x, y);
 	}
 
-	inline void copyFromBackground(CRect const& r) {
+	inline void copyFromBackground(CRect const &r) {
 		copyFromBackground(r.left, r.top, r.width(), r.height());
 	}
 
@@ -101,17 +101,17 @@ public:
 	CSize getTextExtents(TextWithAttributes text, cairo_t *cr);
 protected:
 
-	cairo_surface_t * getDeckSurface() const;
+	cairo_surface_t* getDeckSurface() const;
 
-	void copyFromDeck(cairo_t * cr, int destx, int desty, int index) {
-		copyFromDeck(cr, destx, desty, getCardSize().cx, getCardSize().cy, index, 0,
-				0);
+	void copyFromDeck(cairo_t *cr, int destx, int desty, int index) {
+		copyFromDeck(cr, destx, desty, getCardSize().cx, getCardSize().cy,
+				index, 0, 0);
 	}
 
-	void copyFromDeck(cairo_t * cr, int destx, int desty, int width,
-			int height, int index, int addx, int addy);
+	void copyFromDeck(cairo_t *cr, int destx, int desty, int width, int height,
+			int index, int addx, int addy);
 
-	CRect getInsideRect(const CRect& r, CARD_INDEX index);
+	CRect getInsideRect(const CRect &r, CARD_INDEX index);
 
 };
 

@@ -5,7 +5,7 @@
  *      Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include <cassert>
@@ -13,7 +13,7 @@
 #include "PreferansScore.h"
 
 int& PreferansScore::whist(int from, int to) {
-	return m_whist[from*4+to];
+	return m_whist[from * 4 + to];
 }
 
 void PreferansScore::setGame(int players, int contract, int tricks,
@@ -22,7 +22,7 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 	assert(contract == 0 || (contract >= 6 && contract <= 10));
 	assert(tricks >= 0 && tricks <= 10);
 
-	int i,p;
+	int i, p;
 	double v;
 
 	m_players = players;
@@ -41,30 +41,28 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 
 	if (contract == 0) {
 		m_pg[player] = tricks == 0 ? 10 : -10 * tricks;
-	}
-	else{
+	} else {
 		const int undertricks = contract - tricks; //[ru] недобранные взятки
 		const int whistertricks = 10 - tricks;
-		const int MIN_WHISTER_TRICKS[]={4,2,1,1,0};
+		const int MIN_WHISTER_TRICKS[] = { 4, 2, 1, 1, 0 };
 		const bool contractDone = undertricks <= 0;
-		const int minwhistertricks=MIN_WHISTER_TRICKS[contract-6];
+		const int minwhistertricks = MIN_WHISTER_TRICKS[contract - 6];
 
-		if(m_whistOption==WHIST_OPTION_HALFWHIST || m_whistOption==WHIST_OPTION_ALLPASS){
+		if (m_whistOption == WHIST_OPTION_HALFWHIST
+				|| m_whistOption == WHIST_OPTION_ALLPASS) {
 			assert(tricks==contract);
 		}
 		m_pg[player] = c * (contractDone ? 1 : -undertricks);
 
-		if(m_whistOption==WHIST_OPTION_ALLPASS){
+		if (m_whistOption == WHIST_OPTION_ALLPASS) {
 
-		}
-		else{
+		} else {
 			//http://pref-bridge.ru/PrefRulesCommon3.htm
-			if(contractDone){
+			if (contractDone) {
 				if (whistertricks < minwhistertricks) {
 					m_pg[whister] = c * (whistertricks - minwhistertricks);
 				}
-			}
-			else{
+			} else {
 				//[en] consolation - penalty whists [ru] консоляция
 				for (i = 0; i < m_players; i++) {
 					if (i != player) {
@@ -74,8 +72,8 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 
 			}
 			whist(1, player) += c * whistertricks;
-			if(m_whistOption==WHIST_OPTION_HALFWHIST){
-				whist(1, player)/=2;
+			if (m_whistOption == WHIST_OPTION_HALFWHIST) {
+				whist(1, player) /= 2;
 			}
 		}
 	}

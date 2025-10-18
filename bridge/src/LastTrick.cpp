@@ -5,25 +5,27 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "LastTrick.h"
 #include "Frame.h"
 
-LastTrick*glasttrick;
+LastTrick *glasttrick;
 
 static gboolean draw_grid_background(GtkWidget *widget, cairo_t *cr, gpointer) {
 	glasttrick->drawGridBackground(cr);
 	return FALSE;
 }
 
-static gboolean cell_click(GtkWidget *widget, GdkEventButton *event,gpointer data) {
+static gboolean cell_click(GtkWidget *widget, GdkEventButton *event,
+		gpointer data) {
 	glasttrick->cellClick(GP2INT(data));
 	return TRUE;
 }
 
-static gboolean mouse_enter_event(GtkWidget *widget, GdkEventButton *event,gpointer data) {
+static gboolean mouse_enter_event(GtkWidget *widget, GdkEventButton *event,
+		gpointer data) {
 	glasttrick->gridMouseEnter(GP2INT(data));
 	return TRUE;
 }
@@ -37,20 +39,21 @@ static gboolean mouse_leave_event(GtkWidget *widget, GdkEventCrossing *event,
 LastTrick::LastTrick() :
 		FrameItemArea() {
 	int i;
-	glasttrick=this;
-	m_rows=m_columns=0;
+	glasttrick = this;
+	m_rows = m_columns = 0;
 
 	setSuitPixbufs();
 
-	for(i=0;i<52;i++){
+	for (i = 0; i < 52; i++) {
 		m_labelCard[i] = gtk_label_new("");
-		m_suit[i]= gtk_image_new();
+		m_suit[i] = gtk_image_new();
 	}
 
 	//m_scrolled = gtk_scrolled_window_new(NULL, NULL);
 
 	m_grid = gtk_grid_new();
-	g_signal_connect(G_OBJECT (m_grid), "draw", G_CALLBACK (draw_grid_background), 0);
+	g_signal_connect(G_OBJECT (m_grid), "draw",
+			G_CALLBACK (draw_grid_background), 0);
 	//gtk_container_add (GTK_CONTAINER (m_scrolled), m_grid);
 
 	/* couldn't call setGrid() here, because need MENU_LAST_TRICK_GAME_ANALYSIS
@@ -62,15 +65,15 @@ LastTrick::LastTrick() :
 	gtk_container_add(GTK_CONTAINER(m_full), getWidget());
 
 	//prevents destroy after gtk_container_remove on change show option
-	g_object_ref (m_full);
+	g_object_ref(m_full);
 }
 
 LastTrick::~LastTrick() {
-	g_object_unref (m_full);
+	g_object_unref(m_full);
 }
 
 CSize LastTrick::getSize() const {
-	return gconfig->m_showLastTrick ? getVisibleSize():CSize(0, 0) ;
+	return gconfig->m_showLastTrick ? getVisibleSize() : CSize(0, 0);
 }
 
 CSize LastTrick::getVisibleSize() const {
@@ -78,9 +81,9 @@ CSize LastTrick::getVisibleSize() const {
 	return {std::max(2*a.cx,MIN_LAST_TRICK_WIDTH), std::max(2*a.cy,getBestLineSize().cy*getMaxHandCards())};
 }
 
-CSize LastTrick::getFullVisibleSize() const{
-	CSize a=getVisibleSize();
-	a.cx+=getBestLineSize().cx;
+CSize LastTrick::getFullVisibleSize() const {
+	CSize a = getVisibleSize();
+	a.cx += getBestLineSize().cx;
 	return a;
 }
 
@@ -100,15 +103,15 @@ void LastTrick::draw() {
 	copyFromBackground(0, 0, sz.cx, sz.cy, j, i);
 
 	if (fm == CARD_INDEX_INVALID) {
-		i=0;
-		for (auto s:m_vLastTrick) {
+		i = 0;
+		for (auto s : m_vLastTrick) {
 			TextWithAttributes text(s);
 			CSize ts = getTextExtents(text);
-			drawText(text, (sz.cx - ts.cx) / 2, sz.cy / 2 - (i == 0 ? ts.cy : 0));
+			drawText(text, (sz.cx - ts.cx) / 2,
+					sz.cy / 2 - (i == 0 ? ts.cy : 0));
 			i++;
 		}
-	}
-	else {
+	} else {
 		r = CRect(CPoint(0, 0), sz);
 		m = gconfig->m_lastTrickMinimalMargin;
 
@@ -120,22 +123,20 @@ void LastTrick::draw() {
 			//possible last trick adjusting
 			if (ir.left < m) {
 				ir.left = m;
-			}
-			else if (ir.right > r.right - m) {
+			} else if (ir.right > r.right - m) {
 				ir.left = r.right - m - ir.width();
 			}
 
 			//last trick drawHorizontalLine(0,0,sz.cx); so need m+1
 			if (ir.top < m + 1) {
 				ir.top = m + 1;
-			}
-			else if (ir.bottom > r.bottom - m) {
+			} else if (ir.bottom > r.bottom - m) {
 				ir.top = r.bottom - m - ir.height();
 			}
 			copyFromDeck(m_cs, ir.left, ir.top, moves[i]);
 		}
 	}
-	drawBestLine();//can be called to update whole bestline
+	drawBestLine(); //can be called to update whole bestline
 }
 
 void LastTrick::newGame() {
@@ -156,15 +157,15 @@ bool LastTrick::isEmpty() {
 	return getProblem().getLastTrick(NULL) == CARD_INDEX_INVALID;
 }
 
-void LastTrick::setLastTrickGameAnalysisStrings(){
+void LastTrick::setLastTrickGameAnalysisStrings() {
 	VString v = split(getString(MENU_LAST_TRICK_GAME_ANLYSIS), " ");
 	m_vLastTrick.clear();
 	m_vGameAnalysis.clear();
 
-	auto p=&m_vLastTrick;
-	for(auto s:v){
-		if(s=="/"){
-			p=&m_vGameAnalysis;
+	auto p = &m_vLastTrick;
+	for (auto s : v) {
+		if (s == "/") {
+			p = &m_vGameAnalysis;
 			continue;
 		}
 		p->push_back(s);
@@ -180,8 +181,7 @@ void LastTrick::updateAfterCreation() {
 	drawBestLine();
 	if (getSize().cy == 0) {
 		gtk_widget_hide(m_full);
-	}
-	else {
+	} else {
 		gtk_widget_show_all(m_full);
 		resize();
 		redraw();
@@ -196,19 +196,18 @@ void LastTrick::setDeal(bool random) {
 	redraw();
 }
 
-void LastTrick::drawBestLine(){
+void LastTrick::drawBestLine() {
 	int i, j, rows, cols;
-	GtkWidget*w, *w1;
+	GtkWidget *w, *w1;
 	const int d = maxTableCards();
-	VInt& v = getState().m_bestLine;
+	VInt &v = getState().m_bestLine;
 
 	if (v.empty()) {
 		rows = cols = 1;
-	}
-	else {
+	} else {
 		i = v.size();
 		rows = i / d;
-		if(i%d!=0){
+		if (i % d != 0) {
 			rows++;
 		}
 		cols = d * 2;
@@ -222,16 +221,13 @@ void LastTrick::drawBestLine(){
 	if (m_columns == cols) {
 		if (rows == m_rows) {
 			b = 0;
-		}
-		else if (rows == m_rows - 1) {	//just remove last row
+		} else if (rows == m_rows - 1) {	//just remove last row
 			b = 0;
 			gtk_grid_remove_row(GTK_GRID(m_grid), m_rows - 1);
-		}
-		else {
+		} else {
 			b = 1;
 		}
-	}
-	else {
+	} else {
 		b = 1;
 	}
 	if (b) {
@@ -254,7 +250,7 @@ void LastTrick::drawBestLine(){
 			m_labelCard[0] = gtk_label_new("");
 		}
 		w = m_labelCard[0];
-		addClass(w,"fontcolor");
+		addClass(w, "fontcolor");
 		gtk_label_set_text(GTK_LABEL(w), s.c_str());
 		g_object_set(w, "expand", TRUE, NULL);
 		gtk_label_set_xalign(GTK_LABEL(w), 0.5);//center full label inside grid
@@ -264,11 +260,10 @@ void LastTrick::drawBestLine(){
 			gtk_widget_show_all(w);
 		}
 
-	}
-	else{
+	} else {
 		int l = 0;
 		int m = v.size();
-		int n=0;
+		int n = 0;
 		if (m % d != 0) {
 			l = d - m % d;
 			m += l;
@@ -284,8 +279,7 @@ void LastTrick::drawBestLine(){
 				if (b) {
 					if (j == 0) {
 						w = m_labelCard[i] = gtk_label_new("");
-					}
-					else {
+					} else {
 						w = m_suit[i] = gtk_image_new();
 					}
 					/* make gtk image clickable
@@ -304,28 +298,27 @@ void LastTrick::drawBestLine(){
 							G_CALLBACK(mouse_leave_event), GP(i));
 					g_signal_connect(G_OBJECT (w1), "enter-notify-event",
 							G_CALLBACK(mouse_enter_event), GP(i));
-				}
-				else {
+				} else {
 					w = w1 = j == 0 ? m_labelCard[i] : m_suit[i];
 				}
 
-				if(j==0){
+				if (j == 0) {
 					gtk_label_set_text(GTK_LABEL(w),
 							empty ? "" : getCardRankString(n % 13).c_str());
-					gtk_label_set_xalign(GTK_LABEL(w), 1);	//align card rank right
-				}
-				else{
+					gtk_label_set_xalign(GTK_LABEL(w), 1);//align card rank right
+				} else {
 					if (empty) {
 						gtk_image_clear(GTK_IMAGE(w));
-					}
-					else {
-						gtk_image_set_from_pixbuf(GTK_IMAGE(w), m_suitPixbuf[n / 13]);
+					} else {
+						gtk_image_set_from_pixbuf(GTK_IMAGE(w),
+								m_suitPixbuf[n / 13]);
 					}
 				}
 
 				g_object_set(w, "hexpand", TRUE, NULL);
 				if (b) {
-					gtk_grid_attach(GTK_GRID(m_grid), w1, 2 * (i % d) + j, i/d, 1, 1);
+					gtk_grid_attach(GTK_GRID(m_grid), w1, 2 * (i % d) + j,
+							i / d, 1, 1);
 					gtk_widget_show_all(w1);
 				}
 
@@ -333,37 +326,37 @@ void LastTrick::drawBestLine(){
 		}
 	}
 
-	m_rows=rows;
-	m_columns=cols;
+	m_rows = rows;
+	m_columns = cols;
 }
 
-void LastTrick::drawGridBackground(cairo_t *cr){
-	auto& p=getProblemSelector();//DO NOT change "auto&" to "auto"
+void LastTrick::drawGridBackground(cairo_t *cr) {
+	auto &p = getProblemSelector();	//DO NOT change "auto&" to "auto"
 	int sourcex = getArea().getSize().cx;
 	int sourcey = p.getSize().cy;
-	int h = std::max(getBestLineSize().cy*13,getVisibleSize().cy);
+	int h = std::max(getBestLineSize().cy * 13, getVisibleSize().cy);
 
 	/* more than GRID_SIZE width / height because of scrolling
 	 * visible 13 tricks need m_bestLineHeight*13
 	 */
-	copy(getBackgroundFullSurface(),cr,0,0, getBestLineSize().cx, h,sourcex,sourcey);
+	copy(getBackgroundFullSurface(), cr, 0, 0, getBestLineSize().cx, h, sourcex,
+			sourcey);
 }
 
-void LastTrick::cellClick(int n){
-	if(think()){
+void LastTrick::cellClick(int n) {
+	if (think()) {
 		return;
 	}
 	const int d = maxTableCards();
-	auto& v=getState().m_bestLine;
+	auto &v = getState().m_bestLine;
 	int i, j = v.size() % d;
 
-	if(j==0){
-		i=0;
+	if (j == 0) {
+		i = 0;
+	} else {
+		i = d - j;
 	}
-	else{
-		i=d-j;
-	}
-	for (j=0; j <n-i+1; j++) {
+	for (j = 0; j < n - i + 1; j++) {
 		gdraw->makeMove(v[j]);
 	}
 	hideToolTip();
@@ -375,12 +368,12 @@ void LastTrick::cellClick(int n){
 }
 
 void LastTrick::gridMouseEnter(int n) {
-	if(think()){
+	if (think()) {
 		return;
 	}
 
 	const int d = maxTableCards();
-	auto& v = getState().m_bestLine;
+	auto &v = getState().m_bestLine;
 	int j = v.size() % d;
 
 	//avoid tooltip for empty grid cells
@@ -388,22 +381,24 @@ void LastTrick::gridMouseEnter(int n) {
 		return;
 	}
 
-	showToolTip( (j==0? n==0 : d-j==n) ? STRING_CLICK_TO_MAKE_MOVE : STRING_CLICK_TO_MAKE_MOVES);
+	showToolTip(
+			(j == 0 ? n == 0 : d - j == n) ?
+					STRING_CLICK_TO_MAKE_MOVE : STRING_CLICK_TO_MAKE_MOVES);
 
 }
 
-void LastTrick::updateDeckSelection(){
+void LastTrick::updateDeckSelection() {
 	initResizeRedraw();
 }
 
-void LastTrick::updateFontSelection(){
+void LastTrick::updateFontSelection() {
 	setSuitPixbufs();
 	initResizeRedraw();
 }
 
 void LastTrick::setSuitPixbufs() {
-	int i=0;
-	for (auto&a :m_suitPixbuf) {
+	int i = 0;
+	for (auto &a : m_suitPixbuf) {
 		a = getSuitPixbuf(i, getFontHeight());
 		i++;
 	}

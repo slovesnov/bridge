@@ -5,7 +5,7 @@
  *      Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef HELPER_SOLVEALLDEALSEMPTYLABELS_H_
@@ -16,7 +16,7 @@
 
 class SolveAllDealsEmptyLabels {
 public:
-	GtkWidget*label;
+	GtkWidget *label;
 	int suit;
 	int anotherPlayerIndex;
 };

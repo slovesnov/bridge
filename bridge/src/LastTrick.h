@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef LASTTRICK_H_
@@ -17,16 +17,16 @@
  */
 
 class LastTrick: public FrameItemArea {
-	GtkWidget* m_grid;
+	GtkWidget *m_grid;
 	//GtkWidget* m_scrolled;
 	Pixbuf m_suitPixbuf[4];
-	GtkWidget* m_suit[52];
-	GtkWidget* m_labelCard[52];
+	GtkWidget *m_suit[52];
+	GtkWidget *m_labelCard[52];
 	int m_rows;
 	int m_columns;
-	VString m_vLastTrick,m_vGameAnalysis;
+	VString m_vLastTrick, m_vGameAnalysis;
 public:
-	GtkWidget* m_full;
+	GtkWidget *m_full;
 
 	void setLastTrickGameAnalysisStrings();
 
@@ -62,6 +62,6 @@ public:
 	void updateSkin() override;
 };
 
-extern LastTrick* glasttrick;
+extern LastTrick *glasttrick;
 
 #endif /* LASTTRICK_H_ */

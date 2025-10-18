@@ -5,46 +5,32 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "Widget.h"
 #include "../Frame.h"
 
 const GdkRGBA BLACK_COLOR = { 0., 0., 0., 1. };
-const int ARROW_K_IN_AREA_HEIGHT=2;
+const int ARROW_K_IN_AREA_HEIGHT = 2;
 
-const STRING_ID ALL_SUPPORTED[] = {
-		STRING_FILE_FILTER_ALL_SUPPORTED,
-		STRING_FILE_FILTER_BTS_PTS,
-		STRING_FILE_FILTER_PBN,
-		STRING_FILE_FILTER_DF,
-		STRING_FILE_FILTER_HTML,
-		STRING_FILE_FILTER_ALL //should goes last
-};
+const STRING_ID ALL_SUPPORTED[] = { STRING_FILE_FILTER_ALL_SUPPORTED,
+		STRING_FILE_FILTER_BTS_PTS, STRING_FILE_FILTER_PBN,
+		STRING_FILE_FILTER_DF, STRING_FILE_FILTER_HTML, STRING_FILE_FILTER_ALL //should goes last
+		};
 const int ALL_SUPPORTED_SIZE = SIZEI(ALL_SUPPORTED);
 
-const STRING_ID STRING_FILTER_EXT_FROM[] = {
-		STRING_FILE_FILTER_BTS_PTS,
-		STRING_FILE_FILTER_PBN,
-		STRING_FILE_FILTER_DF,
-		STRING_FILE_FILTER_HTML,
-		STRING_FILE_FILTER_LANGUAGE,
-		STRING_IMAGE_FILES,
-		STRING_CSV_FILES,
+const STRING_ID STRING_FILTER_EXT_FROM[] = { STRING_FILE_FILTER_BTS_PTS,
+		STRING_FILE_FILTER_PBN, STRING_FILE_FILTER_DF, STRING_FILE_FILTER_HTML,
+		STRING_FILE_FILTER_LANGUAGE, STRING_IMAGE_FILES, STRING_CSV_FILES,
 		STRING_FILE_FILTER_ALL_SUPPORTED, //should goes after all simple filters, see 'if(option==CHOOSER_OPTION_DEFAULT){' in Widget::fileChooser()
 		STRING_FILE_FILTER_ALL //should goes last
-};
+		};
 
-const char* STRING_FILTER_EXT_TO[] = {
-		"bts pts",
-		"pbn",
-		"txt dat",
-		"htm html",
+const char *STRING_FILTER_EXT_TO[] = { "bts pts", "pbn", "txt dat", "htm html",
 		"lng",
 		NULL, //STRING_IMAGE_FILES filled in Widget::staticInit()
-		"csv",
-		"bts pts pbn txt dat", //Note in case of 'save' command two strings added "htm", "html", in case of 'open' not need
+		"csv", "bts pts pbn txt dat", //Note in case of 'save' command two strings added "htm", "html", in case of 'open' not need
 		"*" };
 const int STRING_FILTER_EXT_TO_SIZE = SIZE(STRING_FILTER_EXT_TO);
 
@@ -58,12 +44,13 @@ NULL //	FILE_TYPE_ANY,
 		, "bts" //	FILE_TYPE_BRIDGE,
 		, "pts" //	FILE_TYPE_PREFERANS,
 		, NULL //FILE_TYPE_IMAGE filled in in Widget::staticInit()
-		, "csv"//FILE_TYPE_CSV
-		,NULL //	FILE_TYPE_ERROR
+		, "csv" //FILE_TYPE_CSV
+		, NULL //	FILE_TYPE_ERROR
 		};
 
-static void drag_and_drop_received(GtkWidget *, GdkDragContext *context, gint x,
-		gint y, GtkSelectionData *data, guint ttype, guint time, Widget* widget) {
+static void drag_and_drop_received(GtkWidget*, GdkDragContext *context, gint x,
+		gint y, GtkSelectionData *data, guint ttype, guint time,
+		Widget *widget) {
 
 	gint l = gtk_selection_data_get_length(data);
 	gint a = gtk_selection_data_get_format(data);
@@ -75,7 +62,7 @@ static void drag_and_drop_received(GtkWidget *, GdkDragContext *context, gint x,
 	}
 }
 
-Widget::Widget(GtkWidget* widget) {
+Widget::Widget(GtkWidget *widget) {
 	setWidget(widget);
 }
 
@@ -102,8 +89,8 @@ bool Widget::isEditEnable() const {
 	return getToolbar().isEditEnable();
 }
 
-void Widget::enableEdit(bool enable,bool anyway/*=false*/) {
-	gframe->enableEdit(enable,anyway);
+void Widget::enableEdit(bool enable, bool anyway/*=false*/) {
+	gframe->enableEdit(enable, anyway);
 }
 
 bool Widget::isUndoEnable() const {
@@ -127,19 +114,19 @@ void Widget::updateModified() {
 }
 
 FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
-		CHOOSER_OPTION option, const std::string& filepath) {
+		CHOOSER_OPTION option, const std::string &filepath) {
 	GtkFileFilter *gtkFilter;
 	FILE_TYPE defaultFiletype;
 	GtkWidget *dialog;
 	FileChooserResult result;
-	GtkWidget* button;
+	GtkWidget *button;
 	std::string s;
 	VString v;
 	VString fname;
 	VStringI it;
-	int i,j;
+	int i, j;
 	STRING_ID sid;
-	const char*p;
+	const char *p;
 	VStringID vid;
 
 	assert(SIZE(STRING_FILTER_EXT_FROM)==SIZE(STRING_FILTER_EXT_TO));
@@ -157,19 +144,16 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 	//no need 'open' button in converterDialog
 	if (option == CHOOSER_OPTION_ADD_ALL_SUPPORTED) {
 		p = getString(STRING_ADD);
-	}
-	else if (option == CHOOSER_OPTION_CONVERTER_SAVE_MANY_FILES) {
+	} else if (option == CHOOSER_OPTION_CONVERTER_SAVE_MANY_FILES) {
 		p = getString(STRING_TO_MANY_FILES);
-	}
-	else {
+	} else {
 		if (menu == MENU_OPEN) {
 			p = getStringNoDots(MENU_OPEN).c_str();
-		}
-		else if (((filetype == FILE_TYPE_IMAGE || filetype == FILE_TYPE_HTML || filetype == FILE_TYPE_CSV)
-				&& menu == MENU_SAVE) || option == CHOOSER_OPTION_SAVE_AS_SINGLE) {
+		} else if (((filetype == FILE_TYPE_IMAGE || filetype == FILE_TYPE_HTML
+				|| filetype == FILE_TYPE_CSV) && menu == MENU_SAVE)
+				|| option == CHOOSER_OPTION_SAVE_AS_SINGLE) {
 			p = getString(MENU_SAVE);
-		}
-		else {
+		} else {
 			p = getString(STRING_TO_ONE_FILE);
 		}
 	}
@@ -177,13 +161,12 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 	dialog = gtk_file_chooser_dialog_new(getString(menu),
 			GTK_WINDOW(gframe->getWidget()),
 			menu == MENU_OPEN ?
-					GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE, p,
-			GTK_RESPONSE_OK, NULL);
+					GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE,
+			p, GTK_RESPONSE_OK, NULL);
 
 	if (option == CHOOSER_OPTION_ADD_ALL_SUPPORTED) {
 		s = "add24.png";
-	}
-	else {
+	} else {
 		s = menu == MENU_OPEN ? "folder24.png" : "save24.png";
 	}
 
@@ -195,7 +178,8 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 	if (option == CHOOSER_OPTION_SAVE_AS_MANY
 			|| option == CHOOSER_OPTION_OPEN_OR_ADD_ALL_SUPPORTED) {
 		button = gtk_dialog_add_button(GTK_DIALOG(dialog),
-				getString(menu == MENU_OPEN ? STRING_ADD : STRING_TO_MANY_FILES),
+				getString(
+						menu == MENU_OPEN ? STRING_ADD : STRING_TO_MANY_FILES),
 				GTK_RESPONSE_APPLY);
 		gtk_button_set_image(GTK_BUTTON(button),
 				image(menu == MENU_OPEN ? "add24.png" : "split24.png"));
@@ -217,7 +201,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 		s = p;
 		for (i = 0; i < STRING_FILTER_EXT_TO_SIZE; i++) {
 			v = split(STRING_FILTER_EXT_TO[i], " ");
-			if (oneOf(s,v)) {
+			if (oneOf(s, v)) {
 				break;
 			}
 		}
@@ -225,12 +209,10 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 		sid = STRING_FILTER_EXT_FROM[i];
 
 		assert(
-				sid != STRING_FILE_FILTER_ALL_SUPPORTED
-						&& sid != STRING_FILE_FILTER_ALL);
+				sid != STRING_FILE_FILTER_ALL_SUPPORTED && sid != STRING_FILE_FILTER_ALL);
 		vid.push_back(sid);
 		vid.push_back(STRING_FILE_FILTER_ALL);
-	}
-	else {
+	} else {
 		for (i = 0; i < ALL_SUPPORTED_SIZE; i++) {
 			sid = ALL_SUPPORTED[i];
 			//skip html filter for open files
@@ -241,14 +223,12 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 		}
 	}
 
-	j=0;
+	j = 0;
 	for (auto vit : vid) {
-		if (filetype == FILE_TYPE_IMAGE && menu == MENU_OPEN
-				&& j == 0) {
+		if (filetype == FILE_TYPE_IMAGE && menu == MENU_OPEN && j == 0) {
 			s = gconfig->m_allImageFormatString;
-		}
-		else {
-			i = INDEX_OF(vit,STRING_FILTER_EXT_FROM);
+		} else {
+			i = INDEX_OF(vit, STRING_FILTER_EXT_FROM);
 			assert(i != -1);
 			s = STRING_FILTER_EXT_TO[i];
 		}
@@ -259,7 +239,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 		 */
 		if (option != CHOOSER_OPTION_DEFAULT && !openAll
 				&& vit == STRING_FILE_FILTER_ALL_SUPPORTED) {
-			i = INDEX_OF(STRING_FILE_FILTER_HTML,STRING_FILTER_EXT_FROM);
+			i = INDEX_OF(STRING_FILE_FILTER_HTML, STRING_FILTER_EXT_FROM);
 			assert(i != -1);
 			s += " ";
 			s += STRING_FILTER_EXT_TO[i];
@@ -286,11 +266,12 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 	}
 
 	if (filepath.length() > 0) {
-		if(isDir(filepath)){
-			gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), filepath.c_str());
-		}
-		else{
-			gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), filepath.c_str());
+		if (isDir(filepath)) {
+			gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
+					filepath.c_str());
+		} else {
+			gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog),
+					filepath.c_str());
 		}
 	}
 
@@ -301,18 +282,19 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 	result.m_response = gtk_dialog_run(GTK_DIALOG(dialog));
 	if (result.ok()) {
 		if (menu == MENU_OPEN) {
-			GSList* elem;
-			GSList* list = gtk_file_chooser_get_filenames(GTK_FILE_CHOOSER(dialog));
-			gchar* item;
+			GSList *elem;
+			GSList *list = gtk_file_chooser_get_filenames(
+					GTK_FILE_CHOOSER(dialog));
+			gchar *item;
 			for (elem = list; elem; elem = elem->next) {
 				item = (gchar*) elem->data;
 				result.add(item);
 				g_free(item);
 			}
 			g_slist_free(list);
-		}
-		else {
-			char *file = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+		} else {
+			char *file = gtk_file_chooser_get_filename(
+					GTK_FILE_CHOOSER(dialog));
 			result.add(file); //utf8 locale
 			g_free(file);
 
@@ -320,10 +302,11 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 					|| option == CHOOSER_OPTION_SAVE_AS_SINGLE
 					|| option == CHOOSER_OPTION_CONVERTER_SAVE_MANY_FILES
 					|| option == CHOOSER_OPTION_CONVERTER_SAVE_ONE_FILE) {
-				gtkFilter = gtk_file_chooser_get_filter(GTK_FILE_CHOOSER(dialog));
+				gtkFilter = gtk_file_chooser_get_filter(
+						GTK_FILE_CHOOSER(dialog));
 				assert(gtkFilter!=NULL);
 				s = gtk_file_filter_get_name(gtkFilter);
-				it = find(s,fname);
+				it = find(s, fname);
 				assert(it != fname.end());
 
 				sid = vid[int(it - fname.begin())];
@@ -334,10 +317,10 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 					if (sid == STRING_FILE_FILTER_ALL_SUPPORTED
 							|| sid == STRING_FILE_FILTER_ALL) {
 						defaultFiletype =
-								isBridge() ? FILE_TYPE_BRIDGE : FILE_TYPE_PREFERANS;
-					}
-					else {
-						i = INDEX_OF(sid,STRING_FILTER_EXT_FROM);
+								isBridge() ?
+										FILE_TYPE_BRIDGE : FILE_TYPE_PREFERANS;
+					} else {
+						i = INDEX_OF(sid, STRING_FILTER_EXT_FROM);
 						assert(i != -1);
 						v = split(STRING_FILTER_EXT_TO[i], " ");
 						defaultFiletype = getFileType("a." + v[0]);
@@ -345,8 +328,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
 					addFileExtension(result[0], defaultFiletype);
 				}
 				//now filename is valid
-			}
-			else {
+			} else {
 				//simple correction
 				correctFileExtension(result[0], filetype);
 			}
@@ -374,29 +356,30 @@ FileChooserResult Widget::fileChooserSave(FILE_TYPE filetype) {
 	return fileChooser(MENU_SAVE, filetype, CHOOSER_OPTION_DEFAULT, "");
 }
 
-FileChooserResult Widget::fileChooser(MENU_ID menu, const std::string& filepath,
+FileChooserResult Widget::fileChooser(MENU_ID menu, const std::string &filepath,
 		bool allowSplit) {
 	FILE_TYPE ft = getFileType(filepath);
 	return fileChooser(menu, ft,
-			allowSplit ? CHOOSER_OPTION_SAVE_AS_MANY : CHOOSER_OPTION_SAVE_AS_SINGLE,
+			allowSplit ?
+					CHOOSER_OPTION_SAVE_AS_MANY : CHOOSER_OPTION_SAVE_AS_SINGLE,
 			filepath);
 }
 
-void Widget::setDragDrop(GtkWidget* widget) {
+void Widget::setDragDrop(GtkWidget *widget) {
 	gtk_drag_dest_set(widget, GTK_DEST_DEFAULT_ALL, NULL, 0, GDK_ACTION_COPY);
 	gtk_drag_dest_add_uri_targets(widget);
 	g_signal_connect(widget, "drag-data-received",
 			G_CALLBACK(drag_and_drop_received), gpointer(this));
 }
 
-void Widget::addFileExtension(std::string& filepath, FILE_TYPE filetype) {
-	const char*p = DEFAULT_EXTENSION[filetype];
+void Widget::addFileExtension(std::string &filepath, FILE_TYPE filetype) {
+	const char *p = DEFAULT_EXTENSION[filetype];
 	assert(p);
 	filepath += ".";
 	filepath += p;
 }
 
-void Widget::correctFileExtension(std::string& filepath, FILE_TYPE filetype) {
+void Widget::correctFileExtension(std::string &filepath, FILE_TYPE filetype) {
 	/* if user set invalid extension or empty extension add it to make filename valid
 	 * For example "name.1.2" -> "name.1.2.html"
 	 */
@@ -406,15 +389,15 @@ void Widget::correctFileExtension(std::string& filepath, FILE_TYPE filetype) {
 	}
 }
 
-void Widget::openUris(char** uris) {
+void Widget::openUris(char **uris) {
 	getProblemSelector().openUris(uris);
 }
 
-void Widget::openFiles(const char*files) {
+void Widget::openFiles(const char *files) {
 	getProblemSelector().openFiles(files);
 }
 
-void Widget::setFont(cairo_t* cr,int height) {
+void Widget::setFont(cairo_t *cr, int height) {
 	cairo_select_font_face(cr, gconfig->getFontFamily(),
 			cairo_font_slant_t(gconfig->getFontStyle()),
 			gconfig->getFontWeight() >= PANGO_WEIGHT_BOLD ?
@@ -423,12 +406,13 @@ void Widget::setFont(cairo_t* cr,int height) {
 }
 
 GtkWidget* Widget::createImageCombobox() {
-	GtkWidget*combo = gtk_combo_box_new();
+	GtkWidget *combo = gtk_combo_box_new();
 	GtkCellRenderer *renderer;
 	renderer = gtk_cell_renderer_pixbuf_new();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, FALSE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer, "pixbuf", 0,
-	NULL);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer, "pixbuf",
+			0,
+			NULL);
 	return combo;
 }
 
@@ -449,8 +433,7 @@ GtkTreeModel* Widget::createTrumpModel(bool onlySuits, bool small,
 	for (i = 0; i < (onlySuits ? NT : TRUMP_MODEL_SIZE[gt]); i++) {
 		if (i < NT) {
 			pixbuf = getSuitPixbuf(i, size);
-		}
-		else {
+		} else {
 			pixbuf = getStringPixbuf(i == NT, size);
 		}
 
@@ -470,7 +453,8 @@ GtkTreeModel* Widget::createContractModel() {
 
 	store = gtk_tree_store_new(1, GDK_TYPE_PIXBUF);
 
-	for (i = MIN_CONTRACT[getGameType()]; i <= MAX_CONTRACT[getGameType()]; i++) {
+	for (i = MIN_CONTRACT[getGameType()]; i <= MAX_CONTRACT[getGameType()];
+			i++) {
 		pixbuf = getContractPixbuf(i);
 
 		gtk_tree_store_append(store, &iter, NULL);
@@ -486,18 +470,17 @@ GdkPixbuf* Widget::getStringPixbuf(bool nt, int size) {
 	//if nt=false then pixbuf for 'misere' string
 	int i;
 	double x, y;
-	GdkPixbuf* pixbuf = NULL;
+	GdkPixbuf *pixbuf = NULL;
 	CairoSurface cs;
 	cairo_text_extents_t extents;
 	std::string p = nt ? getNTString() : getString(STRING_MISERE);
 	for (i = 0; i < 2; i++) { //i==0 get needed width,i=1 draw
 		cs.create(CSize(i == 0 ? size : extents.width, size));
-		cairo_t* cr=cs;
-		setFont(cr,nt ? size : size / 2);
+		cairo_t *cr = cs;
+		setFont(cr, nt ? size : size / 2);
 		if (i == 0) {
 			cairo_text_extents(cr, p.c_str(), &extents);
-		}
-		else {
+		} else {
 			cairo_set_source_rgb(cr, 0, 0, 0); //font color
 			x = extents.width / 2 - (extents.width / 2 + extents.x_bearing);
 			y = size / 2 - (extents.height / 2 + extents.y_bearing);
@@ -509,7 +492,7 @@ GdkPixbuf* Widget::getStringPixbuf(bool nt, int size) {
 	return pixbuf;
 }
 
-const VString Widget::createStringVector(const char* text[], guint size) {
+const VString Widget::createStringVector(const char *text[], guint size) {
 	guint i;
 	VString vs;
 	for (i = 0; i < size; i++) {
@@ -518,15 +501,16 @@ const VString Widget::createStringVector(const char* text[], guint size) {
 	return vs;
 }
 
-GtkWidget* Widget::createTextCombobox(const VString& text) {
-	GtkWidget*w = gtk_combo_box_new_with_model(createTextModel(text));
+GtkWidget* Widget::createTextCombobox(const VString &text) {
+	GtkWidget *w = gtk_combo_box_new_with_model(createTextModel(text));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(w), 0);
 	GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(w), renderer, FALSE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(w), renderer, "text", 0, NULL);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(w), renderer, "text", 0,
+			NULL);
 
 	//g_object_set (G_OBJECT (renderer),"font", family,"style", style,"size", 20,NULL);//don'n remove leave for further needs
-	char*p = pango_font_description_to_string(getFont());
+	char *p = pango_font_description_to_string(getFont());
 	g_object_set(G_OBJECT(renderer), "font", p, NULL);
 	g_free(p);
 
@@ -534,20 +518,20 @@ GtkWidget* Widget::createTextCombobox(const VString& text) {
 }
 
 GtkWidget* Widget::createTextCombobox(const STRING_ID i1, const STRING_ID i2) {
-	VString vs={getString(i1),getString(i2)};
+	VString vs = { getString(i1), getString(i2) };
 	return createTextCombobox(vs);
 }
 
-GtkWidget* Widget::createTextCombobox(const STRING_ID id, int length){
+GtkWidget* Widget::createTextCombobox(const STRING_ID id, int length) {
 	VString vs;
-	int j=id;
-	for(int i=0;i<length;i++,j++){
+	int j = id;
+	for (int i = 0; i < length; i++, j++) {
 		vs.push_back(getString(STRING_ID(j)));
 	}
 	return createTextCombobox(vs);
 }
 
-GtkTreeModel* Widget::createTextModel(const VString& text) {
+GtkTreeModel* Widget::createTextModel(const VString &text) {
 	GtkTreeIter iter;
 	GtkTreeStore *store;
 	VStringCI it;
@@ -562,7 +546,7 @@ GtkTreeModel* Widget::createTextModel(const VString& text) {
 }
 
 GtkWidget* Widget::createTextCombobox(int from, int to, int step,
-		const char* additionalString) {
+		const char *additionalString) {
 	int i;
 	assert(from < to);
 	assert(step > 0);
@@ -581,14 +565,14 @@ int Widget::getFontHeight() const {
 	return gconfig->getFontHeight();
 }
 
-void Widget::widgetAddFile(char* url) {
+void Widget::widgetAddFile(char *url) {
 	FILE_TYPE t = getFileType(url);
 	if (t != FILE_TYPE_ERROR && t != FILE_TYPE_HTML && t != FILE_TYPE_IMAGE) {
 		m_widgetFiles.push_back(url);
 	}
 }
 
-void Widget::widgetAddDir(char* url) {
+void Widget::widgetAddDir(char *url) {
 	GDir *dir;
 	const gchar *filename;
 	std::string s;
@@ -603,15 +587,14 @@ void Widget::widgetAddDir(char* url) {
 		sprintf(name, "%s%c%s", url, G_DIR_SEPARATOR, filename);
 		if (isDir(name)) {
 			widgetAddDir(name);
-		}
-		else {
+		} else {
 			widgetAddFile(name);
 		}
 	}
 
 }
 
-const VString& Widget::getValidFilesList(char** uris) {
+const VString& Widget::getValidFilesList(char **uris) {
 	int i;
 	gchar *fn;
 	m_widgetFiles.clear();
@@ -619,8 +602,7 @@ const VString& Widget::getValidFilesList(char** uris) {
 		fn = g_filename_from_uri(uris[i], NULL, NULL);
 		if (isDir(fn)) {
 			widgetAddDir(fn);
-		}
-		else {
+		} else {
 			widgetAddFile(fn);
 		}
 		g_free(fn);
@@ -643,9 +625,9 @@ void Widget::setTrumpChanged(bool changed) {
 
 void Widget::showToolTip(STRING_ID id) {
 	std::string s = getString(id);
-	if(id==STRING_CLICK_TO_ROTATE_BY_90_DEGREES){
+	if (id == STRING_CLICK_TO_ROTATE_BY_90_DEGREES) {
 		//lower string & and remove dot at the end of the string
-		s=utf8ToLowerCase(s.substr(0, s.length()-1));
+		s = utf8ToLowerCase(s.substr(0, s.length() - 1));
 	}
 	if (gconfig->m_showToolTips) {
 		getToolbar().showToolTip(s.c_str());
@@ -659,29 +641,30 @@ void Widget::hideToolTip() {
 }
 
 /*
-GtkWidget* Widget::getToolbarImage(TOOLBAR_BUTTON id, bool small) {
-	return getToolbarImage(id, small, isToolbarButtonEnabled(id));
-}
+ GtkWidget* Widget::getToolbarImage(TOOLBAR_BUTTON id, bool small) {
+ return getToolbarImage(id, small, isToolbarButtonEnabled(id));
+ }
 
-GtkWidget* Widget::getToolbarImage(TOOLBAR_BUTTON id, bool small, bool enabled) {
-	return getToolbarImage(id, small,boolToButtonState(enabled));
-}
-*/
+ GtkWidget* Widget::getToolbarImage(TOOLBAR_BUTTON id, bool small, bool enabled) {
+ return getToolbarImage(id, small,boolToButtonState(enabled));
+ }
+ */
 
-GtkWidget* Widget::getToolbarImage(TOOLBAR_BUTTON id, bool small, BUTTON_STATE state) {
+GtkWidget* Widget::getToolbarImage(TOOLBAR_BUTTON id, bool small,
+		BUTTON_STATE state) {
 	return gtk_image_new_from_pixbuf(getToolbarPixbuf(id, small, state));
 }
 
 /*
-GdkPixbuf* Widget::getToolbarPixbuf(TOOLBAR_BUTTON id, bool small) {
-	return getToolbarPixbuf(id, small, boolToButtonState(isToolbarButtonEnabled(id)));
-}
+ GdkPixbuf* Widget::getToolbarPixbuf(TOOLBAR_BUTTON id, bool small) {
+ return getToolbarPixbuf(id, small, boolToButtonState(isToolbarButtonEnabled(id)));
+ }
 
 
-GdkPixbuf* Widget::getToolbarPixbuf(TOOLBAR_BUTTON id, bool small, bool enabled) {
-	return getToolbarPixbuf(id, small, boolToButtonState(enabled));
-}
-*/
+ GdkPixbuf* Widget::getToolbarPixbuf(TOOLBAR_BUTTON id, bool small, bool enabled) {
+ return getToolbarPixbuf(id, small, boolToButtonState(enabled));
+ }
+ */
 
 GdkPixbuf* Widget::getToolbarPixbuf(TOOLBAR_BUTTON id, bool small,
 		BUTTON_STATE state) {
@@ -690,7 +673,7 @@ GdkPixbuf* Widget::getToolbarPixbuf(TOOLBAR_BUTTON id, bool small,
 
 void Widget::staticInit() {
 	int i;
-	i = INDEX_OF(STRING_IMAGE_FILES,STRING_FILTER_EXT_FROM); //cann't move this code to Config G_N_ELEMENTS doesn't work for extern
+	i = INDEX_OF(STRING_IMAGE_FILES, STRING_FILTER_EXT_FROM); //cann't move this code to Config G_N_ELEMENTS doesn't work for extern
 	assert(i != -1);
 	STRING_FILTER_EXT_TO[i] = gconfig->m_storeImageFormatString.c_str();
 
@@ -701,7 +684,7 @@ int Widget::getArrowSize() {
 	return gconfig->m_arrowSize;
 }
 
-void Widget::setArrowParameters(int arrow, int arrowSize/*=SKIP_ARROW_SIZE*/){
+void Widget::setArrowParameters(int arrow, int arrowSize/*=SKIP_ARROW_SIZE*/) {
 	gconfig->setArrowParameters(arrow, arrowSize);
 }
 
@@ -709,15 +692,15 @@ CSize Widget::getCardSize() const {
 	return gconfig->getCardSize();
 }
 
-int Widget::getCardWidth(){
+int Widget::getCardWidth() {
 	return gconfig->getCardWidth();
 }
 
-int Widget::getCardHeight(){
+int Widget::getCardHeight() {
 	return gconfig->getCardHeight();
 }
 
-ProblemSelector& Widget::getProblemSelector()const{
+ProblemSelector& Widget::getProblemSelector() const {
 	return *gproblemselector;
 }
 
@@ -725,13 +708,12 @@ Problem& Widget::getProblem() const {
 	return getProblemSelector().getProblem();
 }
 
-void Widget::parsePreferansSolveAllDeclarersParameters(int v, int& trump,
-		bool& misere, CARD_INDEX& player) {
+void Widget::parsePreferansSolveAllDeclarersParameters(int v, int &trump,
+		bool &misere, CARD_INDEX &player) {
 	if (v < 6) {
 		trump = NT;
 		misere = v < 3;
-	}
-	else {
+	} else {
 		trump = (v - 6) / 3;
 		misere = false;
 	}
@@ -742,7 +724,7 @@ int Widget::getMaxRunThreads() const {
 	return gconfig->m_maxThreads;
 }
 
-int Widget::getMaxHandCards()const{
+int Widget::getMaxHandCards() const {
 	return isBridge() ? MAX_BRIDGE_HAND_CARDS : MAX_PREFERANS_HAND_CARDS;
 }
 
@@ -762,22 +744,22 @@ CSize Widget::countMaxCardSizeForY(int arrowSize, int y) {
 	return gconfig->countMaxCardSizeForY(arrowSize, y);
 }
 
-int Widget::countMaxArrowSizeForY(int cardHeight,int y){
-	int i=countAreaHeight(cardHeight,0,y);
-	return (getAreaMaxHeight()-i)/ARROW_K_IN_AREA_HEIGHT;
+int Widget::countMaxArrowSizeForY(int cardHeight, int y) {
+	int i = countAreaHeight(cardHeight, 0, y);
+	return (getAreaMaxHeight() - i) / ARROW_K_IN_AREA_HEIGHT;
 }
 
-GdkPixbuf * Widget::getSvgPixbuf(bool isDeck){
-	auto& p=getProblemSelector();
-	return isDeck? p.m_svgDeckPixbuf:p.m_svgArrowPixbuf;
+GdkPixbuf* Widget::getSvgPixbuf(bool isDeck) {
+	auto &p = getProblemSelector();
+	return isDeck ? p.m_svgDeckPixbuf : p.m_svgArrowPixbuf;
 }
 
-void Widget::drawTextToCairo(cairo_t* cr, TextWithAttributes text, CRect rect,
+void Widget::drawTextToCairo(cairo_t *cr, TextWithAttributes text, CRect rect,
 		bool centerx, bool centery) {
 	const GdkRGBA rgba = text.isBlackColor() ? BLACK_COLOR : getTextColor();
 	int w, h;
 	gdk_cairo_set_source_rgba(cr, &rgba);
-	PangoLayout *layout = createPangoLayout(cr,text);
+	PangoLayout *layout = createPangoLayout(cr, text);
 	pango_layout_get_pixel_size(layout, &w, &h);
 	double px = rect.left;
 	double py = rect.top;
@@ -795,19 +777,19 @@ void Widget::drawTextToCairo(cairo_t* cr, TextWithAttributes text, CRect rect,
 	g_object_unref(layout);
 }
 
-bool Widget::isScalableArrow(){
+bool Widget::isScalableArrow() {
 	return gconfig->isScalableArrow();
 }
 
-bool Widget::isScalableArrow(int arrow){
+bool Widget::isScalableArrow(int arrow) {
 	return gconfig->isScalableArrow(arrow);
 }
 
-bool Widget::isScalableDeck(){
+bool Widget::isScalableDeck() {
 	return gconfig->isScalableDeck();
 }
 
-bool Widget::isScalableDeck(int deck){
+bool Widget::isScalableDeck(int deck) {
 	return gconfig->isScalableDeck(deck);
 }
 
@@ -815,23 +797,22 @@ GdkRGBA Widget::getTextColor() const {
 	return gconfig->getFontColor();
 }
 
-GdkRGBA* Widget::getFontColorPointer(){
+GdkRGBA* Widget::getFontColorPointer() {
 	return &gconfig->getFontColor();
 }
 
-PangoLayout* Widget::createPangoLayout(cairo_t *cr,TextWithAttributes text) {
+PangoLayout* Widget::createPangoLayout(cairo_t *cr, TextWithAttributes text) {
 	std::string o;
 	PangoLayout *layout = pango_cairo_create_layout(cr);
-	PangoFontDescription*desc = createPangoFontDescription(gconfig->m_font,text.getHeight());
+	PangoFontDescription *desc = createPangoFontDescription(gconfig->m_font,
+			text.getHeight());
 	pango_layout_set_font_description(layout, desc);
 
 	if (text.isUnderline()) {
 		o = "<span underline=\"low\">" + text.getText() + "</span>";
-	}
-	else if (text.isBold()) {
+	} else if (text.isBold()) {
 		o = "<b>" + text.getText() + "</b>";
-	}
-	else {
+	} else {
 		o = text.getText();
 	}
 	pango_layout_set_markup(layout, o.c_str(), -1);
@@ -839,23 +820,23 @@ PangoLayout* Widget::createPangoLayout(cairo_t *cr,TextWithAttributes text) {
 	return layout;
 }
 
-CSize Widget::getMaxSize()const{
+CSize Widget::getMaxSize() const {
 	return gconfig->m_workareaRect.size();
 }
 
-void Widget::updateUndoRedoAll(){
+void Widget::updateUndoRedoAll() {
 	return gframe->updateUndoRedo();
 }
 
-void Widget::updateFindBestStateAll(){
+void Widget::updateFindBestStateAll() {
 	return gframe->updateFindBestState();
 }
 
-void Widget::updateThinkAll(){
+void Widget::updateThinkAll() {
 	return gframe->updateThink();
 }
 
-int Widget::recentSize(){
+int Widget::recentSize() {
 	return gconfig->recentSize();
 }
 
@@ -868,12 +849,11 @@ bool Widget::isToolbarButtonEnabled(TOOLBAR_BUTTON id) {
 	return getToolbarButtonState(id) != BUTTON_STATE_DISABLED;
 }
 
-BUTTON_STATE Widget::getToolbarButtonState(TOOLBAR_BUTTON id){
+BUTTON_STATE Widget::getToolbarButtonState(TOOLBAR_BUTTON id) {
 	if (id == TOOLBAR_BUTTON_FIND_BEST) {
 		//BUTTON_STATE_ENABLED, BUTTON_STATE_DISABLED, BUTTON_STATE_FIND_BEST_STOP
 		return getFindBestState();
-	}
-	else {
+	} else {
 		return boolToButtonState(
 				(id == TOOLBAR_BUTTON_UNDO || id == TOOLBAR_BUTTON_UNDOALL) ?
 						isUndoEnable() : isRedoEnable());
@@ -881,10 +861,9 @@ BUTTON_STATE Widget::getToolbarButtonState(TOOLBAR_BUTTON id){
 }
 
 BUTTON_STATE Widget::getFindBestState(bool checkTrump) const {
-	return
-			think() ?
-					BUTTON_STATE_FIND_BEST_STOP :
-					boolToButtonState(isValidDeal(checkTrump));
+	return think() ?
+			BUTTON_STATE_FIND_BEST_STOP :
+			boolToButtonState(isValidDeal(checkTrump));
 }
 
 bool Widget::isValidDeal(bool checkTrump) const {
@@ -899,38 +878,38 @@ DEAL_STATE Widget::getDealState(bool checkTrump) const {
 	return getProblem().getDealState(checkTrump);
 }
 
-void Widget::showAllExclude(GtkWidget *w, VGtkWidgetPtr const &v){
-	if(GTK_IS_CONTAINER(w)){
+void Widget::showAllExclude(GtkWidget *w, VGtkWidgetPtr const &v) {
+	if (GTK_IS_CONTAINER(w)) {
 		GList *children = gtk_container_get_children(GTK_CONTAINER(w));
-		for(GList *iter = children; iter != NULL; iter = g_list_next(iter)){
-			showAllExclude(GTK_WIDGET(iter->data),v);
+		for (GList *iter = children; iter != NULL; iter = g_list_next(iter)) {
+			showAllExclude(GTK_WIDGET(iter->data), v);
 		}
 		g_list_free(children);
 	}
-	if(!oneOf(w,v)){
+	if (!oneOf(w, v)) {
 		gtk_widget_show(w);
 	}
 }
 
-void Widget::showAllExclude(VGtkWidgetPtr const& v){
-	showAllExclude(m_widget,v);
+void Widget::showAllExclude(VGtkWidgetPtr const &v) {
+	showAllExclude(m_widget, v);
 }
 
-cairo_surface_t * Widget::getBackgroundFullSurface() {
+cairo_surface_t* Widget::getBackgroundFullSurface() {
 	return getProblemSelector().m_backgroundFull;
 }
 
-void Widget::setSkin(int skin){
+void Widget::setSkin(int skin) {
 	gconfig->setSkin(skin);
 	gframe->updateSkin();
 }
 
-CSize Widget::getBestLineSize()const{
+CSize Widget::getBestLineSize() const {
 	return gproblemselector->m_bestLineSize;
 }
 
 int Widget::getTricks(CARD_INDEX player) const {
-	int index = INDEX_OF(player,PLAYER);	//always PLAYER not PREFERANS_PLAYER
+	int index = INDEX_OF(player, PLAYER);	//always PLAYER not PREFERANS_PLAYER
 	assert(index != -1);
 	return getState().m_tricks[index];
 }
@@ -949,7 +928,7 @@ int Widget::languages() {
 }
 
 bool Widget::isLanguage(MENU_ID id) {
-	return id>=MENU_LANGUAGE_FIRST && id<MENU_LANGUAGE_FIRST+languages();
+	return id >= MENU_LANGUAGE_FIRST && id < MENU_LANGUAGE_FIRST + languages();
 }
 
 int Widget::getActiveCardShift() {
@@ -960,7 +939,7 @@ CARD_INDEX& Widget::getPlayer() {
 	return getProblem().m_player;
 }
 
-CARD_INDEX Widget::getPlayer() const{
+CARD_INDEX Widget::getPlayer() const {
 	return getProblem().m_player;
 }
 
@@ -973,7 +952,7 @@ std::string Widget::recent(int i) {
 	return gconfig->m_recent[i];
 }
 
-std::string& Widget::csvSeparator(){
+std::string& Widget::csvSeparator() {
 	return gconfig->m_csvSeparator;
 }
 
@@ -985,7 +964,7 @@ SolveAll& Widget::solveAll(int i) {
 	return solveAll()[i];
 }
 
-VCardIndex Widget::getVariablePlayers(){
+VCardIndex Widget::getVariablePlayers() {
 	if (isBridge()) {
 		auto a =
 				isBridgeSolveAllDealsAbsentNS() ?
@@ -993,8 +972,12 @@ VCardIndex Widget::getVariablePlayers(){
 		return {a
 			,getBridgePartner(a)};
 	} else {
-		auto&pr=getProblem();
+		auto &pr = getProblem();
 		auto a = pr.getNextPlayer(pr.m_player);
 		return {a,getNextPlayer(a)};
 	}
+}
+
+void Widget::openHomepage() {
+	openURL(HOMEPAGE);
 }

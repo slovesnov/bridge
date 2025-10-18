@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef TEXTWITHATTRIBUTES_H_
@@ -25,25 +25,24 @@ class TextWithAttributes {
 public:
 
 	static TextWithAttributes createUnderlinedText(std::string text) {
-		TextWithAttributes t(text, gconfig->getFontHeight(), true, false, false);
+		TextWithAttributes t(text, gconfig->getFontHeight(), true, false,
+				false);
 		return t;
 	}
 
-	static TextWithAttributes createEstimateText(std::string text,
-			int height) {
+	static TextWithAttributes createEstimateText(std::string text, int height) {
 		TextWithAttributes t(text, height, false, true, true);
 		return t;
 	}
 
-	static TextWithAttributes createAllTricksText(int tricks,
-			bool underline) {
-		TextWithAttributes t(std::to_string(tricks), gconfig->getFontHeight(), underline, false,
-				true);
+	static TextWithAttributes createAllTricksText(int tricks, bool underline) {
+		TextWithAttributes t(std::to_string(tricks), gconfig->getFontHeight(),
+				underline, false, true);
 		return t;
 	}
 
 	TextWithAttributes(std::string text, bool underlined = false);
-	TextWithAttributes(const gchar* text);
+	TextWithAttributes(const gchar *text);
 	TextWithAttributes(std::string text, int height, bool underline, bool bold,
 			bool blackColor);
 

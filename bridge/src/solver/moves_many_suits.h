@@ -5,7 +5,7 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2021-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 /* O should be defined and SKIP_SUITS one of the values [0,1,2]
@@ -23,57 +23,57 @@
  8 low0, high0, low1, high1..., low0->high0, low1->high1...
  9 high0, low0, high1, low1..., low0->high0, low1->high1...
 
-*/
-	int8_t*aa[4],*bb[4];
+ */
+int8_t *aa[4], *bb[4];
 #ifdef BRIDGE_H_
 	int8_t mm[4][MAX_MOVES];
 #endif
-	const int OM=MOVES_MANY_SUITS_OPTIONS_NT/2;
-	const int O1=O%OM;
+const int OM = MOVES_MANY_SUITS_OPTIONS_NT / 2;
+const int O1 = O % OM;
 
-	for (i = 0; i < 4; i++)
+for (i = 0; i < 4; i++)
 #if SKIP_SUITS==1
 	if (i != suit)
 #elif SKIP_SUITS==2
 	if (i != suit && i!=m_trump)
 #endif
-	{
+{
 #ifdef BRIDGE_H_
 		MOVES_INIT_BRIDGE(i,w,aa[i],bb[i],mm[i])
 #else
-		MOVES_INIT_PREFERANS(i,w,aa[i],bb[i])
+	MOVES_INIT_PREFERANS(i,w,aa[i],bb[i])
 #endif
 
-		if(O1!=0){
-			if( O1%2) {
-				MOVES_LOW(i,w,c,aa[i],bb[i])
-			}
-			else {
-				MOVES_HIGH(i,w,c,aa[i],bb[i])
-			}
+	if(O1!=0) {
+		if( O1%2) {
+			MOVES_LOW(i,w,c,aa[i],bb[i])
+		}
+		else {
+			MOVES_HIGH(i,w,c,aa[i],bb[i])
+		}
 
-			if( O1==3) {
-				MOVES_HIGH(i,w,c,aa[i],bb[i])
-			}
-			else if( O1==4) {
-				MOVES_LOW(i,w,c,aa[i],bb[i])
-			}
+		if( O1==3) {
+			MOVES_HIGH(i,w,c,aa[i],bb[i])
+		}
+		else if( O1==4) {
+			MOVES_LOW(i,w,c,aa[i],bb[i])
 		}
 	}
+}
 
-		for (i = 0; i < 4; i++)
+for (i = 0; i < 4; i++)
 #if SKIP_SUITS==1
 			if (i != suit)
 #elif SKIP_SUITS==2
 			if (i != suit && i!=m_trump)
 #endif
-		{
+{
 
-			if( O < OM ) {
-				MOVES_HIGH_LOW_OTHERS(i,w,c,aa[i],bb[i])
-			}
-			else {
-				MOVES_LOW_HIGH_OTHERS(i,w,c,aa[i],bb[i])
-			}
-		}
+	if( O < OM ) {
+		MOVES_HIGH_LOW_OTHERS(i,w,c,aa[i],bb[i])
+	}
+	else {
+		MOVES_LOW_HIGH_OTHERS(i,w,c,aa[i],bb[i])
+	}
+}
 

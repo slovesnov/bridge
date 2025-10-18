@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include <glib.h>
@@ -26,9 +26,9 @@
 #include <cmath>
 #endif
 
-Frame*gframe;
+Frame *gframe;
 
-static void open_files(GtkWidget*, const char* data) {
+static void open_files(GtkWidget*, const char *data) {
 	gframe->openFiles(data);
 }
 
@@ -55,22 +55,22 @@ static gboolean finish_save_image(gpointer) {
 	return G_SOURCE_REMOVE;
 }
 
-Frame::Frame(GtkApplication *application, const char* filepath) :
+Frame::Frame(GtkApplication *application, const char *filepath) :
 		FrameItem(gtk_application_window_new(GTK_APPLICATION(application))) {
 	GtkWidget *w;
 	CSize sz;
 
 	gframe = this;
 	srand((unsigned) time( NULL)); //for random functions randomDeal(), solveAllDeals()
-	setlocale(LC_NUMERIC, "C");  //dot interpret as decimal separator, 2may2021 for all threads
+	setlocale(LC_NUMERIC, "C"); //dot interpret as decimal separator, 2may2021 for all threads
 
 	m_vbox1 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add(GTK_CONTAINER(m_vbox1), m_area.getWidget());
-	addWidget(gconfig->m_showToolTips,m_vbox1, m_toolbar.m_tooltip);
+	addWidget(gconfig->m_showToolTips, m_vbox1, m_toolbar.m_tooltip);
 
 	m_vbox2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add(GTK_CONTAINER(m_vbox2), m_problemSelector.getWidget());
-	addWidget(gconfig->m_showLastTrick,m_vbox2, m_lastTrick.m_full);
+	addWidget(gconfig->m_showLastTrick, m_vbox2, m_lastTrick.m_full);
 
 	w = gtk_grid_new();
 
@@ -87,12 +87,8 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 	gtk_window_set_resizable(GTK_WINDOW(getWidget()), FALSE);
 
 	//m_problemSelector should goes first because it manage with problem vector
-	m_childs = {
-			&m_problemSelector,
-			&m_menu,
-			&m_toolbar,
-			&m_area,
-			&m_lastTrick };
+	m_childs =
+			{ &m_problemSelector, &m_menu, &m_toolbar, &m_area, &m_lastTrick };
 
 	updateUndoRedo();
 	updateFindBestState();
@@ -118,8 +114,7 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 	 * & before gtk_main() otherwise works wrong
 	 * sometimes take a long time so use thread
 	 */
-	m_newVersion.start(VERSION_FILE_URL, CURRENT_VERSION,
-			new_version_message);
+	m_newVersion.start(VERSION_FILE_URL, CURRENT_VERSION, new_version_message);
 
 	g_signal_new(OPEN_FILE_SIGNAL_NAME, G_TYPE_OBJECT, G_SIGNAL_RUN_FIRST, 0,
 	NULL, NULL, g_cclosure_marshal_VOID__POINTER, G_TYPE_NONE, 1,
@@ -128,7 +123,8 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 	g_signal_connect(getWidget(), OPEN_FILE_SIGNAL_NAME, G_CALLBACK(open_files),
 			NULL);
 	g_signal_connect(getWidget(), "destroy", G_CALLBACK(gtk_main_quit), NULL); //need for 'exit' menu
-	g_signal_connect(getWidget(), "delete-event", G_CALLBACK(delete_event), NULL);
+	g_signal_connect(getWidget(), "delete-event", G_CALLBACK(delete_event),
+			NULL);
 	m_sizeAllocateSignal = g_signal_connect(getWidget(), "size-allocate",
 			G_CALLBACK(size_allocate), NULL);
 
@@ -141,13 +137,13 @@ Frame::Frame(GtkApplication *application, const char* filepath) :
 Frame::~Frame() {
 }
 
-void Frame::enableEdit(bool enable,bool anyway/*=false*/) {
+void Frame::enableEdit(bool enable, bool anyway/*=false*/) {
 	/* 1nov2021
 	 * add check enable==isEditEnable()
 	 * because this function call many times
 	 * updateEdit() calls initResizeRedraw() fro drawing area
 	 */
-	if(!anyway && enable==isEditEnable()){
+	if (!anyway && enable == isEditEnable()) {
 		return;
 	}
 	m_toolbar.changeEnableEdit(enable); //set combo disabled. It's indicator
@@ -215,7 +211,7 @@ void Frame::menuClick(MENU_ID id) {
 
 	case MENU_EXIT:
 		if (exit()) {
-			gtk_widget_destroy(getWidget());//calls destroy_frame()
+			gtk_widget_destroy(getWidget()); //calls destroy_frame()
 		}
 		break;
 
@@ -280,7 +276,7 @@ void Frame::menuClick(MENU_ID id) {
 		if (selectColor(getString(id), getFontColorPointer())) {
 			gconfig->updateCSS();
 			//new font redraw window
-			updateLanguage();  //same reaction on change font and change language
+			updateLanguage(); //same reaction on change font and change language
 		}
 		break;
 
@@ -333,7 +329,7 @@ void Frame::menuClick(MENU_ID id) {
 
 		//help
 	case MENU_HOMEPAGE:
-		openURL(BASE_ADDRESS);
+		openHomepage();
 		break;
 
 	case MENU_ABOUT:
@@ -344,30 +340,27 @@ void Frame::menuClick(MENU_ID id) {
 		if (isLanguage(id)) {
 			//language
 			setLanguage(id - MENU_LANGUAGE_FIRST);
-		}
-		else if (id < MENU_PROBLEM) {
+		} else if (id < MENU_PROBLEM) {
 			//recent click
 			openFiles(recent(id - MENU_RECENT));
-		}
-		else if ((i = INDEX_OF(id,CHECKED_MENU)) != -1) {
+		} else if ((i = INDEX_OF(id, CHECKED_MENU)) != -1) {
 			gconfig->switchOption(i);  //NOT id
 			m_menu.setItemAttributes(id);
 			if (id == MENU_LAST_TRICK_GAME_ANLYSIS) {
-				addRemoveWidget(gconfig->m_showLastTrick, m_vbox2, m_lastTrick.m_full);
+				addRemoveWidget(gconfig->m_showLastTrick, m_vbox2,
+						m_lastTrick.m_full);
 				m_lastTrick.changeShowOption();
 				m_problemSelector.changeShowOption();
-			}
-			else if (id == MENU_TOOLTIPS) {
-				addRemoveWidget(gconfig->m_showToolTips, m_vbox1, m_toolbar.m_tooltip);
+			} else if (id == MENU_TOOLTIPS) {
+				addRemoveWidget(gconfig->m_showToolTips, m_vbox1,
+						m_toolbar.m_tooltip);
 				m_toolbar.changeShowOption();
 				m_lastTrick.changeShowOption();
 				m_problemSelector.changeShowOption();
-			}
-			else if (id == MENU_TOTAL_TRICKS || id == MENU_PLAYER_TRICKS) {
+			} else if (id == MENU_TOTAL_TRICKS || id == MENU_PLAYER_TRICKS) {
 				m_area.redraw();
 			}
-		}
-		else {
+		} else {
 			assert(0);
 		}
 	}
@@ -378,18 +371,13 @@ void Frame::callFrameItemFunction(FrameItemFunction f, int option) {
 		for (auto a : m_childs) {
 			(a->*f)();
 		}
-	}
-	else {
+	} else {
 		/* use special order for updateLanguage(), m_problemSelector setCheckLabelFit() calls
 		 * getString(MENU_PROBLEM), so menu should be changed before m_problemSelector
 		 */
-		FrameItem* item[] = {
-				&m_menu,
-				&m_area,
-				&m_problemSelector,
-				&m_toolbar,
+		FrameItem *item[] = { &m_menu, &m_area, &m_problemSelector, &m_toolbar,
 				&m_lastTrick };
-		for (auto a:item) {
+		for (auto a : item) {
 			(a->*f)();
 		}
 	}
@@ -401,12 +389,10 @@ void Frame::saveAs() {
 	if (r.ok()) {
 		if (r.m_response == GTK_RESPONSE_APPLY) {
 			finishSaveFile(r.file(), true);
-		}
-		else {
+		} else {
 			if (getFileType(r.file()) == FILE_TYPE_HTML) {
 				m_area.saveHtml(r.file(), gconfig->m_htmlStoreWithImages);
-			}
-			else {
+			} else {
 				finishSaveFile(r.file(), false);
 			}
 		}
@@ -416,8 +402,7 @@ void Frame::saveAs() {
 void Frame::save() {
 	if (proceedSaveAsSaveAs()) {
 		saveAs();
-	}
-	else {
+	} else {
 		m_problemSelector.save();
 		updateModified();
 	}
@@ -478,7 +463,7 @@ void Frame::openAddFile(MENU_ID id) {
 }
 
 void Frame::setDeal(bool random) {
-	for (auto& i : m_childs) {
+	for (auto &i : m_childs) {
 		i->setDeal(random);
 	}
 }
@@ -495,29 +480,28 @@ void Frame::changeGameType() {
 	updateTitle();
 }
 
-void Frame::resetSettings(){
+void Frame::resetSettings() {
 	gconfig->resetSettings();
 	updateResetSettings();
 }
 
 void Frame::updateRecent(std::string filepath) {
-	auto& r=recent();
+	auto &r = recent();
 
-	int i=0;
-	for (auto a:r) {
+	int i = 0;
+	for (auto a : r) {
 		if (a == filepath) {
 			break;
 		}
 		i++;
 	}
 
-	if (i==int(r.size())) {
+	if (i == int(r.size())) {
 		if (i + 1 > gconfig->m_maxRecent) {
 			r.pop_back();
 		}
-	}
-	else {
-		r.erase(r.begin()+i);
+	} else {
+		r.erase(r.begin() + i);
 	}
 	r.insert(r.begin(), filepath);
 	m_menu.updateRecent();
@@ -1529,7 +1513,7 @@ gboolean Frame::exit() {
 
 	gint x, y;
 	gtk_window_get_position(GTK_WINDOW(getWidget()), &x, &y);
-	gconfig->save(getGameType(),x,y);
+	gconfig->save(getGameType(), x, y);
 
 	gdraw->stopCountThread();
 
@@ -1557,7 +1541,7 @@ void Frame::allocated() {
 
 	GdkWindow *gdk_window = gtk_widget_get_window(getWidget());
 	GdkRectangle rect;
-	gdk_window_get_frame_extents(gdk_window, &rect);			//with title and borders
+	gdk_window_get_frame_extents(gdk_window, &rect);	//with title and borders
 	const int delta = rect.height - m_area.getSize().cy;
 
 	//println("%d",delta)
@@ -1587,15 +1571,14 @@ void Frame::finishSaveImage() {
 	GtkAllocation a;
 	gtk_widget_get_allocation(getWidget(), &a);
 
-	GdkPixbuf * pb = gdk_pixbuf_get_from_window(gdk_window, a.x, a.y, a.width,
+	GdkPixbuf *pb = gdk_pixbuf_get_from_window(gdk_window, a.x, a.y, a.width,
 			a.height);
 
 	std::string ext = getFileInfo(m_saveImagePath, FILEINFO::LOWER_EXTENSION);
 	if (ext == "jpeg") {
-		gdk_pixbuf_save(pb, m_saveImagePath.c_str(), ext.c_str(), NULL, "quality",
-				"100", NULL);
-	}
-	else {
+		gdk_pixbuf_save(pb, m_saveImagePath.c_str(), ext.c_str(), NULL,
+				"quality", "100", NULL);
+	} else {
 		gdk_pixbuf_save(pb, m_saveImagePath.c_str(), ext.c_str(), NULL, NULL);
 	}
 	g_object_unref(pb);
@@ -1605,44 +1588,43 @@ void Frame::setCustomSkin() {
 	CustomSkinDialog d;
 }
 
-void Frame::addWidget(bool add,GtkWidget* container,GtkWidget* child){
-	if(add){
+void Frame::addWidget(bool add, GtkWidget *container, GtkWidget *child) {
+	if (add) {
 		gtk_container_add(GTK_CONTAINER(container), child);
 	}
 }
 
 void Frame::addRemoveWidget(bool add, GtkWidget *container, GtkWidget *child) {
-	if(add){
+	if (add) {
 		gtk_container_add(GTK_CONTAINER(container), child);
-	}
-	else{
+	} else {
 		gtk_container_remove(GTK_CONTAINER(container), child);
 	}
 
 }
 
 void Frame::test() {
-/*
-	GDir*di;
-	const gchar * filename;
-	ProblemVector pv;
-	std::string root="bridge/problems/bts";
-	std::string s;
-	int i=0;
-	di = g_dir_open(root.c_str(), 0, 0);
-	if(!di){
-		printl("error");
-		return ;
-	}
-	while ((filename = g_dir_read_name(di))) {
-		pv.set(root+"/"+filename,true);
-		s="problem "+getFileInfo(filename,FILEINFO::SHORT_NAME );
-		printl(s)
-		pv.m_problems.back().m_comment=s;
-		i++;
-	}
+	/*
+	 GDir*di;
+	 const gchar * filename;
+	 ProblemVector pv;
+	 std::string root="bridge/problems/bts";
+	 std::string s;
+	 int i=0;
+	 di = g_dir_open(root.c_str(), 0, 0);
+	 if(!di){
+	 printl("error");
+	 return ;
+	 }
+	 while ((filename = g_dir_read_name(di))) {
+	 pv.set(root+"/"+filename,true);
+	 s="problem "+getFileInfo(filename,FILEINFO::SHORT_NAME );
+	 printl(s)
+	 pv.m_problems.back().m_comment=s;
+	 i++;
+	 }
 
-	printl(i,pv.size())
-	pv.save("old.bts", false);
-*/
+	 printl(i,pv.size())
+	 pv.save("old.bts", false);
+	 */
 }

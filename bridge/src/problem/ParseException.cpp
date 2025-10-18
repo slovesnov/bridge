@@ -5,15 +5,15 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "ParseException.h"
 #include "../base/Base.h"
 
-ParseException::ParseException(const char* message, const STRING_ID& error,
-		const char* file, int line, const char* function,
-		const std::string& content, const std::string& addon) {
+ParseException::ParseException(const char *message, const STRING_ID &error,
+		const char *file, int line, const char *function,
+		const std::string &content, const std::string &addon) {
 	m_message = message;
 	m_error = error;
 	m_file = file;
@@ -24,7 +24,7 @@ ParseException::ParseException(const char* message, const STRING_ID& error,
 }
 
 std::string ParseException::getPlaceInfo() const {
-	const char*p = strrchr(m_file.c_str(), G_DIR_SEPARATOR);
+	const char *p = strrchr(m_file.c_str(), G_DIR_SEPARATOR);
 	assert(p);
 	return format("%s:%d\n%s()", p + 1, m_line, m_function.c_str());
 }

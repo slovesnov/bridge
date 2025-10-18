@@ -5,18 +5,17 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2019-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
-
 
 //Note. Inner representation player always=0
 m_trumpOriginal=trump;
 m_ct=compareTable[trump==NT];
 
-int a, i, j, k, l,m, n, pi[CARD_INDEX_WEST + 1], fi;
+int a, i, j, k, l, m, n, pi[CARD_INDEX_WEST + 1], fi;
 CARD_INDEX first1;
 const CARD_INDEX *p;
-USC sc0,sc1;
+USC sc0, sc1;
 
 sc0.set(-1,-1);
 sc1.set(-1,-1);
@@ -73,11 +72,11 @@ if (trumpChanged) {
 		t->f = HASH_INVALID;
 #else
 		t->next=0;
-		for(auto&a:t->i){
+		for(auto&a:t->i) {
 			a.f = HASH_INVALID;
 		}
 #endif
-	}//for(t)
+	} //for(t)
 }
 #ifdef PREFERANS_NODE_COUNT
 m_nodes=0;
@@ -99,11 +98,11 @@ if (sc0.s == -1 && m_cards != 1) {
 		#define F eNT
 	#endif
 #else
-	#ifdef STOREBEST
+#ifdef STOREBEST
 		#define F eb
 	#else
-		#define F e
-	#endif
+#define F e
+#endif
 #endif
 
 	i = F(m_w+fi, -m_cards, m_cards);
@@ -131,19 +130,19 @@ else {
 				t = c & 3;
 				if (t == w[0]) {
 					sc0.set(j,i);
-					if(n==0){
+					if(n==0) {
 						m_best=sc0.toIndex();
 					}
 				}
 				else if (t == w[1]) {
 					sc1.set(j,i);
-					if(n==1){
+					if(n==1) {
 						m_best=sc1.toIndex();
 					}
 				}
 				else {
 					sc2.set(j,i);
-					if(n==2){
+					if(n==2) {
 						m_best=sc2.toIndex();
 					}
 				}
@@ -153,63 +152,63 @@ else {
 		SETT;
 
 		//taker n or neither t nor n are preferans players
-		v=  t == n || (w[t] != 0 && w[n] != 0) ? 
+		v= t == n || (w[t] != 0 && w[n] != 0) ?
 #ifdef MISERE
 			-1:1
 #else
-			 1:-1
+		1:-1
 #endif
-			;
+		;
 	}
-else{
-	if (sc1.s == -1) {
+	else {
+		if (sc1.s == -1) {
 #ifdef MISERE
 	suitableCards2Misere
 #elif defined(NO_TRUMP)
 	suitableCards2NT
 #else
-	suitableCards2
+			suitableCards2
 #endif
-		(sc0.s, w, c1, c2);
+			(sc0.s, w, c1, c2);
 
-		m_best = c1[0].toIndex();
+			m_best = c1[0].toIndex();
 #define r0 sc0.c
-		REMOVE_CARD_NS(0)
+			REMOVE_CARD_NS(0)
 #undef r0
 
-		a1 = a;
-		b1 = b;
-		#include "pi1.h"
-		v = a1;
+			a1 = a;
+			b1 = b;
+#include "pi1.h"
+			v = a1;
 
-	}
-	else {
+		}
+		else {
 #ifdef MISERE
 	suitableCardsMisere
 #elif defined(NO_TRUMP)
 	suitableCardsNT
 #else
-	suitableCards
+			suitableCards
 #endif
-		(sc0.s, w[2], c2);
+			(sc0.s, w[2], c2);
 
-		m_best = c2[0].toIndex();
-		int r1 = sc1.c;
+			m_best = c2[0].toIndex();
+			int r1 = sc1.c;
 #define r0 sc0.c
-		REMOVE_CARD_NS(0)
-		ADJUST_RANK(1,0)
+			REMOVE_CARD_NS(0)
+			ADJUST_RANK(1,0)
 #undef r0
 
-		assert(getW(sc1.s, r1) == w[1]);
-		REMOVE_CARD_NS(1)
+			assert(getW(sc1.s, r1) == w[1]);
+			REMOVE_CARD_NS(1)
 
-		a2 = a;
-		b2 = b;
-		#include "pi2.h"
-		v = a2;
+			a2 = a;
+			b2 = b;
+#include "pi2.h"
+			v = a2;
 
+		}
 	}
-}
 	i=v;
 }
 

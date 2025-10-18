@@ -5,7 +5,7 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2020-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 #ifndef BRIDGE_H_
@@ -76,10 +76,10 @@ class Bridge: public BridgePreferansBase {
 	 * sizeof(Hash)=sizeof(HashItem)*HASH_ITEMS+4=68 //+4 because of next
 	 * size of memory 68*2^hashBits
 	 * in megabytes 68*2^(hashBits-20)=68*4=272mb
-	*/
+	 */
 	//HASH_ITEMS=4 hashBits = 22
-	static const int HASH_ITEMS=4;//HASH_ITEMS=2^n=2^2
-	static const int HASH_BITS = 24-int(log2(HASH_ITEMS));//24-n
+	static const int HASH_ITEMS = 4; //HASH_ITEMS=2^n=2^2
+	static const int HASH_BITS = 24 - int(log2(HASH_ITEMS)); //24-n
 	static_assert( 1<<int(log2(HASH_ITEMS)) == HASH_ITEMS);
 	static const int HASH_SIZE = 1 << HASH_BITS;
 	static const int AND_KEY = HASH_SIZE - 1;
@@ -93,15 +93,15 @@ class Bridge: public BridgePreferansBase {
 	 * max size 7+36=43
 	 */
 	static int m_w[43];
-	static int m_oc;//object counter
+	static int m_oc; //object counter
 
-	static const int MAX_MOVES =8;//1 byte for length+up to seven bytes for moves, need for MOVES_INIT macro (defined in Bridge.cpp) see bi.h
+	static const int MAX_MOVES = 8; //1 byte for length+up to seven bytes for moves, need for MOVES_INIT macro (defined in Bridge.cpp) see bi.h
 	static int8_t **m_moves;
 
 	/* cann't use -2, because from bestline sometimes calls [-2, 0]
 	 *
 	 */
-	static const int DEFAULT_TRICKS=-30;
+	static const int DEFAULT_TRICKS = -30;
 #ifdef BRIDGE_NODE_COUNT
 	int m_nodes;
 #endif
@@ -116,29 +116,29 @@ class Bridge: public BridgePreferansBase {
 #endif
 #endif
 public:
-	static const int endgameN=3;
-	static constexpr int endgameCN=endgameCm(endgameN, true);
+	static const int endgameN = 3;
+	static constexpr int endgameCN = endgameCm(endgameN, true);
 	static const int endgameMultiplier;
 private:
 
-	struct HashItem {//2^4=16 bytes, assume structure alignment=4
+	struct HashItem { //2^4=16 bytes, assume structure alignment=4
 		int32_t code[3];
 		int16_t code3;
 		int8_t f;
 		int8_t v;
 	};
 
-	struct Hash{
+	struct Hash {
 		HashItem i[HASH_ITEMS];
 		int32_t next;
-	}*m_hashTable;
+	} *m_hashTable;
 
-	int e(const int* w, int a);
-	int eb(const int* w, int a);
-	int eNT(const int* w, int a);
-	int ebNT(const int* w, int a);
+	int e(const int *w, int a);
+	int eb(const int *w, int a);
+	int eNT(const int *w, int a);
+	int ebNT(const int *w, int a);
 
-	int ep(const int* w, int a);
+	int ep(const int *w, int a);
 
 #ifndef NEW_MOVES_ORDER
 	void suitableCardsOneSuit(int suit, int w, SC& a);
@@ -146,12 +146,12 @@ private:
 #endif
 
 	//find all suitable cards of one/three player(s) for game with trump
-	void suitableCards(int suit, int w, SC& c);
-	void suitableCards3(int suit, const int* w, SC& c1, SC& c2, SC& c3);
+	void suitableCards(int suit, int w, SC &c);
+	void suitableCards3(int suit, const int *w, SC &c1, SC &c2, SC &c3);
 
 	//find all suitable cards of one/three player(s) for no trump game
-	void suitableCardsNT(int suit, int w, SC& c);
-	void suitableCards3NT(int suit, const int* w, SC& c1, SC& c2, SC& c3);
+	void suitableCardsNT(int suit, int w, SC &c);
+	void suitableCards3NT(int suit, const int *w, SC &c1, SC &c2, SC &c3);
 
 	int removeCard(int suit, int pos);
 
@@ -175,8 +175,8 @@ private:
 public:
 
 	int m_e; //estimate from player who do move
-	int m_ns,m_ew;
-	double m_time;//seconds do not remove need for estimateAllInner function
+	int m_ns, m_ew;
+	double m_time; //seconds do not remove need for estimateAllInner function
 
 	Bridge();
 	~Bridge();
@@ -184,13 +184,13 @@ public:
 	//c [0-12 - spades A-2], [13-25 hearts A-2], [26-38 diamonds A-2], [39-51 clubs A-2]
 	//estimate + best move
 	void solveFull(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-			bool trumpChanged, int lowTricks = DEFAULT_TRICKS,
-			int highTricks = DEFAULT_TRICKS);
+			bool trumpChanged, int lowTricks = DEFAULT_TRICKS, int highTricks =
+					DEFAULT_TRICKS);
 
 	//only estimate
 	void solveEstimateOnly(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-			bool trumpChanged, int lowTricks = DEFAULT_TRICKS,
-			int highTricks = DEFAULT_TRICKS);
+			bool trumpChanged, int lowTricks = DEFAULT_TRICKS, int highTricks =
+					DEFAULT_TRICKS);
 
 	void bestLine(const CARD_INDEX c[52], CARD_INDEX first);
 
@@ -199,12 +199,14 @@ public:
 //	void estimateAllMultithread(const Problem& p,ESTIMATE estimateType,
 //			SET_ESTIMATION_FUNCTION estimationFunction,bool trumpChanged);
 
-	void solve(const Problem& p, bool trumpChanged);
-	void estimateAll(const Problem& p, ESTIMATE estimateType,
-			SET_ESTIMATION_FUNCTION estimationFunction,bool beforeBest,bool trumpChanged);
+	void solve(const Problem &p, bool trumpChanged);
+	void estimateAll(const Problem &p, ESTIMATE estimateType,
+			SET_ESTIMATION_FUNCTION estimationFunction, bool beforeBest,
+			bool trumpChanged);
 
-	void estimateAllInner(const Problem& p, ESTIMATE estimateType,
-			SET_ESTIMATION_FUNCTION estimationFunction,bool beforeBest,bool trumpChanged);
+	void estimateAllInner(const Problem &p, ESTIMATE estimateType,
+			SET_ESTIMATION_FUNCTION estimationFunction, bool beforeBest,
+			bool trumpChanged);
 
 	void estimateAllThread();
 	static void finishEstimateAll();

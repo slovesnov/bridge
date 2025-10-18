@@ -5,7 +5,7 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2019-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 #ifndef HELPER_SOLVEALL_H_
@@ -19,16 +19,15 @@ class SolveAll {
 	VDealResult vDealResult;
 	GMutex dealsMutex;
 public:
-	int k,n;
+	int k, n;
 	CARD_INDEX first;
 	int trump;
 	CARD_INDEX p[2];
 	CARD_INDEX cid[52];
 	int o[26];
-	gint64 id;//dialog id
-	clock_t begin,end;
+	gint64 id; //dialog id
+	clock_t begin, end;
 	int positions;
-
 
 	//special for bridge
 	bool ns;
@@ -41,15 +40,15 @@ public:
 	SolveAll();
 	~SolveAll();
 	SolveAll(SolveAll&&) = default;
-	void init(int k, int n, CARD_INDEX first, int trump,
-			VCardIndex p, CARD_INDEX cid[52],gint64 id,VInt const (&fixed)[2]);
+	void init(int k, int n, CARD_INDEX first, int trump, VCardIndex p,
+			CARD_INDEX cid[52], gint64 id, VInt const (&fixed)[2]);
 
-	SolveAll(SolveAll const&)=delete;
-	void operator=(SolveAll const&)=delete;
-	void copyParametersClearDealResult(SolveAll const& source);
+	SolveAll(SolveAll const&) = delete;
+	void operator=(SolveAll const&) = delete;
+	void copyParametersClearDealResult(SolveAll const &source);
 
-	void addDealResult(DealResult const& deal);
-	void add(VDealResult& v);
+	void addDealResult(DealResult const &deal);
+	void add(VDealResult &v);
 	int dealResultSize();
 };
 

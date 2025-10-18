@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include <cerrno>
@@ -18,7 +18,7 @@
 #define throwOnError(_Expression,error) if(!(_Expression))throw ParseException(#_Expression,error,__FILE__,__LINE__,__func__,"","");
 
 //show all errors only one time
-bool ProblemVector::set(const VString& v, bool append) {
+bool ProblemVector::set(const VString &v, bool append) {
 	VProblem p;
 
 	if (!append) {
@@ -29,7 +29,7 @@ bool ProblemVector::set(const VString& v, bool append) {
 	const unsigned psz = m_problems.size();
 	const unsigned esz = m_errors.size();
 
-	for (auto& a:v) {
+	for (auto &a : v) {
 		add(a);
 	}
 
@@ -44,13 +44,11 @@ bool ProblemVector::set(const VString& v, bool append) {
 					message(MESSAGE_ICON_ERROR, STRING_ERROR_EMPTY_FILE);
 					m_problems = p;
 				}
-			}
-			else {
+			} else {
 				message(MESSAGE_ICON_ERROR, STRING_THIS_FILE_IS_DAMAGED);
 			}
 		}
-	}
-	else {
+	} else {
 		if (m_problems.size() == psz) { //no new problems, errors only
 			if (!append) { //restore m_problems
 				m_problems = p;
@@ -63,28 +61,24 @@ bool ProblemVector::set(const VString& v, bool append) {
 
 }
 
-void ProblemVector::add(const std::string& filepath) {
+void ProblemVector::add(const std::string &filepath) {
 	const unsigned psz = m_problems.size();
 	const unsigned esz = m_errors.size();
 	FILE_TYPE type = getFileType(filepath);
 	try {
 		if (type == FILE_TYPE_PBN) {
 			openPbn(filepath);
-		}
-		else if (type == FILE_TYPE_BRIDGE || type == FILE_TYPE_PREFERANS) {
+		} else if (type == FILE_TYPE_BRIDGE || type == FILE_TYPE_PREFERANS) {
 			openBts(filepath, type);
-		}
-		else if (type == FILE_TYPE_DF) {
+		} else if (type == FILE_TYPE_DF) {
 			openDf(filepath);
-		}
-		else {
+		} else {
 			/* this function can be called upon start so prevents assert
 			 * For example "bridge.exe 1.xls" 1.xls - invalid file type
 			 */
 			throwOnError(0, STRING_ERROR_INVALID_FILE_TYPE)
 		}
-	}
-	catch (ParseException& e) {
+	} catch (ParseException &e) {
 		m_errors.push_back(e);
 	}
 
@@ -100,24 +94,24 @@ void ProblemVector::add(const std::string& filepath) {
 	}
 }
 
-void ProblemVector::openDf(const std::string& filepath) {
-	FILE*f = open(filepath.c_str(), "r");
+void ProblemVector::openDf(const std::string &filepath) {
+	FILE *f = open(filepath.c_str(), "r");
 	throwOnError(f, STRING_ERROR_COULD_NOT_OPEN_FILE);
 	splitAndParse(f, FILE_TYPE_DF);
 }
 
-void ProblemVector::openPbn(const std::string& filepath) {
+void ProblemVector::openPbn(const std::string &filepath) {
 	std::string s, q;
 	const std::string fileName = getFileInfo(filepath, FILEINFO::SHORT_NAME);
 	std::vector<int>::const_iterator vi;
 
-	FILE*f = open(filepath.c_str(), "r");
+	FILE *f = open(filepath.c_str(), "r");
 	throwOnError(f, STRING_ERROR_COULD_NOT_OPEN_FILE);
 
 	const char MARKER[] = "\n\n";
 	const int MARKER_SIZE = strlen(MARKER);
 
-	const char*pb, *pe;
+	const char *pb, *pe;
 	int i, length;
 	VStringI it;
 	VString vs;
@@ -129,7 +123,7 @@ void ProblemVector::openPbn(const std::string& filepath) {
 
 	fseek(f, 0, SEEK_END);
 	i = ftell(f);
-	char* content = new char[i + MARKER_SIZE + 1];
+	char *content = new char[i + MARKER_SIZE + 1];
 	fseek(f, 0, SEEK_SET);
 	length = fread(content, 1, i, f); //note fread() return number of readed bytes because "\r\n"->"\n" length<i
 	fclose(f);
@@ -137,13 +131,12 @@ void ProblemVector::openPbn(const std::string& filepath) {
 
 	if (content[0] == '[') {
 		pb = content - 1; //in do{}while pb++
-	}
-	else {
+	} else {
 		pb = strstr(content, "\n["); //Note "\n[" instead of strchr(,'[') because '[' could appear in comment
 		if (pb == NULL) {
 			m_errors.push_back(
-					ParseException("", STRING_ERROR_EMPTY_FILE, __FILE__, __LINE__,
-							__func__, "", ""));
+					ParseException("", STRING_ERROR_EMPTY_FILE, __FILE__,
+							__LINE__, __func__, "", ""));
 			return;
 		}
 	}
@@ -166,23 +159,22 @@ void ProblemVector::openPbn(const std::string& filepath) {
 		try {
 			problem.parse(FILE_TYPE_PBN, *it); //can be exception here
 			m_problems.push_back(problem);
-		}
-		catch (ParseException& e) {
+		} catch (ParseException &e) {
 			m_errors.push_back(e);
 		}
 	}
 
 }
 
-void ProblemVector::openBts(const std::string& filepath, FILE_TYPE type) {
+void ProblemVector::openBts(const std::string &filepath, FILE_TYPE type) {
 	const char PK[] = "PK";
 	const int BTS_SIGNATURE_LENGTH = strlen(BTS_SIGNATURE);
 
-	FILE*f;
+	FILE *f;
 	int i;
 	char buffer[BTS_SIGNATURE_LENGTH];
 	std::string content;
-	char*p;
+	char *p;
 	/* READ BINARY because sometimes i=fread(buffer,1,BTS_SIGNATURE_LENGTH,f)<BTS_SIGNATURE_LENGTH
 	 * if file open as "r" not binary. fread stops on 0x1a byte interpret as end of file
 	 * so open "rb"
@@ -197,19 +189,18 @@ void ProblemVector::openBts(const std::string& filepath, FILE_TYPE type) {
 	}
 
 	//also recognize without BTS_SIGNATURE at the beginning of file
-	if (startsWith(buffer, BTS_SIGNATURE) || startsWith(buffer, BTS_BEGIN_MARKER)) { //new format
-	//should reopen in NOT binary mode
+	if (startsWith(buffer, BTS_SIGNATURE)
+			|| startsWith(buffer, BTS_BEGIN_MARKER)) { //new format
+			//should reopen in NOT binary mode
 		fclose(f);
 		f = open(filepath.c_str(), "r");
 		splitAndParse(f, FILE_TYPE_BRIDGE);
-	}
-	else {
+	} else {
 		if (startsWith(buffer, PK)) {		//packed
 			fclose(f);
-			content = unzipFile(filepath);		//external functions so use locale
+			content = unzipFile(filepath);	//external functions so use locale
 			throwOnError(content.length() != 0, STRING_UNKNOWN_ERROR);
-		}
-		else {
+		} else {
 			fseek(f, 0L, SEEK_END);
 			i = ftell(f);
 			p = new char[i];
@@ -228,17 +219,16 @@ void ProblemVector::openBts(const std::string& filepath, FILE_TYPE type) {
 			problem.parse(type, content, true,
 					type == FILE_TYPE_BRIDGE ? BRIDGE : PREFERANS);	//can be exception here
 			m_problems.push_back(problem);
-		}
-		catch (ParseException& e) {
+		} catch (ParseException &e) {
 			m_errors.push_back(e);
 		}
 	}
 }
 
-void ProblemVector::splitAndParse(FILE* f, FILE_TYPE type) {
+void ProblemVector::splitAndParse(FILE *f, FILE_TYPE type) {
 	int i;
-	const char*p, *e, *q;
-	char* content;
+	const char *p, *e, *q;
+	char *content;
 	VString v;
 	std::string s;
 	std::string original;
@@ -248,7 +238,7 @@ void ProblemVector::splitAndParse(FILE* f, FILE_TYPE type) {
 
 	//Note add "\n" better. For example word 'deal' which we search can appear in comment
 	sprintf(marker, "\n%s",
-			type == FILE_TYPE_BRIDGE ? BTS_BEGIN_MARKER : DF_BEGIN_MARKER_L);	//use lower case
+			type == FILE_TYPE_BRIDGE ? BTS_BEGIN_MARKER : DF_BEGIN_MARKER_L);//use lower case
 	const int markerSize = strlen(marker);
 
 	fseek(f, 0, SEEK_END);
@@ -257,10 +247,10 @@ void ProblemVector::splitAndParse(FILE* f, FILE_TYPE type) {
 	fseek(f, 0, SEEK_SET);
 	i = fread(content + 1, 1, i, f);//note fread() return number of read bytes because "\r\n"->"\n" length<i
 	fclose(f);
-	strcpy(content + i + 1, marker);		//append end of problem marker to the end
+	strcpy(content + i + 1, marker);//append end of problem marker to the end
 	content[0] = marker[0];	//add "\n" at the beginning to find whether file starts with "\nDeal"
 
-	original = content;		//copy with additions to prevent mess up with indexes
+	original = content;	//copy with additions to prevent mess up with indexes
 	std::transform(content, content + strlen(content), content, ::tolower);
 
 	p = strstr(content, marker);
@@ -276,28 +266,26 @@ void ProblemVector::splitAndParse(FILE* f, FILE_TYPE type) {
 				;
 
 			//pass original string
-			s = std::string((p - content) + original.c_str() + 1, q - p);	//p starts from "\n"
+			s = std::string((p - content) + original.c_str() + 1, q - p);//p starts from "\n"
 
 			Problem problem;
 			try {
 				problem.parse(type, s);		//can be exception here
 				m_problems.push_back(problem);
-			}
-			catch (ParseException& e) {
+			} catch (ParseException &e) {
 				m_errors.push_back(e);
 			}
 
 			p = e;
 		} while (e != NULL);
-	}
-	catch (ParseException&) {
+	} catch (ParseException&) {
 		delete[] content;
 		throw;
 	}
 }
 
 int ProblemVector::save(std::string filepath, bool split) {
-	FILE*f = NULL;
+	FILE *f = NULL;
 	std::string s, b;
 	FILE_TYPE t = getFileType(filepath);
 	bool warning = false;
@@ -307,8 +295,8 @@ int ProblemVector::save(std::string filepath, bool split) {
 	}
 
 	int i = 1;
-	for (auto& pr: m_problems) {
-		s = pr.getContent(t, split ? 1 : i,m_problems.size() );
+	for (auto &pr : m_problems) {
+		s = pr.getContent(t, split ? 1 : i, m_problems.size());
 		if (s.length() > 0) {
 			if (t == FILE_TYPE_HTML) {
 				s = Problem::postproceedHTML(s, gconfig->m_htmlStoreWithImages);
@@ -316,20 +304,19 @@ int ProblemVector::save(std::string filepath, bool split) {
 
 			if (split) {
 				f = open(fileName(filepath, b, i), "w+");
-				if(!f){
+				if (!f) {
 					showOpenFileError();
 					return SAVE_ERROR;
 				}
 				fprintf(f, "%s", s.c_str());
 				fclose(f);
-			}
-			else {
+			} else {
 				/* try to store only one preferans problem to df or pbn file, file will not be created at all
 				 * if have some bridge problems file will be created
 				 */
 				if (!f) {
 					f = open(filepath, "w+");
-					if(!f){
+					if (!f) {
 						showOpenFileError();
 						return SAVE_ERROR;
 					}
@@ -340,8 +327,7 @@ int ProblemVector::save(std::string filepath, bool split) {
 				fprintf(f, "%s", s.c_str());
 			}
 			i++;
-		}
-		else {
+		} else {
 			warning = true;
 		}
 
@@ -355,7 +341,7 @@ int ProblemVector::save(std::string filepath, bool split) {
 	}
 
 	if (t == FILE_TYPE_DF || t == FILE_TYPE_PBN) {
-		for (auto& pr: m_problems) {
+		for (auto &pr : m_problems) {
 			if (!pr.supportFileFormat(t)) {
 				message(MESSAGE_ICON_MESSAGE,
 						STRING_WARNING_STORE_NO_CONTRACT_OR_NO_TRUMP_TO_DF_PBN);
@@ -367,10 +353,10 @@ int ProblemVector::save(std::string filepath, bool split) {
 	if (warning) {
 		message(MESSAGE_ICON_MESSAGE, STRING_WARNING_STORE_PREF_TO_DF_PBN);
 	}
-	for (auto& pr: m_problems) {
-		pr.m_filepath=filepath;
+	for (auto &pr : m_problems) {
+		pr.m_filepath = filepath;
 	}
-	return warning?SAVE_WARNING:SAVE_OK;
+	return warning ? SAVE_WARNING : SAVE_OK;
 }
 
 std::string ProblemVector::getFileFormat(int size) {
@@ -385,9 +371,9 @@ std::string ProblemVector::getFileFormat(int size) {
 	return b;
 }
 
-std::string ProblemVector::fileName(const std::string& filepath,
-		const std::string& buffer, int i) {
-	const char*p, *q;
+std::string ProblemVector::fileName(const std::string &filepath,
+		const std::string &buffer, int i) {
+	const char *p, *q;
 	std::string s;
 
 	p = filepath.c_str();
@@ -400,14 +386,14 @@ std::string ProblemVector::fileName(const std::string& filepath,
 	return s;
 }
 
-void ProblemVector::addSave(const VString& v, const std::string& filepath,
+void ProblemVector::addSave(const VString &v, const std::string &filepath,
 		bool split) {
 	VStringCI it;
 	ProblemVector pv;
 	int i;
 	std::string s, s1, b;
 	VProblemI it1;
-	FILE*f;
+	FILE *f;
 	const FILE_TYPE t = getFileType(filepath);
 	const int start = gconfig->m_firstSplitNumber;
 
@@ -418,7 +404,7 @@ void ProblemVector::addSave(const VString& v, const std::string& filepath,
 		//after pv is set
 		b = getFileFormat(pv.size());
 		for (i = start, it1 = pv.begin(); it1 != pv.end(); it1++) {
-			s1 = it1->getContent(t, 1,pv.size());	//use problem number 1 indicates problem caption
+			s1 = it1->getContent(t, 1, pv.size());//use problem number 1 indicates problem caption
 
 			if (s1.length() == 0) {
 				continue;
@@ -427,19 +413,19 @@ void ProblemVector::addSave(const VString& v, const std::string& filepath,
 			f = open(fileName(filepath, b, i).c_str(), "w+");
 			assert(f);
 			if (t == FILE_TYPE_HTML) {
-				s1 = Problem::postproceedHTML(s1, gconfig->m_htmlStoreWithImages);
+				s1 = Problem::postproceedHTML(s1,
+						gconfig->m_htmlStoreWithImages);
 				s1 = PROBLEM_HTML_BEGIN + s1 + PROBLEM_HTML_END;
 			}
 			fprintf(f, "%s", s1.c_str());
 			fclose(f);
 			i++;
 		}
-	}
-	else {
+	} else {
 		b = getFileFormat(v.size());
 		for (i = start, it = v.begin(); it != v.end(); it++, i++) {
 			pv.set(*it, false);
-			if(pv.save(fileName(filepath, b, i), false)==SAVE_ERROR){
+			if (pv.save(fileName(filepath, b, i), false) == SAVE_ERROR) {
 				break;
 			}
 		}
@@ -460,7 +446,7 @@ std::string ProblemVector::unzipFile(std::string filepath) {
 	const int MAX_FILENAME = 512;
 	const int READ_SIZE = 8192;
 
-	auto s=utf8ToLocale(filepath);
+	auto s = utf8ToLocale(filepath);
 	unzFile zipfile = unzOpen(s.c_str());
 	if (zipfile == NULL) {
 		println("%s: not found", filepath.c_str());
@@ -480,7 +466,7 @@ std::string ProblemVector::unzipFile(std::string filepath) {
 	std::string unzipped;
 
 	// Loop to extract all files
-	uint32_t i;//was in 32bit "uLong i"
+	uint32_t i;	//was in 32bit "uLong i"
 
 	if (global_info.number_entry != 1) {
 		println("error: global_info.number_entry!=1");
@@ -503,8 +489,7 @@ std::string ProblemVector::unzipFile(std::string filepath) {
 			// Entry is a directory, so create it.
 			//println( "dir:%s", filename );
 			//mkdir( filename );
-		}
-		else {
+		} else {
 			// Entry is a file, so extract it.
 			//println( "file:%s", filename );
 			if (unzOpenCurrentFile(zipfile) != UNZ_OK) {

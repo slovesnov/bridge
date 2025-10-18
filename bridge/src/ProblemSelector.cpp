@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "ProblemSelector.h"
@@ -13,34 +13,34 @@
 #include "dialogs/EditDescriptionDialog.h"
 
 //USE_PIXBUF_TO_LOAD_SVG_DECK_AT_START
-const char STORE_DECK_TO_PNG_FILE_NAME[]="tmpdeck.png";
-const char STORE_ARROW_TO_PNG_FILE_NAME[]="tmparrow.png";
+const char STORE_DECK_TO_PNG_FILE_NAME[] = "tmpdeck.png";
+const char STORE_ARROW_TO_PNG_FILE_NAME[] = "tmparrow.png";
 
-ProblemSelector* gproblemselector;
+ProblemSelector *gproblemselector;
 
-static void button_click(GtkToolItem* w, ProblemSelector* p) {
+static void button_click(GtkToolItem *w, ProblemSelector *p) {
 	p->clickToolbar(w);
 }
 
 static gboolean mouse_enter_event(GtkWidget *widget, GdkEventButton *event,
-		ProblemSelector*d) {
+		ProblemSelector *d) {
 	d->setCursorVisible(true);
 	return TRUE;
 }
 
 static gboolean mouse_leave_event(GtkWidget *widget, GdkEventCrossing *event,
-		ProblemSelector*d) {
+		ProblemSelector *d) {
 	d->setCursorVisible(false);
 	return TRUE;
 }
 
 static gboolean mouse_press_event(GtkWidget *widget, GdkEventButton *event,
-		ProblemSelector*d) {
+		ProblemSelector *d) {
 	return d->mouseClick(event->time);
 }
 
 static gboolean key_release_event(GtkWidget *widget, GdkEventButton *event,
-		ProblemSelector*d) {
+		ProblemSelector *d) {
 	d->proceedCommentChanges();
 	return FALSE; //need further proceeding
 }
@@ -49,12 +49,12 @@ ProblemSelector::ProblemSelector() :
 		FrameItemArea(gtk_scrolled_window_new(NULL, NULL)) {
 	unsigned i;
 
-	gproblemselector=this;
+	gproblemselector = this;
 	m_current = 0;
 	m_lastClickTime = 0;
 	m_visible = false;
-	m_deckChanged=false;
-	m_arrowChanged=false;
+	m_deckChanged = false;
+	m_arrowChanged = false;
 
 	fillSvgParameters();
 	//Frame::Frame() add m_label to menu bar, so here just create
@@ -102,12 +102,13 @@ ProblemSelector::ProblemSelector() :
 		m_button[i] = gtk_tool_button_new(NULL, "");
 		gtk_tool_item_set_expand(m_button[i], TRUE); //otherwise buttons goes to left
 		gtk_toolbar_insert(GTK_TOOLBAR(m_toolbar), m_button[i], -1);
-		g_signal_connect(m_button[i], "clicked", G_CALLBACK(button_click), this);
+		g_signal_connect(m_button[i], "clicked", G_CALLBACK(button_click),
+				this);
 	}
 
 	gtk_widget_set_can_focus(GTK_WIDGET(m_toolbar), FALSE);
-	gtk_widget_set_size_request(GTK_WIDGET(m_toolbar), getLastTrick().getFullVisibleSize().cx,
-			-1);
+	gtk_widget_set_size_request(GTK_WIDGET(m_toolbar),
+			getLastTrick().getFullVisibleSize().cx, -1);
 
 	gtk_widget_add_events(m_commentView,
 			GDK_KEY_RELEASE_MASK | GDK_KEY_PRESS_MASK | GDK_BUTTON_PRESS_MASK
@@ -123,28 +124,32 @@ ProblemSelector::ProblemSelector() :
 }
 
 ProblemSelector::~ProblemSelector() {
-	if(m_arrowChanged && isScalableArrow()){
-		gdk_pixbuf_save(m_arrow[0], getWritableFilePath(STORE_ARROW_TO_PNG_FILE_NAME).c_str(), "png", NULL, NULL);
+	if (m_arrowChanged && isScalableArrow()) {
+		gdk_pixbuf_save(m_arrow[0],
+				getWritableFilePath(STORE_ARROW_TO_PNG_FILE_NAME).c_str(),
+				"png", NULL, NULL);
 	}
-	if(m_deckChanged && isScalableDeck()){
-		CSize c=getCardSize();
-		c.cx*=13;
-		c.cy*=4;
+	if (m_deckChanged && isScalableDeck()) {
+		CSize c = getCardSize();
+		c.cx *= 13;
+		c.cy *= 4;
 
 		/* Note m_svgDeckPixbuf can have invalid data, because user can select deck make some
 		 * manipulations and press cancel
 		 */
 		Pixbuf p = gdk_pixbuf_get_from_surface(m_deck, 0, 0, c.cx, c.cy);
-		gdk_pixbuf_save(p, getWritableFilePath(STORE_DECK_TO_PNG_FILE_NAME).c_str(), "png", NULL, NULL);
+		gdk_pixbuf_save(p,
+				getWritableFilePath(STORE_DECK_TO_PNG_FILE_NAME).c_str(), "png",
+				NULL, NULL);
 	}
 
 }
 
 void ProblemSelector::setAreaProblem() {
-	Problem const& p = getProblem();
+	Problem const &p = getProblem();
 	setComment(p.m_comment);
 
-	bool b=getToolbar().getCurrentGameType() != p.m_gameType;
+	bool b = getToolbar().getCurrentGameType() != p.m_gameType;
 	if (b) {
 		getToolbar().setGameType();
 		getMenu().updateGameType();
@@ -160,14 +165,14 @@ void ProblemSelector::setAreaProblem() {
 		gframe->updateEdit();
 	}
 
-/*
-#ifndef FINAL_RELEASE
-	static std::string sap;
-	//used in BridgeTest project to get deal
-	sap+=p.getForBridgeTestDealClass(m_current);
-	printl(sap);
-#endif
-*/
+	/*
+	 #ifndef FINAL_RELEASE
+	 static std::string sap;
+	 //used in BridgeTest project to get deal
+	 sap+=p.getForBridgeTestDealClass(m_current);
+	 printl(sap);
+	 #endif
+	 */
 
 }
 
@@ -179,11 +184,11 @@ void ProblemSelector::draw() {
 CSize ProblemSelector::getSize() const {
 	int h = getArea().getSize().cy;
 
-	if(gconfig->m_showToolTips){
-		h+=m_bestLineSize.cy;
+	if (gconfig->m_showToolTips) {
+		h += m_bestLineSize.cy;
 	}
 
-	auto& a=getLastTrick();
+	auto &a = getLastTrick();
 	if (gconfig->m_showLastTrick) {
 		h -= a.getSize().cy;
 	}
@@ -197,7 +202,7 @@ void ProblemSelector::updateLanguage() {
 	}
 }
 
-bool ProblemSelector::setCheckLabelFit(int option, int width, std::string& s) {
+bool ProblemSelector::setCheckLabelFit(int option, int width, std::string &s) {
 	gint a;
 	assert(option >= 0 && option < 4);
 	s = m_vproblem[m_current].getShortFileName();
@@ -207,8 +212,7 @@ bool ProblemSelector::setCheckLabelFit(int option, int width, std::string& s) {
 	}
 	if (option & 2) {
 		s += format(" %d / %d", m_current + 1, size());
-	}
-	else {
+	} else {
 		s += format(" %d/%d", m_current + 1, size());
 	}
 
@@ -243,7 +247,7 @@ void ProblemSelector::updateLabel() {
 		}
 	}
 
-	const char*begin = "..";
+	const char *begin = "..";
 
 	for (i = 1; i < int(s.length()); i++) {
 		s = s.substr(1);
@@ -288,12 +292,13 @@ void ProblemSelector::fullUpdate() {
 	updateToolbar();
 }
 
-void ProblemSelector::updateToolbarButtons(){
+void ProblemSelector::updateToolbarButtons() {
 	for (int i = TOOLBAR_BUTTON_UNDOALL; i < TOOLBAR_BUTTON_SIZE; i++) {
 		bool e = !think() && isMovePossible(i - TOOLBAR_BUTTON_UNDOALL);
 		gtk_widget_set_sensitive(GTK_WIDGET(m_button[i]), e);
 		gtk_tool_button_set_icon_widget(GTK_TOOL_BUTTON(m_button[i]),
-				getToolbarImage(TOOLBAR_BUTTON(i), false, boolToButtonState(e)));
+				getToolbarImage(TOOLBAR_BUTTON(i), false,
+						boolToButtonState(e)));
 	}
 	gtk_widget_show_all(m_toolbar);	//DONT REMOVE
 }
@@ -305,14 +310,13 @@ void ProblemSelector::updateToolbar() {
 		for (i = TOOLBAR_BUTTON_UNDOALL; i < TOOLBAR_BUTTON_SIZE; i++) {
 			gtk_widget_hide(GTK_WIDGET(m_button[i]));
 		}
-	}
-	else {
+	} else {
 		updateToolbarButtons();
 	}
 }
 
-void ProblemSelector::clickToolbar(GtkToolItem* w) {
-	int i = INDEX_OF(w,m_button);
+void ProblemSelector::clickToolbar(GtkToolItem *w) {
+	int i = INDEX_OF(w, m_button);
 	assert(i != -1);
 	assert(i != 0);
 
@@ -379,15 +383,15 @@ void ProblemSelector::updateCommentTextView() {
 			GTK_TEXT_VIEW(m_commentView));
 	gtk_text_buffer_set_text(buffer,
 			m_comment.empty() && !cursorVisible ?
-					getString(STRING_PROBLEM_DESCRIPTION) : m_comment.c_str(), -1);
+					getString(STRING_PROBLEM_DESCRIPTION) : m_comment.c_str(),
+			-1);
 }
 
 void ProblemSelector::changeShowOption() {//don't know why if not redefine function it not called from FrameArea class
 	FrameItemArea::init();
 	if (getSize().cy == 0) {
 		hide();
-	}
-	else {
+	} else {
 		Widget::show();
 		resize();
 		redraw();
@@ -413,23 +417,22 @@ bool ProblemSelector::mouseClick(guint32 time) {
 	 */
 }
 
-void ProblemSelector::openUris(char** uris) {
+void ProblemSelector::openUris(char **uris) {
 	set(getValidFilesList(uris), false);
 }
 
-void ProblemSelector::openFiles(const char*files) {
+void ProblemSelector::openFiles(const char *files) {
 	if (strlen(files) == 0) {
 		//new game
 		getMenu().updateEdit();
 		getLastTrick().updateEdit();
-	}
-	else {
+	} else {
 		VString v = split(files, G_SEARCHPATH_SEPARATOR_S);
 		set(v, false);
 	}
 }
 
-void ProblemSelector::set(VString const& v, bool add) {
+void ProblemSelector::set(VString const &v, bool add) {
 	if (v.size() == 0) {
 		return;
 	}
@@ -473,7 +476,7 @@ void ProblemSelector::save(std::string filepath, bool split) {
 
 	//check save error before set m_modified
 	int m = m_vproblem.save(filepath, split);
-	if(m==ProblemVector::SAVE_ERROR){
+	if (m == ProblemVector::SAVE_ERROR) {
 		return;
 	}
 
@@ -490,8 +493,7 @@ void ProblemSelector::save(std::string filepath, bool split) {
 			updateLabel();
 			setAreaProblem();
 			redraw();
-		}
-		else {
+		} else {
 			/* if user change some problem then move to another problem
 			 * so have to change whole m_vproblemOriginal, m_modified vectors
 			 */
@@ -514,14 +516,13 @@ bool ProblemSelector::isModified() const {
 		return true;
 	}
 
-	int i=0;
-	for(auto a:m_modified){
+	int i = 0;
+	for (auto a : m_modified) {
 		if (i == m_current) {
 			if (m_vproblemOriginal[i] != m_vproblem[i]) {
 				return true;
 			}
-		}
-		else if (a) {
+		} else if (a) {
 			return true;
 		}
 
@@ -544,7 +545,7 @@ void ProblemSelector::setOriginalModified() {
 	m_vproblemOriginal = m_vproblem;
 	m_modified.resize(size());
 	//(auto a:m_m_modified) changes m_modified, (auto& a) compiler error
-	for (auto&& a : m_modified) {
+	for (auto &&a : m_modified) {
 		a = false;
 	}
 }
@@ -565,7 +566,7 @@ std::string ProblemSelector::getTitle() const {
 	return s;
 }
 
-void ProblemSelector::setFrom(ProblemVectorModified const& pvm) {
+void ProblemSelector::setFrom(ProblemVectorModified const &pvm) {
 	m_vproblem.m_problems = pvm.m_vproblem.m_problems;
 	m_current = pvm.m_current;
 	setModifiedIfSameSize();
@@ -587,46 +588,47 @@ void ProblemSelector::setSkin() {
 	gtk_widget_path_append_type(path, GTK_TYPE_DIALOG);
 	context = gtk_style_context_new();
 	gtk_style_context_set_path(context, path);
-	CSize a=getMaxSize();
-	gtk_render_background(context, m_backgroundFull, 0, 0, a.cx,
-			a.cy);
+	CSize a = getMaxSize();
+	gtk_render_background(context, m_backgroundFull, 0, 0, a.cx, a.cy);
 }
 
-SvgParameters& ProblemSelector::getSvgParameters(int n,bool isDeck){
-	return isDeck?m_svgDeckParameters[n]:m_svgArrowParameters[n];
+SvgParameters& ProblemSelector::getSvgParameters(int n, bool isDeck) {
+	return isDeck ? m_svgDeckParameters[n] : m_svgArrowParameters[n];
 }
 
-void ProblemSelector::drawSvg(CSize const& size,int n,bool isDeck,gdouble value){
-	int i,j,k,l;
-	int w=size.cx;
-	int h=size.cy;
-	int width = 13*w;
-	int height = 4*h;
+void ProblemSelector::drawSvg(CSize const &size, int n, bool isDeck,
+		gdouble value) {
+	int i, j, k, l;
+	int w = size.cx;
+	int h = size.cy;
+	int width = 13 * w;
+	int height = 4 * h;
 	double sc;
 
-	auto&p= getSvgParameters(n,isDeck);
-	if(isDeck){
+	auto &p = getSvgParameters(n, isDeck);
+	if (isDeck) {
 		sc = p.getScale(value);
-		gdk_pixbuf_scale(p.p, m_svgScaledPixbuf, 0, 0, width+12*sc*p.addx, height+3*sc*p.addy, -p.startx * sc, -p.starty * sc, sc, sc,
-				GDK_INTERP_BILINEAR);
+		gdk_pixbuf_scale(p.p, m_svgScaledPixbuf, 0, 0, width + 12 * sc * p.addx,
+				height + 3 * sc * p.addy, -p.startx * sc, -p.starty * sc, sc,
+				sc, GDK_INTERP_BILINEAR);
 
 		for (i = 0; i < 4; i++) {
-			k = p.suitsOrder[i] * (h+p.addy*sc);
+			k = p.suitsOrder[i] * (h + p.addy * sc);
 			for (j = 0; j < 13; j++) {
-				l=p.cardsOrder[j] * (w+p.addx*sc);
-				gdk_pixbuf_copy_area(m_svgScaledPixbuf, l, k, w, h, m_svgDeckPixbuf, j* w, i * h);
+				l = p.cardsOrder[j] * (w + p.addx * sc);
+				gdk_pixbuf_copy_area(m_svgScaledPixbuf, l, k, w, h,
+						m_svgDeckPixbuf, j * w, i * h);
 			}
 		}
-	}
-	else{
-		sc=double(size.cx)/gdk_pixbuf_get_width(p.p);
+	} else {
+		sc = double(size.cx) / gdk_pixbuf_get_width(p.p);
 		gdk_pixbuf_scale(p.p, m_svgArrowPixbuf, 0, 0, w, h, 0, 0, sc, sc,
 				GDK_INTERP_BILINEAR);
 	}
 
 }
 
-double ProblemSelector::getSvgMaxWHRatio()const{
+double ProblemSelector::getSvgMaxWHRatio() const {
 	double v = 0, v1;
 	for (auto &p : m_svgDeckParameters) {
 		v1 = p.cw / p.ch;
@@ -638,59 +640,58 @@ double ProblemSelector::getSvgMaxWHRatio()const{
 	return v;
 }
 
-void ProblemSelector::createSvgPixbufs(bool isDeck){
-	int i,j;
+void ProblemSelector::createSvgPixbufs(bool isDeck) {
+	int i, j;
 
-	if(isDeck){
-		int x=0;
-		int y=0;
-		for(auto& p:m_svgDeckParameters){
-			x=std::max(x,p.addx);
-			y=std::max(y,p.addy);
+	if (isDeck) {
+		int x = 0;
+		int y = 0;
+		for (auto &p : m_svgDeckParameters) {
+			x = std::max(x, p.addx);
+			y = std::max(y, p.addy);
 		}
 
-		CSize sz=countMaxCardSizeForY(MIN_ARROW_SIZE);
-		i=sz.cx*13;
-		j=sz.cy*4;
+		CSize sz = countMaxCardSizeForY(MIN_ARROW_SIZE);
+		i = sz.cx * 13;
+		j = sz.cy * 4;
 
-		m_svgDeckPixbuf.createRGB( i, j);
-		m_svgScaledPixbuf.createRGB( i+12*x, j+3*y);
-	}
-	else{
-		i=countMaxArrowSizeForY(MIN_CARD_HEIGHT);
-		m_svgArrowPixbuf.createRGB( i, i);
+		m_svgDeckPixbuf.createRGB(i, j);
+		m_svgScaledPixbuf.createRGB(i + 12 * x, j + 3 * y);
+	} else {
+		i = countMaxArrowSizeForY(MIN_CARD_HEIGHT);
+		m_svgArrowPixbuf.createRGB(i, i);
 	}
 }
 
 void ProblemSelector::setDeck() {
-	if(isScalableDeck()){
-		bool start=m_svgDeckPixbuf==0;
-		CSize c=getCardSize();
-		c.cx*=13;
-		c.cy*=4;
+	if (isScalableDeck()) {
+		bool start = m_svgDeckPixbuf == 0;
+		CSize c = getCardSize();
+		c.cx *= 13;
+		c.cy *= 4;
 		m_deck.create(c);
 
-		if(start){
-			m_svgDeckPixbuf=writablePixbuf(STORE_DECK_TO_PNG_FILE_NAME);
+		if (start) {
+			m_svgDeckPixbuf = writablePixbuf(STORE_DECK_TO_PNG_FILE_NAME);
 		}
-		copyFromPixbuf(m_svgDeckPixbuf, m_deck,CRect(CPoint(0,0),c));
-	}
-	else{
+		copyFromPixbuf(m_svgDeckPixbuf, m_deck, CRect(CPoint(0, 0), c));
+	} else {
 		m_deck.create(getImagePath(getDeckFileName()));
-		CSize sz=m_deck.size();
-		sz.cx/=13;
-		sz.cy/=4;
+		CSize sz = m_deck.size();
+		sz.cx /= 13;
+		sz.cy /= 4;
 		gconfig->setCardSize(sz);
 	}
 }
 
-void ProblemSelector::setBestLineSize(){
+void ProblemSelector::setBestLineSize() {
 	//use m_backgroundFullCairo because m_cr isn't created on constructor
 	//to create it we need LastTrick size which use m_bestLineHeight
 	TextWithAttributes text("10");//getTextExtents using layout so height is ok
-	m_bestLineSize=getTextExtents(text,m_backgroundFull);
+	m_bestLineSize = getTextExtents(text, m_backgroundFull);
 	//getFontHeight() suit image size
-	m_bestLineSize.cx=std::max(4*(m_bestLineSize.cx+getFontHeight()),MIN_GRID_SIZE_WIDTH);
+	m_bestLineSize.cx = std::max(4 * (m_bestLineSize.cx + getFontHeight()),
+			MIN_GRID_SIZE_WIDTH);
 }
 
 void ProblemSelector::init() {
@@ -699,19 +700,18 @@ void ProblemSelector::init() {
 }
 
 void ProblemSelector::setArrows() {
-	bool start=m_arrow[0]==0;
-	int i=getArrowNumber();
-	if(isScalableArrow(i)){
-		if(start){
-			m_arrow[0]= writablePixbuf(STORE_ARROW_TO_PNG_FILE_NAME );
+	bool start = m_arrow[0] == 0;
+	int i = getArrowNumber();
+	if (isScalableArrow(i)) {
+		if (start) {
+			m_arrow[0] = writablePixbuf(STORE_ARROW_TO_PNG_FILE_NAME);
+		} else {
+			i = getArrowSize();
+			m_arrow[0].createRGB(i, i);
+			gdk_pixbuf_copy_area(m_svgArrowPixbuf, 0, 0, i, i, m_arrow[0], 0,
+					0);
 		}
-		else{
-			i=getArrowSize();
-			m_arrow[0].createRGB( i,i);
-			gdk_pixbuf_copy_area(m_svgArrowPixbuf, 0, 0, i, i, m_arrow[0], 0, 0);
-		}
-	}
-	else{
+	} else {
 		m_arrow[0] = pixbuf(getArrowFileName(i, false));
 		//do not remove
 		setArrowParameters(i);
@@ -738,65 +738,60 @@ void ProblemSelector::currentProblemChanged(bool gameType) {
 }
 
 void ProblemSelector::newGame() {
-	auto& p = getProblem();
+	auto &p = getProblem();
 	m_vproblem.clear();
 	createNewGame(p.m_gameType, p.m_absent);
 	setOriginalModified();
 	fullUpdate();
 }
 
-void ProblemSelector::resize(){
-	gtk_widget_set_size_request(GTK_WIDGET(m_toolbar), getLastTrick().getFullVisibleSize().cx, -1);
+void ProblemSelector::resize() {
+	gtk_widget_set_size_request(GTK_WIDGET(m_toolbar),
+			getLastTrick().getFullVisibleSize().cx, -1);
 	FrameItemArea::resize();
 }
 
-void ProblemSelector::fillSvgParameters(){
-	int i,j,k;
-	j=0;
-	for(auto& p:m_svgDeckParameters){
-		for(i=0;i<4;i++){
-			if(j==1){
-				k=3-i;
+void ProblemSelector::fillSvgParameters() {
+	int i, j, k;
+	j = 0;
+	for (auto &p : m_svgDeckParameters) {
+		for (i = 0; i < 4; i++) {
+			if (j == 1) {
+				k = 3 - i;
+			} else if (j == 3) {
+				int a[] = { 3, 1, 0, 2 };
+				k = a[i];
+			} else if (j == 2) {
+				k = i == 0 ? 3 : i - 1;
+			} else {
+				k = i;
 			}
-			else if(j==3){
-				int a[]={3,1,0,2};
-				k=a[i];
-			}
-			else if(j==2){
-				k=i==0?3:i-1;
-			}
-			else{
-				k=i;
-			}
-			p.suitsOrder[i]=k;
+			p.suitsOrder[i] = k;
 		}
 
-		if(j==1){
-			p.cw=2178/13.;
-			p.ch=1216/5.;
-		}
-		else if(j==2){
+		if (j == 1) {
+			p.cw = 2178 / 13.;
+			p.ch = 1216 / 5.;
+		} else if (j == 2) {
 			//x 30, 420, endcard 390
 			//y 30, 600, 570
-			p.addx=p.addy=p.startx=p.starty=30;
-			p.cw = 390-p.startx;
-			p.ch = 570-p.starty;
-			int k=0;
-			p.addx-=k;
-			p.cw+=k;
-		}
-		else if(j==3){
+			p.addx = p.addy = p.startx = p.starty = 30;
+			p.cw = 390 - p.startx;
+			p.ch = 570 - p.starty;
+			int k = 0;
+			p.addx -= k;
+			p.cw += k;
+		} else if (j == 3) {
 			//0,54 2897,1299
-			p.cw = 2897./13;
-			p.starty=54;
-			p.ch = (1299-p.starty)/4;
-		}
-		else{
+			p.cw = 2897. / 13;
+			p.starty = 54;
+			p.ch = (1299 - p.starty) / 4;
+		} else {
 			//x 30, 420, endcard 390
 			//y 30, 600, 570
-			p.addx=p.addy=p.startx=p.starty=30;
-			p.cw = 390-p.startx;
-			p.ch = 570-p.starty;
+			p.addx = p.addy = p.startx = p.starty = 30;
+			p.cw = 390 - p.startx;
+			p.ch = 570 - p.starty;
 		}
 
 		j++;
@@ -804,7 +799,7 @@ void ProblemSelector::fillSvgParameters(){
 
 }
 
-void ProblemSelector::updateThink(){
+void ProblemSelector::updateThink() {
 	if (size() > 1) {
 		updateToolbarButtons();
 	}

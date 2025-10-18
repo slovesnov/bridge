@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "EditListDialog.h"
@@ -14,15 +14,12 @@
 #include "../ProblemSelector.h"
 #include "../DrawingArea.h"
 
-static EditListDialog*dialog;
+static EditListDialog *dialog;
 
-const STRING_ID SID[] = {
-		STRING_MOVE_LEFT,
-		STRING_MOVE_RIGHT,
-		STRING_INSERT,
+const STRING_ID SID[] = { STRING_MOVE_LEFT, STRING_MOVE_RIGHT, STRING_INSERT,
 		STRING_DELETE };
 
-const char* IMG[] = { "undo24.png", NULL, "insert24.png", "cancel24.png" };
+const char *IMG[] = { "undo24.png", NULL, "insert24.png", "cancel24.png" };
 
 static void button_clicked(GtkWidget *widget, int i) {
 	dialog->clickEL(EDIT_LIST_BUTTON(i)); //click(int) used for ButtonDialog
@@ -40,9 +37,9 @@ static gboolean mouse_press_event(GtkWidget *widget, GdkEventButton *event,
 EditListDialog::EditListDialog() :
 		ButtonsDialogWithProblem(MENU_EDIT_PROBLEM_LIST), ProblemVectorModified(
 				getProblemSelector()) {
-	GtkWidget*g, *w, *w1;
+	GtkWidget *g, *w, *w1;
 	int i;
-	GdkPixbuf*px, *px1;
+	GdkPixbuf *px, *px1;
 
 	assert(SIZE(SID)==SIZE(IMG));
 	assert(SIZE(SID)==EDIT_LIST_MOVE_0);
@@ -71,8 +68,8 @@ EditListDialog::EditListDialog() :
 		w1 = gtk_event_box_new();
 		gtk_container_add(GTK_CONTAINER(w1), m_button[i]);
 		gtk_widget_add_events(w1, GDK_BUTTON_PRESS_MASK);
-		g_signal_connect(w1, "button_press_event", G_CALLBACK(mouse_press_event),
-				GP(i));
+		g_signal_connect(w1, "button_press_event",
+				G_CALLBACK(mouse_press_event), GP(i));
 		gtk_container_add(GTK_CONTAINER(w), w1);
 
 	}
@@ -117,7 +114,7 @@ EditListDialog::EditListDialog() :
 
 void EditListDialog::redrawProblem() {
 	int i, j;
-	const Problem& p = getProblem();
+	const Problem &p = getProblem();
 
 	std::string s = getString(MENU_EDIT_PROBLEM_LIST);
 	s += " [";
@@ -127,7 +124,8 @@ void EditListDialog::redrawProblem() {
 
 	for (i = 0; i < 4; i++) {
 		gtk_image_set_from_pixbuf(GTK_IMAGE(m_button[EDIT_LIST_MOVE_0 + i]),
-				getToolbarPixbuf(TOOLBAR_BUTTON_ARRAY[i + 1], false, boolToButtonState(isMovePossible(i))));
+				getToolbarPixbuf(TOOLBAR_BUTTON_ARRAY[i + 1], false,
+						boolToButtonState(isMovePossible(i))));
 	}
 
 	gtk_widget_set_sensitive(m_button[EDIT_LIST_MOVE_LEFT], isMovePossible(1));
@@ -138,8 +136,7 @@ void EditListDialog::redrawProblem() {
 	if (m_lastHide != CARD_INDEX_INVALID) {
 		if (northOrSouth(m_lastHide)) {
 			gtk_grid_insert_row(GTK_GRID(m_grid), north(m_lastHide) ? 0 : 2);
-		}
-		else {
+		} else {
 			gtk_grid_insert_column(GTK_GRID(m_grid), west(m_lastHide) ? 0 : 2);
 		}
 
@@ -151,13 +148,11 @@ void EditListDialog::redrawProblem() {
 
 	if (p.isBridge()) {
 		m_lastHide = CARD_INDEX_INVALID;
-	}
-	else {
+	} else {
 		m_lastHide = p.m_absent;
 		if (northOrSouth(m_lastHide)) {
 			gtk_grid_remove_row(GTK_GRID(m_grid), north(m_lastHide) ? 0 : 2);
-		}
-		else {
+		} else {
 			gtk_grid_remove_column(GTK_GRID(m_grid), west(m_lastHide) ? 0 : 2);
 		}
 	}

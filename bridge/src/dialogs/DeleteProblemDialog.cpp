@@ -5,13 +5,13 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "DeleteProblemDialog.h"
 #include "EditListDialog.h"
 
-DeleteProblemDialog::DeleteProblemDialog(EditListDialog* eld) :
+DeleteProblemDialog::DeleteProblemDialog(EditListDialog *eld) :
 		ButtonsDialog(STRING_DELETE, BUTTONS_DIALOG_OK_CANCEL, eld) {
 	int i;
 	GtkWidget *w, *grid;
@@ -33,8 +33,7 @@ DeleteProblemDialog::DeleteProblemDialog(EditListDialog* eld) :
 					getString(DELETE_PROBLEM_DIALOG_RID[i]));
 			rb = GTK_RADIO_BUTTON(m_radio[i]);
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(m_radio[i]), TRUE);
-		}
-		else {
+		} else {
 			m_radio[i] = gtk_radio_button_new_with_label_from_widget(rb,
 					getString(DELETE_PROBLEM_DIALOG_RID[i]));
 		}
@@ -44,7 +43,8 @@ DeleteProblemDialog::DeleteProblemDialog(EditListDialog* eld) :
 		if (i == 1) {
 			gtk_container_add(GTK_CONTAINER(w), m_combo);
 			gtk_container_add(GTK_CONTAINER(w),
-					gtk_label_new(format(" # %d", m_pvm->m_current + 1).c_str()));
+					gtk_label_new(
+							format(" # %d", m_pvm->m_current + 1).c_str()));
 		}
 
 		gtk_grid_attach(GTK_GRID(grid), w, 0, i, 1, 1);
@@ -71,8 +71,7 @@ bool DeleteProblemDialog::click(int index) {
 
 		if (i == 0) {
 			m_pvm->deleteCurrent();
-		}
-		else {
+		} else {
 			m_pvm->deleteAllBeforeAfter(getComboPosition(m_combo) == 0);
 		}
 

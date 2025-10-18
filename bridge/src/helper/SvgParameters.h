@@ -5,7 +5,7 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2020-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 #ifndef SVGPARAMETERS_H_
@@ -24,15 +24,15 @@ public:
 
 	//svg file parameters
 	double cw, ch; //card width, height
-	int startx, starty;//top left corner of very first card
-	int addx,addy;//margin between cards
+	int startx, starty; //top left corner of very first card
+	int addx, addy; //margin between cards
 
 	Pixbuf p;
 
 	SvgParameters();
 	~SvgParameters();
 	double getScale(int width);
-	void loadPixbuf(std::string const& file);
+	void loadPixbuf(std::string const &file);
 	bool isLoaded();
 	double getScaledHeight(int width);
 };

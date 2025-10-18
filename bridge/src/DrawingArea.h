@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef DRAWINGAREA_H_
@@ -50,11 +50,11 @@ public:
 	int m_selectedCard;
 	CARD_INDEX m_lastRegion;
 
-	guint m_timer,m_animationTimer;
+	guint m_timer, m_animationTimer;
 	clock_t m_startTime;
 	int m_estimateFontHeight;
 
-	GThread*m_solveThread;
+	GThread *m_solveThread;
 	int m_animationStep;
 	GMutex m_mutex; //
 	GCond m_condition; //
@@ -68,16 +68,16 @@ public:
 	//solve all deals
 	SolveAllDealsDialog *m_solveAllDealsDialog;
 	VGThreadPtr m_vThread;
-	Permutations::State*m_pstate;
+	Permutations::State *m_pstate;
 	int m_pstateSize;
 
 	//solve for all declarers & solve all deals
 	GMutex m_solveAllMutex;
-	std::atomic_int m_solveAllNumber,m_maxv;
+	std::atomic_int m_solveAllNumber, m_maxv;
 private:
 	VSolveAll m_vSolveAll;
 public:
-	VSolveAll& getSolveAll(){
+	VSolveAll& getSolveAll() {
 		return m_vSolveAll;
 	}
 	void startWaitFunction(GSourceFunc function, gpointer data);
@@ -109,11 +109,11 @@ public:
 		return getProblem().getBasePlayer();
 	}
 
-	void updateSkin()override {
+	void updateSkin() override {
 		redraw();
 	}
 
-	void updateAfterCreation()override {
+	void updateAfterCreation() override {
 		init();
 		resize();
 		draw();
@@ -121,9 +121,9 @@ public:
 
 	CSize getMaxCardSize();
 
-	bool pointInCaption(CARD_INDEX index, GdkEventButton* event);
+	bool pointInCaption(CARD_INDEX index, GdkEventButton *event);
 	VString getCaptions(CARD_INDEX index);
-	void getCaptionPoint(CARD_INDEX index, int piece, double&x, double&y);
+	void getCaptionPoint(CARD_INDEX index, int piece, double &x, double &y);
 	CARD_INDEX getRealRegion(CARD_INDEX index);
 
 	static const int INNER_INDEX_DELTA = CARD_INDEX_NORTH_INNER
@@ -179,9 +179,10 @@ public:
 		return index == CARD_INDEX_ABSENT || isOuter(index);
 	}
 
-	CLICABLE_REGION getClickableRegion(GdkEventButton* event, CARD_INDEX& region);
+	CLICABLE_REGION getClickableRegion(GdkEventButton *event,
+			CARD_INDEX &region);
 
-	int countCards(CARD_INDEX index){
+	int countCards(CARD_INDEX index) {
 		return getState().countCards(index);
 	}
 
@@ -210,10 +211,10 @@ public:
 		return isBridge() ? 13 : 8;
 	}
 
-	const gchar * getPlayerString() const;
+	const gchar* getPlayerString() const;
 
 	bool needPlayNextTurn() const;
-	bool nextPlayerHasOnlyOneSuit(int& suit) const;
+	bool nextPlayerHasOnlyOneSuit(int &suit) const;
 	bool nextPlayerIsSequenceSuit(int suit) const;
 	inline bool nextPlayerHasTrumpSuit() const {
 		return getState().hasSuit(getNextMove(), getProblem().m_trump);
@@ -233,7 +234,8 @@ public:
 	}
 
 	bool isValidTurn(int index) {
-		return getProblem().isValidTurn(index, getProblem().m_currentState, true);
+		return getProblem().isValidTurn(index, getProblem().m_currentState,
+				true);
 	}
 
 	void redrawState();
@@ -262,16 +264,16 @@ public:
 	void solveAllDealsThreadInner(int index, const bool bridge, const int sz,
 			int *result, Bridge *pb, Preferans *pp);
 	void solveAllBridgeSetLabels(int trump);
-	void solveThread(Problem* problem); //problem=NULL solve current problem, otherwise solve for html
-	void makeMove(int index,bool estimateBeforeBest=false);
+	void solveThread(Problem *problem); //problem=NULL solve current problem, otherwise solve for html
+	void makeMove(int index, bool estimateBeforeBest = false);
 	void endSolveThread();
 	void timer();
 	gboolean animationStep(int index);
 	void updateLastTrick();
 
-	CSize getSize() const  override;
+	CSize getSize() const override;
 
-	void invalidateRect(CRect const& r) {
+	void invalidateRect(CRect const &r) {
 		invalidateRect(r.left, r.top, r.width(), r.height());
 	}
 
@@ -283,12 +285,12 @@ public:
 
 	void countSize(int y);
 
-	void init()override;
+	void init() override;
 	void recalcRects();
-	void mouseLeftButtonDown(GdkEventButton* event);
-	void mouseLeftButtonUp(GdkEventButton* event);
-	void mouseMove(GdkEventButton* event);
-	void mouseLeave(GdkEventCrossing* event);
+	void mouseLeftButtonDown(GdkEventButton *event);
+	void mouseLeftButtonUp(GdkEventButton *event);
+	void mouseMove(GdkEventButton *event);
+	void mouseLeave(GdkEventCrossing *event);
 	void undoRedo(bool undo, bool full, int count = 1);
 
 	bool isUndoEnable() const {
@@ -307,13 +309,13 @@ public:
 		return getProblem().m_currentState < getProblem().m_maxState;
 	}
 
-	void findBest(const Problem* problem); //problem=NULL solve current problem, otherwise solve for html
+	void findBest(const Problem *problem); //problem=NULL solve current problem, otherwise solve for html
 
-	void setDeal(bool random)override;
+	void setDeal(bool random) override;
 
-	void copySurface(cairo_t* cr) override;
+	void copySurface(cairo_t *cr) override;
 
-	void draw()override;		//draw in memory
+	void draw() override;		//draw in memory
 
 	void updateAllRegions();
 	void updateRegion(CARD_INDEX index, bool paint = true);
@@ -321,13 +323,13 @@ public:
 	void updateTricks(CARD_INDEX index, bool paint = true);
 	void updateInsideRegion();
 	CRect getRegionRect(CARD_INDEX index);
-	void showCard(cairo_t * cr, int index, int x, int y);
+	void showCard(cairo_t *cr, int index, int x, int y);
 
 	CARD_INDEX getPartner(CARD_INDEX index);
 
 	void setShowEstimation(int index, int estimation, bool thread);
 
-	void showEstimation(cairo_t * cr, int index, int x, int y);
+	void showEstimation(cairo_t *cr, int index, int x, int y);
 	inline void showEstimation(int index) {
 		if (index != m_currentId) {
 			showEstimation(m_cs, index, m_cardrect[index].left,
@@ -340,7 +342,7 @@ public:
 	void saveHtml(std::string filepath, bool images) {
 		saveHtml(filepath, images, getProblemVector());
 	}
-	void saveHtml(std::string filepath, bool images, const ProblemVector& p);
+	void saveHtml(std::string filepath, bool images, const ProblemVector &p);
 
 	void updateProblem();
 	//likeBridge used only in preferans when {true then rotate by 90 degrees}
@@ -351,33 +353,34 @@ public:
 	void stopSolveAllDealsThreads();
 
 	bool northInvisible() const {
-		return isPreferans() && !isEditEnable() && getAbsent() == CARD_INDEX_NORTH;
+		return isPreferans() && !isEditEnable()
+				&& getAbsent() == CARD_INDEX_NORTH;
 	}
 
 	void stopSolveAllDeclarersBridgeThreads();
 	/* count how many undos need to do if click on inner card
 	 * in case if event coordinates not over inner cards, function returns 0
 	 */
-	int countUndos(GdkEventButton* event);
+	int countUndos(GdkEventButton *event);
 
 	int getSolveAllDeclarersThreads();
 	void stopSolveAllThreads();
-	int getSolveAllDealsSteps(Permutations const& p);
+	int getSolveAllDealsSteps(Permutations const &p);
 
-	void freePState(){
-		if(m_pstate){
-			delete[]m_pstate;
+	void freePState() {
+		if (m_pstate) {
+			delete[] m_pstate;
 		}
 	}
 
 	void stopCountThread();
-	void stopTimer(guint& t);
+	void stopTimer(guint &t);
 	void endAnimation(bool stop);
 	void animationDraw(bool stop);
 	bool needStopThread();
 
 	void drawCardback(int i);
 };
-extern DrawingArea* gdraw;
+extern DrawingArea *gdraw;
 
 #endif /* DRAWINGAREA_H_ */

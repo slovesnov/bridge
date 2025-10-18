@@ -5,7 +5,7 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2020-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 #ifndef SOLVER_BRIDGECOMMON_H_
@@ -40,8 +40,8 @@ enum CARD_INDEX {
 	CARD_INDEX_WEST_INNER
 };
 
-enum class EndgameType{
-	ALL,NT,TRUMP
+enum class EndgameType {
+	ALL, NT, TRUMP
 };
 
 const char SUITS_CHAR[] = "shdcn";
@@ -67,6 +67,7 @@ bool north(CARD_INDEX i);
 bool south(CARD_INDEX i);
 
 //separator==0 not used
-std::string binaryCodeString(int c, int miminumPrintBits = 0,char separator='_');
+std::string binaryCodeString(int c, int miminumPrintBits = 0, char separator =
+		'_');
 
 #endif /* SOLVER_BRIDGECOMMON_H_ */

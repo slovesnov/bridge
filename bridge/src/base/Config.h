@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef CONFIG_H_
@@ -39,13 +39,13 @@ public:
 	CRect m_workareaRect;
 
 	//begin css varables
-	PangoFontDescription*m_font;
+	PangoFontDescription *m_font;
 	int m_skin;
 	GdkRGBA m_customSkinBackgroundColor;
 	std::string m_customSkinBackgroundImagePath;
 	GdkRGBA m_customSkinFontColor;
 	GdkRGBA m_skinFontColor[N_SKINS];
-	int m_customSkinBackgroundIsColor;//1 if color as background for custom skin is used, otherwise image is used
+	int m_customSkinBackgroundIsColor; //1 if color as background for custom skin is used, otherwise image is used
 	//end css variables
 
 	CARD_INDEX m_absent;
@@ -53,7 +53,7 @@ public:
 	std::string m_thousandsSeparatorString;
 
 private:
-	std::string getLanguageDir()const;
+	std::string getLanguageDir() const;
 	std::string getLanguageFileNameByIndex(int index) const;
 
 	static const char* getFontFamily(const PangoFontDescription *desc) {
@@ -62,20 +62,20 @@ private:
 
 	void initVarables();
 	void load();
-	void loadIntArray(int*a, int size, const char* signature);
+	void loadIntArray(int *a, int size, const char *signature);
 
-	bool getStringBySignature(const char*signature,std::string& s);
-	bool getStringBySignature(const std::string& signature,std::string& s);
+	bool getStringBySignature(const char *signature, std::string &s);
+	bool getStringBySignature(const std::string &signature, std::string &s);
 
-	static bool loadLanguage(std::string filename,VIntString& v);
+	static bool loadLanguage(std::string filename, VIntString &v);
 public:
 	Config();
 	virtual ~Config();
 
-	void reset(bool fromMenu=false);
+	void reset(bool fromMenu = false);
 
 	void loadCSS();
-	void updateCSS();//if some css parameters are changed
+	void updateCSS();	//if some css parameters are changed
 	void setSkin(int skin);
 
 	PangoFontDescription* getFont() const {
@@ -100,7 +100,7 @@ public:
 		return S[id].c_str();
 	}
 
-	void save(GAME_TYPE gt,int x,int y);
+	void save(GAME_TYPE gt, int x, int y);
 
 	int getLanguageIndex() const;
 	void loadLanguageFile();
@@ -201,12 +201,11 @@ public:
 	GdkPixbuf* languagePixbuf(int id) const;
 	std::string getTitle();
 
-	//"bridge-studio.sourceforge.net" -> "net.sourceforge.bridge-studio"
 	static std::string getUniqueApplicationName();
 
-	const gchar * getPlayerString(CARD_INDEX player) const;
+	const gchar* getPlayerString(CARD_INDEX player) const;
 
-	bool isWritableImage(std::string const& s) const;
+	bool isWritableImage(std::string const &s) const;
 
 	int getAreaMaxHeight() {
 		/* areaMaxHeight+m_frameDelta <= m_workareaRect.height()
@@ -225,31 +224,31 @@ public:
 		m_estimateType = e;
 	}
 
-	bool isScalableArrow()const;
+	bool isScalableArrow() const;
 	static bool isScalableArrow(int arrow);
 
-	bool isScalableDeck()const;
+	bool isScalableDeck() const;
 	static bool isScalableDeck(int deck);
 	//uses for svg and png deck
-	CSize getCardSize()const;
-	void setCardSize(CSize const&size);
+	CSize getCardSize() const;
+	void setCardSize(CSize const &size);
 	int getCardWidth();
 	int getCardHeight();
-	int getSvgIndentInsideSuit()const;
-	int getSvgEstimationIndent()const;
+	int getSvgIndentInsideSuit() const;
+	int getSvgEstimationIndent() const;
 
-	void setArrowParameters(int arrow, int arrowSize=SKIP_ARROW_SIZE);
-	void setDeckParameters(int deck,bool resizeOnDeckChanged,CSize cardSize);
+	void setArrowParameters(int arrow, int arrowSize = SKIP_ARROW_SIZE);
+	void setDeckParameters(int deck, bool resizeOnDeckChanged, CSize cardSize);
 	int recentSize();
 	GdkRGBA& getFontColor();
 
-	int countTableSize(int cardHeight,int arrowSize,int y);
+	int countTableSize(int cardHeight, int arrowSize, int y);
 	int countTableTop(int cardHeight);
-	int countAreaHeight(int cardHeight,int arrowSize,int y);
-	CSize countMaxCardSizeForY(int arrowSize,int y=MIN_COUNT_SIZE_Y);
+	int countAreaHeight(int cardHeight, int arrowSize, int y);
+	CSize countMaxCardSizeForY(int arrowSize, int y = MIN_COUNT_SIZE_Y);
 	void resetSettings();
 };
 
-extern Config* gconfig;
+extern Config *gconfig;
 
 #endif /* CONFIG_H_ */

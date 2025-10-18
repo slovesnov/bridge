@@ -5,7 +5,7 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2020-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 #ifndef SOLVER_BRIDGEPREFERANSBASE_H_
@@ -20,9 +20,9 @@ typedef std::vector<int> VInt;
 typedef std::vector<VInt> VVInt;
 
 //BEGIN common macros for bridge and preferans
-const int MOVES_ONE_SUIT_OPTIONS=6;
-const int MOVES_MANY_SUITS_OPTIONS_NT=10;
-const int MOVES_MANY_SUITS_OPTIONS=10;
+const int MOVES_ONE_SUIT_OPTIONS = 6;
+const int MOVES_MANY_SUITS_OPTIONS_NT = 10;
+const int MOVES_MANY_SUITS_OPTIONS = 10;
 
 //MOVES_INIT macros are different for Bridge and Preferans games and defined in Bridge.cpp & Preferans.cpp
 
@@ -53,20 +53,20 @@ protected:
 	static void staticInit();
 
 	static bool compareTableInited;
-	const bool* m_ct;
+	const bool *m_ct;
 
 	static bool compareTable[2][781 * 1024 + 781];
 
 	int m_trumpOriginal;
-	static const int m_trump=0;
+	static const int m_trump = 0;
 
 	int getAdjustedTrump(const int i);
-	void adjustCard(int& i);
+	void adjustCard(int &i);
 
 #ifndef CONSOLE
 	//add all cards in suit for player=next to vector v, each v[i] is a card sequence
-	void static addSuitableGroups(int suit, const CARD_INDEX*cid,
-			const CARD_INDEX next, VSC&v, int best);
+	void static addSuitableGroups(int suit, const CARD_INDEX *cid,
+			const CARD_INDEX next, VSC &v, int best);
 
 #endif
 
@@ -76,16 +76,15 @@ protected:
 
 public:
 	//endgame function (need also for test project)
-	static int endgameGetN(bool bridge,bool total=false);
-	static VVInt suitLengthVector(const int n,bool bridge,EndgameType option);
-	static VVInt suitLengthVector(bool bridge,EndgameType option);
-
+	static int endgameGetN(bool bridge, bool total = false);
+	static VVInt suitLengthVector(const int n, bool bridge, EndgameType option);
+	static VVInt suitLengthVector(bool bridge, EndgameType option);
 
 	/*body of function should be defined here because
 	 * in Bridge.h static constexpr int endgameCN=endgameCm(endgameN, true);
 	 * in Preferans.h static constexpr int endgameCN=endgameCm(endgameN, false);
 	 */
-	static constexpr int getBinomialCoefficient(int k,int n){
+	static constexpr int getBinomialCoefficient(int k, int n) {
 		int r = 1;
 		for (int i = 1; i <= k; i++) {
 			r *= n - k + i;
@@ -97,30 +96,29 @@ public:
 	 * in Bridge.h static constexpr int endgameCN=endgameCm(endgameN, true);
 	 * in Preferans.h static constexpr int endgameCN=endgameCm(endgameN, false);
 	 */
-	static constexpr int endgameCm(const int n,bool bridge){
-		int r=getBinomialCoefficient(n,2*n)*getBinomialCoefficient(n,3*n);
-		if(bridge){
-			r*=getBinomialCoefficient(n,4*n);
+	static constexpr int endgameCm(const int n, bool bridge) {
+		int r = getBinomialCoefficient(n, 2 * n)
+				* getBinomialCoefficient(n, 3 * n);
+		if (bridge) {
+			r *= getBinomialCoefficient(n, 4 * n);
 		}
 		return r;
 	}
 
-	static int bitCode(bool bridge, VInt const &p0, VInt const &p1, VInt const &p2);
-	static void endgameRotate(bool bridge,const int mw[],int n,int bits,int a[]);
-	static int getMinBijectionMultiplier(const int n,bool bridge);
+	static int bitCode(bool bridge, VInt const &p0, VInt const &p1,
+			VInt const &p2);
+	static void endgameRotate(bool bridge, const int mw[], int n, int bits,
+			int a[]);
+	static int getMinBijectionMultiplier(const int n, bool bridge);
 	static int getMinBijectionMultiplier(bool bridge);
 
-	static void endgameInit(bool bridge,
-			int32_t* endgameLength[],
-			int32_t* endgameIndex[],
-			int8_t* endgameEstimate[],
-		#ifndef NDEBUG
+	static void endgameInit(bool bridge, int32_t *endgameLength[],
+			int32_t *endgameIndex[], int8_t *endgameEstimate[],
+#ifndef NDEBUG
 			int endgameEstimateLength[],
 		#endif
-			const int endgameMultiplier,
-			const int endgameTypes,
-			const int mw[]
-			);
+			const int endgameMultiplier, const int endgameTypes,
+			const int mw[]);
 
 	int m_best;
 	std::vector<int> m_bestLine;

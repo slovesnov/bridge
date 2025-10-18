@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef DIALOGS_DELETEPROBLEMDIALOG_H_
@@ -16,20 +16,19 @@
 
 class EditListDialog;
 
-const STRING_ID DELETE_PROBLEM_DIALOG_RID[] = {
-		STRING_CURRENT_DEAL,
+const STRING_ID DELETE_PROBLEM_DIALOG_RID[] = { STRING_CURRENT_DEAL,
 		STRING_ALL_DEALS };
 
 class DeleteProblemDialog: public ButtonsDialog {
-	GtkWidget* m_combo;
+	GtkWidget *m_combo;
 	GtkWidget *m_radio[SIZE(DELETE_PROBLEM_DIALOG_RID)];
 
-	ProblemVectorModified* m_pvm;
+	ProblemVectorModified *m_pvm;
 public:
-	DeleteProblemDialog(EditListDialog* eld);
+	DeleteProblemDialog(EditListDialog *eld);
 	virtual ~DeleteProblemDialog();
 
-	bool click(int index)override;
+	bool click(int index) override;
 };
 
 #endif /* DIALOGS_DELETEPROBLEMDIALOG_H_ */

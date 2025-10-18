@@ -5,13 +5,13 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "CustomSkinDialog.h"
 #include "../Frame.h"
 
-static CustomSkinDialog*pd;
+static CustomSkinDialog *pd;
 
 static void button_clicked(GtkWidget *widget, int i) {
 	pd->clickButton(i);
@@ -20,7 +20,7 @@ static void button_clicked(GtkWidget *widget, int i) {
 CustomSkinDialog::CustomSkinDialog() :
 		ButtonsDialog(MENU_CUSTOM_SKIN, BUTTONS_DIALOG_OK_CANCEL) {
 	int i;
-	GtkWidget*w;
+	GtkWidget *w;
 
 	pd = this;
 
@@ -63,15 +63,14 @@ void CustomSkinDialog::clickButton(int i) {
 		//background-image:url('file:///D:/fun1.png')
 		c = g_filename_to_uri(r.file().c_str(), NULL, NULL);
 		gconfig->m_customSkinBackgroundImagePath = c;
-		gconfig->m_customSkinBackgroundIsColor=0;
+		gconfig->m_customSkinBackgroundIsColor = 0;
 		g_free(c);
-	}
-	else {
+	} else {
 		if (!selectColor(getString(STRING_SELECT_COLOR),
 				&gconfig->m_customSkinBackgroundColor)) {
 			return;
 		}
-		gconfig->m_customSkinBackgroundIsColor=1;
+		gconfig->m_customSkinBackgroundIsColor = 1;
 	}
 
 	setSkin(CONFIG_CUSTOM_SKIN);

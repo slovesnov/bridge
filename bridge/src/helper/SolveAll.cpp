@@ -5,7 +5,7 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2020-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 #include "SolveAll.h"
@@ -19,8 +19,8 @@ SolveAll::~SolveAll() {
 	g_mutex_clear(&dealsMutex);
 }
 
-void SolveAll::init(int k, int n, CARD_INDEX first, int trump,
-		VCardIndex p, CARD_INDEX cid[52],gint64 id,VInt const (&fixed)[2]) {
+void SolveAll::init(int k, int n, CARD_INDEX first, int trump, VCardIndex p,
+		CARD_INDEX cid[52], gint64 id, VInt const (&fixed)[2]) {
 	//cann't use k it's parameter
 	int i, j, l, m;
 #define A(a) this->a=a;
@@ -44,21 +44,20 @@ void SolveAll::init(int k, int n, CARD_INDEX first, int trump,
 	l = 0;
 	for (j = 0; j < 2; j++) {
 		for (i = 0; i < 52; i++) {
-			m=cid[i];
+			m = cid[i];
 			if (m == p[j]) {
-				if(oneOf(i,fixed[j])){
+				if (oneOf(i, fixed[j])) {
 #ifndef NDEBUG
 					c[j]++;
 #endif
-				}
-				else{
+				} else {
 					o[l++] = i;
 				}
 			}
 		}
 	}
 	vDealResult.clear();
-	positions=0;
+	positions = 0;
 
 #ifndef NDEBUG
 	for (j = 0; j < 2; j++) {
@@ -68,14 +67,25 @@ void SolveAll::init(int k, int n, CARD_INDEX first, int trump,
 
 }
 
-void SolveAll::copyParametersClearDealResult(SolveAll const& source){
+void SolveAll::copyParametersClearDealResult(SolveAll const &source) {
 	int i;
 #define A(a) a=source.a;
-	A(k)A(n)A(first)A(trump)A(misere)A(player)A(ns)A(id)A(positions)
+	A(k)
+	A(n)
+	A(first)
+	A(trump)
+	A(misere)
+	A(player)
+	A(ns)
+	A(id)
+	A(positions)
 #undef A
 
 #define A(a) for(i=0;i<SIZEI(a);i++){a[i]=source.a[i];}
-	A(p)A(cid)A(o)A(preferansPlayer)
+	A(p)
+	A(cid)
+	A(o)
+	A(preferansPlayer)
 #undef A
 	vDealResult.clear();
 }
@@ -86,7 +96,7 @@ void SolveAll::addDealResult(const DealResult &deal) {
 	g_mutex_unlock(&dealsMutex);
 }
 
-void SolveAll::add(VDealResult &v) {//v=v+deals
+void SolveAll::add(VDealResult &v) { //v=v+deals
 	g_mutex_lock(&dealsMutex);
 	v.insert(v.end(), vDealResult.begin(), vDealResult.end());
 	g_mutex_unlock(&dealsMutex);
@@ -94,7 +104,7 @@ void SolveAll::add(VDealResult &v) {//v=v+deals
 
 int SolveAll::dealResultSize() {
 	g_mutex_lock(&dealsMutex);
-	int i=vDealResult.size();
+	int i = vDealResult.size();
 	g_mutex_unlock(&dealsMutex);
 	return i;
 }

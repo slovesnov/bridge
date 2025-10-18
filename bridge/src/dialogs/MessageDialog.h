@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef DIALOGS_MESSAGEDIALOG_H_
@@ -18,10 +18,11 @@ class MessageDialog: public ButtonsDialog {
 	VString m_content;
 
 public:
-	MessageDialog(const VParseException& e,
-			BUTTONS_DIALOG_TYPE type = BUTTONS_DIALOG_NONE, Widget* parent = NULL);
-	MessageDialog(MESSAGE_ICON_TYPE iconType, const char* s,
-			BUTTONS_DIALOG_TYPE type = BUTTONS_DIALOG_NONE, Widget* parent = NULL);
+	MessageDialog(const VParseException &e, BUTTONS_DIALOG_TYPE type =
+			BUTTONS_DIALOG_NONE, Widget *parent = NULL);
+	MessageDialog(MESSAGE_ICON_TYPE iconType, const char *s,
+			BUTTONS_DIALOG_TYPE type = BUTTONS_DIALOG_NONE, Widget *parent =
+					NULL);
 
 	//click already defined in ButtonsDialog
 	void clickButton(int i);

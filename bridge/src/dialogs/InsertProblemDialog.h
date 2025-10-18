@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef DIALOGS_INSERTPROBLEMDIALOG_H_
@@ -24,21 +24,19 @@ enum {
 	INSERT_PROBLEM_DIALOG_COMBO_SIZE
 };
 
-const STRING_ID INSERT_PROBLEM_DIALOG_RID[] = {
-		STRING_NEW_DEAL,
-		STRING_RANDOM_DEAL,
-		STRING_FROM_FILE };
+const STRING_ID INSERT_PROBLEM_DIALOG_RID[] = { STRING_NEW_DEAL,
+		STRING_RANDOM_DEAL, STRING_FROM_FILE };
 
 class InsertProblemDialog: public ButtonsDialog {
-	GtkWidget* m_combo[INSERT_PROBLEM_DIALOG_COMBO_SIZE];
+	GtkWidget *m_combo[INSERT_PROBLEM_DIALOG_COMBO_SIZE];
 	GtkWidget *m_radio[SIZE(INSERT_PROBLEM_DIALOG_RID)];
 	GtkWidget *m_grid;
-	ProblemVectorModified* m_pvm;
+	ProblemVectorModified *m_pvm;
 public:
-	InsertProblemDialog(EditListDialog* eld);
+	InsertProblemDialog(EditListDialog *eld);
 	virtual ~InsertProblemDialog();
 
-	bool click(int index)override;
+	bool click(int index) override;
 	void toggle(GtkWidget *w);
 };
 

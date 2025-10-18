@@ -5,13 +5,13 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "State.h"
 #include "Problem.h"
 
-void State::rotate(const Problem& problem, bool clockwise, bool likeBridge) {
+void State::rotate(const Problem &problem, bool clockwise, bool likeBridge) {
 	int i;
 	for (i = 0; i < 52; ++i) {
 		problem.rotate(m_cid[i], clockwise, likeBridge);
@@ -20,7 +20,7 @@ void State::rotate(const Problem& problem, bool clockwise, bool likeBridge) {
 
 	const GAME_TYPE gt = likeBridge ? BRIDGE : problem.m_gameType;
 	const int sz = MAX_TABLE_CARDS[gt];
-	const CARD_INDEX* ARRAY = gt == BRIDGE ? PLAYER : problem.m_preferansPlayer;
+	const CARD_INDEX *ARRAY = gt == BRIDGE ? PLAYER : problem.m_preferansPlayer;
 
 	int tricks[4];
 	for (i = 0; i < sz; i++) {
@@ -32,7 +32,7 @@ void State::rotate(const Problem& problem, bool clockwise, bool likeBridge) {
 	}
 }
 
-void State::operator=(const State& s) {
+void State::operator=(const State &s) {
 	unsigned i;
 #define M(N) for(i=0;i<SIZE(N);i++){N[i]=s.N[i];}
 	M(m_cid);
@@ -41,10 +41,10 @@ void State::operator=(const State& s) {
 #undef M
 
 	m_firstmove = s.m_firstmove;
-	m_bestLine=s.m_bestLine;
+	m_bestLine = s.m_bestLine;
 }
 
-int State::getDifference(const State& s) const {
+int State::getDifference(const State &s) const {
 	int i;
 	for (i = 0; i < 52; ++i) {
 		if (m_cid[i] != s.m_cid[i] && m_cid[i] != CARD_INDEX_ABSENT
@@ -84,7 +84,7 @@ bool State::hasSuit(CARD_INDEX player, int suit) const {
 	return false;
 }
 
-void State::newDeal(const Problem& problem) {
+void State::newDeal(const Problem &problem) {
 	int i;
 	//set always valid m_firstmove (for all absents)
 	m_firstmove = problem.getBasePlayer();
@@ -133,7 +133,7 @@ void State::clearEstimates() {
 	}
 }
 
-int State::randomDeal(const Problem& problem) {
+int State::randomDeal(const Problem &problem) {
 	int i, j, k, l, m, n[52];
 
 	if (problem.isPreferans()) {
@@ -175,8 +175,7 @@ int State::randomDeal(const Problem& problem) {
 
 		k = n[k];
 
-	}
-	else {
+	} else {
 		for (i = 0; i < 52; i++) {
 			n[i] = i;
 			m_cid[i] = CARD_INDEX_WEST;
@@ -196,7 +195,7 @@ int State::randomDeal(const Problem& problem) {
 	return k;
 }
 
-void State::copyTricks(const State& s) {
+void State::copyTricks(const State &s) {
 	int i;
 	for (i = 0; i < 4; i++) {
 		m_tricks[i] = s.m_tricks[i];
@@ -222,43 +221,43 @@ int State::countCards(CARD_INDEX ci) const {
 	return j;
 }
 
-void State::setBestLine(VInt const& v){
-	m_bestLine=v;
+void State::setBestLine(VInt const &v) {
+	m_bestLine = v;
 }
 
-void State::adjustBestLine(const int index){
-	if(m_bestLine.empty()){
+void State::adjustBestLine(const int index) {
+	if (m_bestLine.empty()) {
 		return;
 	}
 
 	//if do move from best line then just remove 1st item, otherwise clear
-	if(m_bestLine[0]==index){
+	if (m_bestLine[0] == index) {
 		m_bestLine.erase(m_bestLine.begin());
 		return;
 	}
-	int i,j;
-	bool sequence=false;
+	int i, j;
+	bool sequence = false;
 	//check m_bestLine[0] & index is a sequence
-	if((j=m_bestLine[0]/13)==index/13){//only if same suit
-		int r1=m_bestLine[0]%13;
-		int r2=index%13;
-		int rmin=std::min(r1,r2)+j*13;
-		int rmax=std::max(r1,r2)+j*13;
-		for(i=rmin+1;i<rmax && m_cid[i]==m_cid[index];i++);
-		sequence=i==rmax;
+	if ((j = m_bestLine[0] / 13) == index / 13) { //only if same suit
+		int r1 = m_bestLine[0] % 13;
+		int r2 = index % 13;
+		int rmin = std::min(r1, r2) + j * 13;
+		int rmax = std::max(r1, r2) + j * 13;
+		for (i = rmin + 1; i < rmax && m_cid[i] == m_cid[index]; i++)
+			;
+		sequence = i == rmax;
 	}
-	if(sequence){
-		int pos = indexOf(index,m_bestLine );
-		m_bestLine[pos]=m_bestLine[0];
+	if (sequence) {
+		int pos = indexOf(index, m_bestLine);
+		m_bestLine[pos] = m_bestLine[0];
 		m_bestLine.erase(m_bestLine.begin());
-	}
-	else{
+	} else {
 		m_bestLine.clear();
 	}
 }
 
 int State::findInner(CARD_INDEX player) const {
-	return INDEX_OF(getInner(player),m_cid );
+	return INDEX_OF(getInner(player), m_cid);
 }
 
 void State::incrementTricks(CARD_INDEX ci) {

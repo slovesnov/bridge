@@ -5,14 +5,14 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "Menu.h"
 #include "Frame.h"
 #include "helper/Accelerator.h"
 
-Menu*gmenu;
+Menu *gmenu;
 
 #define SET_ATTRIBUTES(a) setItemAttributes(a,SIZE(a));
 
@@ -22,21 +22,12 @@ const MENU_ID TOP_MENU[] = { MENU_PROBLEM, MENU_ADDONS, MENU_VIEW, MENU_OPTIONS,
 /* before this identifiers need to set separator in menu
  * should be ascending order because of FIRST_RECENT_POSITION counting
  * */
-const MENU_ID SEPARATOR_ID[] = {
-		MENU_EDIT,
-		MENU_SAVE_HTML,
-		MENU_EXIT,
+const MENU_ID SEPARATOR_ID[] = { MENU_EDIT, MENU_SAVE_HTML, MENU_EXIT,
 
-		MENU_ROTATE_CLOCKWISE,
-		MENU_RESET_SETTINGS,
+MENU_ROTATE_CLOCKWISE, MENU_RESET_SETTINGS,
 
-		MENU_SELECT_ARROW,
-		MENU_SHOW_HTML_OPTIONS,
-		MENU_SHOW_MODIFIED_WARNING,
-		MENU_FIND_BEST_MOVE,
-		MENU_LOAD_LANGUAGE_FILE,
-		MENU_CUSTOM_SKIN
-};
+MENU_SELECT_ARROW, MENU_SHOW_HTML_OPTIONS, MENU_SHOW_MODIFIED_WARNING,
+		MENU_FIND_BEST_MOVE, MENU_LOAD_LANGUAGE_FILE, MENU_CUSTOM_SKIN };
 
 /* FIRST_RECENT_POSITION = number of text menu items + number of separators
  * number of text menu items = MENU_EXIT- MENU_NEW
@@ -44,75 +35,38 @@ const MENU_ID SEPARATOR_ID[] = {
  * because recent menu adds separator before it
  */
 
-const int FIRST_RECENT_POSITION = MENU_EXIT
-		- MENU_NEW+INDEX_OF(MENU_EXIT,SEPARATOR_ID)+1;
+const int FIRST_RECENT_POSITION = MENU_EXIT - MENU_NEW
+		+ INDEX_OF(MENU_EXIT, SEPARATOR_ID) + 1;
 
-const MENU_ID MENU_ICON_ID[] = {
-		MENU_NEW,
-		MENU_OPEN,
-		MENU_OPEN_FROM_LIBRARY,
-		MENU_SAVE,
-		MENU_SAVE_AS,
-		MENU_EDIT,
-		MENU_EDIT_PROBLEM_LIST,
-		MENU_EDIT_DESCRIPTION,
-		MENU_PBN_EDITOR,
-		MENU_SAVE_HTML,
-		MENU_SAVE_HTML_WITH_PICTURES,
-		MENU_SAVE_IMAGE,
-		MENU_EXIT,
+const MENU_ID MENU_ICON_ID[] = { MENU_NEW, MENU_OPEN, MENU_OPEN_FROM_LIBRARY,
+		MENU_SAVE, MENU_SAVE_AS, MENU_EDIT, MENU_EDIT_PROBLEM_LIST,
+		MENU_EDIT_DESCRIPTION, MENU_PBN_EDITOR, MENU_SAVE_HTML,
+		MENU_SAVE_HTML_WITH_PICTURES, MENU_SAVE_IMAGE, MENU_EXIT,
 
-		MENU_CONVERT,
-		MENU_SOLVE_FOR_ALL_DECLARERS,
-		MENU_CLEAR_DEAL,
-		MENU_RANDOM_DEAL,
-		MENU_GAME_TYPE,
-		MENU_CALCULATOR,
-		MENU_SOLVE_ALL_DEALS,
-		MENU_ROTATE_CLOCKWISE,
-		MENU_ROTATE_COUNTERCLOCKWISE,
+		MENU_CONVERT, MENU_SOLVE_FOR_ALL_DECLARERS, MENU_CLEAR_DEAL,
+		MENU_RANDOM_DEAL, MENU_GAME_TYPE, MENU_CALCULATOR, MENU_SOLVE_ALL_DEALS,
+		MENU_ROTATE_CLOCKWISE, MENU_ROTATE_COUNTERCLOCKWISE,
 		MENU_ROTATE_BY_90_DEGREES_CLOCKWISE,
-		MENU_ROTATE_BY_90_DEGREES_COUNTERCLOCKWISE,
-		MENU_RESET_SETTINGS,
+		MENU_ROTATE_BY_90_DEGREES_COUNTERCLOCKWISE, MENU_RESET_SETTINGS,
 
-		MENU_UNDOALL,
-		MENU_UNDO,
-		MENU_REDO,
-		MENU_REDOALL,
-		MENU_FIND_BEST_MOVE, //move
+		MENU_UNDOALL, MENU_UNDO, MENU_REDO, MENU_REDOALL, MENU_FIND_BEST_MOVE, //move
 
 		MENU_LOAD_LANGUAGE_FILE, //language
 
-		MENU_HOMEPAGE,
-		MENU_ABOUT };
+		MENU_HOMEPAGE, MENU_ABOUT };
 
-const char* MENU_ICON_FILE[] = {
-		 //problem
-		"new16.png",
-		"folder16.png",
-		"folder16.png",
-		"save16.png",
-		"saveas16.png",
-		"edit16.png",
-		"editlist16.png",
-		"edit-description16.png",
-		"pbn16.png",
-		"html16.png",
-		"html16.png",
+const char *MENU_ICON_FILE[] = {
+		//problem
+		"new16.png", "folder16.png", "folder16.png", "save16.png",
+		"saveas16.png", "edit16.png", "editlist16.png",
+		"edit-description16.png", "pbn16.png", "html16.png", "html16.png",
 		"img16.png",
 		"cancel16.png", //exit
 
-		"refresh16.png",
-		"settings16.png",
-		"new16.png",
-		"suitsorder16.png",
-		"settings16.png",//gametype
-		"calculator16.png",
-		"settings16.png",
-		"clockwise16.png",
-		"counterclockwise16.png",
-		"clockwise16.png",
-		"counterclockwise16.png",
+		"refresh16.png", "settings16.png", "new16.png", "suitsorder16.png",
+		"settings16.png", //gametype
+		"calculator16.png", "settings16.png", "clockwise16.png",
+		"counterclockwise16.png", "clockwise16.png", "counterclockwise16.png",
 		"restore16.png",
 		NULL,
 		NULL,
@@ -120,51 +74,34 @@ const char* MENU_ICON_FILE[] = {
 		NULL,
 		NULL, //undoall,undo,redo,redoall,best Note. Images will be setup later now need only create image menu item
 
-		"language16.png",
-		"home16.png",
-		"bridge16.png" };
+		"language16.png", "home16.png", "bridge16.png" };
 static_assert(SIZE(MENU_ICON_ID)==SIZE(MENU_ICON_FILE));
 
-const MENU_ID RADIO_MENU_ID[] = {
-		MENU_ESTIMATE_NONE,
-		MENU_ESTIMATE_BEST_LOCAL,
-		MENU_ESTIMATE_BEST_TOTAL,
-		MENU_ESTIMATE_ALL_LOCAL,
+const MENU_ID RADIO_MENU_ID[] = { MENU_ESTIMATE_NONE, MENU_ESTIMATE_BEST_LOCAL,
+		MENU_ESTIMATE_BEST_TOTAL, MENU_ESTIMATE_ALL_LOCAL,
 		MENU_ESTIMATE_ALL_TOTAL };
 
 const MENU_ID VARIABLE_TEXT_MENU[] = { MENU_GAME_TYPE, MENU_FIND_BEST_MOVE };
 
-const MENU_ID MENU_ESTIMATE[] = {
-		MENU_ESTIMATE_NONE,
-		MENU_ESTIMATE_BEST_LOCAL,
-		MENU_ESTIMATE_BEST_TOTAL,
-		MENU_ESTIMATE_ALL_LOCAL,
+const MENU_ID MENU_ESTIMATE[] = { MENU_ESTIMATE_NONE, MENU_ESTIMATE_BEST_LOCAL,
+		MENU_ESTIMATE_BEST_TOTAL, MENU_ESTIMATE_ALL_LOCAL,
 		MENU_ESTIMATE_ALL_TOTAL };
 
-const MENU_ID MENU_SKINS[] = {
-		MENU_SKIN0,
-		MENU_SKIN1,
-		MENU_SKIN2,
-		MENU_SKIN3,
-		MENU_SKIN4,
-		MENU_SKIN5,
-		MENU_SKIN6,
-		MENU_SKIN7 };
+const MENU_ID MENU_SKINS[] = { MENU_SKIN0, MENU_SKIN1, MENU_SKIN2, MENU_SKIN3,
+		MENU_SKIN4, MENU_SKIN5, MENU_SKIN6, MENU_SKIN7 };
 
-const MENU_ID MENU_UNDO_REDO_DEPENDENT[] = { MENU_UNDO, MENU_UNDOALL, MENU_REDO, MENU_REDOALL };
+const MENU_ID MENU_UNDO_REDO_DEPENDENT[] = { MENU_UNDO, MENU_UNDOALL, MENU_REDO,
+		MENU_REDOALL };
 
-const MENU_ID MENU_BEST_MOVE_DEPENDENT[] = {
+const MENU_ID MENU_BEST_MOVE_DEPENDENT[] =
+		{
 //??		MENU_SAVE_HTML,
 //??		MENU_SAVE_HTML_WITH_PICTURES,
-		MENU_SOLVE_FOR_ALL_DECLARERS,
-		MENU_SOLVE_ALL_DEALS,
-		MENU_FIND_BEST_MOVE
-};
+				MENU_SOLVE_FOR_ALL_DECLARERS, MENU_SOLVE_ALL_DEALS,
+				MENU_FIND_BEST_MOVE };
 
 //Note updateThink() calls union MENU_UNDO_REDO_DEPENDENT+MENU_BEST_MOVE_DEPENDENT+MENU_THINK_DEPENDENT
-const MENU_ID MENU_THINK_DEPENDENT[] = {
-		MENU_NEW,
-		MENU_OPEN,
+const MENU_ID MENU_THINK_DEPENDENT[] = { MENU_NEW, MENU_OPEN,
 		MENU_OPEN_FROM_LIBRARY,
 //		MENU_SAVE,
 //		MENU_SAVE_AS,
@@ -172,44 +109,27 @@ const MENU_ID MENU_THINK_DEPENDENT[] = {
 //		MENU_EDIT_PROBLEM_LIST,
 //		MENU_EDIT_DESCRIPTION,
 //		MENU_PBN_EDITOR,
-		MENU_SAVE_HTML,
-		MENU_SAVE_HTML_WITH_PICTURES,
-		MENU_SAVE_IMAGE,
+		MENU_SAVE_HTML, MENU_SAVE_HTML_WITH_PICTURES, MENU_SAVE_IMAGE,
 //set in function		//MENU_RECENT...
 //		MENU_EXIT,
 
-		MENU_CONVERT,
-		MENU_SOLVE_FOR_ALL_DECLARERS,
-		MENU_CLEAR_DEAL,
-		MENU_RANDOM_DEAL,
-		MENU_GAME_TYPE,
+		MENU_CONVERT, MENU_SOLVE_FOR_ALL_DECLARERS, MENU_CLEAR_DEAL,
+		MENU_RANDOM_DEAL, MENU_GAME_TYPE,
 //		MENU_CALCULATOR,
-		MENU_SOLVE_ALL_DEALS,
-		MENU_ROTATE_CLOCKWISE,
-		MENU_ROTATE_COUNTERCLOCKWISE,
-		MENU_ROTATE_BY_90_DEGREES_CLOCKWISE,
-		MENU_ROTATE_BY_90_DEGREES_COUNTERCLOCKWISE,
-		MENU_RESET_SETTINGS,
+		MENU_SOLVE_ALL_DEALS, MENU_ROTATE_CLOCKWISE,
+		MENU_ROTATE_COUNTERCLOCKWISE, MENU_ROTATE_BY_90_DEGREES_CLOCKWISE,
+		MENU_ROTATE_BY_90_DEGREES_COUNTERCLOCKWISE, MENU_RESET_SETTINGS,
 
-		MENU_ESTIMATE_NONE,
-		MENU_ESTIMATE_BEST_LOCAL,
-		MENU_ESTIMATE_BEST_TOTAL,
-		MENU_ESTIMATE_ALL_LOCAL,
-		MENU_ESTIMATE_ALL_TOTAL,
+		MENU_ESTIMATE_NONE, MENU_ESTIMATE_BEST_LOCAL, MENU_ESTIMATE_BEST_TOTAL,
+		MENU_ESTIMATE_ALL_LOCAL, MENU_ESTIMATE_ALL_TOTAL,
 //		MENU_SHOW_HTML_OPTIONS,
 //		MENU_SAVE_HTML_FILE_WITH_IMAGES,
 //		MENU_PREVIEW_HTML_FILE,
 //		MENU_SHOW_MODIFIED_WARNING,
 //		MENU_AUTOPLAY_SEQUENCE,
-		MENU_SPLIT_EVERY_FILE,
-		MENU_ONLY_ONE_INSTANCE,
+		MENU_SPLIT_EVERY_FILE, MENU_ONLY_ONE_INSTANCE,
 
-		MENU_UNDOALL,
-		MENU_UNDO,
-		MENU_REDO,
-		MENU_REDOALL,
-		MENU_FIND_BEST_MOVE
-};
+		MENU_UNDOALL, MENU_UNDO, MENU_REDO, MENU_REDOALL, MENU_FIND_BEST_MOVE };
 
 static void menu_activate(GtkWidget*, MENU_ID id) {
 	/* need to hide tool tip, because if user click for example
@@ -227,12 +147,11 @@ Menu::Menu() :
 
 //	printl(FIRST_RECENT_POSITION)
 
-	for (auto& m: gconfig->m_vectorMenuString) {
+	for (auto &m : gconfig->m_vectorMenuString) {
 		assert(m_map.find(m.first) == m_map.end());
-		if ( ONE_OF(m.first,TOP_MENU)) {
+		if (ONE_OF(m.first, TOP_MENU)) {
 			insertTopMenu(m);
-		}
-		else {
+		} else {
 			insertSubMenu(m);
 		}
 	}
@@ -242,9 +161,9 @@ Menu::Menu() :
 Menu::~Menu() {
 }
 
-GtkWidget* Menu::createImageMenuItem(const char* s, GdkPixbuf *p) {
-	GtkWidget*w, *w1;
-	GtkWidget* item = gtk_menu_item_new();
+GtkWidget* Menu::createImageMenuItem(const char *s, GdkPixbuf *p) {
+	GtkWidget *w, *w1;
+	GtkWidget *item = gtk_menu_item_new();
 
 	w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 
@@ -273,15 +192,16 @@ void Menu::insertTopMenu(MenuString menuString) {
 
 void Menu::insertSubMenu(MenuString menuString) {
 	int i;
-	GtkWidget*w;
+	GtkWidget *w;
 	const gchar *g = menuString.second.c_str();
 	const int recentIndex =
-			menuString.first < MENU_PROBLEM ? menuString.first - MENU_RECENT : -1;
-	GtkMenuShell* sub = getSubMenu(recentIndex == -1);
-	GdkPixbuf*p;
+			menuString.first < MENU_PROBLEM ?
+					menuString.first - MENU_RECENT : -1;
+	GtkMenuShell *sub = getSubMenu(recentIndex == -1);
+	GdkPixbuf *p;
 
 	//add recent menu items before separator which goes before exit menu
-	if (menuString.first == MENU_EXIT ) {
+	if (menuString.first == MENU_EXIT) {
 		m_lastRecentSize = recentSize();
 		if (m_lastRecentSize != 0) {
 			insertSeparator();
@@ -291,7 +211,7 @@ void Menu::insertSubMenu(MenuString menuString) {
 		}
 	}
 
-	if (ONE_OF(menuString.first,SEPARATOR_ID)) {
+	if (ONE_OF(menuString.first, SEPARATOR_ID)) {
 		insertSeparator();
 	}
 
@@ -302,32 +222,28 @@ void Menu::insertSubMenu(MenuString menuString) {
 
 		if (menuString.first == MENU_CUSTOM_SKIN) {
 			p = pixbuf("empty16.png");
-		}
-		else if (menuString.first >= MENU_SKIN0 && menuString.first <= MENU_SKIN7) {
-			p = pixbuf(getBgImageName(menuString.first - MENU_SKIN0), 0, 0, 16, 16);
-		}
-		else {
+		} else if (menuString.first >= MENU_SKIN0
+				&& menuString.first <= MENU_SKIN7) {
+			p = pixbuf(getBgImageName(menuString.first - MENU_SKIN0), 0, 0, 16,
+					16);
+		} else {
 			p = gconfig->languagePixbuf(menuString.first);
 		}
 		w = createImageMenuItem(g, p);
 		g_object_unref(p);
-	}
-	else if ((i = INDEX_OF(menuString.first,MENU_ICON_ID)) == -1) {
-		if (ONE_OF(menuString.first,CHECKED_MENU)) {
+	} else if ((i = INDEX_OF(menuString.first, MENU_ICON_ID)) == -1) {
+		if (ONE_OF(menuString.first, CHECKED_MENU)) {
 			w = gtk_check_menu_item_new_with_label(g);
-		}
-		else if (ONE_OF(menuString.first,RADIO_MENU_ID)) {
+		} else if (ONE_OF(menuString.first, RADIO_MENU_ID)) {
 			if (menuString.first == RADIO_MENU_ID[0]) {
 				radioGroup = NULL;
 			}
 			w = gtk_radio_menu_item_new_with_label(radioGroup, g);
 			radioGroup = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(w));
-		}
-		else {
+		} else {
 			w = gtk_menu_item_new_with_label(g);
 		}
-	}
-	else {
+	} else {
 		p = MENU_ICON_FILE[i] == NULL ? NULL : pixbuf(MENU_ICON_FILE[i]);
 		w = createImageMenuItem(g, p);
 		if (p) {
@@ -348,14 +264,13 @@ void Menu::insertSubMenu(MenuString menuString) {
 		 * in Menu.updateAfterCreation()
 		 */
 		Accelerator a = ACCELERATOR[i];
-		gtk_widget_add_accelerator(w, "activate", m_accelerator[i], a.key, a.mask,
-				GTK_ACCEL_VISIBLE);
+		gtk_widget_add_accelerator(w, "activate", m_accelerator[i], a.key,
+				a.mask, GTK_ACCEL_VISIBLE);
 	}
 
 	if (recentIndex == -1) {
 		gtk_menu_shell_append(sub, w);
-	}
-	else {
+	} else {
 		gtk_menu_shell_insert(sub, w, FIRST_RECENT_POSITION + recentIndex);
 	}
 
@@ -373,7 +288,7 @@ void Menu::updateSkin() {
 void Menu::updateLanguage() {
 	int i;
 
-	for (auto& m:gconfig->m_vectorMenuString) {
+	for (auto &m : gconfig->m_vectorMenuString) {
 		updateMenu(m);
 	}
 
@@ -390,13 +305,13 @@ void Menu::updateEstimationType() {
 }
 
 void Menu::updateUndoRedo() {
-	for(auto& v:MENU_UNDO_REDO_DEPENDENT){
+	for (auto &v : MENU_UNDO_REDO_DEPENDENT) {
 		setItemAttributes(v);
 	}
 }
 
 void Menu::updateFindBestState() {
-	for(auto& v:MENU_BEST_MOVE_DEPENDENT){
+	for (auto &v : MENU_BEST_MOVE_DEPENDENT) {
 		setItemAttributes(v);
 	}
 }
@@ -414,8 +329,8 @@ void Menu::click(const MENU_ID id) {
 }
 
 GtkLabel* Menu::getLabel(const MENU_ID id) const {
-	GList*list;
-	GtkWidget*w;
+	GList *list;
+	GtkWidget *w;
 
 	auto it = m_map.find(id);
 
@@ -442,12 +357,12 @@ void Menu::setItemAttributes(const MENU_ID id[], unsigned size) {
 void Menu::setItemAttributes(const MENU_ID id) {
 	int i;
 	bool b, radio;
-	GtkWidget*w = m_map[id];
+	GtkWidget *w = m_map[id];
 	STRING_ID sid = STRING_INVALID; //prevents warning
 	GList *list;
 
 	//set check
-	if ((i = INDEX_OF(id,CHECKED_MENU)) != -1) {
+	if ((i = INDEX_OF(id, CHECKED_MENU)) != -1) {
 		blockSignals();
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(w),
 				gconfig->isChecked(i));
@@ -455,16 +370,14 @@ void Menu::setItemAttributes(const MENU_ID id) {
 	}
 
 	//set caption for variable text items
-	i = INDEX_OF(id,VARIABLE_TEXT_MENU);
+	i = INDEX_OF(id, VARIABLE_TEXT_MENU);
 	if (i != -1) {
 
 		if (id == MENU_GAME_TYPE) {
 			sid = isBridge() ? STRING_PREFERANS : STRING_BRIDGE;
-		}
-		else if (id == MENU_FIND_BEST_MOVE) {
-			sid =
-					getFindBestState() == BUTTON_STATE_FIND_BEST_STOP ?
-							STRING_STOP_SEARHING_BEST_MOVE : STRING_FIND_BEST_MOVE;
+		} else if (id == MENU_FIND_BEST_MOVE) {
+			sid = getFindBestState() == BUTTON_STATE_FIND_BEST_STOP ?
+					STRING_STOP_SEARHING_BEST_MOVE : STRING_FIND_BEST_MOVE;
 		}
 
 		updateMenu(id, ::getString(sid));
@@ -475,11 +388,11 @@ void Menu::setItemAttributes(const MENU_ID id) {
 	radio = INDEX_OF(id,RADIO_MENU_ID) != -1;
 	if (radio) {
 		if (id == MENU_ESTIMATE_NONE || id == MENU_ESTIMATE_BEST_LOCAL
-				|| id == MENU_ESTIMATE_BEST_TOTAL || id == MENU_ESTIMATE_ALL_LOCAL
+				|| id == MENU_ESTIMATE_BEST_TOTAL
+				|| id == MENU_ESTIMATE_ALL_LOCAL
 				|| id == MENU_ESTIMATE_ALL_TOTAL) {
 			b = id == getEstimateType() + MENU_ESTIMATE_NONE;
-		}
-		else { //should not happens
+		} else { //should not happens
 			assert(0);
 			b = false;
 		}
@@ -491,63 +404,53 @@ void Menu::setItemAttributes(const MENU_ID id) {
 	//set enable
 	if (radio) {
 		b = !b; //if active -> disable
-	}
-	else if (id == MENU_SAVE) {
+	} else if (id == MENU_SAVE) {
 		if (gframe->proceedSaveAsSaveAs()) {
 			b = true;
-		}
-		else {
+		} else {
 			b = isModified();
 		}
-	}
-	else if (id == MENU_EDIT) {
+	} else if (id == MENU_EDIT) {
 		b = !isEditEnable();
-	}
-	else if (id == MENU_PBN_EDITOR) {
+	} else if (id == MENU_PBN_EDITOR) {
 		b = !onlyPreferansProblems();
-	}
-	else if (id >= MENU_SKIN0 && id <= MENU_SKIN7) {
+	} else if (id >= MENU_SKIN0 && id <= MENU_SKIN7) {
 		b = MENU_SKIN0 + gconfig->m_skin != id;
-	}
-	else if (isLanguage(id)) {
+	} else if (isLanguage(id)) {
 		//if gconfig->getLanguageIndex()==-1 always enable
 		b = id != MENU_LANGUAGE_FIRST + gconfig->getLanguageIndex();
-	}
-	else if (id == MENU_UNDOALL || id == MENU_UNDO) {
+	} else if (id == MENU_UNDOALL || id == MENU_UNDO) {
 		b = isUndoEnable();
-	}
-	else if (id == MENU_REDOALL || id == MENU_REDO) {
+	} else if (id == MENU_REDOALL || id == MENU_REDO) {
 		b = isRedoEnable();
-	}
-	else if (id == MENU_FIND_BEST_MOVE) {
+	} else if (id == MENU_FIND_BEST_MOVE) {
 		b = isToolbarButtonEnabled(TOOLBAR_BUTTON_FIND_BEST);
-	}
-	else if (id == MENU_SOLVE_FOR_ALL_DECLARERS) {
+	} else if (id == MENU_SOLVE_FOR_ALL_DECLARERS) {
 		//in case of id==MENU_SOLVE_FOR_ALL_DECLARERS even if trump not set possible solve for all declarers Gboplo27.pbn problem 47
 		b = getFindBestState(false) != BUTTON_STATE_DISABLED; //DO NOT CHANGE
-	}
-	else if (id == MENU_SOLVE_ALL_DEALS) {
+	} else if (id == MENU_SOLVE_ALL_DEALS) {
 		b = getProblem().isSolveAllDealsEnable();
-	}
-	else {
+	} else {
 		b = true;
 	}
 
 	//all think dependent became disabled
-	if(think() && id!=MENU_FIND_BEST_MOVE &&  ((id>=MENU_RECENT && id<MENU_RECENT+m_lastRecentSize) || ONE_OF(id,MENU_THINK_DEPENDENT)) ){
-		b=false;
+	if (think() && id != MENU_FIND_BEST_MOVE
+			&& ((id >= MENU_RECENT && id < MENU_RECENT + m_lastRecentSize)
+					|| ONE_OF(id, MENU_THINK_DEPENDENT))) {
+		b = false;
 	}
 	gtk_widget_set_sensitive(w, b);
 
 	//set icon
-	i = INDEX_OF(id,TOOLBAR_MENU_ID);
+	i = INDEX_OF(id, TOOLBAR_MENU_ID);
 	if (i != -1) {
-		auto e=TOOLBAR_BUTTON_ARRAY[i];
+		auto e = TOOLBAR_BUTTON_ARRAY[i];
 		w = gtk_bin_get_child(GTK_BIN(w));
 		list = gtk_container_get_children(GTK_CONTAINER(w));
 		assert(g_list_length(list) > 0);
 		gtk_image_set_from_pixbuf(GTK_IMAGE(g_list_nth(list, 0)->data),
-				getToolbarPixbuf(e, true,getToolbarButtonState(e)));
+				getToolbarPixbuf(e, true, getToolbarButtonState(e)));
 		g_list_free(list);
 	}
 }
@@ -569,11 +472,13 @@ void Menu::updateAfterCreation() {
 }
 
 MenuString Menu::recentMenuString(int index) {
-	std::string s =recent(index);
+	std::string s = recent(index);
 	if (s.length() > unsigned(gconfig->m_maxRecentLength)) {
 		const std::string dots = "..";
 		s = dots
-				+ s.substr(s.length() - gconfig->m_maxRecentLength + dots.length());
+				+ s.substr(
+						s.length() - gconfig->m_maxRecentLength
+								+ dots.length());
 	}
 	return {MENU_ID(MENU_RECENT + index), std::to_string(index+1)+" " + s}; //do not use Helper::encodeString, because we call addSubMenu() and this function do encoding
 }
@@ -587,8 +492,8 @@ void Menu::updateRecent() {
 		assert(int(gconfig->m_recent.size()) == m_lastRecentSize + 1);
 		insertRecentMenu(m_lastRecentSize);
 		if (m_lastRecentSize == 0) {
-			gtk_menu_shell_insert(getSubMenu(false), gtk_separator_menu_item_new(),
-					FIRST_RECENT_POSITION + 1);
+			gtk_menu_shell_insert(getSubMenu(false),
+					gtk_separator_menu_item_new(), FIRST_RECENT_POSITION + 1);
 		}
 		m_lastRecentSize = recentSize();
 		gtk_widget_show_all(m_top[0]); //DO NOT REMOVE
@@ -601,8 +506,7 @@ void Menu::addAccelerators(bool add) {
 		if (add) {
 			gtk_window_add_accel_group(GTK_WINDOW(gframe->getWidget()),
 					m_accelerator[i]);
-		}
-		else {
+		} else {
 			gtk_window_remove_accel_group(GTK_WINDOW(gframe->getWidget()),
 					m_accelerator[i]);
 		}
@@ -623,12 +527,12 @@ void Menu::updateResetSettings() {
 	FrameItem::updateResetSettings();
 
 	//remove recent files from menu
-	for(i=0;i<m_lastRecentSize;i++){
-		MENU_ID id=MENU_ID(MENU_RECENT+i);
+	for (i = 0; i < m_lastRecentSize; i++) {
+		MENU_ID id = MENU_ID(MENU_RECENT + i);
 		gtk_widget_destroy(m_map[id]);
 	}
-	auto it=m_map.find(MENU_RECENT);
-	auto ite=std::next(it,m_lastRecentSize);
-	m_map.erase(it,ite);
-	m_lastRecentSize=0;
+	auto it = m_map.find(MENU_RECENT);
+	auto ite = std::next(it, m_lastRecentSize);
+	m_map.erase(it, ite);
+	m_lastRecentSize = 0;
 }

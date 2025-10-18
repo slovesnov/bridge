@@ -5,9 +5,8 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
-
 
 #include <cmath>
 
@@ -37,16 +36,14 @@ void ProblemVectorModified::move(int i, bool bridgeOnly) {
 
 	if (i < 0) {
 		i = 0;
-	}
-	else if (i >= size(bridgeOnly)) {
+	} else if (i >= size(bridgeOnly)) {
 		i = size(bridgeOnly) - 1;
 	}
 
 	if (bridgeOnly) {
 		m_currentBridgeOnly = i;
 		m_current = m_vbridgeOnly[i];
-	}
-	else {
+	} else {
 		m_current = i;
 	}
 
@@ -64,8 +61,7 @@ void ProblemVectorModified::move(bool left) {
 
 	if (left) {
 		i--;
-	}
-	else {
+	} else {
 		i++;
 	}
 
@@ -90,7 +86,7 @@ void ProblemVectorModified::insert(bool _new, bool before, int quantity,
 	insert(vp, before);
 }
 
-void ProblemVectorModified::insert(const VString& v, bool before) {
+void ProblemVectorModified::insert(const VString &v, bool before) {
 	if (v.size() == 0) {
 		return;
 	}
@@ -104,7 +100,7 @@ void ProblemVectorModified::insert(const VString& v, bool before) {
 	insert(pv.m_problems, before);
 }
 
-void ProblemVectorModified::insert(const VProblem& vp, bool before) {
+void ProblemVectorModified::insert(const VProblem &vp, bool before) {
 	m_vproblem.insert(m_current + !before, vp);
 	if (before) {
 		m_current += vp.size();
@@ -132,8 +128,7 @@ void ProblemVectorModified::deleteAllBeforeAfter(bool before) {
 		m_vproblem.m_problems.erase(m_vproblem.begin(),
 				m_vproblem.begin() + m_current);
 		m_current = 0;
-	}
-	else {
+	} else {
 		m_vproblem.m_problems.erase(m_vproblem.begin() + m_current + 1,
 				m_vproblem.end());
 	}

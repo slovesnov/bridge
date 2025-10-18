@@ -5,7 +5,7 @@
  *           Author: aleksey slovesnov
  * Copyright(c/c++): 2020-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         Homepage: slovesnov.users.sourceforge.net
+ *         Homepage: slovesnov.rf.gd
  */
 
 #ifndef SC_H_
@@ -32,26 +32,26 @@ union USC {
 		s = _s;
 	}
 
-	inline void fromIndex(int i){
-		c=i%13;
-		s=i/13;
+	inline void fromIndex(int i) {
+		c = i % 13;
+		s = i / 13;
 	}
 
-	std::string toString()const;
+	std::string toString() const;
 
-	void print()const;
+	void print() const;
 
-	bool operator==(USC const& o)const{
-		return sc==o.sc;
+	bool operator==(USC const &o) const {
+		return sc == o.sc;
 	}
 
-	bool operator!=(USC const& o)const{
-		return sc!=o.sc;
+	bool operator!=(USC const &o) const {
+		return sc != o.sc;
 	}
 
 	//for SC equalsOrder
-	bool operator<(USC const& o)const{
-		return toIndex()<o.toIndex();
+	bool operator<(USC const &o) const {
+		return toIndex() < o.toIndex();
 	}
 
 };
@@ -71,9 +71,9 @@ struct SC {
 		a[length++].sc = sc.sc;
 	}
 
-	inline void push(int c,int s) {
+	inline void push(int c, int s) {
 		assert(length < ml);
-		a[length++].sc = (s<<8) | c;
+		a[length++].sc = (s << 8) | c;
 	}
 
 	inline USC operator[](int i) const {
@@ -81,27 +81,27 @@ struct SC {
 		return a[i];
 	}
 
-	inline void copy(SC const & o){
-		length=o.length;
-		memcpy(a,o.a,length*sizeof(int16_t));
+	inline void copy(SC const &o) {
+		length = o.length;
+		memcpy(a, o.a, length * sizeof(int16_t));
 	}
 
-	SC(SC const& o,bool order);
+	SC(SC const &o, bool order);
 
-	void print(const char*p=nullptr)const;
+	void print(const char *p = nullptr) const;
 
-	void printOrdered(const char*p=nullptr)const;
+	void printOrdered(const char *p = nullptr) const;
 
-	bool operator==(SC const& o)const;
+	bool operator==(SC const &o) const;
 
-	bool operator!=(SC const& o)const{
+	bool operator!=(SC const &o) const {
 		return !operator==(o);
 	}
 
-	bool equalsSequence(SC const& o,const int code[4])const;
+	bool equalsSequence(SC const &o, const int code[4]) const;
 
 	//return true if sequences are equal but can have different moves order
-	bool equalsOrder(SC const& o)const;
+	bool equalsOrder(SC const &o) const;
 
 };
 

@@ -5,24 +5,22 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "HtmlOptionsDialog.h"
 #include "../Menu.h"
 
-const STRING_ID SID[] = {
-		STRING_STORE_BEST_MOVE,
-		STRING_STORE_NUMBER_OF_TRICKS_IN_OPTIMAL_GAME,
-		STRING_INVALID,
+const STRING_ID SID[] = { STRING_STORE_BEST_MOVE,
+		STRING_STORE_NUMBER_OF_TRICKS_IN_OPTIMAL_GAME, STRING_INVALID,
 		STRING_NEVER_SHOW_THIS_MESSAGE_AGAIN };
 
 HtmlOptionsDialog::HtmlOptionsDialog() :
 		ButtonsDialog(MENU_INVALID, BUTTONS_DIALOG_OK) {
 	unsigned i;
-	GtkWidget*box, *w;
+	GtkWidget *box, *w;
 	bool b;
-	const char*p;
+	const char *p;
 
 	assert(SIZE(m_check)==SIZE(SID));
 
@@ -30,8 +28,7 @@ HtmlOptionsDialog::HtmlOptionsDialog() :
 	for (i = 0; i < SIZE(m_check); i++) {
 		if (SID[i] == STRING_INVALID) {
 			p = getString(MENU_PREVIEW_HTML_FILE);
-		}
-		else {
+		} else {
 			p = getString(SID[i]);
 		}
 		w = m_check[i] = gtk_check_button_new_with_label(p);

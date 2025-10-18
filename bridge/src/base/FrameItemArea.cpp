@@ -5,17 +5,17 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "FrameItemArea.h"
 #include "../ProblemSelector.h"
 
-static void on_draw_event(GtkWidget *widget, cairo_t *cr, FrameItemArea* area) {
+static void on_draw_event(GtkWidget *widget, cairo_t *cr, FrameItemArea *area) {
 	area->copySurface(cr);
 }
 
-FrameItemArea::FrameItemArea(GtkWidget*widget) :
+FrameItemArea::FrameItemArea(GtkWidget *widget) :
 		FrameItem(widget == NULL ? gtk_drawing_area_new() : widget) {
 
 	g_signal_connect(getWidget(), "draw", G_CALLBACK(on_draw_event), this);
@@ -26,7 +26,7 @@ FrameItemArea::~FrameItemArea() {
 
 void FrameItemArea::drawLine(int x1, int y1, int x2, int y2) {
 	const GdkRGBA rgba = getTextColor();
-	cairo_t* cr=m_cs;
+	cairo_t *cr = m_cs;
 	gdk_cairo_set_source_rgba(cr, &rgba);
 	cairo_set_line_width(cr, 1.);
 
@@ -51,12 +51,12 @@ void FrameItemArea::changeShowOption() {
 }
 
 CSize FrameItemArea::getTextExtents(TextWithAttributes text) {
-	return getTextExtents(text,m_cs);
+	return getTextExtents(text, m_cs);
 }
 
 CSize FrameItemArea::getTextExtents(TextWithAttributes text, cairo_t *cr) {
 	CSize sz;
-	PangoLayout *layout = createPangoLayout(cr,text);
+	PangoLayout *layout = createPangoLayout(cr, text);
 	pango_layout_get_pixel_size(layout, &sz.cx, &sz.cy);
 	g_object_unref(layout);
 	return sz;
@@ -66,15 +66,14 @@ cairo_surface_t* FrameItemArea::getDeckSurface() const {
 	return getProblemSelector().m_deck;
 }
 
-void FrameItemArea::copyFromDeck(cairo_t * cr, int destx, int desty, int width,
+void FrameItemArea::copyFromDeck(cairo_t *cr, int destx, int desty, int width,
 		int height, int index, int addx, int addy) {
 	copy(getDeckSurface(), cr, destx, desty, width, height,
 			(12 - index % 13) * getCardSize().cx + addx,
 			index / 13 * getCardSize().cy + addy);
 }
 
-
-CRect FrameItemArea::getInsideRect(const CRect& r, CARD_INDEX index) {
+CRect FrameItemArea::getInsideRect(const CRect &r, CARD_INDEX index) {
 	int x = r.centerPoint().x;
 	int y = r.centerPoint().y;
 
@@ -87,46 +86,36 @@ CRect FrameItemArea::getInsideRect(const CRect& r, CARD_INDEX index) {
 		if (isPreferans() && index == CARD_INDEX_SOUTH) {
 			if (getAbsent() == CARD_INDEX_EAST) {
 				x -= d;
-			}
-			else if (getAbsent() == CARD_INDEX_WEST) {
+			} else if (getAbsent() == CARD_INDEX_WEST) {
 				x += d;
 			}
 		}
-	}
-	else if (index == CARD_INDEX_WEST) {
+	} else if (index == CARD_INDEX_WEST) {
 		x -= cs.cx + sz.cx;
-	}
-	else if (index == CARD_INDEX_EAST) {
+	} else if (index == CARD_INDEX_EAST) {
 		x += sz.cx;
 	}
 
 	if (isPreferans() && northOrSouth(getAbsent())) {
 		if (index == CARD_INDEX_EAST) {
 			y -= cs.cy / 2;
-		}
-		else if (index == CARD_INDEX_NORTH) {
+		} else if (index == CARD_INDEX_NORTH) {
 			y -= cs.cy + sz.cx;
-		}
-		else if (index == CARD_INDEX_SOUTH) {
+		} else if (index == CARD_INDEX_SOUTH) {
 			y += sz.cx;
-		}
-		else if (index == CARD_INDEX_WEST) {
+		} else if (index == CARD_INDEX_WEST) {
 			if (getAbsent() == CARD_INDEX_NORTH) {
 				y -= cs.cy + sz.cx;
-			}
-			else {
+			} else {
 				y += sz.cx;
 			}
 		}
-	}
-	else {
+	} else {
 		if (eastOrWest(index)) {
 			y -= cs.cy / 2;
-		}
-		else if (index == CARD_INDEX_NORTH) {
+		} else if (index == CARD_INDEX_NORTH) {
 			y -= cs.cy + sz.cx;
-		}
-		else if (index == CARD_INDEX_SOUTH) {
+		} else if (index == CARD_INDEX_SOUTH) {
 			y += sz.cx;
 		}
 	}

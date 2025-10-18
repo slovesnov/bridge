@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef PROBLEM_PROBLEMVECTORMODIFIED_H_
@@ -63,9 +63,9 @@ public:
 		return bridgeOnly ? m_vbridgeOnly.size() : m_vproblem.size();
 	}
 
-	void insert(VProblem const& vp, bool before);
+	void insert(VProblem const &vp, bool before);
 	void insert(bool _new, bool before, int quantity, GAME_TYPE g);
-	void insert(VString const& v, bool before);
+	void insert(VString const &v, bool before);
 
 	void setModifiedIfSameSize();
 

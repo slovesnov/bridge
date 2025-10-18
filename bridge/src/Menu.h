@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef MENU_H_
@@ -17,37 +17,35 @@
 
 typedef std::map<MENU_ID, GtkWidget*> MenuMap;
 
-const Accelerator ACCELERATOR[] = {
-		Accelerator(MENU_NEW, GDK_KEY_N, GDK_CONTROL_MASK),
-		Accelerator(MENU_OPEN, GDK_KEY_O, GDK_CONTROL_MASK),
-		Accelerator(MENU_SAVE, GDK_KEY_S, GDK_CONTROL_MASK),
-		Accelerator(MENU_EDIT,
-		GDK_KEY_E, GDK_CONTROL_MASK),
-		Accelerator(MENU_EDIT_PROBLEM_LIST,
-		GDK_KEY_L, GDK_CONTROL_MASK),
-		Accelerator(MENU_EDIT_DESCRIPTION,
-		GDK_KEY_D, GDK_CONTROL_MASK),
-		Accelerator(MENU_PBN_EDITOR, GDK_KEY_P, GDK_CONTROL_MASK),
-		Accelerator(MENU_EXIT, GDK_KEY_Q, GDK_CONTROL_MASK),
+const Accelerator ACCELERATOR[] = { Accelerator(MENU_NEW, GDK_KEY_N,
+		GDK_CONTROL_MASK), Accelerator(MENU_OPEN, GDK_KEY_O, GDK_CONTROL_MASK),
+		Accelerator(MENU_SAVE, GDK_KEY_S, GDK_CONTROL_MASK), Accelerator(
+				MENU_EDIT,
+				GDK_KEY_E, GDK_CONTROL_MASK), Accelerator(
+				MENU_EDIT_PROBLEM_LIST,
+				GDK_KEY_L, GDK_CONTROL_MASK), Accelerator(MENU_EDIT_DESCRIPTION,
+		GDK_KEY_D, GDK_CONTROL_MASK), Accelerator(MENU_PBN_EDITOR, GDK_KEY_P,
+				GDK_CONTROL_MASK), Accelerator(MENU_EXIT, GDK_KEY_Q,
+				GDK_CONTROL_MASK),
 
-		Accelerator(MENU_RANDOM_DEAL, GDK_KEY_G, GDK_CONTROL_MASK),
-		Accelerator(MENU_GAME_TYPE, GDK_KEY_T, GDK_CONTROL_MASK),
-		Accelerator(MENU_CALCULATOR, GDK_KEY_L, GDK_CONTROL_MASK),
-		Accelerator(MENU_SOLVE_ALL_DEALS, GDK_KEY_W, GDK_CONTROL_MASK),
-		Accelerator(MENU_ROTATE_BY_90_DEGREES_CLOCKWISE, GDK_KEY_4,	GDK_CONTROL_MASK),
-		Accelerator(MENU_ROTATE_BY_90_DEGREES_COUNTERCLOCKWISE, GDK_KEY_5,
+		Accelerator(MENU_RANDOM_DEAL, GDK_KEY_G, GDK_CONTROL_MASK), Accelerator(
+				MENU_GAME_TYPE, GDK_KEY_T, GDK_CONTROL_MASK), Accelerator(
+				MENU_CALCULATOR, GDK_KEY_L, GDK_CONTROL_MASK), Accelerator(
+				MENU_SOLVE_ALL_DEALS, GDK_KEY_W, GDK_CONTROL_MASK), Accelerator(
+				MENU_ROTATE_BY_90_DEGREES_CLOCKWISE, GDK_KEY_4,
+				GDK_CONTROL_MASK), Accelerator(
+				MENU_ROTATE_BY_90_DEGREES_COUNTERCLOCKWISE, GDK_KEY_5,
 				GDK_CONTROL_MASK),
 
 		Accelerator(MENU_SELECT_ARROW, GDK_KEY_2, GDK_CONTROL_MASK),
 		Accelerator(MENU_SELECT_DECK, GDK_KEY_3, GDK_CONTROL_MASK),
 
-		Accelerator(MENU_UNDOALL, GDK_KEY_Z, GDK_CONTROL_MASK),
-		Accelerator(MENU_UNDO, GDK_KEY_Z, GDK_NONE_MASK),
-		Accelerator(MENU_REDO, GDK_KEY_X, GDK_NONE_MASK),
-		Accelerator(MENU_REDOALL, GDK_KEY_X, GDK_CONTROL_MASK),
+		Accelerator(MENU_UNDOALL, GDK_KEY_Z, GDK_CONTROL_MASK), Accelerator(
+				MENU_UNDO, GDK_KEY_Z, GDK_NONE_MASK), Accelerator(MENU_REDO,
+				GDK_KEY_X, GDK_NONE_MASK), Accelerator(MENU_REDOALL, GDK_KEY_X,
+				GDK_CONTROL_MASK),
 
-		Accelerator(MENU_FIND_BEST_MOVE, GDK_KEY_space, GDK_NONE_MASK),
-};
+		Accelerator(MENU_FIND_BEST_MOVE, GDK_KEY_space, GDK_NONE_MASK), };
 
 class Menu: public FrameItem {
 	MenuMap m_map;
@@ -57,10 +55,10 @@ class Menu: public FrameItem {
 	GSList *radioGroup;
 	int m_lastRecentSize;
 
-	GtkAccelGroup* m_accelerator[SIZE(ACCELERATOR)];
+	GtkAccelGroup *m_accelerator[SIZE(ACCELERATOR)];
 
 	//update menu item text if it exists; return true item exists
-	void updateMenu(MENU_ID id, const gchar* s) {
+	void updateMenu(MENU_ID id, const gchar *s) {
 		gtk_label_set_text(getLabel(id), s);
 	}
 
@@ -77,7 +75,7 @@ class Menu: public FrameItem {
 		insertSubMenu(recentMenuString(index));
 	}
 
-	GtkWidget* createImageMenuItem(const char* s, GdkPixbuf *p);
+	GtkWidget* createImageMenuItem(const char *s, GdkPixbuf *p);
 
 	void blockSignals() {
 		m_signals = false;
@@ -104,17 +102,17 @@ public:
 	Menu();
 	virtual ~Menu();
 
-	 void updateAfterCreation()override;
-	 void updateEdit() override{
+	void updateAfterCreation() override;
+	void updateEdit() override {
 		setItemAttributes(MENU_EDIT);
 	}
-	 void updateEstimationType()override;
-	 void updateFindBestState()override;
+	void updateEstimationType() override;
+	void updateFindBestState() override;
 
-	 void updateGameType()override;
-	 void updateLanguage()override;
-	 void updateSkin()override;
-	 void updateUndoRedo()override;
+	void updateGameType() override;
+	void updateLanguage() override;
+	void updateSkin() override;
+	void updateUndoRedo() override;
 
 	void updateNewGameState() {
 		setItemAttributes(MENU_NEW);
@@ -129,10 +127,10 @@ public:
 	void click(const MENU_ID id);
 	void updateRecent();
 	void addAccelerators(bool add);
-	void updateThink()override;
-	void updateResetSettings()override;
+	void updateThink() override;
+	void updateResetSettings() override;
 };
 
-extern Menu* gmenu;
+extern Menu *gmenu;
 
 #endif /* MENU_H_ */

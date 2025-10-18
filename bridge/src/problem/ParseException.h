@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2017-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef PROBLEM_PARSEEXCEPTION_H_
@@ -17,9 +17,9 @@
 
 class ParseException {
 public:
-	ParseException(const char* message, const STRING_ID& error, const char* file,
-			int line, const char* function, const std::string& content,
-			const std::string& addon);
+	ParseException(const char *message, const STRING_ID &error,
+			const char *file, int line, const char *function,
+			const std::string &content, const std::string &addon);
 
 	std::string m_message;
 	STRING_ID m_error;
@@ -33,7 +33,7 @@ public:
 	std::string getPlaceInfo() const;
 	std::string getErrorString() const;
 
-	void setParseFile(const std::string& s) {
+	void setParseFile(const std::string &s) {
 		m_parseFile = s;
 	}
 	virtual ~ParseException();

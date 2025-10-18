@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #include "ConverterDialog.h"
@@ -14,8 +14,8 @@
 
 ConverterDialog::ConverterDialog() :
 		ButtonsDialog(MENU_CONVERT, BUTTONS_DIALOG_CONVERTER) {
-	GtkWidget*scrolled;
-	GtkWidget* w, *w1, *w2;
+	GtkWidget *scrolled;
+	GtkWidget *w, *w1, *w2;
 	VString sv;
 	std::string s;
 
@@ -111,21 +111,22 @@ void ConverterDialog::saveParams() {
 
 bool ConverterDialog::save(bool many) {
 	saveParams();
-	FileChooserResult r = fileChooser(MENU_SAVE, FILE_TYPE_ANY,
-			many ?
-					CHOOSER_OPTION_CONVERTER_SAVE_MANY_FILES :
-					CHOOSER_OPTION_CONVERTER_SAVE_ONE_FILE, "");
+	FileChooserResult r =
+			fileChooser(MENU_SAVE, FILE_TYPE_ANY,
+					many ? CHOOSER_OPTION_CONVERTER_SAVE_MANY_FILES : CHOOSER_OPTION_CONVERTER_SAVE_ONE_FILE,
+					"");
 
 	if (r.ok()) {
 		if (many) {
-			ProblemVector::addSave(m_files, r.file(), gconfig->m_splitEveryFile);
-		}
-		else {
+			ProblemVector::addSave(m_files, r.file(),
+					gconfig->m_splitEveryFile);
+		} else {
 			ProblemVector p;
 			p.set(m_files, true);
 			p.save(r.file(), false);
 			if (getFileType(r.file()) == FILE_TYPE_HTML
-					&& gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(m_checkPreview))) {
+					&& gtk_toggle_button_get_active(
+							GTK_TOGGLE_BUTTON(m_checkPreview))) {
 				openURL(r.file());
 			}
 		}
@@ -151,8 +152,8 @@ void ConverterDialog::update() {
 	enableButtons();
 }
 
-void ConverterDialog::openUris(char** uris) {
-	const VString& v = getValidFilesList(uris);
+void ConverterDialog::openUris(char **uris) {
+	const VString &v = getValidFilesList(uris);
 	m_files.insert(m_files.end(), v.begin(), v.end());
 	if (m_files.size() == 0) {
 		return;
@@ -164,8 +165,7 @@ bool ConverterDialog::click(int index) {
 	if (index < 2) {
 		save(index == 1);
 		return true;
-	}
-	else if (index == 2) {
+	} else if (index == 2) {
 		FileChooserResult r = fileChooser(MENU_OPEN, FILE_TYPE_ANY,
 				CHOOSER_OPTION_ADD_ALL_SUPPORTED, "");
 		if (r.ok()) {
@@ -174,13 +174,11 @@ bool ConverterDialog::click(int index) {
 			update();
 		}
 		return false;
-	}
-	else if (index == 3) {
+	} else if (index == 3) {
 		m_files.clear();
 		update();
 		return false;
-	}
-	else {
+	} else {
 		return true;
 	}
 }

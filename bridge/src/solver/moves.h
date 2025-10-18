@@ -2,7 +2,7 @@
 #error "only exactly one of PREFERANS_H_ or BRIDGE_H_ should be defined"
 #endif
 
-	int i;
+int i;
 
 #ifdef BRIDGE_H_
 	#if BRIDGE_MAX_PRECOUNT_SUIT_CARDS==11
@@ -16,9 +16,9 @@
 #include "moves_one_suit.h"
 #undef O
 
-	if (c.length != 0) {
-		return;
-	}
+if (c.length != 0) {
+	return;
+}
 
 #ifdef PREFERANS_TRUMP_GAME
 	#define O ( ORDER / MOVES_ONE_SUIT_OPTIONS) % MOVES_ONE_SUIT_OPTIONS
@@ -34,17 +34,16 @@
 		}
 #endif
 
-
 #ifdef PREFERANS_TRUMP_GAME
 	#define O	( ORDER / MOVES_ONE_SUIT_OPTIONS / MOVES_ONE_SUIT_OPTIONS)
 #else
-	#define O	( ORDER / MOVES_ONE_SUIT_OPTIONS )
+#define O	( ORDER / MOVES_ONE_SUIT_OPTIONS )
 #endif
 
 #ifdef PREFERANS_TRUMP_GAME
 	#define SKIP_SUITS 2
 #else
-	#define SKIP_SUITS 1
+#define SKIP_SUITS 1
 #endif
 #include "moves_many_suits.h"
 #undef SKIP_SUITS

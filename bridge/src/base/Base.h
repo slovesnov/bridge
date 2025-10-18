@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef BASE_H_
@@ -57,39 +57,39 @@ const int MIN_COUNT_SIZE_Y = -49;
 const CSize INNER_CARD_MARGIN = { 3, 3 };
 const int MIN_PROBLEM_SELECTOR_WIDTH = 4 * (63 + 6);
 const int MIN_LAST_TRICK_WIDTH = 118;
-const int MIN_GRID_SIZE_WIDTH = MIN_PROBLEM_SELECTOR_WIDTH - MIN_LAST_TRICK_WIDTH;
+const int MIN_GRID_SIZE_WIDTH = MIN_PROBLEM_SELECTOR_WIDTH
+		- MIN_LAST_TRICK_WIDTH;
 
 const CSize RASTER_DECK_CARD_SIZE[] = { { 71, 96 }, { 54, 72 }, { 54, 72 }, {
 		72, 96 }, { 71, 96 }, { 75, 107 }, { 95, 125 }, { 95, 125 } };
 const int N_RASTER_DECKS = SIZEI(RASTER_DECK_CARD_SIZE);
-const auto minmax61 = std::minmax_element(RASTER_DECK_CARD_SIZE,RASTER_DECK_CARD_SIZE+N_RASTER_DECKS,
-        [] (CSize const& a, CSize const& b) {return a.cx < b.cx;});
-const int MIN_CARD_WIDTH=minmax61.first->cx;
-const int MIN_CARD_HEIGHT=minmax61.first->cy;
-const CSize MAX_CARD_SIZE=*minmax61.second;
+const auto minmax61 = std::minmax_element(RASTER_DECK_CARD_SIZE,
+		RASTER_DECK_CARD_SIZE + N_RASTER_DECKS,
+		[](CSize const &a, CSize const &b) {
+			return a.cx < b.cx;
+		});
+const int MIN_CARD_WIDTH = minmax61.first->cx;
+const int MIN_CARD_HEIGHT = minmax61.first->cy;
+const CSize MAX_CARD_SIZE = *minmax61.second;
 
 //need to change MAX_SVG_WH_RATIO in Config.cpp if do changes for vector decks
-const int N_VECTOR_DECKS=4;
+const int N_VECTOR_DECKS = 4;
 
 const int RASTER_ARROW_SIZE[] = { 64, 48, 48, 64, 72, 96, 128 };
 const int N_RASTER_ARROWS = SIZEI(RASTER_ARROW_SIZE);
 const int MIN_ARROW_SIZE = *std::min_element(RASTER_ARROW_SIZE,
 		RASTER_ARROW_SIZE + N_RASTER_ARROWS);
-const int N_VECTOR_ARROWS=3;
+const int N_VECTOR_ARROWS = 3;
 
 //all arrays index is m_gameType, MIN_CONTRACT[m_gameType] MAX_CONTRACT[..] MAX_THREADS[..] TRUMP_MODEL_SIZE[..]
 const int MIN_CONTRACT[] = { 1, 6 };
 const int MAX_CONTRACT[] = { 7, 10 };
-const int MAX_THREADS_BRIDGE =  NT + 1;
+const int MAX_THREADS_BRIDGE = NT + 1;
 const int MAX_THREADS_PREFERANS = 18;
 const int MAX_THREADS[] = { MAX_THREADS_BRIDGE, MAX_THREADS_PREFERANS };
 const int TRUMP_MODEL_SIZE[] = { NT + 1, NT + 2 };
-const MENU_ID TOOLBAR_MENU_ID[] = {
-		MENU_FIND_BEST_MOVE,
-		MENU_UNDOALL,
-		MENU_UNDO,
-		MENU_REDO,
-		MENU_REDOALL };
+const MENU_ID TOOLBAR_MENU_ID[] = { MENU_FIND_BEST_MOVE, MENU_UNDOALL,
+		MENU_UNDO, MENU_REDO, MENU_REDOALL };
 const int N_SKINS = 8;
 const int CONFIG_CUSTOM_SKIN = -1;
 const int SKIP_ARROW_SIZE = -1;
@@ -99,15 +99,17 @@ const int MAX_RESULT_SIZE = MAX_BRIDGE_HAND_CARDS + 1;
 
 const double CURRENT_VERSION = 5.3;
 const std::string CURRENT_VERSION_STR = forma(CURRENT_VERSION);
-const std::string BASE_ADDRESS = "http://bridge-studio.sourceforge.net/";
-const std::string DOWNLOAD_URL = "http://sourceforge.net/projects/bridge-studio/files/latest/download";
+const std::string DOWNLOAD_URL =
+		"https://sourceforge.net/projects/bridge-studio/files/latest/download";
+const std::string BASE_ADDRESS = "https://slovesnov.rf.gd";
+const std::string HOMEPAGE=BASE_ADDRESS + "?bridge";
 #ifdef FINAL_RELEASE
-	const char VERSION_FILE_URL[] = "http://slovesnov.users.sourceforge.net/bridge/version.txt";
+const std::string VERSION_FILE_URL = BASE_ADDRESS + "/bridge/version.txt";
 #else
-	const char VERSION_FILE_URL[]="file:///C:/slovesno/site/bridge/version.txt";
+const std::string VERSION_FILE_URL="file:///C:/slovesno/site/bridge/version.txt";
 #endif
 
-const char HTML_IMAGE_DIRECTORY[] = "http://slovesnov.users.sourceforge.net/img/bridge";
+const std::string HTML_IMAGE_DIRECTORY = BASE_ADDRESS + "/img/bridge";
 const std::string EMAIL = "slovesnov@yandex.ru";
 
 const char PLAYER_CHAR[] = "nesw"; //Note. Should be coordinated with PLAYER
@@ -141,41 +143,27 @@ const char PBN_VULNERABLE_TAG[] = "Vulnerable";
 const char PBN_WEST_TAG[] = "West";
 
 //defined in Base.cpp (ordered by alphabet)
-extern const char* DEALER[4];
-extern const char* DOUBLE_REDOUBLE[3];
-extern const char* LEADER[4];
-extern const char* ROOM[2];
-extern const char* SCORE[2];
-extern const char* VULNERABLE[4];
+extern const char *DEALER[4];
+extern const char *DOUBLE_REDOUBLE[3];
+extern const char *LEADER[4];
+extern const char *ROOM[2];
+extern const char *SCORE[2];
+extern const char *VULNERABLE[4];
 
-const TOOLBAR_BUTTON TOOLBAR_BUTTON_ARRAY[] = {
-		TOOLBAR_BUTTON_FIND_BEST,
-		TOOLBAR_BUTTON_UNDOALL,
-		TOOLBAR_BUTTON_UNDO,
-		TOOLBAR_BUTTON_REDO,
+const TOOLBAR_BUTTON TOOLBAR_BUTTON_ARRAY[] = { TOOLBAR_BUTTON_FIND_BEST,
+		TOOLBAR_BUTTON_UNDOALL, TOOLBAR_BUTTON_UNDO, TOOLBAR_BUTTON_REDO,
 		TOOLBAR_BUTTON_REDOALL };
 
-const CARD_INDEX PLAYER[] = {
-		CARD_INDEX_NORTH,
-		CARD_INDEX_EAST,
-		CARD_INDEX_SOUTH,
-		CARD_INDEX_WEST };
+const CARD_INDEX PLAYER[] = { CARD_INDEX_NORTH, CARD_INDEX_EAST,
+		CARD_INDEX_SOUTH, CARD_INDEX_WEST };
 
 //should match with Config::m_options which is filling in constructor of Config class
-const MENU_ID CHECKED_MENU[] = {
-		MENU_LAST_TRICK_GAME_ANLYSIS,
-		MENU_ANIMATION,
-		MENU_TOOLTIPS,
-		MENU_TOTAL_TRICKS,
-		MENU_PLAYER_TRICKS,
+const MENU_ID CHECKED_MENU[] = { MENU_LAST_TRICK_GAME_ANLYSIS, MENU_ANIMATION,
+		MENU_TOOLTIPS, MENU_TOTAL_TRICKS, MENU_PLAYER_TRICKS,
 
-		MENU_SHOW_HTML_OPTIONS,
-		MENU_SAVE_HTML_FILE_WITH_IMAGES,
-		MENU_PREVIEW_HTML_FILE,
-		MENU_SHOW_MODIFIED_WARNING,
-		MENU_AUTOPLAY_SEQUENCE,
-		MENU_SPLIT_EVERY_FILE,
-		MENU_ONLY_ONE_INSTANCE };
+		MENU_SHOW_HTML_OPTIONS, MENU_SAVE_HTML_FILE_WITH_IMAGES,
+		MENU_PREVIEW_HTML_FILE, MENU_SHOW_MODIFIED_WARNING,
+		MENU_AUTOPLAY_SEQUENCE, MENU_SPLIT_EVERY_FILE, MENU_ONLY_ONE_INSTANCE };
 
 const int TOTAL_STATES = 53;
 const int SUIT_PIXBUF_SIZE = 48;
@@ -187,17 +175,17 @@ const int NO_CONTRACT_SET = -1;
 const int NO_TRUMP_SET = -1;
 
 //constants for DrawingArea::m_htmlTricks & Problem::getHTMLContent for both types of game
-const int HTML_TRICKS_NORTH_SOUTH=0;
-const int HTML_TRICKS_EAST_WEST=1;
-const int HTML_TRICKS_PLAYER=0;
-const int HTML_TRICKS_WHISTERS=1;
+const int HTML_TRICKS_NORTH_SOUTH = 0;
+const int HTML_TRICKS_EAST_WEST = 1;
+const int HTML_TRICKS_PLAYER = 0;
+const int HTML_TRICKS_WHISTERS = 1;
 
 //spades, hearts, diamond, clubs same order with SUITS_CHAR
 const std::string UTF8SUITS[] = { "\xe2\x99\xa0", "\xe2\x99\xa5",
 		"\xe2\x99\xa6", "\xe2\x99\xa3" };
 //======================== END CONSTANTS ==========================================================
-const gchar * getString(const STRING_ID& id);
-const gchar * getString(const MENU_ID& id);
+const gchar* getString(const STRING_ID &id);
+const gchar* getString(const MENU_ID &id);
 std::string getStringNoDots(MENU_ID id);
 FILE_TYPE getFileType(std::string filepath);
 int indexOfPlayer(CARD_INDEX player);
@@ -211,7 +199,7 @@ std::string getContractString(int n);
 const std::string getNTString();
 
 std::string getLowercasedPlayerString(CARD_INDEX player);
-const gchar * getPlayerString(CARD_INDEX player);
+const gchar* getPlayerString(CARD_INDEX player);
 
 /* getCardRankString() call in EditListDialog & Problem::getHTMLContent
  *
@@ -242,14 +230,14 @@ int getIndentInsideSuit();
 
 int getAreaMaxHeight();
 
-int countEndX(std::string const& s);
+int countEndX(std::string const &s);
 
-AuctionTagParseResult parseAuctionTag(const std::string & auctionValue,
-		const std::string & auctionAdd);
+AuctionTagParseResult parseAuctionTag(const std::string &auctionValue,
+		const std::string &auctionAdd);
 
 /*[en] s,h,d,c,nt
-[ru] ο,χ,α,ς,ακ
-*/
+ [ru] ο,χ,α,ς,ακ
+ */
 //std::string getLowerTrumpString(int trump);
 //std::string getUpperTrumpString(int trump);
 std::string getEnglishTrumpString(int trump);
@@ -263,16 +251,15 @@ std::string rgbaToString(const GdkRGBA c);
 
 unsigned rgbaToUnsigned(const GdkRGBA c);
 
-void copyFromPixbuf(GdkPixbuf* source, cairo_t * dest, CRect const& rect);
+void copyFromPixbuf(GdkPixbuf *source, cairo_t *dest, CRect const &rect);
 
 #ifndef FINAL_RELEASE
 void exploreAllChildrenRecursive(GtkWidget* w);
 #endif
 
-CARD_INDEX getPlayerForArray(CARD_INDEX player, const CARD_INDEX*a,
-		int size, bool next, int count = 1);
-CARD_INDEX getBridgePlayer(CARD_INDEX player, bool next,
-		int count = 1);
+CARD_INDEX getPlayerForArray(CARD_INDEX player, const CARD_INDEX *a, int size,
+		bool next, int count = 1);
+CARD_INDEX getBridgePlayer(CARD_INDEX player, bool next, int count = 1);
 CARD_INDEX getNextBridgePlayer(CARD_INDEX player);
 CARD_INDEX getPreviousBridgePlayer(CARD_INDEX player);
 CARD_INDEX getBridgePartner(CARD_INDEX player);
@@ -284,43 +271,44 @@ void setBridgeSolveAllDealsAbsentNS(int ns);
 
 BUTTON_STATE boolToButtonState(bool b);
 
-gint message(MESSAGE_ICON_TYPE t, const char* s,
+gint message(MESSAGE_ICON_TYPE t, const char *s, BUTTONS_DIALOG_TYPE type);
+gint message(MESSAGE_ICON_TYPE t, const std::string &s,
 		BUTTONS_DIALOG_TYPE type);
-gint message(MESSAGE_ICON_TYPE t, const std::string& s,
-		BUTTONS_DIALOG_TYPE type);
-void message(MESSAGE_ICON_TYPE t, const char* s);
-void message(MESSAGE_ICON_TYPE t, const std::string& s);
-void message(MESSAGE_ICON_TYPE t, STRING_ID id,BUTTONS_DIALOG_TYPE type=BUTTONS_DIALOG_OK);
+void message(MESSAGE_ICON_TYPE t, const char *s);
+void message(MESSAGE_ICON_TYPE t, const std::string &s);
+void message(MESSAGE_ICON_TYPE t, STRING_ID id, BUTTONS_DIALOG_TYPE type =
+		BUTTONS_DIALOG_OK);
 
 GdkPixbuf* getSuitPixbuf(int suit, int size = SUIT_PIXBUF_SIZE);
 
 GdkPixbuf* getContractPixbuf(int n);
 
 //use same mechanism for selectColor & selectFont
-bool selectColor(const char* s, GdkRGBA* color);
-bool selectFont(const char* s, PangoFontDescription*& font);
+bool selectColor(const char *s, GdkRGBA *color);
+bool selectFont(const char *s, PangoFontDescription *&font);
 
 bool think();
 
-std::string getArrowFileName(int n,bool svg=false);
+std::string getArrowFileName(int n, bool svg = false);
 std::string getDeckFileName();
-std::string getDeckFileName(int n,bool svg=false);
+std::string getDeckFileName(int n, bool svg = false);
 
 std::string intToStringLocaled(int v);
-void unsignedToGdkRGBA(unsigned v,GdkRGBA&c);
+void unsignedToGdkRGBA(unsigned v, GdkRGBA &c);
 
-GtkWidget* createMarkupLabel(std::string const& s,int maxChars=0);
-GtkWidget* createMarkupLabel(STRING_ID id,int maxChars=0);
+GtkWidget* createMarkupLabel(std::string const &s, int maxChars = 0);
+GtkWidget* createMarkupLabel(STRING_ID id, int maxChars = 0);
 GtkWidget* createBoldLabel(STRING_ID id);
-GtkWidget* createBoldLabel(std::string const& s);
+GtkWidget* createBoldLabel(std::string const &s);
 GtkWidget* createUnderlinedLabel(STRING_ID id);
 GtkWidget* createUnderlinedLabel(CARD_INDEX id);
-GtkWidget* createUnderlinedLabel(std::string const& s);
+GtkWidget* createUnderlinedLabel(std::string const &s);
 
-GtkWidget* containerGetChild(GtkWidget* w,int n);
+GtkWidget* containerGetChild(GtkWidget *w, int n);
 
-std::string getPlayerString(const CARD_INDEX cid[52],CARD_INDEX player,bool includeInner=false);
+std::string getPlayerString(const CARD_INDEX cid[52], CARD_INDEX player,
+		bool includeInner = false);
 void showOpenFileError();
-void clearContainer(GtkWidget*container);
+void clearContainer(GtkWidget *container);
 
 #endif /* BASE_H_ */

@@ -5,7 +5,7 @@
  *           Author: alexey slovesnov
  * copyright(c/c++): 2014-doomsday
  *           E-mail: slovesnov@yandex.ru
- *         homepage: slovesnov.users.sourceforge.net
+ *         homepage: slovesnov.rf.gd
  */
 
 #ifndef STREAM_H_
@@ -49,7 +49,7 @@ public:
 
 	int readInteger();
 	std::string readString();
-	void getLastTwoIntegers(int& i1, int& i2);
+	void getLastTwoIntegers(int &i1, int &i2);
 
 };
 
