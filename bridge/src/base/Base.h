@@ -102,9 +102,10 @@ const std::string CURRENT_VERSION_STR = forma(CURRENT_VERSION);
 const std::string DOWNLOAD_URL =
 		"https://sourceforge.net/projects/bridge-studio/files/latest/download";
 const std::string BASE_ADDRESS = "https://slovesnov.rf.gd";
-const std::string HOMEPAGE=BASE_ADDRESS + "?bridge";
+const std::string HOMEPAGE = BASE_ADDRESS + "?bridge";
 #ifdef FINAL_RELEASE
-const std::string VERSION_FILE_URL = BASE_ADDRESS + "/bridge/version.txt";
+const std::string VERSION_FILE_URL =
+		"https://slovesnov.github.io/bridgeversion.txt"; //https://slovesnov.rf.gd/bridge/version.txt returns ugly data
 #else
 const std::string VERSION_FILE_URL="file:///C:/slovesno/site/bridge/version.txt";
 #endif
