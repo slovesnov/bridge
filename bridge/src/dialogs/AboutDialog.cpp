@@ -61,7 +61,7 @@ AboutDialog::AboutDialog() :
 		}
 
 		if (link) {
-			label = gtk_label_new("");
+			label = gtk_label_new(NULL);
 			markup = g_markup_printf_escaped("%s <a href=\"#\">\%s</a>",
 					q[0].c_str(), q[1].c_str());
 			gtk_label_set_markup(GTK_LABEL(label), markup);
