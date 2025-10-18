@@ -60,25 +60,22 @@ AboutDialog::AboutDialog() :
 			q = split(a, "#");
 		}
 
-		label = gtk_label_new((link ? q[0] : a).c_str());
-		gtk_label_set_xalign(GTK_LABEL(label), 0);
-		gtk_widget_set_margin_start(label, LMARGIN.cx);
-		gtk_widget_set_margin_end(label, LMARGIN.cx);
-
 		if (link) {
-			hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, spacing);
-			gtk_container_add(GTK_CONTAINER(hbox), label);
 			label = gtk_label_new("");
-			gtk_container_add(GTK_CONTAINER(hbox), label);
-			markup = g_markup_printf_escaped("<a href=\"#\">\%s</a>",
-					q[1].c_str());
+			markup = g_markup_printf_escaped("%s <a href=\"#\">\%s</a>",
+					q[0].c_str(), q[1].c_str());
 			gtk_label_set_markup(GTK_LABEL(label), markup);
 			g_free(markup);
 			g_signal_connect(label, "activate-link", G_CALLBACK(label_clicked),
 					gpointer(this));
+		} else {
+			label = gtk_label_new(a.c_str());
 		}
 
-		gtk_container_add(GTK_CONTAINER(box), link ? hbox : label);
+		gtk_label_set_xalign(GTK_LABEL(label), 0);
+		gtk_widget_set_margin_start(label, LMARGIN.cx);
+		gtk_widget_set_margin_end(label, LMARGIN.cx);
+		gtk_container_add(GTK_CONTAINER(box), label);
 
 		/* label style in css if need later
 		 dialog.background.solid-csd box.vertical.dialog-vbox box.horizontal box.vertical label{
