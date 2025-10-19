@@ -66,7 +66,7 @@ italian.BeveledLabel=Italian
 ;Source: "{#GTKPATH}share\icons\Adwaita\16x16\actions\edit-find-symbolic.symbolic.png"; DestDir: "{app}\share\icons\Adwaita\16x16\actions"; Flags: onlyifdoesntexist
 Source: "{#GTKPATH}share\icons\Adwaita\16x16\*"; DestDir: "{app}\share\icons\Adwaita\16x16"; Flags: onlyifdoesntexist recursesubdirs
 Source: "{#GTKPATH}share\icons\Adwaita\index.theme"; DestDir: "{app}\share\icons\Adwaita"; Flags: ignoreversion
-;Source: "{#GTKPATH}share\icons\Adwaita\scalable-up-to-32\status\process-working-symbolic.svg"; DestDir: "{app}\share\icons\Adwaita\scalable-up-to-32\status"; Flags: onlyifdoesntexist
+Source: "{#GTKPATH}share\icons\Adwaita\symbolic-up-to-32\status\process-working-symbolic.svg"; DestDir: "{app}\share\icons\Adwaita\symbolic-up-to-32\status"; Flags: onlyifdoesntexist
 Source: "{#GTKPATH}share\glib-2.0\schemas\gschemas.compiled"; DestDir: "{app}\share\glib-2.0\schemas"; Flags: ignoreversion
 
 ;new gtk version so ignoreversion for dlls
