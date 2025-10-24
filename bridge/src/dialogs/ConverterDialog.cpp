@@ -44,8 +44,8 @@ ConverterDialog::ConverterDialog() :
 	m_view = gtk_text_view_new();
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_container_add(GTK_CONTAINER(scrolled), m_view);
-	CSize sz = getArea().getSize();
-	gtk_widget_set_size_request(scrolled, 800, 3 * sz.cy / 5);
+	CPoint sz = getArea().getSize();
+	gtk_widget_set_size_request(scrolled, 800, 3 * sz.y / 5);
 
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(m_view), FALSE);
 	gtk_text_view_set_justification(GTK_TEXT_VIEW(m_view), GTK_JUSTIFY_FILL);

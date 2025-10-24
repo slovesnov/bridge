@@ -22,7 +22,7 @@
 const int sleepSeconds=3;
 #endif
 
-const CSize N_CARDS(4, 3);
+const CPoint N_CARDS(4, 3);
 const gdouble ADJUSTMENT_STEP_INCREMENT = 1;
 const gdouble ADJUSTMENT_PAGE_SIZE = 0;
 
@@ -80,9 +80,9 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 	m_lastDrawnSize = { 0, 0 };
 
 	if (isDeck) {
-		CSize sz = countMaxCardSizeForY(getArrowSize());
-		m_maxCardWidth = sz.cx;
-		m_maxCardHeight = sz.cy;
+		CPoint sz = countMaxCardSizeForY(getArrowSize());
+		m_maxCardWidth = sz.x;
+		m_maxCardHeight = sz.y;
 		m_deckNumber = gconfig->m_deckNumber;
 	} else {
 		m_arrowNumber = gconfig->m_arrowNumber;
@@ -139,7 +139,7 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 		}
 
 		if (!isScalable(i)
-				&& ((m_isDeck && m_maxCardHeight < RASTER_DECK_CARD_SIZE[i].cy)
+				&& ((m_isDeck && m_maxCardHeight < RASTER_DECK_CARD_SIZE[i].y)
 						|| (!m_isDeck && m_maxArrowSize < RASTER_ARROW_SIZE[i]))) {
 			continue;
 		}
@@ -147,13 +147,13 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 		s = getString(m_isDeck ? STRING_DECK : STRING_ARROW)
 				+ format(" #%d ", j + 1);
 		if (!isScalable(i)) {
-			CSize sz;
+			CPoint sz;
 			if (m_isDeck) {
 				sz = RASTER_DECK_CARD_SIZE[i];
 			} else {
 				sz = { RASTER_ARROW_SIZE[i], RASTER_ARROW_SIZE[i] };
 			}
-			s += format("%dx%d", sz.cx, sz.cy);
+			s += format("%dx%d", sz.x, sz.y);
 		}
 		const gchar *p = s.c_str();
 		if (n == 0) {
@@ -178,8 +178,8 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 	//drawing area
 	m_area = gtk_drawing_area_new();
 	if (m_isDeck) {
-		i = m_maxCardWidth * N_CARDS.cx;
-		j = m_maxCardHeight * N_CARDS.cy;
+		i = m_maxCardWidth * N_CARDS.x;
+		j = m_maxCardHeight * N_CARDS.y;
 	} else {
 		i = j = m_maxArrowSize;
 	}
@@ -235,14 +235,14 @@ bool DeckArrowSelectionDialog::click(int index) {
 					getObjectSize());
 			getProblemSelector().m_deckChanged = true;
 		} else {
-			setArrowParameters(m_arrowNumber, getObjectSize().cx);
+			setArrowParameters(m_arrowNumber, getObjectSize().x);
 			getProblemSelector().m_arrowChanged = true;
 		}
 	}
 	return true;
 }
 
-CSize DeckArrowSelectionDialog::getObjectSize() {
+CPoint DeckArrowSelectionDialog::getObjectSize() {
 	gdouble v = getValue();
 	int i = v;
 	int j = m_isDeck ? getSvgParameters().getScaledHeight(v) : i;
@@ -265,9 +265,9 @@ void DeckArrowSelectionDialog::draw(cairo_t *cr) {
 	if (sc) {
 		pb = getSvgPixbuf(m_isDeck);
 
-		CSize cs = getObjectSize();
-		w = cs.cx;
-		h = cs.cy;
+		CPoint cs = getObjectSize();
+		w = cs.x;
+		h = cs.y;
 
 		if (cs != m_lastDrawnSize) {
 			m_lastDrawnSize = cs;
@@ -286,13 +286,13 @@ void DeckArrowSelectionDialog::draw(cairo_t *cr) {
 	}
 
 	if (m_isDeck) {
-		w *= N_CARDS.cx;
-		h *= N_CARDS.cy;
+		w *= N_CARDS.x;
+		h *= N_CARDS.y;
 	}
 
 	i = (a.width - w) / 2;
 	j = (a.height - h) / 2;
-	k = m_isDeck ? w - (13 * w / N_CARDS.cx) : 0;
+	k = m_isDeck ? w - (13 * w / N_CARDS.x) : 0;
 
 	gdk_cairo_set_source_pixbuf(cr, pb, i + k, j);
 	cairo_rectangle(cr, i, j, w, h);
@@ -390,8 +390,8 @@ void DeckArrowSelectionDialog::onObjectChanged() {
 	for (auto a : m_hideV) {
 		gtk_widget_hide(a);
 	}
-	//set m_lastDrawnSize.cx=0 to indicate redraw
-	m_lastDrawnSize.cx = 0;
+	//set m_lastDrawnSize.x=0 to indicate redraw
+	m_lastDrawnSize.x = 0;
 	gtk_widget_queue_draw(m_area);
 	enableButtons();
 }

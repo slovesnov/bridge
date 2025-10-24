@@ -230,22 +230,22 @@ public:
 	bool isScalableDeck() const;
 	static bool isScalableDeck(int deck);
 	//uses for svg and png deck
-	CSize getCardSize() const;
-	void setCardSize(CSize const &size);
+	CPoint getCardSize() const;
+	void setCardSize(CPoint const &size);
 	int getCardWidth();
 	int getCardHeight();
 	int getSvgIndentInsideSuit() const;
 	int getSvgEstimationIndent() const;
 
 	void setArrowParameters(int arrow, int arrowSize = SKIP_ARROW_SIZE);
-	void setDeckParameters(int deck, bool resizeOnDeckChanged, CSize cardSize);
+	void setDeckParameters(int deck, bool resizeOnDeckChanged, CPoint cardSize);
 	int recentSize();
 	GdkRGBA& getFontColor();
 
 	int countTableSize(int cardHeight, int arrowSize, int y);
 	int countTableTop(int cardHeight);
 	int countAreaHeight(int cardHeight, int arrowSize, int y);
-	CSize countMaxCardSizeForY(int arrowSize, int y = MIN_COUNT_SIZE_Y);
+	CPoint countMaxCardSizeForY(int arrowSize, int y = MIN_COUNT_SIZE_Y);
 	void resetSettings();
 };
 

@@ -38,7 +38,7 @@ public:
 	bool isEmpty();
 
 	void draw() override;
-	CSize getSize() const override;
+	CPoint getSize() const override;
 
 	void updateLanguage() override;
 	void updateAfterCreation() override;
@@ -54,8 +54,8 @@ public:
 	void drawBestLine();
 
 	void gridMouseEnter(int i);
-	CSize getVisibleSize() const;
-	CSize getFullVisibleSize() const;
+	CPoint getVisibleSize() const;
+	CPoint getFullVisibleSize() const;
 
 	void setSuitPixbufs();
 

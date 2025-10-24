@@ -108,7 +108,7 @@ ProblemSelector::ProblemSelector() :
 
 	gtk_widget_set_can_focus(GTK_WIDGET(m_toolbar), FALSE);
 	gtk_widget_set_size_request(GTK_WIDGET(m_toolbar),
-			getLastTrick().getFullVisibleSize().cx, -1);
+			getLastTrick().getFullVisibleSize().x, -1);
 
 	gtk_widget_add_events(m_commentView,
 			GDK_KEY_RELEASE_MASK | GDK_KEY_PRESS_MASK | GDK_BUTTON_PRESS_MASK
@@ -130,14 +130,14 @@ ProblemSelector::~ProblemSelector() {
 				"png", NULL, NULL);
 	}
 	if (m_deckChanged && isScalableDeck()) {
-		CSize c = getCardSize();
-		c.cx *= 13;
-		c.cy *= 4;
+		CPoint c = getCardSize();
+		c.x *= 13;
+		c.y *= 4;
 
 		/* Note m_svgDeckPixbuf can have invalid data, because user can select deck make some
 		 * manipulations and press cancel
 		 */
-		Pixbuf p = gdk_pixbuf_get_from_surface(m_deck, 0, 0, c.cx, c.cy);
+		Pixbuf p = gdk_pixbuf_get_from_surface(m_deck, 0, 0, c.x, c.y);
 		gdk_pixbuf_save(p,
 				getWritableFilePath(STORE_DECK_TO_PNG_FILE_NAME).c_str(), "png",
 				NULL, NULL);
@@ -177,22 +177,22 @@ void ProblemSelector::setAreaProblem() {
 }
 
 void ProblemSelector::draw() {
-	CSize sz = getSize();
-	copyFromBackground(0, 0, sz.cx, sz.cy, getArea().getSize().cx, 0);
+	CPoint sz = getSize();
+	copyFromBackground(0, 0, sz.x, sz.y, getArea().getSize().x, 0);
 }
 
-CSize ProblemSelector::getSize() const {
-	int h = getArea().getSize().cy;
+CPoint ProblemSelector::getSize() const {
+	int h = getArea().getSize().y;
 
 	if (gconfig->m_showToolTips) {
-		h += m_bestLineSize.cy;
+		h += m_bestLineSize.y;
 	}
 
 	auto &a = getLastTrick();
 	if (gconfig->m_showLastTrick) {
-		h -= a.getSize().cy;
+		h -= a.getSize().y;
 	}
-	return CSize(a.getFullVisibleSize().cx, h);
+	return CPoint(a.getFullVisibleSize().x, h);
 }
 
 void ProblemSelector::updateLanguage() {
@@ -389,7 +389,7 @@ void ProblemSelector::updateCommentTextView() {
 
 void ProblemSelector::changeShowOption() {//don't know why if not redefine function it not called from FrameArea class
 	FrameItemArea::init();
-	if (getSize().cy == 0) {
+	if (getSize().y == 0) {
 		hide();
 	} else {
 		Widget::show();
@@ -588,19 +588,19 @@ void ProblemSelector::setSkin() {
 	gtk_widget_path_append_type(path, GTK_TYPE_DIALOG);
 	context = gtk_style_context_new();
 	gtk_style_context_set_path(context, path);
-	CSize a = getMaxSize();
-	gtk_render_background(context, m_backgroundFull, 0, 0, a.cx, a.cy);
+	CPoint a = getMaxSize();
+	gtk_render_background(context, m_backgroundFull, 0, 0, a.x, a.y);
 }
 
 SvgParameters& ProblemSelector::getSvgParameters(int n, bool isDeck) {
 	return isDeck ? m_svgDeckParameters[n] : m_svgArrowParameters[n];
 }
 
-void ProblemSelector::drawSvg(CSize const &size, int n, bool isDeck,
+void ProblemSelector::drawSvg(CPoint const &size, int n, bool isDeck,
 		gdouble value) {
 	int i, j, k, l;
-	int w = size.cx;
-	int h = size.cy;
+	int w = size.x;
+	int h = size.y;
 	int width = 13 * w;
 	int height = 4 * h;
 	double sc;
@@ -621,7 +621,7 @@ void ProblemSelector::drawSvg(CSize const &size, int n, bool isDeck,
 			}
 		}
 	} else {
-		sc = double(size.cx) / gdk_pixbuf_get_width(p.p);
+		sc = double(size.x) / gdk_pixbuf_get_width(p.p);
 		gdk_pixbuf_scale(p.p, m_svgArrowPixbuf, 0, 0, w, h, 0, 0, sc, sc,
 				GDK_INTERP_BILINEAR);
 	}
@@ -651,9 +651,9 @@ void ProblemSelector::createSvgPixbufs(bool isDeck) {
 			y = std::max(y, p.addy);
 		}
 
-		CSize sz = countMaxCardSizeForY(MIN_ARROW_SIZE);
-		i = sz.cx * 13;
-		j = sz.cy * 4;
+		CPoint sz = countMaxCardSizeForY(MIN_ARROW_SIZE);
+		i = sz.x * 13;
+		j = sz.y * 4;
 
 		m_svgDeckPixbuf.createRGB(i, j);
 		m_svgScaledPixbuf.createRGB(i + 12 * x, j + 3 * y);
@@ -666,9 +666,9 @@ void ProblemSelector::createSvgPixbufs(bool isDeck) {
 void ProblemSelector::setDeck() {
 	if (isScalableDeck()) {
 		bool start = m_svgDeckPixbuf == 0;
-		CSize c = getCardSize();
-		c.cx *= 13;
-		c.cy *= 4;
+		CPoint c = getCardSize();
+		c.x *= 13;
+		c.y *= 4;
 		m_deck.create(c);
 
 		if (start) {
@@ -677,9 +677,9 @@ void ProblemSelector::setDeck() {
 		copyFromPixbuf(m_svgDeckPixbuf, m_deck, CRect(CPoint(0, 0), c));
 	} else {
 		m_deck.create(getImagePath(getDeckFileName()));
-		CSize sz = m_deck.size();
-		sz.cx /= 13;
-		sz.cy /= 4;
+		CPoint sz = m_deck.size();
+		sz.x /= 13;
+		sz.y /= 4;
 		gconfig->setCardSize(sz);
 	}
 }
@@ -690,7 +690,7 @@ void ProblemSelector::setBestLineSize() {
 	TextWithAttributes text("10");//getTextExtents using layout so height is ok
 	m_bestLineSize = getTextExtents(text, m_backgroundFull);
 	//getFontHeight() suit image size
-	m_bestLineSize.cx = std::max(4 * (m_bestLineSize.cx + getFontHeight()),
+	m_bestLineSize.x = std::max(4 * (m_bestLineSize.x + getFontHeight()),
 			MIN_GRID_SIZE_WIDTH);
 }
 
@@ -747,7 +747,7 @@ void ProblemSelector::newGame() {
 
 void ProblemSelector::resize() {
 	gtk_widget_set_size_request(GTK_WIDGET(m_toolbar),
-			getLastTrick().getFullVisibleSize().cx, -1);
+			getLastTrick().getFullVisibleSize().x, -1);
 	FrameItemArea::resize();
 }
 

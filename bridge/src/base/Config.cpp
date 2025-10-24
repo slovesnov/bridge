@@ -48,7 +48,7 @@ Config::Config() {
 	GdkPixbufFormat *pf;
 	GdkRectangle rect;
 	char *p;
-	CSize sz;
+	CPoint sz;
 
 	gconfig = this;
 
@@ -89,24 +89,24 @@ Config::Config() {
 
 	/*
 	 START_TIMER
-	 CSize maxCardSize;
-	 CSize rasterDeckCardSize[N_RASTER_DECKS];
+	 CPoint maxCardSize;
+	 CPoint rasterDeckCardSize[N_RASTER_DECKS];
 	 int rasterArrowSize[N_RASTER_ARROWS];
 	 int w,h;
 
 	 for (i = 0; i < N_RASTER_DECKS; i++) {
 	 sz=getPixbufSize(getDeckFileName(i));
-	 w=sz.cx/13;
-	 h=sz.cy/4;
+	 w=sz.x/13;
+	 h=sz.y/4;
 	 rasterDeckCardSize[i]={w,h};
-	 if (i == 0 || w * h > maxCardSize.cx * maxCardSize.cy) {//one deck has size 71x96, another one 72x96, so cann't use just height, use square of card
-	 maxCardSize = CSize(w, h);
+	 if (i == 0 || w * h > maxCardSize.x * maxCardSize.y) {//one deck has size 71x96, another one 72x96, so cann't use just height, use square of card
+	 maxCardSize = CPoint(w, h);
 	 }
 	 }
 
 	 for (i = 0; i < N_RASTER_ARROWS; i++) {
 	 sz=getPixbufSize(getArrowFileName(i));
-	 rasterArrowSize[i]=sz.cx;
+	 rasterArrowSize[i]=sz.x;
 	 }
 	 //0.54 seconds
 	 OUT_TIMER
@@ -115,12 +115,12 @@ Config::Config() {
 	 //leave this code if add some decks or arrows
 	 std::string s;
 	 i=0;
-	 s="const CSize RASTER_DECK_CARD_SIZE[]={";
+	 s="const CPoint RASTER_DECK_CARD_SIZE[]={";
 	 for(auto& q:rasterDeckCardSize){
 	 if(i){
 	 s+=",";
 	 }
-	 s+=format("{%d,%d}",q.cx,q.cy);
+	 s+=format("{%d,%d}",q.x,q.y);
 	 i=1;
 	 }
 	 s+="};";
@@ -138,7 +138,7 @@ Config::Config() {
 	 s+="};";
 	 println(s.c_str());
 
-	 println("const CSize MAX_CARD_SIZE(%d,%d);",maxCardSize.cx,maxCardSize.cy)
+	 println("const CPoint MAX_CARD_SIZE(%d,%d);",maxCardSize.x,maxCardSize.y)
 	 */
 
 	initVarables();	//store variable to load/save
@@ -489,7 +489,7 @@ void Config::reset(bool fromMenu/*=false*/) {
 	}
 	m_customSkinBackgroundIsColor = 1;
 
-	CSize sz, sz1;
+	CPoint sz, sz1;
 	/*
 	 m_frameDelta = 120;	//got from real measurement
 	 sz=countMaxCardSizeForY(m_arrowSize);
@@ -511,7 +511,7 @@ void Config::reset(bool fromMenu/*=false*/) {
 	sz = countMaxCardSizeForY(m_arrowSize);
 	i = 6;
 	sz1 = RASTER_DECK_CARD_SIZE[i];
-	if (sz1.cx <= sz.cx && sz1.cy <= sz.cy) {
+	if (sz1.x <= sz.x && sz1.y <= sz.y) {
 		m_deckNumber = i;
 	} else {
 		m_deckNumber = 0;
@@ -815,13 +815,13 @@ bool Config::isScalableDeck() const {
 	return isScalableDeck(m_deckNumber);
 }
 
-CSize Config::getCardSize() const {
+CPoint Config::getCardSize() const {
 	return {m_cardWidth,m_cardHeight};
 }
 
-void Config::setCardSize(CSize const &size) {
-	m_cardWidth = size.cx;
-	m_cardHeight = size.cy;
+void Config::setCardSize(CPoint const &size) {
+	m_cardWidth = size.x;
+	m_cardHeight = size.y;
 }
 
 int Config::getCardWidth() {
@@ -851,11 +851,11 @@ void Config::setArrowParameters(int arrow, int arrowSize/*=SKIP_ARROW_SIZE*/) {
 }
 
 void Config::setDeckParameters(int deck, bool resizeOnDeckChanged,
-		CSize cardSize) {
+		CPoint cardSize) {
 	m_deckNumber = deck;
 	m_resizeOnDeckChanged = resizeOnDeckChanged;
-	m_cardWidth = cardSize.cx;
-	m_cardHeight = cardSize.cy;
+	m_cardWidth = cardSize.x;
+	m_cardHeight = cardSize.y;
 }
 
 int Config::recentSize() {
@@ -885,7 +885,7 @@ int Config::countAreaHeight(int cardHeight, int arrowSize, int y) {
 	return 3 * (tt + 1) + ts - 1;
 }
 
-CSize Config::countMaxCardSizeForY(int arrowSize, int y) {
+CPoint Config::countMaxCardSizeForY(int arrowSize, int y) {
 	int i = countAreaHeight(0, arrowSize, y);
 	int m_maxCardHeight = (getAreaMaxHeight() - i) / CARDSIZE_K_IN_AREA_HEIGHT;
 

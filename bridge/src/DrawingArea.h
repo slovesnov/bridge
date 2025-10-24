@@ -42,7 +42,7 @@ public:
 	 * draw horizontal lines at m_tableRect.top,m_tableRect.bottom,m_tableRect.bottom+(m_tableRect.top+1)
 	 * draw vertical lines at m_tableRect.left,m_tableRect.right
 	 */
-	CSize m_windowSize; //include lines
+	CPoint m_windowSize; //include lines
 	CRect m_totalTricksRect[2]; //0-horizontal, 1-vertical
 	CRect m_cardrect[52];
 	int m_currentId;
@@ -119,7 +119,7 @@ public:
 		draw();
 	}
 
-	CSize getMaxCardSize();
+	CPoint getMaxCardSize();
 
 	bool pointInCaption(CARD_INDEX index, GdkEventButton *event);
 	VString getCaptions(CARD_INDEX index);
@@ -271,7 +271,7 @@ public:
 	gboolean animationStep(int index);
 	void updateLastTrick();
 
-	CSize getSize() const override;
+	CPoint getSize() const override;
 
 	void invalidateRect(CRect const &r) {
 		invalidateRect(r.left, r.top, r.width(), r.height());
@@ -280,7 +280,7 @@ public:
 	void invalidateRect(gint x, gint y, gint width, gint height);
 
 	void countSize() {
-		countSize(INNER_CARD_MARGIN.cy);
+		countSize(INNER_CARD_MARGIN.y);
 	}
 
 	void countSize(int y);

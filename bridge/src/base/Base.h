@@ -54,23 +54,23 @@ const int ESTIMATE_CLEAR = 50; //clear estimate
  * where m_maxCardHeight=countMaxCardSizeForY(getArrowSize()).cy;
  */
 const int MIN_COUNT_SIZE_Y = -49;
-const CSize INNER_CARD_MARGIN = { 3, 3 };
+const CPoint INNER_CARD_MARGIN = { 3, 3 };
 const int MIN_PROBLEM_SELECTOR_WIDTH = 4 * (63 + 6);
 const int MIN_LAST_TRICK_WIDTH = 118;
 const int MIN_GRID_SIZE_WIDTH = MIN_PROBLEM_SELECTOR_WIDTH
 		- MIN_LAST_TRICK_WIDTH;
 
-const CSize RASTER_DECK_CARD_SIZE[] = { { 71, 96 }, { 54, 72 }, { 54, 72 }, {
+const CPoint RASTER_DECK_CARD_SIZE[] = { { 71, 96 }, { 54, 72 }, { 54, 72 }, {
 		72, 96 }, { 71, 96 }, { 75, 107 }, { 95, 125 }, { 95, 125 } };
 const int N_RASTER_DECKS = SIZEI(RASTER_DECK_CARD_SIZE);
 const auto minmax61 = std::minmax_element(RASTER_DECK_CARD_SIZE,
 		RASTER_DECK_CARD_SIZE + N_RASTER_DECKS,
-		[](CSize const &a, CSize const &b) {
-			return a.cx < b.cx;
+		[](CPoint const &a, CPoint const &b) {
+			return a.x < b.x;
 		});
-const int MIN_CARD_WIDTH = minmax61.first->cx;
-const int MIN_CARD_HEIGHT = minmax61.first->cy;
-const CSize MAX_CARD_SIZE = *minmax61.second;
+const int MIN_CARD_WIDTH = minmax61.first->x;
+const int MIN_CARD_HEIGHT = minmax61.first->y;
+const CPoint MAX_CARD_SIZE = *minmax61.second;
 
 //need to change MAX_SVG_WH_RATIO in Config.cpp if do changes for vector decks
 const int N_VECTOR_DECKS = 4;

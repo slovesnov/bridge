@@ -50,14 +50,14 @@ void FrameItemArea::changeShowOption() {
 	updateAfterCreation();
 }
 
-CSize FrameItemArea::getTextExtents(TextWithAttributes text) {
+CPoint FrameItemArea::getTextExtents(TextWithAttributes text) {
 	return getTextExtents(text, m_cs);
 }
 
-CSize FrameItemArea::getTextExtents(TextWithAttributes text, cairo_t *cr) {
-	CSize sz;
+CPoint FrameItemArea::getTextExtents(TextWithAttributes text, cairo_t *cr) {
+	CPoint sz;
 	PangoLayout *layout = createPangoLayout(cr, text);
-	pango_layout_get_pixel_size(layout, &sz.cx, &sz.cy);
+	pango_layout_get_pixel_size(layout, &sz.x, &sz.y);
 	g_object_unref(layout);
 	return sz;
 }
@@ -69,20 +69,20 @@ cairo_surface_t* FrameItemArea::getDeckSurface() const {
 void FrameItemArea::copyFromDeck(cairo_t *cr, int destx, int desty, int width,
 		int height, int index, int addx, int addy) {
 	copy(getDeckSurface(), cr, destx, desty, width, height,
-			(12 - index % 13) * getCardSize().cx + addx,
-			index / 13 * getCardSize().cy + addy);
+			(12 - index % 13) * getCardSize().x + addx,
+			index / 13 * getCardSize().y + addy);
 }
 
 CRect FrameItemArea::getInsideRect(const CRect &r, CARD_INDEX index) {
 	int x = r.centerPoint().x;
 	int y = r.centerPoint().y;
 
-	const CSize cs = getCardSize();
-	const int d = -cs.cx * 15 / 71;
-	const CSize sz = isBridge() ? INNER_CARD_MARGIN : CSize(d, d);
+	const CPoint cs = getCardSize();
+	const int d = -cs.x * 15 / 71;
+	const CPoint sz = isBridge() ? INNER_CARD_MARGIN : CPoint(d, d);
 
 	if (northOrSouth(index)) {
-		x -= cs.cx / 2;
+		x -= cs.x / 2;
 		if (isPreferans() && index == CARD_INDEX_SOUTH) {
 			if (getAbsent() == CARD_INDEX_EAST) {
 				x -= d;
@@ -91,32 +91,32 @@ CRect FrameItemArea::getInsideRect(const CRect &r, CARD_INDEX index) {
 			}
 		}
 	} else if (index == CARD_INDEX_WEST) {
-		x -= cs.cx + sz.cx;
+		x -= cs.x + sz.x;
 	} else if (index == CARD_INDEX_EAST) {
-		x += sz.cx;
+		x += sz.x;
 	}
 
 	if (isPreferans() && northOrSouth(getAbsent())) {
 		if (index == CARD_INDEX_EAST) {
-			y -= cs.cy / 2;
+			y -= cs.y / 2;
 		} else if (index == CARD_INDEX_NORTH) {
-			y -= cs.cy + sz.cx;
+			y -= cs.y + sz.x;
 		} else if (index == CARD_INDEX_SOUTH) {
-			y += sz.cx;
+			y += sz.x;
 		} else if (index == CARD_INDEX_WEST) {
 			if (getAbsent() == CARD_INDEX_NORTH) {
-				y -= cs.cy + sz.cx;
+				y -= cs.y + sz.x;
 			} else {
-				y += sz.cx;
+				y += sz.x;
 			}
 		}
 	} else {
 		if (eastOrWest(index)) {
-			y -= cs.cy / 2;
+			y -= cs.y / 2;
 		} else if (index == CARD_INDEX_NORTH) {
-			y -= cs.cy + sz.cx;
+			y -= cs.y + sz.x;
 		} else if (index == CARD_INDEX_SOUTH) {
-			y += sz.cx;
+			y += sz.x;
 		}
 	}
 

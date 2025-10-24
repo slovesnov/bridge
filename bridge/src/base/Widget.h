@@ -134,7 +134,7 @@ protected:
 	int getArrowSize();
 	void setArrowParameters(int arrow, int arrowSize = SKIP_ARROW_SIZE);
 
-	CSize getCardSize() const;
+	CPoint getCardSize() const;
 	int getCardWidth();
 	int getCardHeight();
 
@@ -281,7 +281,7 @@ public:
 	int countTableSize(int cardHeight, int arrowSize, int y);
 	int countTableTop(int cardHeight);
 	int countAreaHeight(int cardHeight, int arrowSize, int y);
-	CSize countMaxCardSizeForY(int arrowSize, int y = MIN_COUNT_SIZE_Y);
+	CPoint countMaxCardSizeForY(int arrowSize, int y = MIN_COUNT_SIZE_Y);
 	int countMaxArrowSizeForY(int cardHeight, int y = MIN_COUNT_SIZE_Y);
 
 	GdkPixbuf* getSvgPixbuf(bool isDeck);
@@ -304,7 +304,7 @@ public:
 	GdkRGBA* getFontColorPointer();
 	PangoLayout* createPangoLayout(cairo_t *cr, TextWithAttributes text);
 
-	CSize getMaxSize() const;
+	CPoint getMaxSize() const;
 
 	void updateUndoRedoAll();
 	void updateFindBestStateAll();
@@ -350,7 +350,7 @@ public:
 
 	void setSkin(int skin);
 
-	CSize getBestLineSize() const;
+	CPoint getBestLineSize() const;
 
 	/* do not allow use copy constructor of class and all inheritance classes
 	 * so auto p=getProblemSelect(); isn't possible

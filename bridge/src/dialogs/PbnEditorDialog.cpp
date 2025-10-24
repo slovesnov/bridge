@@ -333,7 +333,7 @@ void PbnEditorDialog::redrawProblem() {
 		}
 		gtk_text_buffer_set_text(buffer, s.c_str(), -1);
 
-		j = getArea().getTextExtents(TextWithAttributes(S_MEASURE[i - 1])).cx;
+		j = getArea().getTextExtents(TextWithAttributes(S_MEASURE[i - 1])).y;
 		gtk_widget_set_size_request(w1, j, 0);
 		gtk_box_pack_start(GTK_BOX(w), w1, TRUE, TRUE, 2);
 

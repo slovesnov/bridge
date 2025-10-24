@@ -207,22 +207,22 @@ DrawingArea::~DrawingArea() {
 
 void DrawingArea::draw() {
 	int x, y;
-	CSize sz = getSize();
-	copyFromBackground(0, 0, sz.cx, sz.cy);
+	CPoint sz = getSize();
+	copyFromBackground(0, 0, sz.x, sz.y);
 
 	//draw lines
 	if (m_tableRect.top == 0) {
 		drawHorizontalLine(m_tableRect.left + TABLE_ROUND_CORNER_SIZE, 0,
 				m_tableRect.right - TABLE_ROUND_CORNER_SIZE);
 	} else {
-		drawHorizontalLine(0, m_tableRect.top, m_windowSize.cx);
+		drawHorizontalLine(0, m_tableRect.top, m_windowSize.x);
 	}
 
 	for (x = 0, y = m_tableRect.bottom; x < 2; x++, y += m_tableTop + 1) {
-		drawHorizontalLine(0, y, m_windowSize.cx);
+		drawHorizontalLine(0, y, m_windowSize.x);
 	}
 
-	drawVerticalLine(m_windowSize.cx - 1, 0, m_windowSize.cy);
+	drawVerticalLine(m_windowSize.x - 1, 0, m_windowSize.y);
 
 	x = m_tableRect.left;
 	y = m_tableRect.top;
@@ -259,7 +259,7 @@ void DrawingArea::updateRegion(CARD_INDEX index, bool paint) {
 	assert(!isInner(index));
 
 	int i, j, k, m;
-	CSize sz;
+	CPoint sz;
 	CRect update = getRegionRect(index);
 	copyFromBackground(update);
 
@@ -330,7 +330,7 @@ void DrawingArea::updateTricks(CARD_INDEX index, bool paint) {
 	int i, j;
 	bool underline = isPreferans() && getPlayer() == index;
 	double x, y;
-	CSize sz;
+	CPoint sz;
 	CRect update;
 
 	i = 0;
@@ -361,7 +361,7 @@ void DrawingArea::updateTricks(CARD_INDEX index, bool paint) {
 
 bool DrawingArea::pointInCaption(CARD_INDEX index, GdkEventButton *event) {
 	int i = 0;
-	CSize sz;
+	CPoint sz;
 	double x, y;
 	for (auto s : getCaptions(index)) {
 		getCaptionPoint(index, i, x, y);
@@ -379,17 +379,17 @@ void DrawingArea::getCaptionPoint(CARD_INDEX index, int piece, double &x,
 	auto i = getRealRegion(index);
 	auto v = getCaptions(index);
 	assert(piece < int(v.size()));
-	CSize sz = getTextExtents(
+	CPoint sz = getTextExtents(
 			TextWithAttributes::createUnderlinedText(v[piece]));
 
 	if (eastOrWest(i)) {
 		if (index == CARD_INDEX_ABSENT) {
-			x = (m_tableRect.left - sz.cx) / 2;
+			x = (m_tableRect.left - sz.x) / 2;
 		} else {
 			assert((!piece) < int(v.size()));
 			int wo = getTextExtents(
-					TextWithAttributes::createUnderlinedText(v[!piece])).cx;
-			x = (m_tableRect.left - sz.cx - wo) / 3;	//x=space
+					TextWithAttributes::createUnderlinedText(v[!piece])).x;
+			x = (m_tableRect.left - sz.x - wo) / 3;	//x=space
 
 			if (piece == 1) {
 				x = 2 * x + wo;
@@ -404,8 +404,8 @@ void DrawingArea::getCaptionPoint(CARD_INDEX index, int piece, double &x,
 		return;
 	}
 	if (index == CARD_INDEX_ABSENT) {
-		x = m_tableRect.centerPoint().x - sz.cx / 2;
-		y = (m_tableRect.top - sz.cy) / 2;
+		x = m_tableRect.centerPoint().x - sz.x / 2;
+		y = (m_tableRect.top - sz.y) / 2;
 		if (isBridge()) {
 			y += m_tableRect.bottom + m_tableRect.top;
 		} else if (i == CARD_INDEX_SOUTH) {
@@ -417,12 +417,12 @@ void DrawingArea::getCaptionPoint(CARD_INDEX index, int piece, double &x,
 	getCaptionPoint(CARD_INDEX_WEST, 0, x, y);	//x is the same with WEST
 	y = index == CARD_INDEX_NORTH ? 0 : m_tableRect.bottom;
 	if (gconfig->m_showPlayerTricks) {
-		y += (piece + 1) * (m_tableTop - 2 * sz.cy) / 3;
+		y += (piece + 1) * (m_tableTop - 2 * sz.y) / 3;
 		if (piece == 1) {
-			y += sz.cy;
+			y += sz.y;
 		}
 	} else {
-		y += (m_tableTop - sz.cy) / 2;
+		y += (m_tableTop - sz.y) / 2;
 	}
 }
 
@@ -539,7 +539,7 @@ CRect DrawingArea::getRegionRect(CARD_INDEX index) {
 						(i == CARD_INDEX_WEST ? 0 : m_tableRect.right + 1)
 								+ gconfig->m_eastWestCardsMargin,
 						m_tableRect.top + 1),
-				CSize(m_tableRect.left - 2 * gconfig->m_eastWestCardsMargin,
+				CPoint(m_tableRect.left - 2 * gconfig->m_eastWestCardsMargin,
 						m_tableRect.height() - 1));
 
 	default:	//ABSENT_INDEX || NORTH_INDEX || SOUTH_INDEX
@@ -551,8 +551,8 @@ CRect DrawingArea::getRegionRect(CARD_INDEX index) {
 		} else {	//SOUTH_INDEX
 			y = m_tableRect.bottom + 1;
 		}
-		//m_windowSize.cx-1 - because of separation line between area & last trick/description
-		return CRect(CPoint(0, y), CSize(m_windowSize.cx - 1, m_tableTop));
+		//m_windowSize.x-1 - because of separation line between area & last trick/description
+		return CRect(CPoint(0, y), CPoint(m_windowSize.x - 1, m_tableTop));
 	}
 }
 
@@ -674,26 +674,26 @@ void DrawingArea::mouseMove(GdkEventButton *event) {
 #define M(a,b,c,d) cr.init(a,b,c,d);r.join(cr);copy(m_cs,m_csEnd,cr);
 		if (point.x >= m_currentPoint.x) {
 			M(m_currentPoint.x, m_currentPoint.y, point.x - m_currentPoint.x,
-					getCardSize().cy);
+					getCardSize().y);
 			if (point.y >= m_currentPoint.y) {
 				M(point.x, m_currentPoint.y,
-						getCardSize().cx - point.x + m_currentPoint.x,
+						getCardSize().x - point.x + m_currentPoint.x,
 						point.y - m_currentPoint.y);
 			} else {
-				M(point.x, point.y + getCardSize().cy,
-						getCardSize().cx - point.x + m_currentPoint.x,
-						getCardSize().cy - point.y + m_currentPoint.y);
+				M(point.x, point.y + getCardSize().y,
+						getCardSize().x - point.x + m_currentPoint.x,
+						getCardSize().y - point.y + m_currentPoint.y);
 			}
 		} else {
-			M(point.x + getCardSize().cx, m_currentPoint.y,
-					m_currentPoint.x - point.x, getCardSize().cy);
+			M(point.x + getCardSize().x, m_currentPoint.y,
+					m_currentPoint.x - point.x, getCardSize().y);
 			if (point.y >= m_currentPoint.y) {
 				M(m_currentPoint.x, m_currentPoint.y,
-						getCardSize().cx - m_currentPoint.x + point.x,
+						getCardSize().x - m_currentPoint.x + point.x,
 						point.y - m_currentPoint.y);
 			} else {
-				M(m_currentPoint.x, point.y + getCardSize().cy,
-						getCardSize().cx - m_currentPoint.x + point.x,
+				M(m_currentPoint.x, point.y + getCardSize().y,
+						getCardSize().x - m_currentPoint.x + point.x,
 						m_currentPoint.y - point.y);
 			}
 		}
@@ -832,7 +832,7 @@ void DrawingArea::mouseLeftButtonUp(GdkEventButton *event) {
 
 	CPoint point(event);
 	point += m_addit;
-	invalidateRect(point.x, point.y, getCardSize().cx, getCardSize().cy);
+	invalidateRect(point.x, point.y, getCardSize().x, getCardSize().y);
 	point -= m_addit;
 	if (isOuterOrAbsent(storecurid) && isEditEnable()) {
 		for (i = 0; i < SIZEI(OUTER_REGION); i++) {
@@ -1036,15 +1036,15 @@ void DrawingArea::showCard(cairo_t *cr, int index, int x, int y) {
 		y -= getActiveCardShift();
 	}
 
-	if (x + getCardSize().cx >= m_windowSize.cx - 1) {
-		if (x < m_windowSize.cx - 1) {
+	if (x + getCardSize().x >= m_windowSize.x - 1) {
+		if (x < m_windowSize.x - 1) {
 			//prevent right vertical line between DrawingArea and LastTrick/Description from damage
 			//it occurs when user do rotate of empty problem
-			copyFromDeck(cr, x, y, m_windowSize.cx - 1 - x, getCardSize().cy,
+			copyFromDeck(cr, x, y, m_windowSize.x - 1 - x, getCardSize().y,
 					index, 0, 0);
 		}
 	} else {
-		copyFromDeck(cr, x, y, getCardSize().cx, getCardSize().cy, index, 0, 0);
+		copyFromDeck(cr, x, y, getCardSize().x, getCardSize().y, index, 0, 0);
 		showEstimation(cr, index, x, y);
 	}
 }
@@ -1064,7 +1064,7 @@ void DrawingArea::init() {
 	for (i = 2;
 			i < 2 * dx
 					&& getTextExtents(
-							TextWithAttributes::createEstimateText("13", i)).cx
+							TextWithAttributes::createEstimateText("13", i)).x
 							<= dx; i++)
 		;
 	m_estimateFontHeight = i - 1;
@@ -1077,7 +1077,7 @@ void DrawingArea::countSize(int y) {
 	int i, j, w;
 	std::string s;
 	//println("%d",y)
-	int height = getMaxCardSize().cy;
+	int height = getMaxCardSize().y;
 	int as = getArrowSize();
 	const int tableSize = countTableSize(height, as, y);
 	/* in case of north cards in preferans is visible m_tableTop=m_tableRect.top
@@ -1091,44 +1091,44 @@ void DrawingArea::countSize(int y) {
 		init();
 	}
 
-	w = (maxCardsInSuit() - 1) * getIndentInsideSuit() + getMaxCardSize().cx;
+	w = (maxCardsInSuit() - 1) * getIndentInsideSuit() + getMaxCardSize().x;
 
 	for (i = 0; i < 2; i++) {
 		s = format("%s %s 13", getString(i == 0 ? STRING_EAST : STRING_WEST),
 				getString(STRING_TRICKS));
-		j = getTextExtents(s).cx;
+		j = getTextExtents(s).x;
 		w = std::max(w, j);
 	}
 
 	m_tableRect = CRect(
 			CPoint(2 * gconfig->m_eastWestCardsMargin + w,
 					northInvisible() ? 0 : m_tableTop),
-			CSize(tableSize, tableSize));//includes top/left lines and not includes bottom/right ones
-	m_windowSize = CSize(2 * (m_tableRect.left + 1) + tableSize,
+			CPoint(tableSize, tableSize));//includes top/left lines and not includes bottom/right ones
+	m_windowSize = CPoint(2 * (m_tableRect.left + 1) + tableSize,
 			countAreaHeight(height, as, y));
 
 	//Note [for m_windowSize] -1 for sizey because we don't need include last right/lower line
 	//images was 48x36
 	i = tableSize * .16;
-	CSize sz = { i, i * 3 / 4 };
+	CPoint sz = { i, i * 3 / 4 };
 	//printv(tableSize,sz)
 
-	i = sz.cx + sz.cy;
+	i = sz.x + sz.y;
 	m_totalTricksRect[0] = CRect(
-			CPoint(m_tableRect.right - i, m_tableRect.bottom - sz.cy), sz);
+			CPoint(m_tableRect.right - i, m_tableRect.bottom - sz.y), sz);
 	m_totalTricksRect[1] = CRect(
-			CPoint(m_tableRect.right - sz.cy, m_tableRect.bottom - i),
-			CSize(sz.cy, sz.cx));
+			CPoint(m_tableRect.right - sz.y, m_tableRect.bottom - i),
+			CPoint(sz.y, sz.x));
 
 	//getSize() uses isEditEnable() && isBridge,
-	i = getSize().cy - getAreaMaxHeight();
+	i = getSize().y - getAreaMaxHeight();
 	//we skip a condition part of code below if(i%2==1){i++;} so condition is i>1 not i>0 prevents infinite cycle
 	if (i > 1) {
-//		println("(%d) %d %d",getInnerCardMargin().cy - i / 2,getInnerCardMargin().cy, i)
-		/* for countSize( getInnerCardMargin().cy ) got getSize().cy
-		 * for countSize( getInnerCardMargin().cy -k) got getSize().cy-2*k
-		 * getSize().cy-2*( getInnerCardMargin().cy -k)<=m_maxHeight
-		 * 2*(getInnerCardMargin().cy-k) >= (getSize().cy-m_maxHeight)=i
+//		println("(%d) %d %d",getInnerCardMargin().y - i / 2,getInnerCardMargin().y, i)
+		/* for countSize( getInnerCardMargin().y ) got getSize().y
+		 * for countSize( getInnerCardMargin().y -k) got getSize().y-2*k
+		 * getSize().y-2*( getInnerCardMargin().y -k)<=m_maxHeight
+		 * 2*(getInnerCardMargin().y-k) >= (getSize().y-m_maxHeight)=i
 		 */
 
 		/*next condition is true, but more nice view make window height a little bit more than working area height
@@ -1136,11 +1136,11 @@ void DrawingArea::countSize(int y) {
 		 i++;
 		 }*/
 
-		/* 2*( getInnerCardMargin().cy -k) >= i
-		 * ( getInnerCardMargin().cy -k)>=i/2
-		 * k<=getInnerCardMargin().cy-i/2
+		/* 2*( getInnerCardMargin().y -k) >= i
+		 * ( getInnerCardMargin().y -k)>=i/2
+		 * k<=getInnerCardMargin().y-i/2
 		 */
-		countSize(INNER_CARD_MARGIN.cy - i / 2);
+		countSize(INNER_CARD_MARGIN.y - i / 2);
 	}
 
 }
@@ -1149,8 +1149,8 @@ void DrawingArea::recalcRects() {
 	int i = 0, j, k;
 	CARD_INDEX ci, r, rid;
 	const int AY24 = (m_tableRect.height()
-			- getTextExtents(TextWithAttributes::createUnderlinedText("Qy")).cy
-			- getActiveCardShift() - getCardSize().cy) / 3;	//add y for east&west
+			- getTextExtents(TextWithAttributes::createUnderlinedText("Qy")).y
+			- getActiveCardShift() - getCardSize().y) / 3;	//add y for east&west
 
 	CPoint begin;
 	for (auto id : OUTER_REGION) {
@@ -1163,18 +1163,18 @@ void DrawingArea::recalcRects() {
 		const int STARTX24 = (ci == CARD_INDEX_EAST ? m_tableRect.right + 1 : 0)
 				+ (m_tableRect.left
 						- ((maxCardsInSuit() - 1)) * getIndentInsideSuit()
-						- getCardSize().cx) / 2;
+						- getCardSize().x) / 2;
 
 		r = isBridge() ? ci : getRealRegion(ci);
 
 		if (eastOrWest(r)) {
 			begin = CPoint(STARTX24,
-					m_tableRect.bottom - getCardSize().cy - 3 * AY24);
+					m_tableRect.bottom - getCardSize().y - 3 * AY24);
 		} else {
 			begin.x = 0;
 
 			//center (card&selected card) vertically cards for north,south,absent regions
-			begin.y = (m_tableTop - getCardSize().cy + getActiveCardShift())
+			begin.y = (m_tableTop - getCardSize().y + getActiveCardShift())
 					/ 2;
 			if (ci == CARD_INDEX_ABSENT || ci == CARD_INDEX_SOUTH) {
 				begin.y += m_tableRect.bottom + 1;
@@ -1209,7 +1209,7 @@ void DrawingArea::recalcRects() {
 				if (!needAdd && begin.x != 0) {
 					needAdd = true;
 					begin.x += (gconfig->m_indentBetweenSuits
-							- getIndentInsideSuit()) + getCardSize().cx;
+							- getIndentInsideSuit()) + getCardSize().x;
 				}
 			}
 		}			//for(k)
@@ -1226,7 +1226,7 @@ void DrawingArea::recalcRects() {
 				}
 			}
 		}
-		k += getCardSize().cx;
+		k += getCardSize().x;
 
 		k = m_tableRect.centerPoint().x - k / 2;
 		for (i = 0; i < 52; ++i)
@@ -1250,11 +1250,11 @@ CRect DrawingArea::getArrowRect(CARD_INDEX index) {
 
 #define M(A,B,C) p.A=(m_tableRect.C+getInsideRect(index).C-a)/2;p.B-=a/2;
 //+1 because arrow starts from p.A, so don't need to intersect line (tested on biggest deck & small arrow
-#define ML(A,B,C) M(A,B,C);if(p.A<m_tableRect.C+1){p.A=m_tableRect.C+INNER_CARD_MARGIN.c##A;}
-#define MH(A,B,C) M(A,B,C);if(p.A+a>m_tableRect.C){p.A=m_tableRect.C-a-INNER_CARD_MARGIN.c##A;}
+#define ML(A,B,C) M(A,B,C);if(p.A<m_tableRect.C+1){p.A=m_tableRect.C+INNER_CARD_MARGIN.A;}
+#define MH(A,B,C) M(A,B,C);if(p.A+a>m_tableRect.C){p.A=m_tableRect.C-a-INNER_CARD_MARGIN.A;}
 
-	/* if(p.A<m_tableRect.C){p.A=m_tableRect.C+getInnerCardMargin().c##A;} &&
-	 * if(p.A+a>m_tableRect.C){p.A=m_tableRect.C-a-getInnerCardMargin().c##A;}
+	/* if(p.A<m_tableRect.C){p.A=m_tableRect.C+getInnerCardMargin().A;} &&
+	 * if(p.A+a>m_tableRect.C){p.A=m_tableRect.C-a-getInnerCardMargin().A;}
 	 * conditions prevents arrow out for small monitors & big cards because tableRect can be very small
 	 */
 
@@ -1274,7 +1274,7 @@ CRect DrawingArea::getArrowRect(CARD_INDEX index) {
 	default:
 		ML(x, y, left)
 	}
-	return CRect(p, CSize(a, a));
+	return CRect(p, CPoint(a, a));
 
 #undef M
 #undef ML
@@ -1306,8 +1306,8 @@ void DrawingArea::copySurface(cairo_t *cr) {
 	cairo_paint(cr);
 }
 
-CSize DrawingArea::getSize() const {
-	CSize size(m_windowSize);
+CPoint DrawingArea::getSize() const {
+	CPoint size(m_windowSize);
 	int c;
 	if (isBridge()) {
 		c = !isEditEnable();
@@ -1318,9 +1318,9 @@ CSize DrawingArea::getSize() const {
 			c = 1;
 		}
 	}
-	size.cy -= c * m_tableTop;
+	size.y -= c * m_tableTop;
 	if (c > 0) {
-		size.cy--;	//sub 1 only one time to show lower line of table
+		size.y--;	//sub 1 only one time to show lower line of table
 	}
 	return size;
 }
@@ -1329,7 +1329,7 @@ void DrawingArea::invalidateRect(gint x, gint y, gint width, gint height) {
 	gtk_widget_queue_draw_area(getWidget(), x, y, width, height);
 }
 
-CSize DrawingArea::getMaxCardSize() {
+CPoint DrawingArea::getMaxCardSize() {
 	return gconfig->m_resizeOnDeckChanged ? getCardSize() : MAX_CARD_SIZE;
 }
 
@@ -1489,7 +1489,7 @@ void DrawingArea::showEstimation(cairo_t *cr, int index, int x, int y) {
 	const int height =
 			getTextExtents(
 					TextWithAttributes::createEstimateText("13",
-							m_estimateFontHeight)).cy;
+							m_estimateFontHeight)).y;
 
 	const int dx = 1;	//+1 because of card border
 	const int dy = gconfig->getEstimationIndent();
@@ -1507,7 +1507,7 @@ void DrawingArea::showEstimation(cairo_t *cr, int index, int x, int y) {
 
 		drawTextToCairo(cr,
 				TextWithAttributes::createEstimateText(s, m_estimateFontHeight),
-				CRect(CPoint(x, y), CSize(width, height)), true, true);
+				CRect(CPoint(x, y), CPoint(width, height)), true, true);
 	}
 
 	invalidateRect(x, y, width, height);	//have to do invalidate rectangle
@@ -1927,9 +1927,9 @@ void DrawingArea::timer() {
 
 	const double radius = 36;	//3*TABLE_ROUND_CORNER_SIZE/4;
 
-	CSize sz = getTextExtents(TextWithAttributes("000:00"));
+	CPoint sz = getTextExtents(TextWithAttributes("000:00"));
 	CRect r(CPoint(m_tableRect.left + radius, m_totalTricksRect[0].top),
-			CSize(sz.cx, m_totalTricksRect[0].height() - 1));
+			CPoint(sz.x, m_totalTricksRect[0].height() - 1));
 	copyFromBackground(r);
 
 	if (think()) {

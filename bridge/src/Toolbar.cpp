@@ -288,8 +288,8 @@ GdkPixbuf* Toolbar::getPixbuf(TOOLBAR_BUTTON id, bool small,
 
 void Toolbar::drawTooltipBackground(cairo_t *cr) {
 	auto sz = getArea().getSize();
-	int w = sz.cx;
-	int sourcey = sz.cy;
+	int w = sz.x;
+	int sourcey = sz.y;
 	int h = gtk_widget_get_allocated_height(m_tooltip);
 	copy(getBackgroundFullSurface(), cr, 0, 0, w, h, 0, sourcey);
 }

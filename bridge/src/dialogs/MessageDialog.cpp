@@ -29,14 +29,14 @@ MessageDialog::MessageDialog(MESSAGE_ICON_TYPE iconType, const char *s,
 	//if run application using command line "bridge.exe 1.bts" and got some errors, Frame is not visible, show the window
 	gframe->showIfNotVisible();
 
-	CSize sz = getArea().getTextExtents(TextWithAttributes(s));
+	CPoint sz = getArea().getTextExtents(TextWithAttributes(s));
 	int width, height;
-	if (sz.cx > 800) {
+	if (sz.x > 800) {
 		width = 800;
-		height = sz.cy * sz.cx / width;
+		height = sz.y * sz.x / width;
 	} else {
-		width = sz.cx;
-		height = sz.cy;
+		width = sz.x;
+		height = sz.y;
 	}
 
 	if (height > 700) {
@@ -143,7 +143,7 @@ MessageDialog::MessageDialog(const VParseException &e, BUTTONS_DIALOG_TYPE type,
 		gtk_widget_get_preferred_width(g, NULL, &j);
 
 		//if do (i+j) not full grid visible
-		gtk_widget_set_size_request(w, i + j + 5, getArea().getSize().cy);
+		gtk_widget_set_size_request(w, i + j + 5, getArea().getSize().y);
 
 		hide(); //if not call hide() position of window is bad
 

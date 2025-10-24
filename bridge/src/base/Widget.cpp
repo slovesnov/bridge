@@ -475,7 +475,7 @@ GdkPixbuf* Widget::getStringPixbuf(bool nt, int size) {
 	cairo_text_extents_t extents;
 	std::string p = nt ? getNTString() : getString(STRING_MISERE);
 	for (i = 0; i < 2; i++) { //i==0 get needed width,i=1 draw
-		cs.create(CSize(i == 0 ? size : extents.width, size));
+		cs.create(CPoint(i == 0 ? size : extents.width, size));
 		cairo_t *cr = cs;
 		setFont(cr, nt ? size : size / 2);
 		if (i == 0) {
@@ -688,7 +688,7 @@ void Widget::setArrowParameters(int arrow, int arrowSize/*=SKIP_ARROW_SIZE*/) {
 	gconfig->setArrowParameters(arrow, arrowSize);
 }
 
-CSize Widget::getCardSize() const {
+CPoint Widget::getCardSize() const {
 	return gconfig->getCardSize();
 }
 
@@ -740,7 +740,7 @@ int Widget::countAreaHeight(int cardHeight, int arrowSize, int y) {
 	return gconfig->countAreaHeight(cardHeight, arrowSize, y);
 }
 
-CSize Widget::countMaxCardSizeForY(int arrowSize, int y) {
+CPoint Widget::countMaxCardSizeForY(int arrowSize, int y) {
 	return gconfig->countMaxCardSizeForY(arrowSize, y);
 }
 
@@ -820,7 +820,7 @@ PangoLayout* Widget::createPangoLayout(cairo_t *cr, TextWithAttributes text) {
 	return layout;
 }
 
-CSize Widget::getMaxSize() const {
+CPoint Widget::getMaxSize() const {
 	return gconfig->m_workareaRect.size();
 }
 
@@ -904,7 +904,7 @@ void Widget::setSkin(int skin) {
 	gframe->updateSkin();
 }
 
-CSize Widget::getBestLineSize() const {
+CPoint Widget::getBestLineSize() const {
 	return gproblemselector->m_bestLineSize;
 }
 

@@ -36,7 +36,7 @@ class DeckArrowSelectionDialog: public ButtonsDialog {
 	int m_maxCardHeight;
 	int m_maxCardWidth;
 	int m_maxArrowSize;
-	CSize m_lastDrawnSize;
+	CPoint m_lastDrawnSize;
 
 	VGtkWidgetPtr m_hideV, m_showV;
 public:
@@ -57,7 +57,7 @@ public:
 	void onObjectChanged();
 	int countMaxSvgWidthForDeck();
 
-	CSize getObjectSize();
+	CPoint getObjectSize();
 
 	SvgParameters& getSvgParameters();
 	SvgParameters& getSvgParameters(int i);

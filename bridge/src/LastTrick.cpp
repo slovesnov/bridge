@@ -72,18 +72,18 @@ LastTrick::~LastTrick() {
 	g_object_unref(m_full);
 }
 
-CSize LastTrick::getSize() const {
-	return gconfig->m_showLastTrick ? getVisibleSize() : CSize(0, 0);
+CPoint LastTrick::getSize() const {
+	return gconfig->m_showLastTrick ? getVisibleSize() : CPoint(0, 0);
 }
 
-CSize LastTrick::getVisibleSize() const {
-	CSize a = getCardSize();
-	return {std::max(2*a.cx,MIN_LAST_TRICK_WIDTH), std::max(2*a.cy,getBestLineSize().cy*getMaxHandCards())};
+CPoint LastTrick::getVisibleSize() const {
+	CPoint a = getCardSize();
+	return {std::max(2*a.x,MIN_LAST_TRICK_WIDTH), std::max(2*a.y,getBestLineSize().y*getMaxHandCards())};
 }
 
-CSize LastTrick::getFullVisibleSize() const {
-	CSize a = getVisibleSize();
-	a.cx += getBestLineSize().cx;
+CPoint LastTrick::getFullVisibleSize() const {
+	CPoint a = getVisibleSize();
+	a.x += getBestLineSize().x;
 	return a;
 }
 
@@ -92,23 +92,23 @@ void LastTrick::draw() {
 	CRect r, ir;
 	int moves[4];
 
-	CSize sz = getSize();
-	if (sz.cy == 0) {
+	CPoint sz = getSize();
+	if (sz.y == 0) {
 		return;
 	}
 	CARD_INDEX fm = getProblem().getLastTrick(moves);
-	j = getBestLineSize().cx + getArea().getSize().cx;
+	j = getBestLineSize().x + getArea().getSize().x;
 
-	i = getProblemSelector().getSize().cy;
-	copyFromBackground(0, 0, sz.cx, sz.cy, j, i);
+	i = getProblemSelector().getSize().y;
+	copyFromBackground(0, 0, sz.x, sz.y, j, i);
 
 	if (fm == CARD_INDEX_INVALID) {
 		i = 0;
 		for (auto s : m_vLastTrick) {
 			TextWithAttributes text(s);
-			CSize ts = getTextExtents(text);
-			drawText(text, (sz.cx - ts.cx) / 2,
-					sz.cy / 2 - (i == 0 ? ts.cy : 0));
+			CPoint ts = getTextExtents(text);
+			drawText(text, (sz.x - ts.x) / 2,
+					sz.y / 2 - (i == 0 ? ts.y : 0));
 			i++;
 		}
 	} else {
@@ -127,7 +127,7 @@ void LastTrick::draw() {
 				ir.left = r.right - m - ir.width();
 			}
 
-			//last trick drawHorizontalLine(0,0,sz.cx); so need m+1
+			//last trick drawHorizontalLine(0,0,sz.x); so need m+1
 			if (ir.top < m + 1) {
 				ir.top = m + 1;
 			} else if (ir.bottom > r.bottom - m) {
@@ -179,7 +179,7 @@ void LastTrick::updateAfterCreation() {
 	setLastTrickGameAnalysisStrings();
 
 	drawBestLine();
-	if (getSize().cy == 0) {
+	if (getSize().y == 0) {
 		gtk_widget_hide(m_full);
 	} else {
 		gtk_widget_show_all(m_full);
@@ -332,14 +332,14 @@ void LastTrick::drawBestLine() {
 
 void LastTrick::drawGridBackground(cairo_t *cr) {
 	auto &p = getProblemSelector();	//DO NOT change "auto&" to "auto"
-	int sourcex = getArea().getSize().cx;
-	int sourcey = p.getSize().cy;
-	int h = std::max(getBestLineSize().cy * 13, getVisibleSize().cy);
+	int sourcex = getArea().getSize().x;
+	int sourcey = p.getSize().y;
+	int h = std::max(getBestLineSize().y * 13, getVisibleSize().y);
 
 	/* more than GRID_SIZE width / height because of scrolling
 	 * visible 13 tricks need m_bestLineHeight*13
 	 */
-	copy(getBackgroundFullSurface(), cr, 0, 0, getBestLineSize().cx, h, sourcex,
+	copy(getBackgroundFullSurface(), cr, 0, 0, getBestLineSize().x, h, sourcex,
 			sourcey);
 }
 

@@ -38,7 +38,7 @@ public:
 	SvgParameters m_svgDeckParameters[N_VECTOR_DECKS];
 	SvgParameters m_svgArrowParameters[N_VECTOR_ARROWS];
 	bool m_deckChanged, m_arrowChanged;
-	CSize m_bestLineSize;
+	CPoint m_bestLineSize;
 
 private:
 	bool m_visible;
@@ -65,7 +65,7 @@ public:
 
 	void draw() override;
 	void init() override;
-	CSize getSize() const override;
+	CPoint getSize() const override;
 	void updateLanguage() override;
 	void updateSkin() override;
 	void updateDeckSelection() override;
@@ -150,7 +150,7 @@ public:
 	void setArrows();
 
 	void fillSvgParameters();
-	void drawSvg(CSize const &size, int n, bool isDeck, gdouble value);
+	void drawSvg(CPoint const &size, int n, bool isDeck, gdouble value);
 	void createSvgPixbufs(bool isDeck);
 	double getSvgMaxWHRatio() const;
 	SvgParameters& getSvgParameters(int n, bool isDeck);

@@ -23,8 +23,8 @@ EditDescriptionDialog::EditDescriptionDialog() :
 			-1);
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
-	CSize sz = getArea().getSize();
-	gtk_widget_set_size_request(scrolled, 3 * sz.cx / 4, 3 * sz.cy / 4);
+	CPoint sz = getArea().getSize();
+	gtk_widget_set_size_request(scrolled, 3 * sz.x / 4, 3 * sz.y / 4);
 
 	gtk_container_add(GTK_CONTAINER(scrolled), m_comment);
 

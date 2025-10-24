@@ -36,13 +36,13 @@ public:
 
 	void initResizeRedraw();
 
-	virtual CSize getSize() const =0;
+	virtual CPoint getSize() const =0;
 
 protected:
 
 	virtual void resize() {
-		CSize sz = getSize();
-		gtk_widget_set_size_request(getWidget(), sz.cx, sz.cy);
+		CPoint sz = getSize();
+		gtk_widget_set_size_request(getWidget(), sz.x, sz.y);
 	}
 
 	virtual void updateEdit();
@@ -92,19 +92,19 @@ protected:
 	}
 
 	void drawText(TextWithAttributes text, int x, int y) {
-		CRect r(CPoint(x, y), CSize(0, 0));
+		CRect r(CPoint(x, y), CPoint(0, 0));
 		drawText(text, r, false, false);
 	}
 
 public:
-	CSize getTextExtents(TextWithAttributes text);
-	CSize getTextExtents(TextWithAttributes text, cairo_t *cr);
+	CPoint getTextExtents(TextWithAttributes text);
+	CPoint getTextExtents(TextWithAttributes text, cairo_t *cr);
 protected:
 
 	cairo_surface_t* getDeckSurface() const;
 
 	void copyFromDeck(cairo_t *cr, int destx, int desty, int index) {
-		copyFromDeck(cr, destx, desty, getCardSize().cx, getCardSize().cy,
+		copyFromDeck(cr, destx, desty, getCardSize().x, getCardSize().y,
 				index, 0, 0);
 	}
 

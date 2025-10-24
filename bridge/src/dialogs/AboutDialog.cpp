@@ -25,7 +25,7 @@ AboutDialog::AboutDialog() :
 	VString v, q;
 	Pixbuf pb, np;
 	std::string s;
-	const CSize LMARGIN(5, 0);
+	const CPoint LMARGIN(5, 0);
 	const int spacing = 5;
 
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -35,7 +35,7 @@ AboutDialog::AboutDialog() :
 			"executable file size " + toString(getApplicationFileSize(), ','));
 
 	i = (getArea().getTextExtents(
-			TextWithAttributes::createUnderlinedText("Qy")).cy + 2 * LMARGIN.cy)
+			TextWithAttributes::createUnderlinedText("Qy")).y + 2 * LMARGIN.y)
 			* v.size() - spacing;
 	if (i % 2 == 1) {
 		i--;
@@ -73,8 +73,8 @@ AboutDialog::AboutDialog() :
 		}
 
 		gtk_label_set_xalign(GTK_LABEL(label), 0);
-		gtk_widget_set_margin_start(label, LMARGIN.cx);
-		gtk_widget_set_margin_end(label, LMARGIN.cx);
+		gtk_widget_set_margin_start(label, LMARGIN.x);
+		gtk_widget_set_margin_end(label, LMARGIN.x);
 		gtk_container_add(GTK_CONTAINER(box), label);
 
 		/* label style in css if need later

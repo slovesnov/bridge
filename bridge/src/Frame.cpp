@@ -58,7 +58,7 @@ static gboolean finish_save_image(gpointer) {
 Frame::Frame(GtkApplication *application, const char *filepath) :
 		FrameItem(gtk_application_window_new(GTK_APPLICATION(application))) {
 	GtkWidget *w;
-	CSize sz;
+	CPoint sz;
 
 	gframe = this;
 	srand((unsigned) time( NULL)); //for random functions randomDeal(), solveAllDeals()
@@ -1542,7 +1542,7 @@ void Frame::allocated() {
 	GdkWindow *gdk_window = gtk_widget_get_window(getWidget());
 	GdkRectangle rect;
 	gdk_window_get_frame_extents(gdk_window, &rect);	//with title and borders
-	const int delta = rect.height - m_area.getSize().cy;
+	const int delta = rect.height - m_area.getSize().y;
 
 	//println("%d",delta)
 	if (delta == gconfig->m_frameDelta) {
@@ -1551,7 +1551,7 @@ void Frame::allocated() {
 
 	gconfig->m_frameDelta = delta;
 
-	if (m_area.getSize().cy > getAreaMaxHeight()) {
+	if (m_area.getSize().y > getAreaMaxHeight()) {
 		//finish_adjust() doesn't work in may be because it's event proceeding
 		//need to call this as rarely as possible
 		g_idle_add_full(G_PRIORITY_HIGH, finish_adjust, NULL, NULL);
