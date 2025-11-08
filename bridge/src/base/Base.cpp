@@ -732,14 +732,3 @@ void showOpenFileError() {
 	std::string s = getString(STRING_ERROR_COULD_NOT_OPEN_FILE_FOR_WRITING);
 	message(MESSAGE_ICON_ERROR, s + ".\n" + strerror(errno) + ".");
 }
-
-void clearContainer(GtkWidget *container) {
-	auto children = gtk_container_get_children(GTK_CONTAINER(container));
-	if (g_list_length(children) > 0) {
-		for (auto iter = children; iter != NULL; iter = g_list_next(iter)) {
-			gtk_container_remove(GTK_CONTAINER(container),
-					GTK_WIDGET(iter->data));
-		}
-	}
-	g_list_free(children);
-}
