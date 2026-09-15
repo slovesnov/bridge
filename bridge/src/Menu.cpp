@@ -391,7 +391,7 @@ void Menu::setItemAttributes(const MENU_ID id) {
 				|| id == MENU_ESTIMATE_BEST_TOTAL
 				|| id == MENU_ESTIMATE_ALL_LOCAL
 				|| id == MENU_ESTIMATE_ALL_TOTAL) {
-			b = id == getEstimateType() + MENU_ESTIMATE_NONE;
+			b = int(id) == int(getEstimateType()) + int(MENU_ESTIMATE_NONE);
 		} else { //should not happens
 			assert(0);
 			b = false;

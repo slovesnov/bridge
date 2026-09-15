@@ -728,7 +728,7 @@ std::string Problem::getBtsContent(int nproblem, bool caption) {
 	int i, j;
 
 	if (caption) {
-		s = BTS_SIGNATURE + CURRENT_VERSION_STR + "\n";
+		s = BTS_SIGNATURE + CURRENT_VERSION + "\n";
 	}
 	s += BTS_BEGIN_MARKER + format("%d ", nproblem);
 	s += getBtsDealString(dealFirst());

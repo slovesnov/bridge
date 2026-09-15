@@ -365,7 +365,7 @@ void Config::save(GAME_TYPE gt, int x, int y) {
 	m_startPosition = CPoint(x, y);
 
 	//at first setup first variable
-	m_version = CURRENT_VERSION_STR;
+	m_version = CURRENT_VERSION;
 
 #define S(a,b) f<<a<<" = "<<b<<"\n";
 
@@ -618,7 +618,7 @@ void Config::loadLanguageFile() {
 
 		if (i < STRING_SIZE) {	//load normal strings & errors not! STRING_SIZE
 			if (i == STRING_ABOUT) {
-				S[i] = format(b.c_str(), CURRENT_VERSION_STR.c_str(),
+				S[i] = format(b.c_str(), CURRENT_VERSION.c_str(),
 						EMAIL.c_str(), HOMEPAGE.c_str());
 			} else {
 				S[i] = b;

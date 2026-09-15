@@ -97,8 +97,7 @@ const int MAX_BRIDGE_HAND_CARDS = 13;
 const int MAX_PREFERANS_HAND_CARDS = 10;
 const int MAX_RESULT_SIZE = MAX_BRIDGE_HAND_CARDS + 1;
 
-const double CURRENT_VERSION = 5.3;
-const std::string CURRENT_VERSION_STR = forma(CURRENT_VERSION);
+const std::string CURRENT_VERSION = "5.3.1";
 const std::string DOWNLOAD_URL =
 		"https://sourceforge.net/projects/bridge-studio/files/latest/download";
 const std::string BASE_ADDRESS = "https://slovesnov.rf.gd";
@@ -237,7 +236,7 @@ AuctionTagParseResult parseAuctionTag(const std::string &auctionValue,
 		const std::string &auctionAdd);
 
 /*[en] s,h,d,c,nt
- [ru] ï,÷,á,ò,áê
+ [ru] ï¿½,ï¿½,ï¿½,ï¿½,ï¿½ï¿½
  */
 //std::string getLowerTrumpString(int trump);
 //std::string getUpperTrumpString(int trump);

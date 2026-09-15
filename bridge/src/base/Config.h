@@ -149,7 +149,7 @@ public:
 
 	//[BEGIN STORING VARIABLES]order of storing/loading/reset in configuration file
 	//to store and load cann't use const std::string,so use additional variable
-	std::string m_version; //on save m_version=CURRENT_VERSION_STR,on load loaded from file
+	std::string m_version; //on save m_version=CURRENT_VERSION,on load loaded from file
 
 	std::string m_languageFileName;
 	VString m_recent;

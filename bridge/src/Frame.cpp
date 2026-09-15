@@ -114,7 +114,7 @@ Frame::Frame(GtkApplication *application, const char *filepath) :
 	 * & before gtk_main() otherwise works wrong
 	 * sometimes take a long time so use thread
 	 */
-	m_newVersion.start(VERSION_FILE_URL, CURRENT_VERSION, new_version_message);
+	m_newVersion.start(CURRENT_VERSION, new_version_message);
 
 	g_signal_new(OPEN_FILE_SIGNAL_NAME, G_TYPE_OBJECT, G_SIGNAL_RUN_FIRST, 0,
 	NULL, NULL, g_cclosure_marshal_VOID__POINTER, G_TYPE_NONE, 1,
@@ -1045,7 +1045,7 @@ void Frame::loadHttpProblems() {
 
 	f = fopen(format("%s.bts", LINK_PAGE[SITE_SECTION]).c_str(), "w+");
 	assert(f);
-	fprintf(f, "%s %s", BTS_SIGNATURE, CURRENT_VERSION_STR.c_str());
+	fprintf(f, "%s %s", BTS_SIGNATURE, CURRENT_VERSION.c_str());
 	for (it = v.begin(); it != v.end(); it++) {
 #if SITE_SECTION==5
 		for(i=0;i<SIZEI(INVALID_PROBLEMS);i++) {
@@ -1399,7 +1399,7 @@ void Frame::stringToBtsFile(FILE*o, std::string& _s, int deal) {
 	const std::string suits[] = { "club", "diamond", "heart", "spade", "no-trump", };	//one club
 	const int suitsSize = SIZE(suits);
 
-	const char* LEAD[] = { " to lead", " on lead", "’s best lead", " is on lead" };
+	const char* LEAD[] = { " to lead", " on lead", "ï¿½s best lead", " is on lead" };
 	const char* MAKE[] = {
 			" to make",
 			" make",

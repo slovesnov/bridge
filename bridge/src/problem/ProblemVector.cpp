@@ -9,7 +9,8 @@
  */
 
 #include <cerrno>
-#include <mz_compat.h>
+#include <minizip-ng/unzip.h>
+#include <minizip-ng/zip.h>
 #include "ProblemVector.h"
 #include "../dialogs/MessageDialog.h"
 #include "../Frame.h"
