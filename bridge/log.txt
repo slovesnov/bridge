@@ -1,7 +1,11 @@
 changes 5.3.1
 reduced installer size; only necessary libraries are now used
 updated new version check due to the move to a new website
-adopted for new compiler
+adopted for new compiler/gtk
+
+уменьшен размер установочного файла, теперь используются только нужные библиотеки
+изменена проверка новой версии в связи с переездом на новый сайт
+адаптировано под новый компилятор/gtk
 
 changes 5.3
 remove warnings for new gcc/gtk versions
@@ -259,67 +263,4 @@ install to russian named dictionary
 click all menu items
 =========== END before release =====================
 
-remove
-Type: files; Name: "{app}\bin\images\fill24.png"
-Type: files; Name: "{app}\bin\images\stop48.png"
-Type: files; Name: "{app}\bin\images\html16.png"
-Type: files; Name: "{app}\bin\images\flag_unknown.gif"
-Type: files; Name: "{app}\bin\images\saveadd16.png"
-
-============== BEGIN UPDATE ===========================================
-run Frame::resetCssFiles() before create installer
-
-upload sources
-upload program (test http://sourceforge.net/projects/bridge-studio/files/latest/download)
-upload sf.net/bridge/version.txt
-upload bridge-studio.sf.net/version.txt
-make screenshots
-test
-
-============== END UPDATE =============================================
-
-============== BEGIN COMMON ===========================================
-all functions which have std::string arguments use utf8 encoding
-all class members of std::string type use utf8 encoding
-all class members which are path to file use full path to file
-================ END COMMON ===========================================
-
-================ BEGIN HELPER CODES ===================================
-w = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-gtk_container_add(GTK_CONTAINER(w), w1);
-gtk_box_pack_start (GTK_BOX (w), w1, TRUE, TRUE, 0);
-
-gtk_widget_set_hexpand(m_button[i],TRUE);//instead of glue
-
-//another type of stretch or glue
-gtk_widget_set_halign (w1,GTK_ALIGN_CENTER);
-gtk_box_pack_start (GTK_BOX(w), w1, TRUE, TRUE, 0);
-
-
--- widget path to string --
-println("%s",gtk_widget_path_to_string (gtk_widget_get_path(w)) );
-
-GtkWidgetPath *path=gtk_widget_get_path(widget);
-println("%s",gtk_widget_path_to_string (path) );
-
-GtkWidget*w=gtk_window_get_focus (GTK_WINDOW(getWidget()));
-println("w=%x",w);
-GtkWidgetPath *path=gtk_widget_get_path(w);
-int i=gtk_widget_path_length(path);
-println("len%d %s",i,gtk_widget_path_to_string (path) );
-
-g = gtk_grid_new ();
-gtk_grid_set_column_spacing(GTK_GRID(g),margin);
-gtk_grid_set_row_spacing(GTK_GRID(g), margin );
-gtk_grid_attach (GTK_GRID (g), gtk_label_new(getString(LID[i])), 0, i,1,1);
-
-
-Photoshop remove red level
-menu image/ adjustments/levels. Select "red" channel in combobox
-and move slider
-
-
-================ END HELPER CODES =====================================
-
-���������	
 

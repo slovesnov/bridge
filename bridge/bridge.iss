@@ -138,6 +138,10 @@ Source: "{#GTKPATH}bin\{#Files[i]}.dll"; DestDir: "{app}\bin"; Flags: ignorevers
 #endsub
 #for {i = 0; i < DimOf(Files); i++} FilesEntry
 
+;aslov ldd doesn't see this dependencies for svg file proceeding
+Source: "{#GTKPATH}bin\librsvg-2-2.dll"; DestDir: "{app}\bin"; Flags: ignoreversion
+Source: "{#GTKPATH}bin\libxml2-16.dll"; DestDir: "{app}\bin"; Flags: ignoreversion
+
 Source: "{#GTKPATH}lib\gdk-pixbuf-2.0\2.10.0\loaders.cache"; DestDir: "{app}\lib\gdk-pixbuf-2.0\2.10.0"; Flags: ignoreversion
 Source: "{#GTKPATH}lib\gdk-pixbuf-2.0\2.10.0\loaders\*.dll"; DestDir: "{app}\lib\gdk-pixbuf-2.0\2.10.0\loaders"; Flags: ignoreversion
 Source: "{#GTKPATH}share\glib-2.0\schemas\gschemas.compiled"; DestDir: "{app}\share\glib-2.0\schemas"; Flags: ignoreversion
