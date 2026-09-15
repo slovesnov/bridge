@@ -370,8 +370,6 @@ public:
 		return gtk_label_new(s.c_str());
 	}
 
-	void openHomepage();
-
 	int getTricks(CARD_INDEX player) const;
 	bool isDeclarerNorthOrSouth() const;
 	CARD_INDEX getDeclarer() const;
@@ -389,6 +387,9 @@ public:
 	VSolveAll& solveAll();
 	SolveAll& solveAll(int i);
 	VCardIndex getVariablePlayers();
+
+	std::string getLanguageDependedUrl(std::string const&s);
+	void openHomepage();
 };
 
 #endif /* WIDGET_H_ */

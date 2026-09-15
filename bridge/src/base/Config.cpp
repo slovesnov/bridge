@@ -532,13 +532,15 @@ std::string Config::getLanguageFileNameByIndex(int index) const {
 			+ LANGUAGE_EXTENSION;
 }
 
-int Config::getLanguageIndex() const {
+std::string Config::getLanguageString() const{
 	std::size_t pos = m_languageFileName.rfind(G_DIR_SEPARATOR);
 	assert(pos != std::string::npos);
-	std::string s = m_languageFileName.substr(pos + 1,
+	return m_languageFileName.substr(pos + 1,
 			m_languageFileName.length() - pos - 5);
+}
 
-	return indexOf(s, m_language);
+int Config::getLanguageIndex() const {
+	return indexOf(getLanguageString(), m_language);
 }
 
 /* load language file to vector

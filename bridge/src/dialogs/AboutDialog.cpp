@@ -58,6 +58,7 @@ AboutDialog::AboutDialog() :
 		//Note mailto:... works incorrect. Background window with error appears.
 		if (link) {
 			q = split(a, "#");
+			q[1]=getLanguageDependedUrl(q[1]);
 		}
 
 		if (link) {

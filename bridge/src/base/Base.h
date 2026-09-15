@@ -102,13 +102,13 @@ const std::string DOWNLOAD_URL =
 		"https://sourceforge.net/projects/bridge-studio/files/latest/download";
 const std::string BASE_ADDRESS = "https://slovesnov.rf.gd";
 const std::string HOMEPAGE = BASE_ADDRESS + "?bridge";
-#ifdef FINAL_RELEASE
+/* #ifdef FINAL_RELEASE
 const std::string VERSION_FILE_URL =
 		"https://slovesnov.github.io/bridgeversion.txt"; //https://slovesnov.rf.gd/bridge/version.txt returns ugly data
 #else
 const std::string VERSION_FILE_URL="file:///C:/slovesno/site/bridge/version.txt";
 #endif
-
+ */
 const std::string HTML_IMAGE_DIRECTORY = BASE_ADDRESS + "/img/bridge";
 const std::string EMAIL = "slovesnov@yandex.ru";
 

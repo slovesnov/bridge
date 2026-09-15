@@ -102,6 +102,7 @@ public:
 
 	void save(GAME_TYPE gt, int x, int y);
 
+	std::string getLanguageString() const;
 	int getLanguageIndex() const;
 	void loadLanguageFile();
 	void setLanguageFileName(int index);
