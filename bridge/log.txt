@@ -2,10 +2,12 @@ changes 5.3.1
 reduced installer size; only necessary libraries are now used
 updated new version check due to the move to a new website
 adopted for new compiler/gtk
+fixed bug with problems path
 
 уменьшен размер установочного файла, теперь используются только нужные библиотеки
 изменена проверка новой версии в связи с переездом на новый сайт
 адаптировано под новый компилятор/gtk
+исправлен баг с путём к задачам
 
 changes 5.3
 remove warnings for new gcc/gtk versions
