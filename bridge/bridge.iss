@@ -138,7 +138,7 @@ Source: "{#GTKPATH}bin\{#Files[i]}.dll"; DestDir: "{app}\bin"; Flags: ignorevers
 #endsub
 #for {i = 0; i < DimOf(Files); i++} FilesEntry
 
-;aslov ldd doesn't see this dependencies for svg file proceeding
+;aslov ldd/ntldd doesn't see this dependencies for svg file proceeding
 Source: "{#GTKPATH}bin\librsvg-2-2.dll"; DestDir: "{app}\bin"; Flags: ignoreversion
 Source: "{#GTKPATH}bin\libxml2-16.dll"; DestDir: "{app}\bin"; Flags: ignoreversion
 
