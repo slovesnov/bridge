@@ -247,12 +247,12 @@ public:
 
 	//only estimate
 	void solveEstimateOnly(const CARD_INDEX c[52], int trump, CARD_INDEX first,
-			CARD_INDEX player, bool misere, const CARD_INDEX preferansPlayer[3],
+			CARD_INDEX player, bool misere, const std::array<CARD_INDEX,3>& preferansPlayer,
 			bool trumpChanged);
 
 	//	function works correct when table is full
 	void bestLine(const CARD_INDEX c[52], CARD_INDEX first, CARD_INDEX player,
-			bool misere, const CARD_INDEX preferansPlayer[3]);
+			bool misere, const std::array<CARD_INDEX,3>& preferansPlayer);
 
 #ifndef CONSOLE
 	void solve(const Problem &p, bool trumpChanged);

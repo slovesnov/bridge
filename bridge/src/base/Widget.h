@@ -139,15 +139,14 @@ protected:
 	int getCardHeight();
 
 	int indexOfPreferansPlayer(CARD_INDEX player) const {
-		//can't use INDEX_OF macro for pointer
-		return indexOf(player, getPreferansPlayer(), 3);
+		return indexOf(player, getPreferansPlayer());
 	}
 
 	CARD_INDEX getPreferansPlayer(int i) const {
 		return getPreferansPlayer()[i];
 	}
 
-	const CARD_INDEX* getPreferansPlayer() const {
+	const std::array<CARD_INDEX,3>& getPreferansPlayer() const {
 		return getProblem().m_preferansPlayer;
 	}
 

@@ -215,7 +215,7 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 					getCardRankString(a[i]) + "!" + SUIT_ARROW_CHAR[a[i] / 13]);
 		}
 	}
-	i = INDEX_OF(nextmove, PLAYER);
+	i = indexOf(nextmove, PLAYER);
 	inner[a[i] == -1 ? i + 4 : i] = format("!%c", SUIT_ARROW_CHAR[i + 4]);
 
 	inner[8] = "&nbsp;";
@@ -2093,7 +2093,7 @@ std::string Problem::getForBridgeTestDealClass(int n)const {
 	s+=", "+std::to_string(m_misere?NT+1:m_trump);
 
 	CARD_INDEX ci[]={CARD_INDEX_NORTH,CARD_INDEX_EAST,CARD_INDEX_WEST};
-	i=INDEX_OF(state.m_firstmove,ci);
+	i=indexOf(state.m_firstmove,ci);
 	s+=", "+std::to_string(i);
 
 	s+=", \""+getFileInfo(m_filepath, FILEINFO::SHORT_NAME)+std::to_string(n)+"\"";

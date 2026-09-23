@@ -316,7 +316,7 @@ void ProblemSelector::updateToolbar() {
 }
 
 void ProblemSelector::clickToolbar(GtkToolItem *w) {
-	int i = INDEX_OF(w, m_button);
+	int i = indexOf(w, m_button);
 	assert(i != -1);
 	assert(i != 0);
 

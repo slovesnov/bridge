@@ -257,8 +257,9 @@ void copyFromPixbuf(GdkPixbuf *source, cairo_t *dest, CRect const &rect);
 void exploreAllChildrenRecursive(GtkWidget* w);
 #endif
 
-CARD_INDEX getPlayerForArray(CARD_INDEX player, const CARD_INDEX *a, int size,
-		bool next, int count = 1);
+template <std::size_t N>
+CARD_INDEX getPlayerForArray(CARD_INDEX player, const std::array<CARD_INDEX, N>& a,
+                             bool next, int count = 1);
 CARD_INDEX getBridgePlayer(CARD_INDEX player, bool next, int count = 1);
 CARD_INDEX getNextBridgePlayer(CARD_INDEX player);
 CARD_INDEX getPreviousBridgePlayer(CARD_INDEX player);

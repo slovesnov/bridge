@@ -59,7 +59,7 @@ static gboolean end_solve_thread(gpointer data) {
 }
 
 static gboolean timer_animation_handler(gpointer data) {
-	return gdraw->animationStep(GP2INT(data));
+	return gdraw->animationStep(GPOINTER_TO_INT(data));
 }
 
 static gboolean timer_handler(gpointer) {
@@ -72,7 +72,7 @@ static void setEstimateFunction(int index, int estimate) { //callback function
 }
 
 static gpointer solve_all_declarers_bridge_thread(gpointer data) {
-	gdraw->solveAllDeclarersBridgeThread(GP2INT(data));
+	gdraw->solveAllDeclarersBridgeThread(GPOINTER_TO_INT(data));
 	return NULL;
 }
 
@@ -82,12 +82,12 @@ static gpointer solve_all_declarers_preferans_thread(gpointer) {
 }
 
 static gpointer solve_all_deals_thread(gpointer data) {
-	gdraw->solveAllDealsThread(GP2INT(data));
+	gdraw->solveAllDealsThread(GPOINTER_TO_INT(data));
 	return NULL;
 }
 
 static gboolean solve_all_bridge_set_labels(gpointer data) {
-	gdraw->solveAllBridgeSetLabels(GP2INT(data));
+	gdraw->solveAllBridgeSetLabels(GPOINTER_TO_INT(data));
 	return G_SOURCE_REMOVE;
 }
 
@@ -97,7 +97,7 @@ static gboolean solve_all_deals_update_result(gpointer data) {
 }
 
 static gboolean show_estimation_thread(gpointer data) {
-	gdraw->showEstimation(GP2INT(data));
+	gdraw->showEstimation(GPOINTER_TO_INT(data));
 	return G_SOURCE_REMOVE;
 }
 
@@ -107,7 +107,7 @@ static gboolean update_inside_region_thread(gpointer) {
 }
 
 static gboolean make_move_thread(gpointer data) {
-	int i = GP2INT(data);
+	int i = GPOINTER_TO_INT(data);
 	gdraw->makeMove(i & 0xff, i >> 8);
 	return G_SOURCE_REMOVE;
 }
@@ -1455,7 +1455,7 @@ void DrawingArea::setShowEstimation(int index, int estimation, bool thread) {
 	getState().m_estimate[index] = estimation;
 	if (index != m_currentId) {			//for animation fly
 		if (thread) {
-			gdk_threads_add_idle(show_estimation_thread, GP(index));
+			gdk_threads_add_idle(show_estimation_thread, GINT_TO_POINTER(index));
 		} else {
 			showEstimation(index);
 		}
@@ -1822,14 +1822,14 @@ void DrawingArea::solveThread(Problem *problem) {
 	}
 
 	m_currentPoint = m_cardrect[i].topLeft();
-	startWaitFunction(make_move_thread, GP(i | (estimateBeforeBest << 8)));
+	startWaitFunction(make_move_thread, GINT_TO_POINTER(i | (estimateBeforeBest << 8)));
 	waitForFunction();
 	if (needStopThread()) {
 		return;
 	}
 
 	if (gconfig->m_animation) {	//animation fly
-		startWaitFunction(timer_animation_handler, GP(i));//do step 0 immediately. First step also runs animation timer
+		startWaitFunction(timer_animation_handler, GINT_TO_POINTER(i));//do step 0 immediately. First step also runs animation timer
 	} else {
 		gdk_threads_add_idle(update_inside_region_thread, NULL);//gdk call use main thread
 	}
@@ -2092,7 +2092,7 @@ void DrawingArea::solveAllDeclarersBridgeThread(int thread) {
 			b.solveEstimateOnly(c, trump, PLAYER[i], i == 0);
 			m_solveAllDeclarersBridgeResult[trump][i] = i % 2 ? b.m_ns : b.m_ew;
 		}
-		gdk_threads_add_idle(solve_all_bridge_set_labels, GP(trump));
+		gdk_threads_add_idle(solve_all_bridge_set_labels, GINT_TO_POINTER(trump));
 
 #ifndef FINAL_RELEASE
 		println("t%d trump%d %.3lf", thread, trump,
@@ -2342,7 +2342,7 @@ void DrawingArea::solveAllDeals() {
 		if (i > 0) {
 			m_vSolveAll[i].copyParametersClearDealResult(m_vSolveAll[0]);
 		}
-		m_vThread.push_back(g_thread_new("", solve_all_deals_thread, GP(i)));
+		m_vThread.push_back(g_thread_new("", solve_all_deals_thread, GINT_TO_POINTER(i)));
 	}
 }
 
@@ -2408,7 +2408,7 @@ void DrawingArea::solveAllDeclarers() {
 
 		for (i = 0; i < getSolveAllDeclarersThreads(); i++) {
 			m_vThread.push_back(
-					g_thread_new("", solve_all_declarers_bridge_thread, GP(i)));
+					g_thread_new("", solve_all_declarers_bridge_thread, GINT_TO_POINTER(i)));
 		}
 	}
 

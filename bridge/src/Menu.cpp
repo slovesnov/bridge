@@ -31,12 +31,12 @@ MENU_SELECT_ARROW, MENU_SHOW_HTML_OPTIONS, MENU_SHOW_MODIFIED_WARNING,
 
 /* FIRST_RECENT_POSITION = number of text menu items + number of separators
  * number of text menu items = MENU_EXIT- MENU_NEW
- * number of separators = INDEX_OF(MENU_EXIT,SEPARATOR_ID)+1 need add 1
+ * number of separators = indexOf(MENU_EXIT,SEPARATOR_ID)+1 need add 1
  * because recent menu adds separator before it
  */
 
 const int FIRST_RECENT_POSITION = MENU_EXIT - MENU_NEW
-		+ INDEX_OF(MENU_EXIT, SEPARATOR_ID) + 1;
+		+ indexOf(MENU_EXIT, SEPARATOR_ID) + 1;
 
 const MENU_ID MENU_ICON_ID[] = { MENU_NEW, MENU_OPEN, MENU_OPEN_FROM_LIBRARY,
 		MENU_SAVE, MENU_SAVE_AS, MENU_EDIT, MENU_EDIT_PROBLEM_LIST,
@@ -149,7 +149,7 @@ Menu::Menu() :
 
 	for (auto &m : gconfig->m_vectorMenuString) {
 		assert(m_map.find(m.first) == m_map.end());
-		if (ONE_OF(m.first, TOP_MENU)) {
+		if (oneOf(m.first, TOP_MENU)) {
 			insertTopMenu(m);
 		} else {
 			insertSubMenu(m);
@@ -211,7 +211,7 @@ void Menu::insertSubMenu(MenuString menuString) {
 		}
 	}
 
-	if (ONE_OF(menuString.first, SEPARATOR_ID)) {
+	if (oneOf(menuString.first, SEPARATOR_ID)) {
 		insertSeparator();
 	}
 
@@ -231,10 +231,10 @@ void Menu::insertSubMenu(MenuString menuString) {
 		}
 		w = createImageMenuItem(g, p);
 		g_object_unref(p);
-	} else if ((i = INDEX_OF(menuString.first, MENU_ICON_ID)) == -1) {
-		if (ONE_OF(menuString.first, CHECKED_MENU)) {
+	} else if ((i = indexOf(menuString.first, MENU_ICON_ID)) == -1) {
+		if (oneOf(menuString.first, CHECKED_MENU)) {
 			w = gtk_check_menu_item_new_with_label(g);
-		} else if (ONE_OF(menuString.first, RADIO_MENU_ID)) {
+		} else if (oneOf(menuString.first, RADIO_MENU_ID)) {
 			if (menuString.first == RADIO_MENU_ID[0]) {
 				radioGroup = NULL;
 			}
@@ -362,7 +362,7 @@ void Menu::setItemAttributes(const MENU_ID id) {
 	GList *list;
 
 	//set check
-	if ((i = INDEX_OF(id, CHECKED_MENU)) != -1) {
+	if ((i = indexOf(id, CHECKED_MENU)) != -1) {
 		blockSignals();
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(w),
 				gconfig->isChecked(i));
@@ -370,7 +370,7 @@ void Menu::setItemAttributes(const MENU_ID id) {
 	}
 
 	//set caption for variable text items
-	i = INDEX_OF(id, VARIABLE_TEXT_MENU);
+	i = indexOf(id, VARIABLE_TEXT_MENU);
 	if (i != -1) {
 
 		if (id == MENU_GAME_TYPE) {
@@ -385,7 +385,7 @@ void Menu::setItemAttributes(const MENU_ID id) {
 
 	//set radio
 	b = false;
-	radio = INDEX_OF(id,RADIO_MENU_ID) != -1;
+	radio = indexOf(id,RADIO_MENU_ID) != -1;
 	if (radio) {
 		if (id == MENU_ESTIMATE_NONE || id == MENU_ESTIMATE_BEST_LOCAL
 				|| id == MENU_ESTIMATE_BEST_TOTAL
@@ -437,13 +437,13 @@ void Menu::setItemAttributes(const MENU_ID id) {
 	//all think dependent became disabled
 	if (think() && id != MENU_FIND_BEST_MOVE
 			&& ((id >= MENU_RECENT && id < MENU_RECENT + m_lastRecentSize)
-					|| ONE_OF(id, MENU_THINK_DEPENDENT))) {
+					|| oneOf(id, MENU_THINK_DEPENDENT))) {
 		b = false;
 	}
 	gtk_widget_set_sensitive(w, b);
 
 	//set icon
-	i = INDEX_OF(id, TOOLBAR_MENU_ID);
+	i = indexOf(id, TOOLBAR_MENU_ID);
 	if (i != -1) {
 		auto e = TOOLBAR_BUTTON_ARRAY[i];
 		w = gtk_bin_get_child(GTK_BIN(w));

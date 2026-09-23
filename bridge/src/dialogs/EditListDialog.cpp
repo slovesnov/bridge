@@ -69,7 +69,7 @@ EditListDialog::EditListDialog() :
 		gtk_container_add(GTK_CONTAINER(w1), m_button[i]);
 		gtk_widget_add_events(w1, GDK_BUTTON_PRESS_MASK);
 		g_signal_connect(w1, "button_press_event",
-				G_CALLBACK(mouse_press_event), GP(i));
+				G_CALLBACK(mouse_press_event), GINT_TO_POINTER(i));
 		gtk_container_add(GTK_CONTAINER(w), w1);
 
 	}
@@ -99,7 +99,7 @@ EditListDialog::EditListDialog() :
 		gtk_grid_attach(GTK_GRID(w), m_button[i], 1, i, 1, 1);
 
 		g_signal_connect(m_button[i], "clicked", G_CALLBACK(button_clicked),
-				GP(i));
+				GINT_TO_POINTER(i));
 	}
 	w1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_container_add(GTK_CONTAINER(w1), box);

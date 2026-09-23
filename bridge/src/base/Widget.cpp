@@ -228,7 +228,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
     if (filetype == FILE_TYPE_IMAGE && menu == MENU_OPEN && j == 0) {
       s = gconfig->m_allImageFormatString;
     } else {
-      i = INDEX_OF(vit, STRING_FILTER_EXT_FROM);
+      i = indexOf(vit, STRING_FILTER_EXT_FROM);
       assert(i != -1);
       s = STRING_FILTER_EXT_TO[i];
     }
@@ -240,7 +240,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
      */
     if (option != CHOOSER_OPTION_DEFAULT && !openAll &&
         vit == STRING_FILE_FILTER_ALL_SUPPORTED) {
-      i = INDEX_OF(STRING_FILE_FILTER_HTML, STRING_FILTER_EXT_FROM);
+      i = indexOf(STRING_FILE_FILTER_HTML, STRING_FILTER_EXT_FROM);
       assert(i != -1);
       s += " ";
       s += STRING_FILTER_EXT_TO[i];
@@ -317,7 +317,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
             defaultFiletype =
                 isBridge() ? FILE_TYPE_BRIDGE : FILE_TYPE_PREFERANS;
           } else {
-            i = INDEX_OF(sid, STRING_FILTER_EXT_FROM);
+            i = indexOf(sid, STRING_FILTER_EXT_FROM);
             assert(i != -1);
             v = split(STRING_FILTER_EXT_TO[i], " ");
             defaultFiletype = getFileType("a." + v[0]);
@@ -656,7 +656,7 @@ GdkPixbuf *Widget::getToolbarPixbuf(TOOLBAR_BUTTON id, bool small,
 
 void Widget::staticInit() {
   int i;
-  i = INDEX_OF(STRING_IMAGE_FILES,
+  i = indexOf(STRING_IMAGE_FILES,
                STRING_FILTER_EXT_FROM); // cann't move this code to Config
                                         // G_N_ELEMENTS doesn't work for extern
   assert(i != -1);
@@ -861,7 +861,7 @@ CPoint Widget::getBestLineSize() const {
 }
 
 int Widget::getTricks(CARD_INDEX player) const {
-  int index = INDEX_OF(player, PLAYER); // always PLAYER not PREFERANS_PLAYER
+  int index = indexOf(player, PLAYER); // always PLAYER not PREFERANS_PLAYER
   assert(index != -1);
   return getState().m_tricks[index];
 }

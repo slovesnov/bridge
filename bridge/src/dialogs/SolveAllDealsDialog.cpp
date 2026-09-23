@@ -416,7 +416,7 @@ void SolveAllDealsDialog::clickButton(GtkWidget *w) {
 	std::string s, separator;
 	const int trump = getTrump();
 
-	const int n = INDEX_OF(w, m_button);
+	const int n = indexOf(w, m_button);
 	bool csvExport = oneOf(n, TAB1_EXPORT_CSV_BUTTON, TAB2_EXPORT_CSV_BUTTON,
 			EXPORT_ALL_DEALS_WITH_RESULTS_TO_CSV_BUTTON);
 
@@ -509,7 +509,7 @@ int SolveAllDealsDialog::resultSize() const {
 }
 
 void SolveAllDealsDialog::comboChanged(GtkWidget *w) {
-	int i = INDEX_OF(w, m_combo);
+	int i = indexOf(w, m_combo);
 
 	if (i == TAB1) {				//only bridge
 		stopExportThread();

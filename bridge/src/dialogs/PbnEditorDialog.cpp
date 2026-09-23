@@ -61,7 +61,7 @@ PbnEditorDialog::PbnEditorDialog() :
 		gtk_container_add(GTK_CONTAINER(w1), m_button[i]);
 		gtk_widget_add_events(w1, GDK_BUTTON_PRESS_MASK);
 		g_signal_connect(w1, "button_press_event",
-				G_CALLBACK(mouse_press_event), GP(i));
+				G_CALLBACK(mouse_press_event), GINT_TO_POINTER(i));
 		gtk_container_add(GTK_CONTAINER(w), w1);
 		if (i == 1) {
 			gtk_container_add(GTK_CONTAINER(w), m_labelProblem);
@@ -163,7 +163,7 @@ void PbnEditorDialog::redrawProblem() {
 	for (i = 0; i < PBN_EDITOR_COMBO_SIZE; i++) {
 		if (m_combo[i] != NULL) {
 			g_signal_connect(m_combo[i], "changed", G_CALLBACK(combo_changed),
-					GP(i));
+					GINT_TO_POINTER(i));
 		}
 	}
 

@@ -29,12 +29,12 @@ const gdouble ADJUSTMENT_PAGE_SIZE = 0;
 DeckArrowSelectionDialog *d;
 
 static gboolean on_object_loaded(gpointer data) {
-	d->onObjectLoaded(GP2INT(data));
+	d->onObjectLoaded(GPOINTER_TO_INT(data));
 	return G_SOURCE_REMOVE;
 }
 
 static gpointer load_thread(gpointer data) {
-	d->loadThread(GP2INT(data));
+	d->loadThread(GPOINTER_TO_INT(data));
 	return NULL;
 }
 
@@ -97,7 +97,7 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 	m_maxv = getVectorSize();
 	j = getNumber() - getRasterSize();
 	for (i = 0; i < getThreadsNumber(); i++) {
-		m_vThread.push_back(g_thread_new("", load_thread, GP(j)));
+		m_vThread.push_back(g_thread_new("", load_thread, GINT_TO_POINTER(j)));
 	}
 
 	gdouble lower = m_isDeck ? MIN_CARD_WIDTH : MIN_ARROW_SIZE;
@@ -309,7 +309,7 @@ void DeckArrowSelectionDialog::toggle(GtkWidget *w) {
 		return;
 	}
 
-	getNumber() = INDEX_OF(w, m_radio);
+	getNumber() = indexOf(w, m_radio);
 	if (isScalable()) {
 		/* if new maximum value is lower than new maximum correct it
 		 * If just call gtk_adjustment_set_upper then value is not changed
@@ -367,7 +367,7 @@ void DeckArrowSelectionDialog::loadThread(const int n) {
 		 * gdk_threads_add_idle with parameter and do check i==m_deck-N_DECKS
 		 * in main thread
 		 */
-		gdk_threads_add_idle(on_object_loaded, GP(i));
+		gdk_threads_add_idle(on_object_loaded, GINT_TO_POINTER(i));
 	}
 
 }

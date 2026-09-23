@@ -20,13 +20,13 @@ static gboolean draw_grid_background(GtkWidget *widget, cairo_t *cr, gpointer) {
 
 static gboolean cell_click(GtkWidget *widget, GdkEventButton *event,
 		gpointer data) {
-	glasttrick->cellClick(GP2INT(data));
+	glasttrick->cellClick(GPOINTER_TO_INT(data));
 	return TRUE;
 }
 
 static gboolean mouse_enter_event(GtkWidget *widget, GdkEventButton *event,
 		gpointer data) {
-	glasttrick->gridMouseEnter(GP2INT(data));
+	glasttrick->gridMouseEnter(GPOINTER_TO_INT(data));
 	return TRUE;
 }
 
@@ -290,14 +290,14 @@ void LastTrick::drawBestLine() {
 					w1 = gtk_event_box_new();
 					gtk_container_add(GTK_CONTAINER(w1), w);
 					g_signal_connect(G_OBJECT (w1), "button_press_event",
-							G_CALLBACK (cell_click), GP(i));
+							G_CALLBACK (cell_click), GINT_TO_POINTER(i));
 
 					gtk_widget_add_events(w1,
 							GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
 					g_signal_connect(G_OBJECT (w1), "leave-notify-event",
-							G_CALLBACK(mouse_leave_event), GP(i));
+							G_CALLBACK(mouse_leave_event), GINT_TO_POINTER(i));
 					g_signal_connect(G_OBJECT (w1), "enter-notify-event",
-							G_CALLBACK(mouse_enter_event), GP(i));
+							G_CALLBACK(mouse_enter_event), GINT_TO_POINTER(i));
 				} else {
 					w = w1 = j == 0 ? m_labelCard[i] : m_suit[i];
 				}

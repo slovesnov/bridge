@@ -34,7 +34,7 @@ CustomSkinDialog::CustomSkinDialog() :
 		m_button[i] = createTextButton(CUSTOMSKINDIALOG_BUTTONS[i]);
 		gtk_container_add(GTK_CONTAINER(w), m_button[i]);
 		g_signal_connect(m_button[i], "clicked", G_CALLBACK(button_clicked),
-				GP(i));
+				GINT_TO_POINTER(i));
 	}
 
 	gtk_container_add(GTK_CONTAINER(getContentArea()), w);
