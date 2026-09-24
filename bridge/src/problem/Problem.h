@@ -72,7 +72,7 @@ public:
 	CARD_INDEX m_player;
 	bool m_misere;
 	CARD_INDEX m_absent;
-	std::array<CARD_INDEX,3> m_preferansPlayer;
+	CARD_INDEX m_preferansPlayer[3];
 
 	void setAbsent(CARD_INDEX absent);
 

@@ -34,7 +34,7 @@ public:
 
 	//special for preferans
 	bool misere;
-	std::array<CARD_INDEX,3> preferansPlayer;
+	CARD_INDEX preferansPlayer[3];
 	CARD_INDEX player;
 
 	SolveAll();

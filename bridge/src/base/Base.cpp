@@ -460,9 +460,8 @@ void exploreAllChildrenRecursive(GtkWidget *w) {
 }
 #endif
 
-template <std::size_t size>
-CARD_INDEX getPlayerForArray(CARD_INDEX player, const std::array<CARD_INDEX, size>& a,
-                             bool next, int count ){
+CARD_INDEX getPlayerForArray(CARD_INDEX player, const CARD_INDEX *a, int size,
+                             bool next, int count) {
 
   const bool inner = isInner(player);
   CARD_INDEX ci = player;
@@ -470,7 +469,7 @@ CARD_INDEX getPlayerForArray(CARD_INDEX player, const std::array<CARD_INDEX, siz
     ci = getOuter(player);
   }
 
-  int i = indexOf(ci, a);
+  int i = indexOf(ci, a, size);
 
   assert(i != -1);
 
@@ -521,7 +520,7 @@ void copyFromPixbuf(GdkPixbuf *source, cairo_t *dest, CRect const &rect) {
 }
 
 CARD_INDEX getBridgePlayer(CARD_INDEX player, bool next, int count) {
-  return getPlayerForArray(player, PLAYER, next, count);
+  return getPlayerForArray(player, PLAYER, 4, next, count);
 }
 
 CARD_INDEX getNextBridgePlayer(CARD_INDEX player) {
@@ -711,4 +710,13 @@ std::string getPlayerString(const CARD_INDEX cid[52], CARD_INDEX player,
 void showOpenFileError() {
   std::string s = getString(STRING_ERROR_COULD_NOT_OPEN_FILE_FOR_WRITING);
   message(MESSAGE_ICON_ERROR, s + ".\n" + strerror(errno) + ".");
+}
+
+int indexOf(CARD_INDEX e, const CARD_INDEX *a, int size) {
+    for (int i = 0; i < size; i++) {
+        if (a[i] == e) {
+            return i;
+        }
+    }
+    return -1;
 }

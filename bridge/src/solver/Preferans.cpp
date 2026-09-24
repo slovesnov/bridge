@@ -357,7 +357,7 @@ void Preferans::solveFull(const CARD_INDEX c[52], int trump, CARD_INDEX first,
 
 void Preferans::solveEstimateOnly(const CARD_INDEX c[52], int trump,
 		CARD_INDEX first, CARD_INDEX player, bool misere,
-		const std::array<CARD_INDEX,3>& preferansPlayer, bool trumpChanged) {
+		const CARD_INDEX preferansPlayer[3], bool trumpChanged) {
 	if (misere) {
 		solveMisere(c, trump, first, player, preferansPlayer, trumpChanged);
 	} else if (trump == NT) {
@@ -473,7 +473,7 @@ void Preferans::suitableCards2Misere(int suit, const int *w, SC &c1, SC &c2) {
 //END AUTOMATICALLY GENERATED TEXT
 
 void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
-		CARD_INDEX player, bool misere, const std::array<CARD_INDEX,3>& preferansPlayer) {
+		CARD_INDEX player, bool misere, const CARD_INDEX preferansPlayer[3]) {
 	int i, j, k = 0, t, l, m = 0, fi;
 	CARD_INDEX o[52];
 	const CARD_INDEX *p;

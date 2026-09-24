@@ -139,14 +139,14 @@ protected:
 	int getCardHeight();
 
 	int indexOfPreferansPlayer(CARD_INDEX player) const {
-		return indexOf(player, getPreferansPlayer());
+		return indexOf(player, getPreferansPlayer(), 3);
 	}
 
 	CARD_INDEX getPreferansPlayer(int i) const {
 		return getPreferansPlayer()[i];
 	}
 
-	const std::array<CARD_INDEX,3>& getPreferansPlayer() const {
+	const CARD_INDEX* getPreferansPlayer() const {
 		return getProblem().m_preferansPlayer;
 	}
 
