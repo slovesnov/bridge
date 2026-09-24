@@ -24,17 +24,17 @@ const char SVGDECKPARAMETERS_SIGNATURE[] = "svg deck parameters";
 const bool ALLOW_ONE_INSTANCE_DEFAULT_VALUE = true;
 const char ENGLISH_THOUSANDS_SEPARATOR = ',';
 const char CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE[] =
-		"custom skin background color";
+    "custom skin background color";
 const char SKIN_FONT_COLOR_SIGNATURE[] = "skin font color";
 const char CUSTOM_SKIN_FONT_COLOR_SIGNATURE[] = "custom skin font color";
 const char FONT_SIGNATURE[] = "font";
 
 Config *gconfig;
 
-const int INDENT_INSIDE_SUIT[] = { 13, 13, 13, 13, 13, 17, 22, 24 };
-const int ESTIMATION_INDENT[] = { 32, 28, 28, 26, 32, 42, 35, 43 };
-static_assert(N_RASTER_DECKS==SIZE(INDENT_INSIDE_SUIT));
-static_assert(N_RASTER_DECKS==SIZE(ESTIMATION_INDENT));
+const int INDENT_INSIDE_SUIT[] = {13, 13, 13, 13, 13, 17, 22, 24};
+const int ESTIMATION_INDENT[] = {32, 28, 28, 26, 32, 42, 35, 43};
+static_assert(N_RASTER_DECKS == SIZE(INDENT_INSIDE_SUIT));
+static_assert(N_RASTER_DECKS == SIZE(ESTIMATION_INDENT));
 const int CARDSIZE_K_IN_AREA_HEIGHT = 5;
 /* this return value by double ProblemSelector::getSvgMaxWHRatio()
  * needs this value in config::reset to define default deck
@@ -43,860 +43,897 @@ const int CARDSIZE_K_IN_AREA_HEIGHT = 5;
 const double MAX_SVG_WH_RATIO = 0.716547;
 
 Config::Config() {
-	GSList *formats;
-	GSList *elem;
-	GdkPixbufFormat *pf;
-	GdkRectangle rect;
-	char *p;
-	CPoint sz;
+  GSList *formats;
+  GSList *elem;
+  GdkPixbufFormat *pf;
+  GdkRectangle rect;
+  char *p;
+  CPoint sz;
 
-	gconfig = this;
+  gconfig = this;
 
-	GdkDisplay *display = gdk_display_get_default();
-	GdkMonitor *monitor = gdk_display_get_monitor(display, 0);
-	gdk_monitor_get_workarea(monitor, &rect);
+  GdkDisplay *display = gdk_display_get_default();
+  GdkMonitor *monitor = gdk_display_get_monitor(display, 0);
+  gdk_monitor_get_workarea(monitor, &rect);
 
-	m_workareaRect = CRect(rect.x, rect.y, rect.x + rect.width,
-			rect.y + rect.height);
+  m_workareaRect =
+      CRect(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height);
 
 #ifndef NDEBUG
-	//standard notebook screen resolution, leave for debug
-	//m_workareaRect=CRect(0,0,1366,768-40);
+  // standard notebook screen resolution, leave for debug
+  // m_workareaRect=CRect(0,0,1366,768-40);
 #endif
 
-	//always show images for buttons
-	g_object_set(gtk_settings_get_default(), "gtk-button-images", TRUE, NULL);
+  // always show images for buttons
+  g_object_set(gtk_settings_get_default(), "gtk-button-images", TRUE, NULL);
 
 #ifndef FINAL_RELEASE
-	//if no file do nothing, otherwise truncate
-	FILE* f = openApplicationLog("r");
-	if (f) {
-		fclose(f);
-		//truncate log file, after g_chdir
-		f = openApplicationLog("w+");
-		assert(f!=NULL);
-		fclose(f);
-	}
+  // if no file do nothing, otherwise truncate
+  FILE *f = openApplicationLog("r");
+  if (f) {
+    fclose(f);
+    // truncate log file, after g_chdir
+    f = openApplicationLog("w+");
+    assert(f != NULL);
+    fclose(f);
+  }
 #endif
 
-	m_options = {
-			&m_showLastTrick,	//0
-			&m_animation, &m_showToolTips, &m_showCommonTricks,
-			&m_showPlayerTricks, &m_htmlShowDialog, &m_htmlStoreWithImages,
-			&m_htmlPreview, &m_documentModifiedWarning, &m_autoPlaySequence,
-			&m_splitEveryFile, &m_allowOnlyOneInstance };
-	assert(m_options.size()==SIZE(CHECKED_MENU));
+  m_options = {&m_showLastTrick, // 0
+               &m_animation,           &m_showToolTips,
+               &m_showCommonTricks,    &m_showPlayerTricks,
+               &m_htmlShowDialog,      &m_htmlStoreWithImages,
+               &m_htmlPreview,         &m_documentModifiedWarning,
+               &m_autoPlaySequence,    &m_splitEveryFile,
+               &m_allowOnlyOneInstance};
+  assert(m_options.size() == SIZE(CHECKED_MENU));
 
-	/*
-	 START_TIMER
-	 CPoint maxCardSize;
-	 CPoint rasterDeckCardSize[N_RASTER_DECKS];
-	 int rasterArrowSize[N_RASTER_ARROWS];
-	 int w,h;
+  /*
+   START_TIMER
+   CPoint maxCardSize;
+   CPoint rasterDeckCardSize[N_RASTER_DECKS];
+   int rasterArrowSize[N_RASTER_ARROWS];
+   int w,h;
 
-	 for (i = 0; i < N_RASTER_DECKS; i++) {
-	 sz=getPixbufSize(getDeckFileName(i));
-	 w=sz.x/13;
-	 h=sz.y/4;
-	 rasterDeckCardSize[i]={w,h};
-	 if (i == 0 || w * h > maxCardSize.x * maxCardSize.y) {//one deck has size 71x96, another one 72x96, so cann't use just height, use square of card
-	 maxCardSize = CPoint(w, h);
-	 }
-	 }
+   for (i = 0; i < N_RASTER_DECKS; i++) {
+   sz=getPixbufSize(getDeckFileName(i));
+   w=sz.x/13;
+   h=sz.y/4;
+   rasterDeckCardSize[i]={w,h};
+   if (i == 0 || w * h > maxCardSize.x * maxCardSize.y) {//one deck has size
+   71x96, another one 72x96, so cann't use just height, use square of card
+   maxCardSize = CPoint(w, h);
+   }
+   }
 
-	 for (i = 0; i < N_RASTER_ARROWS; i++) {
-	 sz=getPixbufSize(getArrowFileName(i));
-	 rasterArrowSize[i]=sz.x;
-	 }
-	 //0.54 seconds
-	 OUT_TIMER
+   for (i = 0; i < N_RASTER_ARROWS; i++) {
+   sz=getPixbufSize(getArrowFileName(i));
+   rasterArrowSize[i]=sz.x;
+   }
+   //0.54 seconds
+   OUT_TIMER
 
-	 //counting of sizes take a long time, so use predefined arrays
-	 //leave this code if add some decks or arrows
-	 std::string s;
-	 i=0;
-	 s="const CPoint RASTER_DECK_CARD_SIZE[]={";
-	 for(auto& q:rasterDeckCardSize){
-	 if(i){
-	 s+=",";
-	 }
-	 s+=format("{%d,%d}",q.x,q.y);
-	 i=1;
-	 }
-	 s+="};";
-	 println(s.c_str());
+   //counting of sizes take a long time, so use predefined arrays
+   //leave this code if add some decks or arrows
+   std::string s;
+   i=0;
+   s="const CPoint RASTER_DECK_CARD_SIZE[]={";
+   for(auto& q:rasterDeckCardSize){
+   if(i){
+   s+=",";
+   }
+   s+=format("{%d,%d}",q.x,q.y);
+   i=1;
+   }
+   s+="};";
+   println(s.c_str());
 
-	 i=0;
-	 s="const int RASTER_ARROW_SIZE[]={";
-	 for(auto& q:rasterArrowSize){
-	 if(i){
-	 s+=",";
-	 }
-	 s+=std::to_string(q);
-	 i=1;
-	 }
-	 s+="};";
-	 println(s.c_str());
+   i=0;
+   s="const int RASTER_ARROW_SIZE[]={";
+   for(auto& q:rasterArrowSize){
+   if(i){
+   s+=",";
+   }
+   s+=std::to_string(q);
+   i=1;
+   }
+   s+="};";
+   println(s.c_str());
 
-	 println("const CPoint MAX_CARD_SIZE(%d,%d);",maxCardSize.x,maxCardSize.y)
-	 */
+   println("const CPoint MAX_CARD_SIZE(%d,%d);",maxCardSize.x,maxCardSize.y)
+   */
 
-	initVarables();	//store variable to load/save
-	load();
+  initVarables(); // store variable to load/save
+  load();
 
-	//load language (needed variables was set in loadConfig)
-	loadLanguageFile();
+  // load language (needed variables was set in loadConfig)
+  loadLanguageFile();
 
-	loadCSS();
+  loadCSS();
 
-	formats = gdk_pixbuf_get_formats();
-	for (elem = formats; elem; elem = elem->next) {
-		pf = (GdkPixbufFormat*) elem->data;
+  formats = gdk_pixbuf_get_formats();
+  for (elem = formats; elem; elem = elem->next) {
+    pf = (GdkPixbufFormat *)elem->data;
 
-		p = gdk_pixbuf_format_get_name(pf);
+    p = gdk_pixbuf_format_get_name(pf);
 
-//#define SHOW_FORMATS
+// #define SHOW_FORMATS
 #ifdef SHOW_FORMATS
-		std::string s=p;
-		s+=' ';
-		s+=gdk_pixbuf_format_get_description(pf);
+    std::string s = p;
+    s += ' ';
+    s += gdk_pixbuf_format_get_description(pf);
 #endif
 
-		if (m_allImageFormatString.length() != 0) {
-			m_allImageFormatString += " ";
-		}
-		m_allImageFormatString += p;
+    if (m_allImageFormatString.length() != 0) {
+      m_allImageFormatString += " ";
+    }
+    m_allImageFormatString += p;
 
-		if (gdk_pixbuf_format_is_writable(pf)) {
-			m_storeImageFormat.push_back(p);
+    if (gdk_pixbuf_format_is_writable(pf)) {
+      m_storeImageFormat.push_back(p);
 #ifdef SHOW_FORMATS
-			s+=" writable";
+      s += " writable";
 #endif
-			if (m_storeImageFormatString.length() != 0) {
-				m_storeImageFormatString += " ";
-			}
-			m_storeImageFormatString += m_storeImageFormat.back();
-		}
+      if (m_storeImageFormatString.length() != 0) {
+        m_storeImageFormatString += " ";
+      }
+      m_storeImageFormatString += m_storeImageFormat.back();
+    }
 #ifdef SHOW_FORMATS
-		println("%s",s.c_str())
+    println("%s", s.c_str())
 #endif
-	}
-	g_slist_free(formats);
+  }
+  g_slist_free(formats);
 
-	Widget::staticInit();
-	Problem::staticInit();
+  Widget::staticInit();
+  Problem::staticInit();
 }
 
-Config::~Config() {
-	pango_font_description_free(m_font);
-}
+Config::~Config() { pango_font_description_free(m_font); }
 
 void Config::initVarables() {
-	storeVariablesInt = { &m_activeCardShift, &m_allowOnlyOneInstance,
-			&m_animation, &m_arrowMargin, &m_arrowNumber, &m_arrowSize,
-			&m_ascending, &m_autoPlaySequence, &m_cardWidth, &m_cardHeight,
-			&m_deckNumber, &m_documentModifiedWarning, &m_eastWestCardsMargin,
-			(int*) &m_estimateType, (int*) &m_gameType, &m_htmlStoreWithImages,
-			&m_htmlStoreBestMove, &m_htmlStoreNumberOfTricks, &m_htmlPreview,
-			&m_htmlShowDialog, &m_indentBetweenSuits, &m_maxRecent,
-			&m_maxRecentLength, &m_maxThreads, &m_resizeOnDeckChanged,
-			&m_showCommonTricks, &m_splitEveryFile, &m_showLastTrick,
-			&m_showPlayerTricks, &m_showToolTips, &m_firstSplitNumber,
-			&m_lastTrickMinimalMargin, &m_frameDelta, (int*) &m_absent,
-			&m_bridgeSolveAllDealsAbsentNS, &m_customSkinBackgroundIsColor,
-			&m_skin, };
+  storeVariablesInt = {
+      &m_activeCardShift,
+      &m_allowOnlyOneInstance,
+      &m_animation,
+      &m_arrowMargin,
+      &m_arrowNumber,
+      &m_arrowSize,
+      &m_ascending,
+      &m_autoPlaySequence,
+      &m_cardWidth,
+      &m_cardHeight,
+      &m_deckNumber,
+      &m_documentModifiedWarning,
+      &m_eastWestCardsMargin,
+      (int *)&m_estimateType,
+      (int *)&m_gameType,
+      &m_htmlStoreWithImages,
+      &m_htmlStoreBestMove,
+      &m_htmlStoreNumberOfTricks,
+      &m_htmlPreview,
+      &m_htmlShowDialog,
+      &m_indentBetweenSuits,
+      &m_maxRecent,
+      &m_maxRecentLength,
+      &m_maxThreads,
+      &m_resizeOnDeckChanged,
+      &m_showCommonTricks,
+      &m_splitEveryFile,
+      &m_showLastTrick,
+      &m_showPlayerTricks,
+      &m_showToolTips,
+      &m_firstSplitNumber,
+      &m_lastTrickMinimalMargin,
+      &m_frameDelta,
+      (int *)&m_absent,
+      &m_bridgeSolveAllDealsAbsentNS,
+      &m_customSkinBackgroundIsColor,
+      &m_skin,
+  };
 
-	storeVariablesIntNote = { "active card shift",
-			ALLOW_ONLY_ONE_INSTANCE_SIGNATURE, "animation",
-			"margin between arrow and borders of table", "arrow number",
-			"arrow size", "ascending", "auto play sequence", "card width",
-			"card height", "deck number", "document modified warning",
-			"east west cards margin", "estimate type", "game type",
-			"store html with images", "html store best move",
-			"html store number of tricks", "html preview", "html show dialog",
-			"indent between suits", "max recent files",
-			"menu max recent file length", "max number of threads",
-			"resize window on deck changed", "show common tricks",
-			"split every file", "show last trick window", "show player tricks",
-			"show tool tips", "first split number", "last trick minimal margin",
-			"frame delta (system variable)", "absent player (preferans)",
-			"bridge solve all deals absent north/south",
-			"custom background is color", "skin", };
-	assert(storeVariablesInt.size()==storeVariablesIntNote.size());
+  storeVariablesIntNote = {
+      "active card shift",
+      ALLOW_ONLY_ONE_INSTANCE_SIGNATURE,
+      "animation",
+      "margin between arrow and borders of table",
+      "arrow number",
+      "arrow size",
+      "ascending",
+      "auto play sequence",
+      "card width",
+      "card height",
+      "deck number",
+      "document modified warning",
+      "east west cards margin",
+      "estimate type",
+      "game type",
+      "store html with images",
+      "html store best move",
+      "html store number of tricks",
+      "html preview",
+      "html show dialog",
+      "indent between suits",
+      "max recent files",
+      "menu max recent file length",
+      "max number of threads",
+      "resize window on deck changed",
+      "show common tricks",
+      "split every file",
+      "show last trick window",
+      "show player tricks",
+      "show tool tips",
+      "first split number",
+      "last trick minimal margin",
+      "frame delta (system variable)",
+      "absent player (preferans)",
+      "bridge solve all deals absent north/south",
+      "custom background is color",
+      "skin",
+  };
+  assert(storeVariablesInt.size() == storeVariablesIntNote.size());
 
-	storeVariablesString = { &m_version, &m_languageFileName,
-			&m_customSkinBackgroundImagePath, &m_csvSeparator };
-	storeVariablesStringNote = { VERSION_SIGNATURE, "language file",
-			"custom skin background image path", "csv separator" };
-	assert(storeVariablesString.size()==storeVariablesStringNote.size());
+  storeVariablesString = {&m_version, &m_languageFileName,
+                          &m_customSkinBackgroundImagePath, &m_csvSeparator};
+  storeVariablesStringNote = {VERSION_SIGNATURE, "language file",
+                              "custom skin background image path",
+                              "csv separator"};
+  assert(storeVariablesString.size() == storeVariablesStringNote.size());
 }
 
 void Config::load() {
-	std::string s;
-	VString vs;
-	VStringCI itString;
-	GDir *dir;
-	const gchar *filename;
-	VMenuString v_language;
-	const char *b;
-	VStringI it;
-	unsigned u;
-	int i;
+  std::string s;
+  VString vs;
+  VStringCI itString;
+  GDir *dir;
+  const gchar *filename;
+  VMenuString v_language;
+  const char *b;
+  VStringI it;
+  unsigned u;
+  int i;
 
-	//load m_language before possible reset() because reset() use setLanguageFileName(0);
-	auto LS = getLanguageDir();
-	dir = g_dir_open(LS.c_str(), 0, 0);
-	assert(dir);
-	while ((filename = g_dir_read_name(dir))) {
-		b = strrchr(filename, '.');
-		//skip subdirs, files without extension and file with not LANGUAGE_EXTENSION
-		if (isDir(LS + G_DIR_SEPARATOR + filename) || b == NULL
-				|| !cmp(b + 1, LANGUAGE_EXTENSION)) {
-			continue;
-		}
-		m_language.push_back(std::string(filename, b - filename));
-	}
-	it = find(std::string("english"), m_language);
-	if (it != m_language.end()) {
-		std::iter_swap(m_language.begin(), it);
-	}
-	//now first language is english
+  // load m_language before possible reset() because reset() use
+  // setLanguageFileName(0);
+  auto LS = getLanguageDir();
+  dir = g_dir_open(LS.c_str(), 0, 0);
+  assert(dir);
+  while ((filename = g_dir_read_name(dir))) {
+    b = strrchr(filename, '.');
+    // skip subdirs, files without extension and file with not
+    // LANGUAGE_EXTENSION
+    if (isDir(LS + G_DIR_SEPARATOR + filename) || b == NULL ||
+        !cmp(b + 1, LANGUAGE_EXTENSION)) {
+      continue;
+    }
+    m_language.push_back(std::string(filename, b - filename));
+  }
+  it = find(std::string("english"), m_language);
+  if (it != m_language.end()) {
+    std::iter_swap(m_language.begin(), it);
+  }
+  // now first language is english
 
-	//reset anyway to setup parameters which don't exist in cfg file
-	reset();
+  // reset anyway to setup parameters which don't exist in cfg file
+  reset();
 
-	loadConfig(m_map);
+  loadConfig(m_map);
 
-//Since version 5.2 config file if moved to another directory so don't need check older versions
-//	const double INVALID_VERSION=1000;
-//	double readedVersion=INVALID_VERSION;
-//	if(getStringBySignature(VERSION_SIGNATURE,s) ){
-//		setlocale(LC_NUMERIC, "C");
-//		readedVersion=std::stod(s);
-//	}
+  // Since version 5.2 config file if moved to another directory so don't need
+  // check older versions 	const double INVALID_VERSION=1000; 	double
+  // readedVersion=INVALID_VERSION;
+  // if(getStringBySignature(VERSION_SIGNATURE,s)
+  //){ 		setlocale(LC_NUMERIC, "C");
+  // readedVersion=std::stod(s);
+  //	}
 
-	auto itStringPtr = storeVariablesString.begin();
-	for (auto &signature : storeVariablesStringNote) {
-		if (getStringBySignature(signature, s)) {
-			*(*itStringPtr) = s;
-		}
-		itStringPtr++;
-	}
+  auto itStringPtr = storeVariablesString.begin();
+  for (auto &signature : storeVariablesStringNote) {
+    if (getStringBySignature(signature, s)) {
+      *(*itStringPtr) = s;
+    }
+    itStringPtr++;
+  }
 
-#define LOAD_ARRAY(a,signature) loadIntArray(a,SIZEI(a),signature);
-	LOAD_ARRAY(m_suitsOrder, SUITSORDER_SIGNATURE)
+#define LOAD_ARRAY(a, signature) loadIntArray(a, SIZEI(a), signature);
+  LOAD_ARRAY(m_suitsOrder, SUITSORDER_SIGNATURE)
 #undef LOAD_ARRAY
 
-	if (getStringBySignature(START_POSITION_SIGNATURE, s)) {
-		vs = split(s, " ");
-		if (vs.size() == 2) {
-			m_startPosition.x = std::stoi(vs[0]);
-			m_startPosition.y = std::stoi(vs[1]);
-		}
-	}
+  if (getStringBySignature(START_POSITION_SIGNATURE, s)) {
+    vs = split(s, " ");
+    if (vs.size() == 2) {
+      m_startPosition.x = std::stoi(vs[0]);
+      m_startPosition.y = std::stoi(vs[1]);
+    }
+  }
 
-	auto itIntPtr = storeVariablesInt.begin();
-	for (auto &signature : storeVariablesIntNote) {
-		if (getStringBySignature(signature, s)) {
-			*(*itIntPtr) = std::stoi(s);
-		}
-		itIntPtr++;
-	}
+  auto itIntPtr = storeVariablesInt.begin();
+  for (auto &signature : storeVariablesIntNote) {
+    if (getStringBySignature(signature, s)) {
+      *(*itIntPtr) = std::stoi(s);
+    }
+    itIntPtr++;
+  }
 
-	//load recent files
-	if (getStringBySignature(RECENT_FILES_SIGNATURE, s) && !s.empty()) {
-		m_recent = split(s, PATH_FORBIDDEN_CHAR);
-	}
+  // load recent files
+  if (getStringBySignature(RECENT_FILES_SIGNATURE, s) && !s.empty()) {
+    m_recent = split(s, PATH_FORBIDDEN_CHAR);
+  }
 
-	if (getStringBySignature(FONT_SIGNATURE, s)) {
-		//printl(s)
-		m_font = pango_font_description_from_string(s.c_str());
-	}
-	if (getStringBySignature(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE, s)
-			&& parseString(s, u, 16)) {
-		unsignedToGdkRGBA(u, m_customSkinBackgroundColor);
-	}
+  if (getStringBySignature(FONT_SIGNATURE, s)) {
+    // printl(s)
+    m_font = pango_font_description_from_string(s.c_str());
+  }
+  if (getStringBySignature(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE, s) &&
+      parseString(s, u, 16)) {
+    unsignedToGdkRGBA(u, m_customSkinBackgroundColor);
+  }
 
-	if (getStringBySignature(CUSTOM_SKIN_FONT_COLOR_SIGNATURE, s)
-			&& parseString(s, u, 16)) {
-		unsignedToGdkRGBA(u, m_customSkinFontColor);
-	}
+  if (getStringBySignature(CUSTOM_SKIN_FONT_COLOR_SIGNATURE, s) &&
+      parseString(s, u, 16)) {
+    unsignedToGdkRGBA(u, m_customSkinFontColor);
+  }
 
-	if (getStringBySignature(SKIN_FONT_COLOR_SIGNATURE, s)) {
-		vs = split(s, " ");
-		if (vs.size() == N_SKINS) {
-			i = 0;
-			for (auto a : vs) {
-				if (parseString(a, u, 16)) {
-					unsignedToGdkRGBA(u, m_skinFontColor[i++]);
-				}
-			}
-		}
-
-	}
+  if (getStringBySignature(SKIN_FONT_COLOR_SIGNATURE, s)) {
+    vs = split(s, " ");
+    if (vs.size() == N_SKINS) {
+      i = 0;
+      for (auto a : vs) {
+        if (parseString(a, u, 16)) {
+          unsignedToGdkRGBA(u, m_skinFontColor[i++]);
+        }
+      }
+    }
+  }
 }
 
 void Config::loadIntArray(int *a, int size, const char *signature) {
-	int i;
-	std::string s;
-	if (!getStringBySignature(signature, s)) {
+  int i;
+  std::string s;
+  if (!getStringBySignature(signature, s)) {
 #ifndef NDEBUG
-		println("signature not found [%s]",signature)
+    println("signature not found [%s]", signature)
 #endif
-		return;
-	}
-	VString vs = split(s, " ");
-	if (int(vs.size()) != size) {
+        return;
+  }
+  VString vs = split(s, " ");
+  if (int(vs.size()) != size) {
 #ifndef NDEBUG
-		println("invalid length %d %d",int(vs.size()), size)
+    println("invalid length %d %d", int(vs.size()), size)
 #endif
-		return;
-	}
-	for (i = 0; i < size; i++) {
-		a[i] = std::stoi(vs[i]);
-	}
+        return;
+  }
+  for (i = 0; i < size; i++) {
+    a[i] = std::stoi(vs[i]);
+  }
 }
 
 void Config::save(GAME_TYPE gt, int x, int y) {
-	VStringCI itString;
-	VString v;
+  VStringCI itString;
+  VString v;
 
-	m_gameType = gt;
-	m_startPosition = CPoint(x, y);
+  m_gameType = gt;
+  m_startPosition = CPoint(x, y);
 
-	//at first setup first variable
-	m_version = CURRENT_VERSION;
+  // at first setup first variable
+  m_version = CURRENT_VERSION;
 
-#define S(a,b) f<<a<<" = "<<b<<"\n";
+#define S(a, b) f << a << " = " << b << "\n";
 
-	std::ofstream f(getConfigPathLocaled());
-	if (!f.is_open()) {
-		return;
-	}
+  std::ofstream f(getConfigPathLocaled());
+  if (!f.is_open()) {
+    return;
+  }
 
-	itString = storeVariablesStringNote.begin();
-	for (std::string *itStringPtr : storeVariablesString) {
-		S(*itString++, *itStringPtr);
-	}
+  itString = storeVariablesStringNote.begin();
+  for (std::string *itStringPtr : storeVariablesString) {
+    S(*itString++, *itStringPtr);
+  }
 
-	S(SUITSORDER_SIGNATURE, JOIN(m_suitsOrder))
+  S(SUITSORDER_SIGNATURE, JOIN(m_suitsOrder))
 
-	S(START_POSITION_SIGNATURE, forma(m_startPosition.x,m_startPosition.y));
+  S(START_POSITION_SIGNATURE, forma(m_startPosition.x, m_startPosition.y));
 
-	itString = storeVariablesIntNote.begin();
-	for (int *itIntPtr : storeVariablesInt) {
-		S(*itString++, *itIntPtr);
-	}
+  itString = storeVariablesIntNote.begin();
+  for (int *itIntPtr : storeVariablesInt) {
+    S(*itString++, *itIntPtr);
+  }
 
-	//save recent files
-	S(RECENT_FILES_SIGNATURE, joinV(m_recent, PATH_FORBIDDEN_CHAR));
+  // save recent files
+  S(RECENT_FILES_SIGNATURE, joinV(m_recent, PATH_FORBIDDEN_CHAR));
 
-	S(FONT_SIGNATURE, pango_font_description_to_string(m_font));
-	S(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE,
-			format("%x", rgbaToUnsigned(m_customSkinBackgroundColor)));
-	S(CUSTOM_SKIN_FONT_COLOR_SIGNATURE,
-			format("%x", rgbaToUnsigned(m_customSkinFontColor)));
+  S(FONT_SIGNATURE, pango_font_description_to_string(m_font));
+  S(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE,
+    format("%x", rgbaToUnsigned(m_customSkinBackgroundColor)));
+  S(CUSTOM_SKIN_FONT_COLOR_SIGNATURE,
+    format("%x", rgbaToUnsigned(m_customSkinFontColor)));
 
-	//v.clear();
-	for (auto a : m_skinFontColor) {
-		v.push_back(format("%x", rgbaToUnsigned(a)));
-	}
-	S(SKIN_FONT_COLOR_SIGNATURE, joinV(v));
+  // v.clear();
+  for (auto a : m_skinFontColor) {
+    v.push_back(format("%x", rgbaToUnsigned(a)));
+  }
+  S(SKIN_FONT_COLOR_SIGNATURE, joinV(v));
 
 #undef S
 }
 
-void Config::reset(bool fromMenu/*=false*/) {
-	int i;
-	std::string s;
-	//order is same with loadConfig & saveConfig & declarations in Frame.h.
-	//It's more convenient
+void Config::reset(bool fromMenu /*=false*/) {
+  int i;
+  std::string s;
+  // order is same with loadConfig & saveConfig & declarations in Frame.h.
+  // It's more convenient
 
-	/* 5nov2021 use absolute font size "px" because of
-	 * createPangoFontDescription() calls
-	 * pango_font_description_set_absolute_size()
-	 * earlier used "Times New Roman, 14" which means 14pt, to convert to px
-	 * should be 14*96/72 = 18.6 but because of scaling 125% on Windows 10
-	 * font size 14*96/72*1.25 = 23.3
-	 * for computers with other scaling factors need to use formula
-	 * 14*96./72.*sf (where sf=verticalScaleFactor=sf)
-	 */
-	setNumericLocale();	//for std::to_string
-	double sf = getScaleFactor().second;
-	s = "Times New Roman, " + std::to_string(14 * 96. / 72. * sf) + "px";
-	//printl(s)
-	m_font = pango_font_description_from_string(s.c_str());
-	setLanguageFileName(0);
+  /* 5nov2021 use absolute font size "px" because of
+   * createPangoFontDescription() calls
+   * pango_font_description_set_absolute_size()
+   * earlier used "Times New Roman, 14" which means 14pt, to convert to px
+   * should be 14*96/72 = 18.6 but because of scaling 125% on Windows 10
+   * font size 14*96/72*1.25 = 23.3
+   * for computers with other scaling factors need to use formula
+   * 14*96./72.*sf (where sf=verticalScaleFactor=sf)
+   */
+  setNumericLocale(); // for std::to_string
+  double sf = getScaleFactor().second;
+  s = "Times New Roman, " + std::to_string(14 * 96. / 72. * sf) + "px";
+  // printl(s)
+  m_font = pango_font_description_from_string(s.c_str());
 
-	m_recent.clear();
+  s = getSystemLanguage();
+  auto it = std::find_if(m_language.begin(), m_language.end(), [&s](const std::string &e) {
+    return e.length() >= 2 && e.substr(0, 2) == s;
+  });
+  i = it == m_language.end() ? 0 : std::distance(m_language.begin(), it);
+  setLanguageFileName(i);
 
-	for (i = 0; i < 4; i++) {
-		m_suitsOrder[i] = i;
-	}
+  m_recent.clear();
 
-	m_startPosition = m_workareaRect.topLeft();
+  for (i = 0; i < 4; i++) {
+    m_suitsOrder[i] = i;
+  }
 
-	m_activeCardShift = 10;
-	m_allowOnlyOneInstance = ALLOW_ONE_INSTANCE_DEFAULT_VALUE;
-	m_animation = 1;
-	m_arrowMargin = 2;
-	setArrowParameters(0);	//set m_arrowNumber & m_arrowSize
-	m_ascending = 0;
-	m_autoPlaySequence = 1;
-	//m_cardWidth set in problem selector
-	//m_cardHeight set in problem selector
-	//m_deckNumber set later in this function depends on monitor size
-	m_documentModifiedWarning = 1;
-	m_eastWestCardsMargin = 3;
-	m_estimateType = ESTIMATE_ALL_TOTAL;
-	if (!fromMenu) {
-		m_gameType = BRIDGE;
-	}
-	m_htmlStoreWithImages = 1;
-	m_htmlStoreBestMove = 0;
-	m_htmlStoreNumberOfTricks = 0;
-	m_htmlPreview = 1;
-	m_htmlShowDialog = 1;
-	m_indentBetweenSuits = 27;
-	m_maxRecent = 8;
-	m_maxRecentLength = 40;
-	m_maxThreads = g_get_num_processors();
-	m_resizeOnDeckChanged = 1;
-	m_showCommonTricks = 1;
-	m_splitEveryFile = 1;
-	m_showLastTrick = 1;
-	m_showPlayerTricks = 1;
-	m_showToolTips = 1;
-	m_skin = 0;
-	m_firstSplitNumber = 0;
-	m_lastTrickMinimalMargin = 0;
-	if (!fromMenu) {
-		m_frameDelta = 120;	//got from real measurement old notebook, new notebook m_frameDelta = 156
-	}
-	m_csvSeparator = ';';
-	m_absent = CARD_INDEX_SOUTH;
-	m_bridgeSolveAllDealsAbsentNS = 0;
-	m_thousandsSeparatorString = ENGLISH_THOUSANDS_SEPARATOR;
+  m_startPosition = m_workareaRect.topLeft();
 
-	//m_skin, m_font - is set
-	m_customSkinBackgroundColor = { 232 / 255., 232 / 255., 232 / 255., 1 };
-	m_customSkinBackgroundImagePath = "";
-	const GdkRGBA black { 0, 0, 0, 1 };
-	const GdkRGBA white { 1, 1, 1, 1 };
-	m_customSkinFontColor = black;
-	for (i = 0; i < N_SKINS; i++) {
-		m_skinFontColor[i] = i >= 2 && i <= 5 ? white : black;
-	}
-	m_customSkinBackgroundIsColor = 1;
+  m_activeCardShift = 10;
+  m_allowOnlyOneInstance = ALLOW_ONE_INSTANCE_DEFAULT_VALUE;
+  m_animation = 1;
+  m_arrowMargin = 2;
+  setArrowParameters(0); // set m_arrowNumber & m_arrowSize
+  m_ascending = 0;
+  m_autoPlaySequence = 1;
+  // m_cardWidth set in problem selector
+  // m_cardHeight set in problem selector
+  // m_deckNumber set later in this function depends on monitor size
+  m_documentModifiedWarning = 1;
+  m_eastWestCardsMargin = 3;
+  m_estimateType = ESTIMATE_ALL_TOTAL;
+  if (!fromMenu) {
+    m_gameType = BRIDGE;
+  }
+  m_htmlStoreWithImages = 1;
+  m_htmlStoreBestMove = 0;
+  m_htmlStoreNumberOfTricks = 0;
+  m_htmlPreview = 1;
+  m_htmlShowDialog = 1;
+  m_indentBetweenSuits = 27;
+  m_maxRecent = 8;
+  m_maxRecentLength = 40;
+  m_maxThreads = g_get_num_processors();
+  m_resizeOnDeckChanged = 1;
+  m_showCommonTricks = 1;
+  m_splitEveryFile = 1;
+  m_showLastTrick = 1;
+  m_showPlayerTricks = 1;
+  m_showToolTips = 1;
+  m_skin = 0;
+  m_firstSplitNumber = 0;
+  m_lastTrickMinimalMargin = 0;
+  if (!fromMenu) {
+    m_frameDelta = 120; // got from real measurement old notebook, new notebook
+                        // m_frameDelta = 156
+  }
+  m_csvSeparator = ';';
+  m_absent = CARD_INDEX_SOUTH;
+  m_bridgeSolveAllDealsAbsentNS = 0;
+  m_thousandsSeparatorString = ENGLISH_THOUSANDS_SEPARATOR;
 
-	CPoint sz, sz1;
-	/*
-	 m_frameDelta = 120;	//got from real measurement
-	 sz=countMaxCardSizeForY(m_arrowSize);
-	 printl(m_frameDelta,sz)
+  // m_skin, m_font - is set
+  m_customSkinBackgroundColor = {232 / 255., 232 / 255., 232 / 255., 1};
+  m_customSkinBackgroundImagePath = "";
+  const GdkRGBA black{0, 0, 0, 1};
+  const GdkRGBA white{1, 1, 1, 1};
+  m_customSkinFontColor = black;
+  for (i = 0; i < N_SKINS; i++) {
+    m_skinFontColor[i] = i >= 2 && i <= 5 ? white : black;
+  }
+  m_customSkinBackgroundIsColor = 1;
 
-	 m_frameDelta = 156;	//got from real measurement
-	 sz=countMaxCardSizeForY(m_arrowSize);
-	 printl(m_frameDelta,sz)
+  CPoint sz, sz1;
+  /*
+   m_frameDelta = 120;	//got from real measurement
+   sz=countMaxCardSizeForY(m_arrowSize);
+   printl(m_frameDelta,sz)
 
-	 i=6;
-	 sz=RASTER_DECK_CARD_SIZE[i];
-	 printl("deck",i,sz)
-	 120 119x167                              Config.cpp:533 reset()
-	 156 114x160                              Config.cpp:537 reset()
-	 deck 6 95x125                            Config.cpp:541 reset()
-	 */
+   m_frameDelta = 156;	//got from real measurement
+   sz=countMaxCardSizeForY(m_arrowSize);
+   printl(m_frameDelta,sz)
 
-	//after m_frameDelta is set
-	sz = countMaxCardSizeForY(m_arrowSize);
-	i = 6;
-	sz1 = RASTER_DECK_CARD_SIZE[i];
-	if (sz1.x <= sz.x && sz1.y <= sz.y) {
-		m_deckNumber = i;
-	} else {
-		m_deckNumber = 0;
-	}
+   i=6;
+   sz=RASTER_DECK_CARD_SIZE[i];
+   printl("deck",i,sz)
+   120 119x167                              Config.cpp:533 reset()
+   156 114x160                              Config.cpp:537 reset()
+   deck 6 95x125                            Config.cpp:541 reset()
+   */
+
+  // after m_frameDelta is set
+  sz = countMaxCardSizeForY(m_arrowSize);
+  i = 6;
+  sz1 = RASTER_DECK_CARD_SIZE[i];
+  if (sz1.x <= sz.x && sz1.y <= sz.y) {
+    m_deckNumber = i;
+  } else {
+    m_deckNumber = 0;
+  }
 }
 
 void Config::setLanguageFileName(int index) {
-	m_languageFileName = getLanguageFileNameByIndex(index);
+  m_languageFileName = getLanguageFileNameByIndex(index);
 }
 
-std::string Config::getLanguageDir() const {
-	return getResourcePath("lng");
-}
+std::string Config::getLanguageDir() const { return getResourcePath("lng"); }
 
 std::string Config::getLanguageFileNameByIndex(int index) const {
-	assert(index >= 0 && index < int(m_language.size()));
-	return getLanguageDir() + G_DIR_SEPARATOR + m_language[index] + "."
-			+ LANGUAGE_EXTENSION;
+  assert(index >= 0 && index < int(m_language.size()));
+  return getLanguageDir() + G_DIR_SEPARATOR + m_language[index] + "." +
+         LANGUAGE_EXTENSION;
 }
 
-std::string Config::getLanguageString() const{
-	std::size_t pos = m_languageFileName.rfind(G_DIR_SEPARATOR);
-	assert(pos != std::string::npos);
-	return m_languageFileName.substr(pos + 1,
-			m_languageFileName.length() - pos - 5);
+std::string Config::getLanguageString() const {
+  std::size_t pos = m_languageFileName.rfind(G_DIR_SEPARATOR);
+  assert(pos != std::string::npos);
+  return m_languageFileName.substr(pos + 1,
+                                   m_languageFileName.length() - pos - 5);
 }
 
 int Config::getLanguageIndex() const {
-	return indexOf(getLanguageString(), m_language);
+  return indexOf(getLanguageString(), m_language);
 }
 
 /* load language file to vector
  * if v.first=id exists replace string
  */
 bool Config::loadLanguage(std::string filename, VIntString &v) {
-	const int BUFF_SIZE = 512;
-	char buff[BUFF_SIZE], *b, *e;
-	int i, previous = 0;
-	FILE *f;
+  const int BUFF_SIZE = 512;
+  char buff[BUFF_SIZE], *b, *e;
+  int i, previous = 0;
+  FILE *f;
 
-	f = open(filename.c_str(), "r");
-	if (!f) {
-		return false;
-	}
+  f = open(filename.c_str(), "r");
+  if (!f) {
+    return false;
+  }
 
-	while (fgets(buff, BUFF_SIZE, f)) {
-		for (b = buff; *b == '\t' || *b == ' '; b++)
-			;
-		if (*b == '"') {
-			i = ++previous;
-		} else {
-			i = strtol(buff, &b, 10);
-			if (b == buff) {	//no digits found
-				continue;
-			}
-			previous = i;
-			b = strchr(buff, '"');
-		}
-		e = strrchr(buff, '"');
-		if (b != 0 && e != 0) {
-			b++;
-			*e = 0;
-			auto it = find_if(v.begin(), v.end(), [&i](const PairIntString &a) {
-				return a.first == i;
-			});
-			if (it == v.end()) {
-				v.push_back( { i, b });
-			} else {
-				it->second = b;
-			}
-		}
-	}
-	fclose(f);
-	return true;
+  while (fgets(buff, BUFF_SIZE, f)) {
+    for (b = buff; *b == '\t' || *b == ' '; b++)
+      ;
+    if (*b == '"') {
+      i = ++previous;
+    } else {
+      i = strtol(buff, &b, 10);
+      if (b == buff) { // no digits found
+        continue;
+      }
+      previous = i;
+      b = strchr(buff, '"');
+    }
+    e = strrchr(buff, '"');
+    if (b != 0 && e != 0) {
+      b++;
+      *e = 0;
+      auto it = find_if(v.begin(), v.end(),
+                        [&i](const PairIntString &a) { return a.first == i; });
+      if (it == v.end()) {
+        v.push_back({i, b});
+      } else {
+        it->second = b;
+      }
+    }
+  }
+  fclose(f);
+  return true;
 }
 
 void Config::loadLanguageFile() {
-	int i, j;
-	VIntString v;
-	auto se = "english" + std::string(".") + LANGUAGE_EXTENSION;
-	auto sr = "russian" + std::string(".") + LANGUAGE_EXTENSION;
+  int i, j;
+  VIntString v;
+  auto se = "english" + std::string(".") + LANGUAGE_EXTENSION;
+  auto sr = "russian" + std::string(".") + LANGUAGE_EXTENSION;
 
-	//auto s = getLanguageDir()+G_DIR_SEPARATOR+"english."+LANGUAGE_EXTENSION;
-	auto s = getLanguageDir()
-			+ format("%cenglish.%s", G_DIR_SEPARATOR, LANGUAGE_EXTENSION);
-	//auto s = format("%s%cenglish.%s", m_languageDir,G_DIR_SEPARATOR, LANGUAGE_EXTENSION);
-	i = 0;
-	if (!endsWith(m_languageFileName, se)
-			&& !endsWith(m_languageFileName, sr)) {
-		i = 1;
-		loadLanguage(s, v);
-	}
+  // auto s = getLanguageDir()+G_DIR_SEPARATOR+"english."+LANGUAGE_EXTENSION;
+  auto s = getLanguageDir() +
+           format("%cenglish.%s", G_DIR_SEPARATOR, LANGUAGE_EXTENSION);
+  // auto s = format("%s%cenglish.%s", m_languageDir,G_DIR_SEPARATOR,
+  // LANGUAGE_EXTENSION);
+  i = 0;
+  if (!endsWith(m_languageFileName, se) && !endsWith(m_languageFileName, sr)) {
+    i = 1;
+    loadLanguage(s, v);
+  }
 
-	//if project moved to another folder, and language file location is wrong
-	if (!loadLanguage(m_languageFileName, v) && i == 0) {
-		printl("CRITICAL ERROR couldn't open language file, use english language file")
-		;
-		m_languageFileName = s;
-		loadLanguage(s, v);
-	}
+  // if project moved to another folder, and language file location is wrong
+  if (!loadLanguage(m_languageFileName, v) && i == 0) {
+    printl("CRITICAL ERROR couldn't open language file, use english language "
+           "file");
+    m_languageFileName = s;
+    loadLanguage(s, v);
+  }
 
-	m_vectorMenuString.clear();
-	for (auto &a : v) {
-		i = a.first;
-		auto &b = a.second;
+  m_vectorMenuString.clear();
+  for (auto &a : v) {
+    i = a.first;
+    auto &b = a.second;
 
-		if (i < STRING_SIZE) {	//load normal strings & errors not! STRING_SIZE
-			if (i == STRING_ABOUT) {
-				S[i] = format(b.c_str(), CURRENT_VERSION.c_str(),
-						EMAIL.c_str(), HOMEPAGE.c_str());
-			} else {
-				S[i] = b;
-			}
-			S[i] = localeToUtf8(replaceAll(S[i], "\\n", "\n"));
-		} else {
-			//insert before
-			if (i == MENU_LOAD_LANGUAGE_FILE) {
-				j = 0;
-				for (auto &l : m_language) {
-					m_vectorMenuString.push_back(
-							{ MENU_ID(MENU_LANGUAGE_FIRST + j), localeToUtf8(l) });
-					j++;
-				}
-			} else if (i == MENU_CALCULATOR) {
-				m_vectorMenuString.push_back(MenuString(MENU_GAME_TYPE, ""));
-			}
+    if (i < STRING_SIZE) { // load normal strings & errors not! STRING_SIZE
+      if (i == STRING_ABOUT) {
+        S[i] = format(b.c_str(), CURRENT_VERSION.c_str(), EMAIL.c_str(),
+                      HOMEPAGE.c_str());
+      } else {
+        S[i] = b;
+      }
+      S[i] = localeToUtf8(replaceAll(S[i], "\\n", "\n"));
+    } else {
+      // insert before
+      if (i == MENU_LOAD_LANGUAGE_FILE) {
+        j = 0;
+        for (auto &l : m_language) {
+          m_vectorMenuString.push_back(
+              {MENU_ID(MENU_LANGUAGE_FIRST + j), localeToUtf8(l)});
+          j++;
+        }
+      } else if (i == MENU_CALCULATOR) {
+        m_vectorMenuString.push_back(MenuString(MENU_GAME_TYPE, ""));
+      }
 
-			m_vectorMenuString.push_back( { MENU_ID(i), localeToUtf8(b) });
+      m_vectorMenuString.push_back({MENU_ID(i), localeToUtf8(b)});
 
-			//insert after
-			if (i == MENU_REDOALL) {
-				m_vectorMenuString.push_back( { MENU_FIND_BEST_MOVE, "" });
-			}
+      // insert after
+      if (i == MENU_REDOALL) {
+        m_vectorMenuString.push_back({MENU_FIND_BEST_MOVE, ""});
+      }
+    }
+  }
 
-		}
-
-	}
-
-	m_thousandsSeparatorString = S[STRING_THOUSANDS_SEPARATOR];
+  m_thousandsSeparatorString = S[STRING_THOUSANDS_SEPARATOR];
 }
 
 int Config::getFontHeight() const {
-	return pango_font_description_get_size(m_font) / PANGO_SCALE;
+  return pango_font_description_get_size(m_font) / PANGO_SCALE;
 }
 
 void Config::loadCSS() {
-	std::string p, t;
-	PangoStyle ps = pango_font_description_get_style(m_font);
-	switch (ps) {
-	case PANGO_STYLE_NORMAL:
-		t = "normal";
-		break;
-	case PANGO_STYLE_OBLIQUE:
-		t = "oblique";
-		break;
-	case PANGO_STYLE_ITALIC:
-		t = "italic";
-		break;
-	}
+  std::string p, t;
+  PangoStyle ps = pango_font_description_get_style(m_font);
+  switch (ps) {
+  case PANGO_STYLE_NORMAL:
+    t = "normal";
+    break;
+  case PANGO_STYLE_OBLIQUE:
+    t = "oblique";
+    break;
+  case PANGO_STYLE_ITALIC:
+    t = "italic";
+    break;
+  }
 
-	auto fc = rgbaToString(
-			m_skin == CONFIG_CUSTOM_SKIN ?
-					m_customSkinFontColor : m_skinFontColor[m_skin]);
-	int b = 1;
-	if (m_skin == CONFIG_CUSTOM_SKIN) {
-		if (m_customSkinBackgroundIsColor) {
-			b = 0;
-			p = "background:" + rgbaToString(m_customSkinBackgroundColor);
-		} else {
-			b = 1;
-			p = m_customSkinBackgroundImagePath;
-		}
-	} else {
-		b = 2;
-		p = "bridge/images/bg" + std::to_string(m_skin) + ".jpg";
-	}
-	if (b) {
-		p = "background-image:url('" + p + "')";
-		if (b == 1) {
-			/* some pixels of the user selected image can be transparent
-			 * but we need solid picture because if rotate table or switch arrow
-			 * if have some intersection with transparent pixels then old card or arrow
-			 * left on the screen, so add white background for all transparent pixels
-			 */
-			p = "background:white;" + p;
-		}
-	}
+  auto fc =
+      rgbaToString(m_skin == CONFIG_CUSTOM_SKIN ? m_customSkinFontColor
+                                                : m_skinFontColor[m_skin]);
+  int b = 1;
+  if (m_skin == CONFIG_CUSTOM_SKIN) {
+    if (m_customSkinBackgroundIsColor) {
+      b = 0;
+      p = "background:" + rgbaToString(m_customSkinBackgroundColor);
+    } else {
+      b = 1;
+      p = m_customSkinBackgroundImagePath;
+    }
+  } else {
+    b = 2;
+    p = "bridge/images/bg" + std::to_string(m_skin) + ".jpg";
+  }
+  if (b) {
+    p = "background-image:url('" + p + "')";
+    if (b == 1) {
+      /* some pixels of the user selected image can be transparent
+       * but we need solid picture because if rotate table or switch arrow
+       * if have some intersection with transparent pixels then old card or
+       * arrow left on the screen, so add white background for all transparent
+       * pixels
+       */
+      p = "background:white;" + p;
+    }
+  }
 
-	bool a = pango_font_description_get_size_is_absolute(m_font);
-	std::string s = "@define-color font_color " + fc + ";"
-			+ "GtkDialog,dialog,notebook stack{" + p + ";}"
-			+ "textview, entry, label, progressbar, scale{" + +"font-size:"
-			+ std::to_string(getFontHeight()) + (a ? "px" : "") + ";"
-			+ "font-family:" + pango_font_description_get_family(m_font) + ";"
-			+ "font-style:" + t + ";" + "font-weight:"
-			+ std::to_string(int(pango_font_description_get_weight(m_font)))
-			+ ";" + "}";
-	//printl(s)
+  bool a = pango_font_description_get_size_is_absolute(m_font);
+  std::string s =
+      "@define-color font_color " + fc + ";" +
+      "GtkDialog,dialog,notebook stack{" + p + ";}" +
+      "textview, entry, label, progressbar, scale{" +
+      +"font-size:" + std::to_string(getFontHeight()) + (a ? "px" : "") + ";" +
+      "font-family:" + pango_font_description_get_family(m_font) + ";" +
+      "font-style:" + t + ";" + "font-weight:" +
+      std::to_string(int(pango_font_description_get_weight(m_font))) + ";" +
+      "}";
+  // printl(s)
 
-	::loadCSS(s);
+  ::loadCSS(s);
 }
 
-void Config::updateCSS() {
-	loadCSS();
-}
+void Config::updateCSS() { loadCSS(); }
 
 void Config::setSkin(int skin) {
-	m_skin = skin;
-	updateCSS();
+  m_skin = skin;
+  updateCSS();
 }
 
-const gchar* Config::getPlayerString(CARD_INDEX player) const {
-	int i = indexOfPlayer(player);
-	return getString(static_cast<STRING_ID>(STRING_NORTH + i));
+const gchar *Config::getPlayerString(CARD_INDEX player) const {
+  int i = indexOfPlayer(player);
+  return getString(static_cast<STRING_ID>(STRING_NORTH + i));
 }
 
-GdkPixbuf* Config::languagePixbuf(int id) const {
-	return pixbuf(m_language[id - MENU_LANGUAGE_FIRST] + ".png");
+GdkPixbuf *Config::languagePixbuf(int id) const {
+  return pixbuf(m_language[id - MENU_LANGUAGE_FIRST] + ".png");
 }
 
 std::string Config::getTitle() {
-	std::string s = getString(STRING_ABOUT);
-	auto p = s.find('\n');
-	for (int i = 0; i < 2; i++) {
-		p = s.rfind(' ', p - 1);
-	}
-	s = s.substr(0, p);
+  std::string s = getString(STRING_ABOUT);
+  auto p = s.find('\n');
+  for (int i = 0; i < 2; i++) {
+    p = s.rfind(' ', p - 1);
+  }
+  s = s.substr(0, p);
 #ifndef FINAL_RELEASE
-	s += " FINAL_RELEASE not defined";
+  s += " FINAL_RELEASE not defined";
 #endif
 #ifndef NDEBUG
-	s += " NDEBUG not defined";
+  s += " NDEBUG not defined";
 #endif
-	return s;
+  return s;
 }
 
 std::string Config::getUniqueApplicationName() {
-	static const char SLASH = '/';
-	std::string s = BASE_ADDRESS;
-	s = s.substr(s.rfind(SLASH) + 1);
-	const std::string SEPARATOR = ".";
-	VString vs = split(s, SEPARATOR);
-	VString::reverse_iterator it;
-	for (s = "", it = vs.rbegin(); it != vs.rend(); it++) {
-		if (it != vs.rbegin()) {
-			s += SEPARATOR;
-		}
-		s += *it;
-	}
-	return s;
+  static const char SLASH = '/';
+  std::string s = BASE_ADDRESS;
+  s = s.substr(s.rfind(SLASH) + 1);
+  const std::string SEPARATOR = ".";
+  VString vs = split(s, SEPARATOR);
+  VString::reverse_iterator it;
+  for (s = "", it = vs.rbegin(); it != vs.rend(); it++) {
+    if (it != vs.rbegin()) {
+      s += SEPARATOR;
+    }
+    s += *it;
+  }
+  return s;
 }
 
 bool Config::allowOnlyOneInstance() {
-	MapStringString m;
-	MapStringString::iterator it;
-	if (loadConfig(m)
-			&& (it = m.find(ALLOW_ONLY_ONE_INSTANCE_SIGNATURE)) != m.end()) {
-		return std::stoi(it->second) != 0;
-	}
+  MapStringString m;
+  MapStringString::iterator it;
+  if (loadConfig(m) &&
+      (it = m.find(ALLOW_ONLY_ONE_INSTANCE_SIGNATURE)) != m.end()) {
+    return std::stoi(it->second) != 0;
+  }
 
-	return ALLOW_ONE_INSTANCE_DEFAULT_VALUE;
+  return ALLOW_ONE_INSTANCE_DEFAULT_VALUE;
 }
 
 bool Config::getStringBySignature(const char *signature, std::string &s) {
-	return getStringBySignature(std::string(signature), s);
+  return getStringBySignature(std::string(signature), s);
 }
 
 bool Config::getStringBySignature(const std::string &signature,
-		std::string &s) {
-	auto it = m_map.find(signature);
-	if (it == m_map.end()) {
-		//println("signature not found [%s]",signature.c_str())
-		return false;
-	} else {
-		s = it->second;
-		return true;
-	}
+                                  std::string &s) {
+  auto it = m_map.find(signature);
+  if (it == m_map.end()) {
+    // println("signature not found [%s]",signature.c_str())
+    return false;
+  } else {
+    s = it->second;
+    return true;
+  }
 }
 
 int Config::getIndentInsideSuit() const {
-	return isScalableDeck() ?
-			getSvgIndentInsideSuit() : INDENT_INSIDE_SUIT[m_deckNumber];
+  return isScalableDeck() ? getSvgIndentInsideSuit()
+                          : INDENT_INSIDE_SUIT[m_deckNumber];
 }
 
 int Config::getEstimationIndent() const {
-	return isScalableDeck() ?
-			getSvgEstimationIndent() : ESTIMATION_INDENT[m_deckNumber];
+  return isScalableDeck() ? getSvgEstimationIndent()
+                          : ESTIMATION_INDENT[m_deckNumber];
 }
 
-bool Config::isScalableArrow(int arrow) {
-	return arrow >= N_RASTER_ARROWS;
-}
+bool Config::isScalableArrow(int arrow) { return arrow >= N_RASTER_ARROWS; }
 
-bool Config::isScalableArrow() const {
-	return isScalableArrow(m_arrowNumber);
-}
+bool Config::isScalableArrow() const { return isScalableArrow(m_arrowNumber); }
 
-bool Config::isScalableDeck(int deck) {
-	return deck >= N_RASTER_DECKS;
-}
+bool Config::isScalableDeck(int deck) { return deck >= N_RASTER_DECKS; }
 
-bool Config::isScalableDeck() const {
-	return isScalableDeck(m_deckNumber);
-}
+bool Config::isScalableDeck() const { return isScalableDeck(m_deckNumber); }
 
-CPoint Config::getCardSize() const {
-	return {m_cardWidth,m_cardHeight};
-}
+CPoint Config::getCardSize() const { return {m_cardWidth, m_cardHeight}; }
 
 void Config::setCardSize(CPoint const &size) {
-	m_cardWidth = size.x;
-	m_cardHeight = size.y;
+  m_cardWidth = size.x;
+  m_cardHeight = size.y;
 }
 
-int Config::getCardWidth() {
-	return m_cardWidth;
-}
+int Config::getCardWidth() { return m_cardWidth; }
 
-int Config::getCardHeight() {
-	return m_cardHeight;
-}
+int Config::getCardHeight() { return m_cardHeight; }
 
 int Config::getSvgIndentInsideSuit() const {
-	//got coefficient manually
-	return m_cardWidth / 4.5;
+  // got coefficient manually
+  return m_cardWidth / 4.5;
 }
 
 int Config::getSvgEstimationIndent() const {
-	//got coefficient manually
-	return m_cardHeight / 3.5;
+  // got coefficient manually
+  return m_cardHeight / 3.5;
 }
 
-void Config::setArrowParameters(int arrow, int arrowSize/*=SKIP_ARROW_SIZE*/) {
-	//for non raster arrows size should be set
-	assert(arrow < N_RASTER_ARROWS || arrowSize != SKIP_ARROW_SIZE);
-	m_arrowNumber = arrow;
-	m_arrowSize =
-			arrowSize == SKIP_ARROW_SIZE ? RASTER_ARROW_SIZE[arrow] : arrowSize;
+void Config::setArrowParameters(int arrow, int arrowSize /*=SKIP_ARROW_SIZE*/) {
+  // for non raster arrows size should be set
+  assert(arrow < N_RASTER_ARROWS || arrowSize != SKIP_ARROW_SIZE);
+  m_arrowNumber = arrow;
+  m_arrowSize =
+      arrowSize == SKIP_ARROW_SIZE ? RASTER_ARROW_SIZE[arrow] : arrowSize;
 }
 
 void Config::setDeckParameters(int deck, bool resizeOnDeckChanged,
-		CPoint cardSize) {
-	m_deckNumber = deck;
-	m_resizeOnDeckChanged = resizeOnDeckChanged;
-	m_cardWidth = cardSize.x;
-	m_cardHeight = cardSize.y;
+                               CPoint cardSize) {
+  m_deckNumber = deck;
+  m_resizeOnDeckChanged = resizeOnDeckChanged;
+  m_cardWidth = cardSize.x;
+  m_cardHeight = cardSize.y;
 }
 
-int Config::recentSize() {
-	return m_recent.size();
-}
+int Config::recentSize() { return m_recent.size(); }
 
 bool Config::isWritableImage(std::string const &s) const {
-	return oneOf(s, m_storeImageFormat);
+  return oneOf(s, m_storeImageFormat);
 }
 
-GdkRGBA& Config::getFontColor() {
-	return m_skinFontColor[m_skin];
-}
+GdkRGBA &Config::getFontColor() { return m_skinFontColor[m_skin]; }
 
 int Config::countTableSize(int cardHeight, int arrowSize, int y) {
-	return (cardHeight + y + 2 * getArrowMargin() + arrowSize) * 2 + 1;	//+1 size includes line
+  return (cardHeight + y + 2 * getArrowMargin() + arrowSize) * 2 +
+         1; //+1 size includes line
 }
 
 int Config::countTableTop(int cardHeight) {
-	return cardHeight + getActiveCardShift();
+  return cardHeight + getActiveCardShift();
 }
 
 int Config::countAreaHeight(int cardHeight, int arrowSize, int y) {
-	//Note result=cardHeight*CARDSIZE_K_IN_AREA_HEIGHT+arrowSize*ARROW_K_IN_AREA_HEIGHT+something
-	int tt = countTableTop(cardHeight);
-	int ts = countTableSize(cardHeight, arrowSize, y);
-	return 3 * (tt + 1) + ts - 1;
+  // Note
+  // result=cardHeight*CARDSIZE_K_IN_AREA_HEIGHT+arrowSize*ARROW_K_IN_AREA_HEIGHT+something
+  int tt = countTableTop(cardHeight);
+  int ts = countTableSize(cardHeight, arrowSize, y);
+  return 3 * (tt + 1) + ts - 1;
 }
 
 CPoint Config::countMaxCardSizeForY(int arrowSize, int y) {
-	int i = countAreaHeight(0, arrowSize, y);
-	int m_maxCardHeight = (getAreaMaxHeight() - i) / CARDSIZE_K_IN_AREA_HEIGHT;
+  int i = countAreaHeight(0, arrowSize, y);
+  int m_maxCardHeight = (getAreaMaxHeight() - i) / CARDSIZE_K_IN_AREA_HEIGHT;
 
-	int m_maxCardWidth = int(m_maxCardHeight * MAX_SVG_WH_RATIO);
-	return {m_maxCardWidth,m_maxCardHeight};
+  int m_maxCardWidth = int(m_maxCardHeight * MAX_SVG_WH_RATIO);
+  return {m_maxCardWidth, m_maxCardHeight};
 }
 
 void Config::resetSettings() {
-	reset(true);
-	loadLanguageFile();
-	updateCSS();
+  reset(true);
+  loadLanguageFile();
+  updateCSS();
 }
