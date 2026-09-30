@@ -1108,14 +1108,14 @@ void Problem::parseBts(const std::string &content) {
 	p1 = content.c_str() + (p - f); //from original case not lower
 
 	sprintf(b, "\n%s\n", BTS_PBNINFO); //no space after %s!
-	q = strstr(f, b);
+	const char*qq = strstr(f, b);
 
-	if (q == NULL) {
+	if (qq == NULL) {
 		m_comment = p1;
 	} else {
-		assert(q >= p);
-		m_comment = std::string(p1, q - p);
-		fillPbnTags(content.c_str() + (q - f) + strlen(b)); //from original case not lower
+		assert(qq >= p);
+		m_comment = std::string(p1, qq - p);
+		fillPbnTags(content.c_str() + (qq - f) + strlen(b)); //from original case not lower
 	}
 	m_comment = localeToUtf8(m_comment);
 
