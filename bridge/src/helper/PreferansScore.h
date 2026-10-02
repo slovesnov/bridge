@@ -89,7 +89,9 @@ public:
 	 }
 	 */
 
+#ifndef FINAL_RELEASE
 	void print();
+#endif
 };
 
 #endif /* PREFERANSSCORE_H_ */

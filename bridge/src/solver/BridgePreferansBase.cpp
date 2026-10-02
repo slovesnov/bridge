@@ -274,7 +274,6 @@ void BridgePreferansBase::endgameInit(bool bridge, int32_t *endgameLength[],
 	const int ntotal = endgameGetN(bridge, true);
 	const int size = endgameMultiplier * endgameMultiplier * (ntotal / 2)
 			+ endgameMultiplier * (ntotal % 2) + 1;
-	printl(bridge,size)
 
 	for (i = 0; i < endgameTypes; i++) {
 		auto &p = endgameLength[i];

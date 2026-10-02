@@ -15,8 +15,10 @@ int Stream::readInteger() {
 	int i;
 	assert(sizeof(int) == 4);
 	if (bytesLeft() < 4) {
-		println("error ProblemVector::readInteger() %d %d\n", m_contentPtr,
+#ifndef FINAL_RELEASE
+		g_print("error ProblemVector::readInteger() %d %d\n", m_contentPtr,
 				int(m_content.length()));
+#endif
 		return 0;
 	}
 

@@ -450,14 +450,18 @@ std::string ProblemVector::unzipFile(std::string filepath) {
 	auto s = utf8ToLocale(filepath);
 	unzFile zipfile = unzOpen(s.c_str());
 	if (zipfile == NULL) {
-		println("%s: not found", filepath.c_str());
+#ifndef FINAL_RELEASE
+		pr(filepath," not found");
+#endif
 		return "";
 	}
 
 	// Get info about the zip file
 	unz_global_info global_info;
 	if (unzGetGlobalInfo(zipfile, &global_info) != UNZ_OK) {
-		println("could not read file global info");
+#ifndef FINAL_RELEASE
+		pr("could not read file global info");
+#endif
 		unzClose(zipfile);
 		return "";
 	}
@@ -469,9 +473,11 @@ std::string ProblemVector::unzipFile(std::string filepath) {
 	// Loop to extract all files
 	uint32_t i;	//was in 32bit "uLong i"
 
+#ifndef FINAL_RELEASE
 	if (global_info.number_entry != 1) {
-		println("error: global_info.number_entry!=1");
+		pr("error: global_info.number_entry!=1");
 	}
+#endif
 
 	for (i = 0; i < global_info.number_entry; ++i) {
 		// Get info about current file.
@@ -479,7 +485,9 @@ std::string ProblemVector::unzipFile(std::string filepath) {
 		char filename[MAX_FILENAME];
 		if (unzGetCurrentFileInfo(zipfile, &file_info, filename, MAX_FILENAME,
 		NULL, 0, NULL, 0) != UNZ_OK) {
-			println("could not read file info\n");
+#ifndef FINAL_RELEASE
+			pr("could not read file info\n");
+#endif
 			unzClose(zipfile);
 			return "";
 		}
@@ -488,13 +496,15 @@ std::string ProblemVector::unzipFile(std::string filepath) {
 		const size_t filename_length = strlen(filename);
 		if (filename[filename_length - 1] == dir_delimter) {
 			// Entry is a directory, so create it.
-			//println( "dir:%s", filename );
+			//pr( "dir:", filename );
 			//mkdir( filename );
 		} else {
 			// Entry is a file, so extract it.
-			//println( "file:%s", filename );
+			//pr( "file:", filename );
 			if (unzOpenCurrentFile(zipfile) != UNZ_OK) {
-				println("could not open file");
+#ifndef FINAL_RELEASE
+				pr("could not open file");
+#endif
 				unzClose(zipfile);
 				return "";
 			}
@@ -503,7 +513,9 @@ std::string ProblemVector::unzipFile(std::string filepath) {
 			do {
 				error = unzReadCurrentFile(zipfile, read_buffer, READ_SIZE);
 				if (error < 0) {
-					println("error %d", error);
+#ifndef FINAL_RELEASE
+					pr("error", error);
+#endif
 					unzCloseCurrentFile(zipfile);
 					unzClose(zipfile);
 					return "";
@@ -522,7 +534,9 @@ std::string ProblemVector::unzipFile(std::string filepath) {
 		// Go the the next entry listed in the zip file.
 		if ((i + 1) < global_info.number_entry) {
 			if (unzGoToNextFile(zipfile) != UNZ_OK) {
-				println("cound not read next file");
+#ifndef FINAL_RELEASE
+				pr("cound not read next file");
+#endif
 				unzClose(zipfile);
 				return "";
 			}

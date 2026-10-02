@@ -586,7 +586,9 @@ void Preferans::suitableCardsMisere(int suit, int w, SC &c) {
 #undef ORDER
 }
 
+#ifndef FINAL_RELEASE
 void Preferans::printCode(int suit) {
 	auto c = m_code[suit];
-	println("%s %x\n", binaryCodeString(c).c_str(), c);
+	g_print("%s %x\n", binaryCodeString(c).c_str(), c);
 }
+#endif

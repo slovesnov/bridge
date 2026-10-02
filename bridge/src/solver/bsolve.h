@@ -60,9 +60,6 @@ for (i = 0; i < 4; i++) {
 	m |= k;
 	m_code[i] = m;
 
-//	println("0x%x len%d",m_code[i]>>4,m_code[i]&15)
-//	printCode(i);
-//	printf("%d %d,\n",i,m);
 }
 
 //cards in each hand

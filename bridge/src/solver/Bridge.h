@@ -155,7 +155,9 @@ private:
 
 	int removeCard(int suit, int pos);
 
+#ifndef FINAL_RELEASE
 	void printCode(int suit);
+#endif
 
 	static void staticInit();
 	static void staticDeinit();

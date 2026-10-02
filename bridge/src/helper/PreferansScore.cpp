@@ -42,7 +42,7 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 	if (contract == 0) {
 		m_pg[player] = tricks == 0 ? 10 : -10 * tricks;
 	} else {
-		const int undertricks = contract - tricks; //[ru] недобранные взятки
+		const int undertricks = contract - tricks; //[ru] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 		const int whistertricks = 10 - tricks;
 		const int MIN_WHISTER_TRICKS[] = { 4, 2, 1, 1, 0 };
 		const bool contractDone = undertricks <= 0;
@@ -63,7 +63,7 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 					m_pg[whister] = c * (whistertricks - minwhistertricks);
 				}
 			} else {
-				//[en] consolation - penalty whists [ru] консоляция
+				//[en] consolation - penalty whists [ru] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 				for (i = 0; i < m_players; i++) {
 					if (i != player) {
 						whist(i, player) = c * undertricks;
@@ -95,20 +95,22 @@ void PreferansScore::setGame(int players, int contract, int tricks,
 	}
 }
 
+#ifndef FINAL_RELEASE
 void PreferansScore::print() {
 	int i, j, k;
-	printzn("players = ", m_players, ", contract = ", m_contract, ", tricks = ",
-			m_tricks, ", whist option = ", m_whistOption);
+	pr("players = ", m_players, ", contract = ", m_contract, ", tricks = ",
+			m_tricks, ", whist option = ", m_whistOption,"\n");
 	for (i = 0; i < m_players; i++) {
 		if (m_pg[i]) {
-			printzn("pg", i + 1, " = ", m_pg[i]);
+			pr("pg", i + 1, " = ", m_pg[i],"\n");
 		}
 	}
 	for (i = 0; i < m_players; i++) {
 		for (j = 0; j < m_players; j++) {
 			if ((k = whist(i, j)) != 0) {
-				printzn("whist", i + 1, j + 1, " = ", k);
+				pr("whist", i + 1, j + 1, " = ", k,"\n");
 			}
 		}
 	}
 }
+#endif

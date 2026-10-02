@@ -432,7 +432,7 @@ void Config::save(GAME_TYPE gt, int x, int y) {
 
   S(SUITSORDER_SIGNATURE, JOIN(m_suitsOrder))
 
-  S(START_POSITION_SIGNATURE, forma(m_startPosition.x, m_startPosition.y));
+  S(START_POSITION_SIGNATURE, std::format("{} {}",m_startPosition.x, m_startPosition.y));
 
   itString = storeVariablesIntNote.begin();
   for (int *itIntPtr : storeVariablesInt) {
@@ -662,8 +662,10 @@ void Config::loadLanguageFile() {
 
   // if project moved to another folder, and language file location is wrong
   if (!loadLanguage(m_languageFileName, v) && i == 0) {
-    printl("CRITICAL ERROR couldn't open language file, use english language "
+#ifndef FINAL_RELEASE
+    pr("CRITICAL ERROR couldn't open language file, use english language "
            "file");
+#endif
     m_languageFileName = s;
     loadLanguage(s, v);
   }

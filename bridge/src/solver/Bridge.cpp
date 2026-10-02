@@ -538,7 +538,9 @@ void Bridge::estimateAllInner(const Problem &p, ESTIMATE estimateType,
 					if (high == 0) {
 						im = 1;
 						//TODO remove, cann't model such situation
-						println("high == 0 GOT IT")
+#ifndef FINAL_RELEASE
+						pr("high == 0 GOT IT")
+#endif
 					} else {
 						/* Here high=1, do search in [0,1] window in solve
 						 * function this interval became [0,2] because of
@@ -628,11 +630,15 @@ void Bridge::estimateAllInner(const Problem &p, ESTIMATE estimateType,
 
 	//copy hashtable
 	if ((beforeBest && !trumpChanged) || !beforeBest) {
+#ifndef FINAL_RELEASE
 		auto begin = clock();
+#endif
 		for (i = 0; i < j; i++) {
 			memcpy(gb[i].m_hashTable, m_hashTable, HASH_SIZE * sizeof(Hash));
 		}
-		println("hashcopy %.3lf", double(clock()-begin)/CLOCKS_PER_SEC);
+#ifndef FINAL_RELEASE
+		g_print("hashcopy %.3lf", double(clock()-begin)/CLOCKS_PER_SEC);
+#endif
 	}
 
 	for (i = 0; i < j; i++) {
@@ -842,6 +848,7 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first) {
 
 }
 
+#ifndef FINAL_RELEASE
 void Bridge::printCode(int suit) {
 	int c = m_code[suit];
 	int l = c & 15;
@@ -850,8 +857,9 @@ void Bridge::printCode(int suit) {
 	s += " " + (l == 0 ? "" : binaryCodeString(c >> 4, l * 2) + '.')
 			+ binaryCodeString(l, 4, '\0')
 			+ format(" l=%d 0x%x", l, m_code[suit]);
-	printl(s)
+	pr(s)
 }
+#endif
 
 //TODO using include
 int Bridge::ep(const int *w, int a) {

@@ -24,10 +24,11 @@ std::string USC::toString() const {
 	return q + SUITS_CHAR[s];
 }
 
+#ifndef FINAL_RELEASE
 void USC::print() const {
-	printl(toString())
-	;
+	pr(toString());
 }
+#endif
 
 SC::SC(SC const &o, bool order) {
 	copy(o);
@@ -36,6 +37,7 @@ SC::SC(SC const &o, bool order) {
 	}
 }
 
+#ifndef FINAL_RELEASE
 void SC::print(const char *p) const {
 	std::string s;
 	if (p) {
@@ -48,14 +50,14 @@ void SC::print(const char *p) const {
 		s += ' ';
 	}
 	s += format("[%d]", length);
-	printl(s)
-	;
+	pr(s);
 }
 
 void SC::printOrdered(const char *p) const {
 	SC a(*this, true);
 	a.print(p);
 }
+#endif
 
 bool SC::operator==(SC const &o) const {
 	if (length != o.length) {

@@ -5,7 +5,7 @@ ASLOV    := ../../aslov/aslov/src/aslov
 PERMUTATIONS := ../../permutations/permutations/src/permutations
 CXX      := g++
 #-O2 -Wall -Wextra -Wpedantic
-CXXFLAGS := -O3 -DNDEBUG -DFINAL_RELEASE -Wall -std=c++23 -I$(ASLOV) -I$(PERMUTATIONS) $(shell pkg-config --cflags gtk+-3.0)
+CXXFLAGS := -O3 -DNDEBUG -DFINAL_RELEASE -Wall -DUSE_ANIMATED_IMAGE -std=c++23 -I$(ASLOV) -I$(PERMUTATIONS) $(shell pkg-config --cflags gtk+-3.0)
 LIBS     := $(shell pkg-config --libs gtk+-3.0) -lcurl -lminizip-ng
 TARGET   := bridge
 

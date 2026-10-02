@@ -39,7 +39,9 @@ union USC {
 
 	std::string toString() const;
 
+#ifndef FINAL_RELEASE
 	void print() const;
+#endif
 
 	bool operator==(USC const &o) const {
 		return sc == o.sc;
@@ -88,9 +90,11 @@ struct SC {
 
 	SC(SC const &o, bool order);
 
+#ifndef FINAL_RELEASE
 	void print(const char *p = nullptr) const;
 
 	void printOrdered(const char *p = nullptr) const;
+#endif
 
 	bool operator==(SC const &o) const;
 
