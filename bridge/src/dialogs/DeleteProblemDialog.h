@@ -21,7 +21,7 @@ const STRING_ID DELETE_PROBLEM_DIALOG_RID[] = { STRING_CURRENT_DEAL,
 
 class DeleteProblemDialog: public ButtonsDialog {
 	GtkWidget *m_combo;
-	GtkWidget *m_radio[SIZE(DELETE_PROBLEM_DIALOG_RID)];
+	GtkWidget *m_radio[std::size(DELETE_PROBLEM_DIALOG_RID)];
 
 	ProblemVectorModified *m_pvm;
 public:

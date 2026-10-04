@@ -22,10 +22,10 @@ HtmlOptionsDialog::HtmlOptionsDialog() :
 	bool b;
 	const char *p;
 
-	assert(SIZE(m_check)==SIZE(SID));
+	assert(std::size(m_check)==std::size(SID));
 
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 3);
-	for (i = 0; i < SIZE(m_check); i++) {
+	for (i = 0; i < std::size(m_check); i++) {
 		if (SID[i] == STRING_INVALID) {
 			p = getString(MENU_PREVIEW_HTML_FILE);
 		} else {
@@ -74,7 +74,7 @@ bool HtmlOptionsDialog::click(int index) {
 	bool b;
 
 	if (index == 0) {
-		for (i = 0; i < SIZE(m_check); i++) {
+		for (i = 0; i < std::size(m_check); i++) {
 			b = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(m_check[i]));
 
 			switch (SID[i]) {

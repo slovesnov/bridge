@@ -33,12 +33,12 @@ Toolbar::Toolbar() :
 	int i, j;
 
 	//[play, undoall, undo, redo, redoall][small][enable]
-	for (i = 0; i < SIZEI(m_pixbuf); i++) {
+	for (i = 0; i < std::ssize(m_pixbuf); i++) {
 		auto m = m_pixbuf[i];
-		if (i < SIZEI(TOOLBAR_IMAGE)) {
+		if (i < std::ssize(TOOLBAR_IMAGE)) {
 			m[0][1] = pixbuf(TOOLBAR_IMAGE[i]);
 		} else {
-			m[0][1] = gdk_pixbuf_flip(m_pixbuf[SIZEI(m_pixbuf) - i][0][1],
+			m[0][1] = gdk_pixbuf_flip(m_pixbuf[std::ssize(m_pixbuf) - i][0][1],
 					true);
 		}
 		m[1][1] = gdk_pixbuf_scale_simple(m[0][1], 16, 16, GDK_INTERP_BILINEAR);

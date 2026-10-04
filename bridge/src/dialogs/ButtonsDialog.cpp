@@ -46,9 +46,9 @@ void ButtonsDialog::init(BUTTONS_DIALOG_TYPE type) {
 
 	m_type = type;
 
-	assert(SIZE(TYPE)==BUTTONS_DIALOG_SIZE);
-	assert(SIZE(IMG)==BUTTONS_DIALOG_SIZE);
-	assert(SIZE(RESPONSE)==BUTTONS_DIALOG_SIZE);
+	assert(std::size(TYPE)==BUTTONS_DIALOG_SIZE);
+	assert(std::size(IMG)==BUTTONS_DIALOG_SIZE);
+	assert(std::size(RESPONSE)==BUTTONS_DIALOG_SIZE);
 
 	for (i = 0, p = TYPE[type]; *p != STRING_INVALID; p++, i++) {
 		w = createButton((IMG[m_type][i] + std::string("24.png")).c_str(), *p);

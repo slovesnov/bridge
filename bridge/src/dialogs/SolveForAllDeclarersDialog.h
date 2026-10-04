@@ -14,7 +14,7 @@
 #include "BaseDialog.h"
 
 class SolveForAllDeclarersDialog: public BaseDialog {
-	GtkWidget *m_label[SIZE(PLAYER)][NT + 2][3][2];
+	GtkWidget *m_label[std::size(PLAYER)][NT + 2][3][2];
 	GtkWidget *m_loading[2];
 	int m_searches;
 public:

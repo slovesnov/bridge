@@ -773,7 +773,7 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first) {
 		 * because problems is solved too fast.
 		 */
 		k = 0;
-		t = getTaker(ps, SIZE(ps));
+		t = getTaker(ps, std::size(ps));
 		if (t % 2) {
 			es--;
 		}
@@ -835,7 +835,7 @@ void Bridge::bestLine(const CARD_INDEX c[52], CARD_INDEX first) {
 			o[m_bestLine[m_bestLine.size() - 1 - i]] = CARD_INDEX_ABSENT;
 		}
 
-		t = getTaker(ps, SIZE(ps));
+		t = getTaker(ps, std::size(ps));
 
 		if ((fi + t + nes) % 2) {// (nes && (fi+t)%2==0) || (!nes &&  (fi+t)%2==1)
 			es--;

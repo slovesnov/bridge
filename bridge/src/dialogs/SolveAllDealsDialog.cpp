@@ -119,7 +119,7 @@ SolveAllDealsDialog::SolveAllDealsDialog() :
 	gtk_grid_set_column_spacing(GTK_GRID(g), 4);
 	gtk_grid_set_row_spacing(GTK_GRID(g), 4);
 
-	for (i = 0; i < SIZEI(PLAYER); i++) {
+	for (i = 0; i < std::ssize(PLAYER); i++) {
 		if (isPreferans() && PLAYER[i] == getAbsent()) {
 			w = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 			k = 0;

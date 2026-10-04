@@ -14,7 +14,7 @@
 
 Menu *gmenu;
 
-#define SET_ATTRIBUTES(a) setItemAttributes(a,SIZE(a));
+#define SET_ATTRIBUTES(a) setItemAttributes(a,std::size(a));
 
 const MENU_ID TOP_MENU[] = { MENU_PROBLEM, MENU_ADDONS, MENU_VIEW, MENU_OPTIONS,
 		MENU_MOVE, MENU_LANGUAGE, MENU_SKIN, MENU_HELP };
@@ -75,7 +75,7 @@ const char *MENU_ICON_FILE[] = {
 		NULL, //undoall,undo,redo,redoall,best Note. Images will be setup later now need only create image menu item
 
 		"language16.png", "home16.png", "bridge16.png" };
-static_assert(SIZE(MENU_ICON_ID)==SIZE(MENU_ICON_FILE));
+static_assert(std::size(MENU_ICON_ID)==std::size(MENU_ICON_FILE));
 
 const MENU_ID RADIO_MENU_ID[] = { MENU_ESTIMATE_NONE, MENU_ESTIMATE_BEST_LOCAL,
 		MENU_ESTIMATE_BEST_TOTAL, MENU_ESTIMATE_ALL_LOCAL,
@@ -251,12 +251,12 @@ void Menu::insertSubMenu(MenuString menuString) {
 		}
 	}
 
-	for (i = 0; i < SIZEI(ACCELERATOR); i++) {
+	for (i = 0; i < std::ssize(ACCELERATOR); i++) {
 		if (menuString.first == ACCELERATOR[i].id) {
 			break;
 		}
 	}
-	if (i != SIZEI(ACCELERATOR)) {
+	if (i != std::ssize(ACCELERATOR)) {
 		m_accelerator[i] = gtk_accel_group_new();
 
 		/* this function is call from Menu::Menu() therefore gframe->getWidget() is invalid
@@ -457,7 +457,7 @@ void Menu::setItemAttributes(const MENU_ID id) {
 
 void Menu::updateAfterCreation() {
 	int i;
-	for (i = 0; i < SIZEI(ACCELERATOR); i++) {
+	for (i = 0; i < std::ssize(ACCELERATOR); i++) {
 		gtk_window_add_accel_group(GTK_WINDOW(gframe->getWidget()),
 				m_accelerator[i]);
 	}
@@ -502,7 +502,7 @@ void Menu::updateRecent() {
 
 void Menu::addAccelerators(bool add) {
 	int i;
-	for (i = 0; i < SIZEI(m_accelerator); i++) {
+	for (i = 0; i < std::ssize(m_accelerator); i++) {
 		if (add) {
 			gtk_window_add_accel_group(GTK_WINDOW(gframe->getWidget()),
 					m_accelerator[i]);

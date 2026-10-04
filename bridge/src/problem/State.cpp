@@ -34,7 +34,7 @@ void State::rotate(const Problem &problem, bool clockwise, bool likeBridge) {
 
 void State::operator=(const State &s) {
 	unsigned i;
-#define M(N) for(i=0;i<SIZE(N);i++){N[i]=s.N[i];}
+#define M(N) for(i=0;i<std::size(N);i++){N[i]=s.N[i];}
 	M(m_cid);
 	M(m_tricks);
 	M(m_estimate);

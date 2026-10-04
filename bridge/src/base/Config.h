@@ -108,12 +108,12 @@ public:
 	void setLanguageFileName(int index);
 
 	inline bool isChecked(int i) const {
-		assert(i>=0 && i<SIZEI(CHECKED_MENU));
+		assert(i>=0 && i<std::ssize(CHECKED_MENU));
 		return (*m_options[i]) != 0;
 	}
 
 	void switchOption(int i) {
-		assert(i>=0 && i<SIZEI(CHECKED_MENU));
+		assert(i>=0 && i<std::ssize(CHECKED_MENU));
 		*m_options[i] = !(*m_options[i]);
 	}
 

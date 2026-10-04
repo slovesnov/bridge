@@ -518,7 +518,7 @@ void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 		 * so code is differ with bridge, no et, es, mc needed
 		 */
 		k = 0;
-		t = getTaker(ps, SIZE(ps));
+		t = getTaker(ps, std::size(ps));
 		fi += t;
 		fi %= 3;
 
@@ -558,7 +558,7 @@ void Preferans::bestLine(const CARD_INDEX c[52], CARD_INDEX first,
 		for (i = 0; i < (j == 0 ? 3 - k : 3); i++) {
 			o[m_bestLine[m_bestLine.size() - 1 - i]] = CARD_INDEX_ABSENT;
 		}
-		t = getTaker(ps, SIZE(ps));
+		t = getTaker(ps, std::size(ps));
 
 		fi += t;
 		fi %= 3;

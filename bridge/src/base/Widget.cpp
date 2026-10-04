@@ -19,7 +19,7 @@ const STRING_ID ALL_SUPPORTED[] = {
     STRING_FILE_FILTER_PBN,           STRING_FILE_FILTER_DF,
     STRING_FILE_FILTER_HTML,          STRING_FILE_FILTER_ALL // should goes last
 };
-const int ALL_SUPPORTED_SIZE = SIZEI(ALL_SUPPORTED);
+const int ALL_SUPPORTED_SIZE = std::ssize(ALL_SUPPORTED);
 
 const STRING_ID STRING_FILTER_EXT_FROM[] = {
     STRING_FILE_FILTER_BTS_PTS, STRING_FILE_FILTER_PBN, STRING_FILE_FILTER_DF,
@@ -39,7 +39,7 @@ const char *STRING_FILTER_EXT_TO[] = {
     "bts pts pbn txt dat", // Note in case of 'save' command two strings added
                            // "htm", "html", in case of 'open' not need
     "*"};
-const int STRING_FILTER_EXT_TO_SIZE = SIZE(STRING_FILTER_EXT_TO);
+const int STRING_FILTER_EXT_TO_SIZE = std::size(STRING_FILTER_EXT_TO);
 
 // should match with FILE_TYPE
 const char *DEFAULT_EXTENSION[] = {
@@ -127,7 +127,7 @@ FileChooserResult Widget::fileChooser(MENU_ID menu, FILE_TYPE filetype,
   const char *p;
   VStringID vid;
 
-  assert(SIZE(STRING_FILTER_EXT_FROM) == SIZE(STRING_FILTER_EXT_TO));
+  assert(std::size(STRING_FILTER_EXT_FROM) == std::size(STRING_FILTER_EXT_TO));
 
   const bool openAll = option == CHOOSER_OPTION_ADD_ALL_SUPPORTED ||
                        option == CHOOSER_OPTION_OPEN_ALL_SUPPORTED ||

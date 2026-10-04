@@ -62,7 +62,7 @@ const int MIN_GRID_SIZE_WIDTH = MIN_PROBLEM_SELECTOR_WIDTH
 
 const CPoint RASTER_DECK_CARD_SIZE[] = { { 71, 96 }, { 54, 72 }, { 54, 72 }, {
 		72, 96 }, { 71, 96 }, { 75, 107 }, { 95, 125 }, { 95, 125 } };
-const int N_RASTER_DECKS = SIZEI(RASTER_DECK_CARD_SIZE);
+const int N_RASTER_DECKS = std::ssize(RASTER_DECK_CARD_SIZE);
 const auto minmax61 = std::minmax_element(RASTER_DECK_CARD_SIZE,
 		RASTER_DECK_CARD_SIZE + N_RASTER_DECKS,
 		[](CPoint const &a, CPoint const &b) {
@@ -76,7 +76,7 @@ const CPoint MAX_CARD_SIZE = *minmax61.second;
 const int N_VECTOR_DECKS = 4;
 
 const int RASTER_ARROW_SIZE[] = { 64, 48, 48, 64, 72, 96, 128 };
-const int N_RASTER_ARROWS = SIZEI(RASTER_ARROW_SIZE);
+const int N_RASTER_ARROWS = std::ssize(RASTER_ARROW_SIZE);
 const int MIN_ARROW_SIZE = *std::min_element(RASTER_ARROW_SIZE,
 		RASTER_ARROW_SIZE + N_RASTER_ARROWS);
 const int N_VECTOR_ARROWS = 3;

@@ -41,8 +41,8 @@ EditListDialog::EditListDialog() :
 	int i;
 	GdkPixbuf *px, *px1;
 
-	assert(SIZE(SID)==SIZE(IMG));
-	assert(SIZE(SID)==EDIT_LIST_MOVE_0);
+	assert(std::size(SID)==std::size(IMG));
+	assert(std::size(SID)==EDIT_LIST_MOVE_0);
 
 	dialog = this;
 
@@ -54,7 +54,7 @@ EditListDialog::EditListDialog() :
 
 	attachInnerTable(g);
 
-	for (i = 0; i < SIZEI(PLAYER); i++) {
+	for (i = 0; i < std::ssize(PLAYER); i++) {
 		w = createPlayerBox(PLAYER[i]);
 		gtk_grid_attach(GTK_GRID(g), w, EDIT_LIST_REGION_POSITION[i].x,
 				EDIT_LIST_REGION_POSITION[i].y, 1, 1);

@@ -27,7 +27,7 @@ DeleteProblemDialog::DeleteProblemDialog(EditListDialog *eld) :
 	gtk_grid_set_row_spacing(GTK_GRID(grid), 5);
 	gtk_widget_set_margin_bottom(grid, 5);
 
-	for (i = 0; i < SIZEI(m_radio); i++) {
+	for (i = 0; i < std::ssize(m_radio); i++) {
 		if (i == 0) {
 			m_radio[i] = gtk_radio_button_new_with_label(NULL,
 					getString(DELETE_PROBLEM_DIALOG_RID[i]));
@@ -62,12 +62,12 @@ DeleteProblemDialog::~DeleteProblemDialog() {
 bool DeleteProblemDialog::click(int index) {
 	int i;
 	if (index == 0) {
-		for (i = 0; i < SIZEI(m_radio); i++) {
+		for (i = 0; i < std::ssize(m_radio); i++) {
 			if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(m_radio[i]))) {
 				break;
 			}
 		}
-		assert(i<SIZEI(m_radio));
+		assert(i<std::ssize(m_radio));
 
 		if (i == 0) {
 			m_pvm->deleteCurrent();

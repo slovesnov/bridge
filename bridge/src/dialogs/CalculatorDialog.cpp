@@ -77,7 +77,7 @@ CalculatorDialog::CalculatorDialog() :
 		m_combo = { createTextCombobox(1, 7), createImageCombobox(),
 				createTextCombobox(0, 13), createTextCombobox(STRING_NO,
 						STRING_YES), createTextCombobox(DOUBLE_REDOUBLE,
-				SIZE(DOUBLE_REDOUBLE)) };
+				std::size(DOUBLE_REDOUBLE)) };
 
 		gtk_combo_box_set_model(GTK_COMBO_BOX(BC(TRUMP)),
 				createTrumpModel(false, true, BRIDGE));

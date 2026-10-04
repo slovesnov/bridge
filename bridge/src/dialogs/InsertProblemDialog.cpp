@@ -37,7 +37,7 @@ InsertProblemDialog::InsertProblemDialog(EditListDialog *eld) :
 	m_grid = gtk_grid_new();
 	gtk_grid_set_column_spacing(GTK_GRID(m_grid), 15);
 
-	for (i = 0; i < SIZEI(m_radio); i++) {
+	for (i = 0; i < std::ssize(m_radio); i++) {
 		if (i == 0) {
 			m_radio[i] = gtk_radio_button_new_with_label(NULL,
 					getString(INSERT_PROBLEM_DIALOG_RID[i]));
@@ -98,12 +98,12 @@ bool InsertProblemDialog::click(int index) {
 	int i;
 	bool before;
 	if (index == 0) {
-		for (i = 0; i < SIZEI(m_radio); i++) {
+		for (i = 0; i < std::ssize(m_radio); i++) {
 			if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(m_radio[i]))) {
 				break;
 			}
 		}
-		assert(i<SIZEI(m_radio));
+		assert(i<std::ssize(m_radio));
 
 		before = getComboPosition(
 				m_combo[INSERT_PROBLEM_DIALOG_COMBO_BEFORE_AFTER]) == 0;

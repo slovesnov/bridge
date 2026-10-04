@@ -30,7 +30,7 @@ void SolveAll::init(int k, int n, CARD_INDEX first, int trump, VCardIndex p,
 	A(trump)
 	A(id)
 #undef A
-#define A(a) for(i=0;i<SIZEI(this->a);i++){this->a[i]=a[i];}
+#define A(a) for(i=0;i<std::ssize(this->a);i++){this->a[i]=a[i];}
 	A(p)
 	A(cid)
 #undef A
@@ -81,7 +81,7 @@ void SolveAll::copyParametersClearDealResult(SolveAll const &source) {
 	A(positions)
 #undef A
 
-#define A(a) for(i=0;i<SIZEI(a);i++){a[i]=source.a[i];}
+#define A(a) for(i=0;i<std::ssize(a);i++){a[i]=source.a[i];}
 	A(p)
 	A(cid)
 	A(o)

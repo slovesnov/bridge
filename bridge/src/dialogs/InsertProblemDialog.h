@@ -29,7 +29,7 @@ const STRING_ID INSERT_PROBLEM_DIALOG_RID[] = { STRING_NEW_DEAL,
 
 class InsertProblemDialog: public ButtonsDialog {
 	GtkWidget *m_combo[INSERT_PROBLEM_DIALOG_COMBO_SIZE];
-	GtkWidget *m_radio[SIZE(INSERT_PROBLEM_DIALOG_RID)];
+	GtkWidget *m_radio[std::size(INSERT_PROBLEM_DIALOG_RID)];
 	GtkWidget *m_grid;
 	ProblemVectorModified *m_pvm;
 public:

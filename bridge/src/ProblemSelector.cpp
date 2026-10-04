@@ -716,7 +716,7 @@ void ProblemSelector::setArrows() {
 		//do not remove
 		setArrowParameters(i);
 	}
-	for (i = 1; i < SIZEI(m_arrow); i++) {
+	for (i = 1; i < std::ssize(m_arrow); i++) {
 		m_arrow[i] = gdk_pixbuf_rotate_simple(m_arrow[i - 1],
 				GDK_PIXBUF_ROTATE_CLOCKWISE);
 	}

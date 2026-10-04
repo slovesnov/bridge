@@ -17,10 +17,10 @@ const char *CHANGE_HTML_SIMPLE[] = { "&spades;",
 		"<font color='red'>&hearts;</font>", "<font color='red'>&diams;</font>",
 		"&clubs;", "&uarr;", "&rarr;", "&darr;", "&larr;" };
 
-/* M(BEGIN_MARKER)	char DF_BEGIN_MARKER[SIZE(DF_BEGIN_MARKER_L)];
+/* M(BEGIN_MARKER)	char DF_BEGIN_MARKER[std::size(DF_BEGIN_MARKER_L)];
  * const char DF_BEGIN_MARKER[]="Deal:";
  */
-#define M(a) static char DF_##a[SIZE(DF_##a##_L)];
+#define M(a) static char DF_##a[std::size(DF_##a##_L)];
 M(BEGIN_MARKER)
 M(CONTRACT)
 M(ONLEAD)
@@ -333,7 +333,7 @@ std::string Problem::htmlWrapInner(int columns, const std::string a[],
 	std::string s;
 	std::string q[2];
 
-	for (i = 0; i < SIZEI(q); i++) {
+	for (i = 0; i < std::ssize(q); i++) {
 		//all columns should have same width
 		s = format("<td bgcolor='#f0f0f0' width=16");
 		if (i == 1) {
@@ -1233,7 +1233,7 @@ void Problem::parseBtsOldFormat(const std::string &content,
 		stream.readDummyIntegers(10);
 
 		j = stream.readInteger();
-		throwOnError(j>=0 && j<SIZEI(PLAYER), STRING_ERROR_UNRECOGNIZED_PLAYER,
+		throwOnError(j>=0 && j<std::ssize(PLAYER), STRING_ERROR_UNRECOGNIZED_PLAYER,
 				"");
 		m_states[i].m_firstmove = PLAYER[j];
 
@@ -1812,7 +1812,7 @@ void Problem::fillAdjustPbnInfo(int nproblem) {
 			PBN_PLAY_TAG };
 
 	if (m_pbnEntry.empty()) {
-		for (i = 0; i < SIZEI(tag); i++) {
+		for (i = 0; i < std::ssize(tag); i++) {
 			if (cmpnocase(tag[i], PBN_DATE_TAG)) {
 				time_t rawtime;
 				time(&rawtime);
@@ -1969,7 +1969,7 @@ void Problem::adjustPbnInfo() {
 	it = findPbnEntry(PBN_SCORE_TAG);		//sometimes not found
 	if (it != m_pbnEntry.end()) {
 		i = INDEX_OF_NO_CASE(it->value.substr(0, 2), SCORE);
-		assert(i>=0 && i<SIZEI(SCORE));
+		assert(i>=0 && i<std::ssize(SCORE));
 		if (getDeclarerInt() % 2 != i) {
 			j = -j;
 		}

@@ -572,7 +572,7 @@ void Frame::explorePbn(const char* dir, const char* filename) { //checks score c
 	std::string s;
 	int i;
 	const char* TN[] = { "score", "contract", "result", "vulnerable", "declarer" };
-	const int sz = SIZEI(TN);
+	const int sz = std::ssize(TN);
 	std::string value[sz];
 	int validProblems = 0;
 	char*q;
@@ -586,7 +586,7 @@ void Frame::explorePbn(const char* dir, const char* filename) { //checks score c
 	const std::string VULNERABLE[] = { "None", "NS", "EW", "All" };
 
 	const char* ST[] = { PBN_AUCTION_TAG, PBN_DECLARER_TAG, PBN_CONTRACT_TAG };
-	const int szst = SIZEI(ST);
+	const int szst = std::ssize(ST);
 	/*	int ftag;*/
 	PbnEntry entry[szst];
 
@@ -791,7 +791,7 @@ void Frame::setBtsContracts() {
 			"eleven",
 			"twelve",
 			"thirteen" };
-	const int tricksSize = SIZE(tricks);
+	const int tricksSize = std::size(tricks);
 
 	const std::string numbers[] = {
 			"one",
@@ -801,10 +801,10 @@ void Frame::setBtsContracts() {
 			"five",
 			"six",
 			"seven" };
-	const int numbersSize = SIZE(numbers);
+	const int numbersSize = std::size(numbers);
 
 	const std::string suits[] = { "club", "diamond", "heart", "spade", "no-trump", }; //one club
-	const int suitsSize = SIZE(suits);
+	const int suitsSize = std::size(suits);
 
 	dir = g_dir_open(url, 0, 0);
 	if (dir == NULL) {
@@ -992,7 +992,7 @@ void Frame::loadHttpProblems() {
 			"Yarborough",
 			"Pachabo",
 			"CompetitionProblems" };
-	assert(SITE_SECTION>=0 && SITE_SECTION<SIZE(LINK_PAGE));
+	assert(SITE_SECTION>=0 && SITE_SECTION<std::size(LINK_PAGE));
 
 	const char HREF[] = "a href=\"";
 	const char BEGIN[] = "U-Page S-Target startspan --><nobr>";
@@ -1048,12 +1048,12 @@ void Frame::loadHttpProblems() {
 	fprintf(f, "%s %s", BTS_SIGNATURE, CURRENT_VERSION.c_str());
 	for (it = v.begin(); it != v.end(); it++) {
 #if SITE_SECTION==5
-		for(i=0;i<SIZEI(INVALID_PROBLEMS);i++) {
+		for(i=0;i<std::ssize(INVALID_PROBLEMS);i++) {
 			if(cmp(*it,INVALID_PROBLEMS[i])) {
 				break;
 			}
 		}
-		if(i<SIZEI(INVALID_PROBLEMS)) {
+		if(i<std::ssize(INVALID_PROBLEMS)) {
 			continue;
 		}
 #endif
@@ -1195,7 +1195,7 @@ void Frame::loadHttpProblems() {
 //			println("[%s]",s2.c_str());
 
 #if SITE_SECTION==4
-			for (i = 0; i < SIZEI(ALTERNATIVE_NAMES); i++) {
+			for (i = 0; i < std::ssize(ALTERNATIVE_NAMES); i++) {
 				s2 = replaceAll(s2,
 						format("The %c%s", toupper(ALTERNATIVE_NAMES[i][0]),
 								ALTERNATIVE_NAMES[i] + 1), LEADER[i]);
@@ -1211,7 +1211,7 @@ void Frame::loadHttpProblems() {
 			s3 = s2;
 			std::transform(s3.begin(), s3.end(), s3.begin(), ::tolower);
 
-			for (i = 0; i < SIZEI(ALTERNATIVE_NAMES); i++) {
+			for (i = 0; i < std::ssize(ALTERNATIVE_NAMES); i++) {
 				if (strstr(s3.c_str(), ALTERNATIVE_NAMES[i]) != NULL) {
 					println("[%s][%s][%s]", s2.c_str(), s3.c_str(), it->c_str())
 				}
@@ -1361,8 +1361,8 @@ void Frame::correctLngFiles() {
 			}
 
 		}
-		if (j != SIZEI(id)) {
-			println("ERROR j!=SIZEI(id) %d %d", j, SIZEI(id));
+		if (j != std::ssize(id)) {
+			println("ERROR j!=std::ssize(id) %d %d", j, std::ssize(id));
 		}
 
 		fclose(in);
@@ -1394,10 +1394,10 @@ void Frame::stringToBtsFile(FILE*o, std::string& _s, int deal) {
 			"five",
 			"six",
 			"seven" };
-	const int numbersSize = SIZE(numbers);
+	const int numbersSize = std::size(numbers);
 
 	const std::string suits[] = { "club", "diamond", "heart", "spade", "no-trump", };	//one club
-	const int suitsSize = SIZE(suits);
+	const int suitsSize = std::size(suits);
 
 	const char* LEAD[] = { " to lead", " on lead", "�s best lead", " is on lead" };
 	const char* MAKE[] = {
@@ -1480,9 +1480,9 @@ void Frame::stringToBtsFile(FILE*o, std::string& _s, int deal) {
 		 */
 
 		for (k = 0; k < 2; k++) {
-			for (i = 0; i < SIZEI(LEADERL); i++) {
-				//for(j=0;j< SIZEI(l==0 ? LEAD : MAKE );j++){//IT'S ERROR
-				for (j = 0; j < (k == 0 ? SIZEI(LEAD) : SIZEI(MAKE)); j++) {
+			for (i = 0; i < std::ssize(LEADERL); i++) {
+				//for(j=0;j< std::ssize(l==0 ? LEAD : MAKE );j++){//IT'S ERROR
+				for (j = 0; j < (k == 0 ? std::ssize(LEAD) : std::ssize(MAKE)); j++) {
 					if (strstr(bl,
 							format("%s%s", LEADERL[i], k == 0 ? LEAD[j] : MAKE[j]).c_str())) {
 						goto l1863;

@@ -27,9 +27,9 @@ ButtonsDialogWithProblem::ButtonsDialogWithProblem(MENU_ID id, bool modal,
 	int i, j;
 	GdkPixbuf *px;
 
-	assert(SIZE(m_suit)==SIZE(m_labelCard));
+	assert(std::size(m_suit)==std::size(m_labelCard));
 
-	for (i = 0; i < SIZEI(m_suitPixbuf); i++) {
+	for (i = 0; i < std::ssize(m_suitPixbuf); i++) {
 		m_suitPixbuf[i] = getSuitPixbuf(i, getFontHeight());
 	}
 
@@ -37,16 +37,16 @@ ButtonsDialogWithProblem::ButtonsDialogWithProblem(MENU_ID id, bool modal,
 	m_arrowPixbuf[0] = gdk_pixbuf_scale_simple(px, getFontHeight(),
 			getFontHeight(), GDK_INTERP_BILINEAR);
 	g_object_unref(px);
-	for (i = 1; i < SIZEI(m_arrowPixbuf); i++) {
+	for (i = 1; i < std::ssize(m_arrowPixbuf); i++) {
 		m_arrowPixbuf[i] = gdk_pixbuf_rotate_simple(m_arrowPixbuf[i - 1],
 				GDK_PIXBUF_ROTATE_CLOCKWISE);
 	}
 
-	for (i = 0; i < SIZEI(m_arrow); i++) {
+	for (i = 0; i < std::ssize(m_arrow); i++) {
 		m_arrow[i] = gtk_image_new();
 	}
 
-	for (i = 0; i < SIZEI(m_labelCard); i++) {
+	for (i = 0; i < std::ssize(m_labelCard); i++) {
 		m_labelCard[i] = gtk_label_new("");
 		m_suit[i] = gtk_image_new();
 	}
@@ -61,11 +61,11 @@ ButtonsDialogWithProblem::ButtonsDialogWithProblem(MENU_ID id, bool modal,
 
 ButtonsDialogWithProblem::~ButtonsDialogWithProblem() {
 	int i;
-	for (i = 0; i < SIZEI(m_suitPixbuf); i++) {
+	for (i = 0; i < std::ssize(m_suitPixbuf); i++) {
 		g_object_unref(m_suitPixbuf[i]);
 	}
 
-	for (i = 0; i < SIZEI(m_arrowPixbuf); i++) {
+	for (i = 0; i < std::ssize(m_arrowPixbuf); i++) {
 		g_object_unref(m_arrowPixbuf[i]);
 	}
 }
@@ -151,7 +151,7 @@ void ButtonsDialogWithProblem::setInnerTable(const Problem &p) {
 	int i, j, k, a[4];
 
 	p.fillInner4NorthFirst(a);
-	for (i = 0; i < SIZEI(PLAYER); i++) {
+	for (i = 0; i < std::ssize(PLAYER); i++) {
 		j = a[i];
 		if (j == -1) {
 			gtk_label_set_text(GTK_LABEL(m_labelCard[i]), "");
@@ -170,7 +170,7 @@ void ButtonsDialogWithProblem::setInnerTable(const Problem &p) {
 	}
 	gtk_image_set_from_pixbuf(GTK_IMAGE(m_arrow[k]), m_arrowPixbuf[j]);
 
-	for (i = 0; i < SIZEI(m_arrow); i++) {
+	for (i = 0; i < std::ssize(m_arrow); i++) {
 		if (i != k) {
 			gtk_image_clear(GTK_IMAGE(m_arrow[i]));
 		}

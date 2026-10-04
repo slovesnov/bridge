@@ -55,7 +55,7 @@ class Menu: public FrameItem {
 	GSList *radioGroup;
 	int m_lastRecentSize;
 
-	GtkAccelGroup *m_accelerator[SIZE(ACCELERATOR)];
+	GtkAccelGroup *m_accelerator[std::size(ACCELERATOR)];
 
 	//update menu item text if it exists; return true item exists
 	void updateMenu(MENU_ID id, const gchar *s) {

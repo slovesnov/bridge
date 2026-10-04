@@ -154,7 +154,7 @@ void SolveForAllDeclarersDialog::setBridgeLabel(int trump) {
 	int i, v;
 	GtkWidget **w;
 
-	for (i = 0; i < SIZEI(PLAYER); i++) {
+	for (i = 0; i < std::ssize(PLAYER); i++) {
 		/* 5nov2021 no additional tricks need
 		 * first move on first trick is fixed so declarer should be fixed
 		 * so additional tricks will be valid only for the same declarer

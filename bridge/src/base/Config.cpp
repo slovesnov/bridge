@@ -33,8 +33,8 @@ Config *gconfig;
 
 const int INDENT_INSIDE_SUIT[] = {13, 13, 13, 13, 13, 17, 22, 24};
 const int ESTIMATION_INDENT[] = {32, 28, 28, 26, 32, 42, 35, 43};
-static_assert(N_RASTER_DECKS == SIZE(INDENT_INSIDE_SUIT));
-static_assert(N_RASTER_DECKS == SIZE(ESTIMATION_INDENT));
+static_assert(N_RASTER_DECKS == std::size(INDENT_INSIDE_SUIT));
+static_assert(N_RASTER_DECKS == std::size(ESTIMATION_INDENT));
 const int CARDSIZE_K_IN_AREA_HEIGHT = 5;
 /* this return value by double ProblemSelector::getSvgMaxWHRatio()
  * needs this value in config::reset to define default deck
@@ -86,7 +86,7 @@ Config::Config() {
                &m_htmlPreview,         &m_documentModifiedWarning,
                &m_autoPlaySequence,    &m_splitEveryFile,
                &m_allowOnlyOneInstance};
-  assert(m_options.size() == SIZE(CHECKED_MENU));
+  assert(m_options.size() == std::size(CHECKED_MENU));
 
   /*
    START_TIMER
@@ -335,7 +335,7 @@ void Config::load() {
     itStringPtr++;
   }
 
-#define LOAD_ARRAY(a, signature) loadIntArray(a, SIZEI(a), signature);
+#define LOAD_ARRAY(a, signature) loadIntArray(a, std::ssize(a), signature);
   LOAD_ARRAY(m_suitsOrder, SUITSORDER_SIGNATURE)
 #undef LOAD_ARRAY
 

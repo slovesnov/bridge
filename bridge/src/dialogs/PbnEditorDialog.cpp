@@ -103,7 +103,7 @@ void PbnEditorDialog::redrawProblem() {
 	GtkWidget *w, *w1;
 	std::string s;
 	GtkTextBuffer *buffer;
-	VPbnEntryCI pbnDapEntry[SIZE(DAP)];
+	VPbnEntryCI pbnDapEntry[std::size(DAP)];
 	const char *S_MEASURE[] = { "Pass Pass Pass Pass ", "DH DH DH DH " };
 	const int ENTRY_SIZE = 230;
 	const int COLUMNS = 2; //columns with simple tags
@@ -150,7 +150,7 @@ void PbnEditorDialog::redrawProblem() {
 
 	m_entry.clear();
 
-#define CREATE_COMBO(id,a) m_combo[id]=createTextCombobox(a,SIZE(a));
+#define CREATE_COMBO(id,a) m_combo[id]=createTextCombobox(a,std::size(a));
 	CREATE_COMBO(PBN_EDITOR_COMBO_DEALER, DEALER);
 	CREATE_COMBO(PBN_EDITOR_COMBO_ROOM, ROOM)
 	CREATE_COMBO(PBN_EDITOR_COMBO_VULNERABLE, VULNERABLE)
@@ -171,7 +171,7 @@ void PbnEditorDialog::redrawProblem() {
 		m_label[i] = gtk_label_new("");
 	}
 
-	for (j = 0, i = 0; i < SIZEI(pbnDapEntry); i++) {
+	for (j = 0, i = 0; i < std::ssize(pbnDapEntry); i++) {
 		pbnDapEntry[i] = getProblem().findPbnEntry(DAP[i]);
 		if (pbnDapEntry[i] != getProblem().pbnEntryEnd()) {
 			j++;
@@ -294,7 +294,7 @@ void PbnEditorDialog::redrawProblem() {
 		}
 	}
 
-	for (k = 2 * COLUMNS, i = 1; i < SIZEI(pbnDapEntry); i++) {
+	for (k = 2 * COLUMNS, i = 1; i < std::ssize(pbnDapEntry); i++) {
 		it = pbnDapEntry[i];
 		if (it == getProblem().pbnEntryEnd()) {
 			continue;

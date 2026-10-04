@@ -308,7 +308,7 @@ void DrawingArea::updateRegion(CARD_INDEX index, bool paint) {
 
 void DrawingArea::updateAllRegions() {
 	unsigned i;
-	for (i = 0; i < SIZE(OUTER_REGION); ++i) {
+	for (i = 0; i < std::size(OUTER_REGION); ++i) {
 		updateRegion(OUTER_REGION[i]);
 	}
 	updateInsideRegion();
@@ -316,7 +316,7 @@ void DrawingArea::updateAllRegions() {
 
 void DrawingArea::updateTricks() {
 	unsigned i;
-	for (i = 0; i < SIZE(PLAYER); i++) {
+	for (i = 0; i < std::size(PLAYER); i++) {
 		updateTricks(PLAYER[i]);
 	}
 }
@@ -496,7 +496,7 @@ void DrawingArea::updateInsideRegion() {
 
 	//show total tricks
 	if (gconfig->m_showCommonTricks) {
-		for (i = 0; i < SIZEI(m_totalTricksRect); i++) {
+		for (i = 0; i < std::ssize(m_totalTricksRect); i++) {
 			drawCardback(i);
 			if (isBridge()) {
 				k = i == 0 ? 1 : 0;
@@ -835,7 +835,7 @@ void DrawingArea::mouseLeftButtonUp(GdkEventButton *event) {
 	invalidateRect(point.x, point.y, getCardSize().x, getCardSize().y);
 	point -= m_addit;
 	if (isOuterOrAbsent(storecurid) && isEditEnable()) {
-		for (i = 0; i < SIZEI(OUTER_REGION); i++) {
+		for (i = 0; i < std::ssize(OUTER_REGION); i++) {
 			ci = OUTER_REGION[i];
 			if (getRegionRect(ci).in(event)) {
 				getState().m_cid[storecurid] = ci;
@@ -844,7 +844,7 @@ void DrawingArea::mouseLeftButtonUp(GdkEventButton *event) {
 			}
 		}
 
-		if (i < SIZEI(OUTER_REGION)) {//pull not in outer square and not out from inner square
+		if (i < std::ssize(OUTER_REGION)) {//pull not in outer square and not out from inner square
 			CARD_INDEX to = getState().m_cid[storecurid];
 
 			if (from == to) {	//card belongs the same player
@@ -903,7 +903,7 @@ void DrawingArea::mouseLeftButtonUp(GdkEventButton *event) {
 			mouseMove(event);
 			updateFindBestStateAll();
 			return;
-		}			//if(i<SIZEI(OUTER_REGION))
+		}			//if(i<std::ssize(OUTER_REGION))
 	}			//if isOuterOrAbsent(storecurid) && isEditEnable()
 
 	//check for nextmove
@@ -988,7 +988,7 @@ CLICABLE_REGION DrawingArea::getClickableRegion(GdkEventButton *event,
 	}
 
 	if (isEditEnable() && gconfig->m_showCommonTricks) {
-		for (i = 0; i < SIZEI(m_totalTricksRect); i++) {
+		for (i = 0; i < std::ssize(m_totalTricksRect); i++) {
 			if (m_totalTricksRect[i].in(event)) {
 				return i == 0 ?
 						CLICABLE_REGION_CAPTION_HORIZONTAL_TRICKS :
@@ -2088,7 +2088,7 @@ void DrawingArea::solveAllDeclarersBridgeThread(int thread) {
 		auto begin = clock();
 #endif
 
-		for (i = 0; i < SIZEI(PLAYER); i++) {
+		for (i = 0; i < std::ssize(PLAYER); i++) {
 			b.solveEstimateOnly(c, trump, PLAYER[i], i == 0);
 			m_solveAllDeclarersBridgeResult[trump][i] = i % 2 ? b.m_ns : b.m_ew;
 		}

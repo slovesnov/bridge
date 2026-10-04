@@ -17,7 +17,7 @@ const STRING_ID CUSTOMSKINDIALOG_BUTTONS[] = { STRING_SELECT_IMAGE,
 		STRING_SELECT_COLOR };
 
 class CustomSkinDialog: public ButtonsDialog {
-	GtkWidget *m_button[SIZE(CUSTOMSKINDIALOG_BUTTONS)];
+	GtkWidget *m_button[std::size(CUSTOMSKINDIALOG_BUTTONS)];
 public:
 	CustomSkinDialog();
 	virtual ~CustomSkinDialog();
