@@ -145,7 +145,7 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 		}
 
 		s = getString(m_isDeck ? STRING_DECK : STRING_ARROW)
-				+ format(" #%d ", j + 1);
+				+ std::format(" #{} ", j + 1);
 		if (!isScalable(i)) {
 			CPoint sz;
 			if (m_isDeck) {
@@ -153,7 +153,7 @@ DeckArrowSelectionDialog::DeckArrowSelectionDialog(bool isDeck) :
 			} else {
 				sz = { RASTER_ARROW_SIZE[i], RASTER_ARROW_SIZE[i] };
 			}
-			s += format("%dx%d", sz.x, sz.y);
+			s += std::format("{}x{}", sz.x, sz.y);
 		}
 		const gchar *p = s.c_str();
 		if (n == 0) {

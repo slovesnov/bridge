@@ -292,7 +292,7 @@ SolveAllDealsDialog::SolveAllDealsDialog() :
 		if (i == getMaxRunThreads()) {
 			s = getString(STRING_AVERAGE);
 		} else {
-			s = format("#%d", i + 1);
+			s = std::format("#{}", i + 1);
 		}
 		gtk_grid_attach(GTK_GRID(g1), gtk_label_new(s.c_str()), j, i + 1, 1, 1);
 		m_labelThread[i] = gtk_label_new(0);
@@ -357,13 +357,13 @@ void SolveAllDealsDialog::updateData() {
 		gtk_label_set_text(GTK_LABEL(m_label[i][1]),
 				m_total == 0 ?
 						"?.?%" :
-						format("%.1lf%%", result[i] * 100. / m_total).c_str());
+						std::format("{:.1f}%", result[i] * 100. / m_total).c_str());
 	}
 
 	auto a = [](double v) {
 		return v == 0 ?
 				"?" :
-				(v > 100 ? intToStringLocaled(int(v)) : format("%.3lf", v));
+				(v > 100 ? intToStringLocaled(int(v)) : std::format("{:.3f}", v));
 	};
 
 	va = 0;
@@ -852,7 +852,7 @@ void SolveAllDealsDialog::setGridLabels(int contract, const VDouble &v) {
 	int r = isMisere() ? 0 : -minContract();
 
 	for (auto a : v) {
-		s = empty ? "?" : normalize(format("%.2lf", a));
+		s = empty ? "?" : normalize(std::format("{:.2f}", a));
 		setGridLabel(s, i++, TITLE_ROWS + contract + r);
 	}
 }
@@ -886,7 +886,9 @@ void SolveAllDealsDialog::updateResult(int *result, int size) {
 }
 
 std::string SolveAllDealsDialog::getPercentString() {
-	return format(isBridge() ? "%.3lf%%" : "%.0lf%%", m_fraction * 100);
+	return isBridge() 
+    ? std::format("{:.3f}%", m_fraction * 100.0) 
+    : std::format("{:.0f}%", m_fraction * 100.0);
 }
 
 void SolveAllDealsDialog::setPreferans2ndTitleRow() {
@@ -1196,7 +1198,7 @@ void SolveAllDealsDialog::exportThread() {
 	}
 
 #ifndef NDEBUG
-	println("end %.3lf",timeElapse(begin));
+	pr("end",timeElapse(begin));
 #endif
 
 	m_file.close();
@@ -1204,7 +1206,7 @@ void SolveAllDealsDialog::exportThread() {
 
 void SolveAllDealsDialog::setExportProbressBar(size_t value, size_t total) {
 	double f = double(value) / total;
-	std::string s = getString(STRING_EXPORT) + format(" %.1lf%%", f * 100);
+	std::string s = getString(STRING_EXPORT) + std::format(" {:.1f}%", f * 100.0);
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(m_exportProgressBar), f);
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(m_exportProgressBar), s.c_str());
 }

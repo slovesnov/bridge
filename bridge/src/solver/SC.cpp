@@ -17,7 +17,7 @@
 
 std::string USC::toString() const {
 	if (c < 0 || s < 0 || c > 12 || s > 3) {
-		return format("c=%d s=%d", c, s);
+		return std::format("c={} s={}", c, s);
 	}
 	std::string q;
 	q += RANK[c];

@@ -26,7 +26,7 @@ ParseException::ParseException(const char *message, const STRING_ID &error,
 std::string ParseException::getPlaceInfo() const {
 	const char *p = strrchr(m_file.c_str(), G_DIR_SEPARATOR);
 	assert(p);
-	return format("%s:%d\n%s()", p + 1, m_line, m_function.c_str());
+	return std::format("{}:{}\n{}()", p + 1, m_line, m_function.c_str());
 }
 
 std::string ParseException::getErrorString() const {

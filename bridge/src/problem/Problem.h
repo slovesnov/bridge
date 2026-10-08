@@ -316,7 +316,7 @@ public:
 
 	//dealer 0-north 1-east ...
 	std::string getPbnDealString(CARD_INDEX dealer) const {
-		return format("%c:", toupper(PLAYER_CHAR[dealer - 1]))
+		return std::format("{}:", toupper(PLAYER_CHAR[dealer - 1]))
 				+ getBtsDealString(dealer);
 	}
 	std::string getBtsDealString(CARD_INDEX dealer) const;

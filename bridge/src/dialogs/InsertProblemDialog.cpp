@@ -77,7 +77,7 @@ InsertProblemDialog::InsertProblemDialog(EditListDialog *eld) :
 	w1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 13);
 	gtk_container_add(GTK_CONTAINER(w1),
 			m_combo[INSERT_PROBLEM_DIALOG_COMBO_BEFORE_AFTER]);
-	s = getString(MENU_PROBLEM) + format(" # %d", m_pvm->m_current + 1);
+	s = getString(MENU_PROBLEM) + std::format(" # {}", m_pvm->m_current + 1);
 	gtk_container_add(GTK_CONTAINER(w1), gtk_label_new(s.c_str()));
 	gtk_container_add(GTK_CONTAINER(w), w1);
 

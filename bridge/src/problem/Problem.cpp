@@ -85,7 +85,7 @@ std::string Problem::getDfContent(int nproblem) const {
 	//north cards
 	j = s.length();
 #define s s1
-	s = DF_BEGIN_MARKER + format(" %d", nproblem);
+	s = DF_BEGIN_MARKER + std::format(" {}", nproblem);
 	j -= s.length() - 1;
 	for (i = 0; i < j; i++) {
 		s += ' ';
@@ -116,7 +116,7 @@ std::string Problem::getDfContent(int nproblem) const {
 
 	std::string out = s1 + "\n" + s + "\n" + s3;
 
-	s = format("\n%s ", DF_LEAD);
+	s = std::format("\n{} ", DF_LEAD);
 
 	//j-leave, because can be four cards on table which produce infinite cycle
 	if (m_firstCard[0] == CARD_INDEX_INVALID) {
@@ -127,7 +127,7 @@ std::string Problem::getDfContent(int nproblem) const {
 		s += toupper(RANK[i % 13]);
 	}
 
-	out += s + format("\n%s \n", DF_RESULT);
+	out += s + std::format("\n{} \n", DF_RESULT);
 
 	if (!m_comment.empty()) {
 		out += DF_COMMENTARY + ("\n" + m_comment);
@@ -157,7 +157,7 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 	const CARD_INDEX nextmove = getNextMove();
 
 	if (totaproblems > 1) {
-		w = format("%d", nproblem);
+		w = std::format("{}", nproblem);
 	}
 	q = getFileInfo(m_filepath, FILEINFO::SHORT_NAME);
 	s =
@@ -181,7 +181,7 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 		if (m_contract == NO_CONTRACT_SET) {
 			s += NO_CONTRACT_OR_NO_TRUMP_CHAR;
 		} else {
-			s += format("%d", m_contract);
+			s += std::format("{}", m_contract);
 		}
 
 		if (m_trump == NT) {
@@ -216,7 +216,7 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 		}
 	}
 	i = indexOf(nextmove, PLAYER);
-	inner[a[i] == -1 ? i + 4 : i] = format("!%c", SUIT_ARROW_CHAR[i + 4]);
+	inner[a[i] == -1 ? i + 4 : i] = std::format("!{}", SUIT_ARROW_CHAR[i + 4]);
 
 	inner[8] = "&nbsp;";
 
@@ -239,10 +239,10 @@ std::string Problem::getHTMLContent(int nproblem, int bestMoveIndex,
 		s += "<td align='right'>";
 
 		if (isPreferans()) {
-			s += format("<u>%d</u>/%d\n", tricks[HTML_TRICKS_PLAYER],
+			s += std::format("<u>{}</u>/{}\n", tricks[HTML_TRICKS_PLAYER],
 					tricks[HTML_TRICKS_WHISTERS]);
 		} else {
-			s += format("%d/%d\n", tricks[HTML_TRICKS_NORTH_SOUTH],
+			s += std::format("{}/{}\n", tricks[HTML_TRICKS_NORTH_SOUTH],
 					tricks[HTML_TRICKS_EAST_WEST]);
 		}
 	}
@@ -321,7 +321,7 @@ std::string Problem::getHTMLnorthSouth(int columns, bool north,
 			if (tdAtFirst) {
 				s += "<td>";
 			}
-			s += format("<td colspan='%d'>", columns) + getHTMLRow(i, c, true);
+			s += std::format("<td colspan='{}'>", columns) + getHTMLRow(i, c, true);
 		}
 	}
 	return s;
@@ -335,7 +335,7 @@ std::string Problem::htmlWrapInner(int columns, const std::string a[],
 
 	for (i = 0; i < std::ssize(q); i++) {
 		//all columns should have same width
-		s = format("<td bgcolor='#f0f0f0' width=16");
+		s = "<td bgcolor='#f0f0f0' width=16";
 		if (i == 1) {
 			s += " align='center'";
 		}
@@ -379,7 +379,7 @@ std::string Problem::getHTMLString(int columns, CARD_INDEX player,
 	if (columns == 1) {
 		return "<td>" + s;
 	} else {
-		return format("<td colspan='%d'>", columns) + s;
+		return std::format("<td colspan='{}'>", columns) + s;
 	}
 }
 
@@ -450,7 +450,7 @@ std::string Problem::getPbnTagsString() const {
 	std::string s;
 	VPbnEntryCI it;
 	for (it = m_pbnEntry.begin(); it != m_pbnEntry.end(); it++) {
-		s += format("[%s \"%s\"]\n", it->tag.c_str(), it->value.c_str());
+		s += std::format("[{} \"{}\"]\n", it->tag.c_str(), it->value.c_str());
 		if (it->add.length() > 0) {
 			s += it->add;
 			s += "\n";
@@ -586,12 +586,12 @@ void Problem::parsePlayString(const char *p) {
 		do {
 			assert(*p != 0);
 			q = strchr(SUITS_CHAR, *p);
-			throwOnError(q, STRING_ERROR_UNRECOGNIZED_SUIT, format("[%c]", *p));
+			throwOnError(q, STRING_ERROR_UNRECOGNIZED_SUIT, std::format("[{}]", *p));
 			p++;
 			assert(*p != 0);
 			w = strchr(RANK, *p);
 			throwOnError(w, STRING_ERROR_UNRECOGNIZED_CARD_RANK,
-					format("[%c]", *p));
+					std::format("[{}]", *p));
 			throwOnError(i < TOTAL_STATES - 1,
 					STRING_ERROR_TOO_MANY_LEADING_CARDS, "");
 			m_firstCard[i] = 13 * (q - SUITS_CHAR) + w - RANK;
@@ -630,7 +630,7 @@ void Problem::parseDealString(const char *p, CARD_INDEX _player) {
 			assert(*p != 0);
 			q = strchr(RANK, *p); //strchr(RANK,'\0')=13!
 			throwOnError(q!=NULL, STRING_ERROR_UNRECOGNIZED_CARD_RANK,
-					format("%c %d", *p, int(*p)));
+					std::format("{} {}", *p, int(*p)));
 			j = i * 13 + q - RANK;
 
 			throwOnError(m_states[0].m_cid[j] == CARD_INDEX_ABSENT,
@@ -658,7 +658,7 @@ std::string Problem::postproceedHTML(const std::string &s, bool images) {
 		b[1] = *p;
 		r = replaceAll(r, b,
 				images ?
-						format("<img src='%s/%c.png'>", HTML_IMAGE_DIRECTORY.c_str(),
+						std::format("<img src='{}/{}.png'>", HTML_IMAGE_DIRECTORY.c_str(),
 								*p) :
 						CHANGE_HTML_SIMPLE[i]);
 	}
@@ -730,7 +730,7 @@ std::string Problem::getBtsContent(int nproblem, bool caption) {
 	if (caption) {
 		s = BTS_SIGNATURE + CURRENT_VERSION + "\n";
 	}
-	s += BTS_BEGIN_MARKER + format("%d ", nproblem);
+	s += BTS_BEGIN_MARKER + std::format("{} ", nproblem);
 	s += getBtsDealString(dealFirst());
 	s += "\n";
 
@@ -742,7 +742,7 @@ std::string Problem::getBtsContent(int nproblem, bool caption) {
 		if (m_contract == NO_CONTRACT_SET) {
 			s += NO_CONTRACT_OR_NO_TRUMP_CHAR;
 		} else {
-			s += format("%d", m_contract);
+			s += std::format("{}", m_contract);
 		}
 
 		if (m_trump == NO_TRUMP_SET) {
@@ -768,7 +768,7 @@ std::string Problem::getBtsContent(int nproblem, bool caption) {
 
 	s += BTS_TURNS;
 	s += " ";
-	s += format("%d", m_currentState);
+	s += std::format("{}", m_currentState);
 	s += "\n";
 
 	if (isPreferans()) {
@@ -1051,7 +1051,7 @@ void Problem::parseBts(const std::string &content) {
 				m_trump = NT;
 			} else {
 				throwOnError(0, STRING_ERROR_UNRECOGNIZED_TRUMP,
-						format("[%c]", c));
+						std::format("[{}]", c));
 			}
 		} else {
 			m_trump = p - SUITS_CHAR;
@@ -1596,7 +1596,7 @@ std::string Problem::getValidTrumpStringDfPbn() const {
 }
 
 std::string Problem::getValidContractStringDfPbn() const {
-	return format("%d",
+	return std::format("{}",
 			m_contract == NO_CONTRACT_SET ?
 					MIN_CONTRACT[m_gameType] : m_contract);
 }
@@ -1825,7 +1825,7 @@ void Problem::fillAdjustPbnInfo(int nproblem) {
 			} else if (cmpnocase(tag[i], PBN_DEAL_TAG)) {
 				value = getPbnDealString(dealer);
 			} else if (cmpnocase(tag[i], PBN_TABLE_TAG)) {
-				value = format("%d", nproblem);
+				value = std::format("{}", nproblem);
 			} else if (cmpnocase(tag[i], PBN_VULNERABLE_TAG)) {
 				value = VULNERABLE[0];
 			} else if (cmpnocase(tag[i], PBN_ROOM_TAG)) {
@@ -1973,7 +1973,7 @@ void Problem::adjustPbnInfo() {
 		if (getDeclarerInt() % 2 != i) {
 			j = -j;
 		}
-		it->value = format("%s %d", SCORE[i], j);
+		it->value = std::format("{} {}", SCORE[i], j);
 	}
 	//END correct SCORE tag (after all tags)
 

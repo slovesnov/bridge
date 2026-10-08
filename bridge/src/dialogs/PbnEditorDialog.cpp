@@ -92,7 +92,7 @@ void PbnEditorDialog::updateScore() {
 		}
 	}
 	gtk_label_set_text(GTK_LABEL(m_label[PBN_EDITOR_LABEL_SCORE]),
-			format("%d", j).c_str());
+			std::format("{}", j).c_str());
 }
 
 void PbnEditorDialog::redrawProblem() {
@@ -138,7 +138,7 @@ void PbnEditorDialog::redrawProblem() {
 	g_list_free(children);
 
 	gtk_label_set_text(GTK_LABEL(m_labelProblem),
-			format("# %d / %d", m_current + 1, size()).c_str());
+			std::format("# {} / {}", m_current + 1, size()).c_str());
 
 	for (i = 0; i < 4; i++) {
 		gtk_image_set_from_pixbuf(GTK_IMAGE(m_button[i]),
@@ -256,7 +256,7 @@ void PbnEditorDialog::redrawProblem() {
 				gtk_box_pack_start(GTK_BOX(w1), gtk_label_new("Pass"), TRUE,
 						TRUE, 2);
 			} else {
-				s = format("%d", getProblem().m_contract);
+				s = std::format("{}", getProblem().m_contract);
 				gtk_container_add(GTK_CONTAINER(w1), gtk_label_new(s.c_str()));
 				if (getProblem().m_trump == NT) {
 					w = gtk_label_new(
@@ -389,7 +389,7 @@ bool PbnEditorDialog::storeProblem() {
 				if (j == 0) {
 					it->value = DEALER[i];
 				} else if (j == 1) {
-					it->value = format("%d", i);
+					it->value = std::format("{}", i);
 				} else if (j == 2) {
 					it->value = ROOM[i];
 				} else {
@@ -411,7 +411,7 @@ bool PbnEditorDialog::storeProblem() {
 				//skip
 			} else {
 				i = getComboPosition(m_combo[PBN_EDITOR_COMBO_DOUBLE_REDOUBLE]);
-				it->value = format("%d", getProblem().m_contract)
+				it->value = std::format("{}", getProblem().m_contract)
 						+ getProblem().getEnglishTrumpString()
 						+ DOUBLE_REDOUBLE[i];
 			}

@@ -119,7 +119,7 @@ void EditListDialog::redrawProblem() {
 	std::string s = getString(MENU_EDIT_PROBLEM_LIST);
 	s += " [";
 	s += getString(MENU_PROBLEM);
-	s += format(" %d / %d ]", m_current + 1, size());
+	s += std::format(" {} / {} ]", m_current + 1, size());
 	gtk_window_set_title(GTK_WINDOW(getWidget()), s.c_str());
 
 	for (i = 0; i < 4; i++) {

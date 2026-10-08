@@ -445,13 +445,13 @@ void Config::save(GAME_TYPE gt, int x, int y) {
 
   S(FONT_SIGNATURE, pango_font_description_to_string(m_font));
   S(CUSTOM_SKIN_BACKGROUND_COLOR_SIGNATURE,
-    format("%x", rgbaToUnsigned(m_customSkinBackgroundColor)));
+    std::format("{:x}", rgbaToUnsigned(m_customSkinBackgroundColor)));
   S(CUSTOM_SKIN_FONT_COLOR_SIGNATURE,
-    format("%x", rgbaToUnsigned(m_customSkinFontColor)));
+    std::format("{:x}", rgbaToUnsigned(m_customSkinFontColor)));
 
   // v.clear();
   for (auto a : m_skinFontColor) {
-    v.push_back(format("%x", rgbaToUnsigned(a)));
+    v.push_back(std::format("{:x}", rgbaToUnsigned(a)));
   }
   S(SKIN_FONT_COLOR_SIGNATURE, joinV(v));
 
@@ -653,7 +653,7 @@ void Config::loadLanguageFile() {
 
   // auto s = getLanguageDir()+G_DIR_SEPARATOR+"english."+LANGUAGE_EXTENSION;
   auto s = getLanguageDir() +
-           format("%cenglish.%s", G_DIR_SEPARATOR, LANGUAGE_EXTENSION);
+           std::format("{}english.{}", G_DIR_SEPARATOR, LANGUAGE_EXTENSION);
   // auto s = format("%s%cenglish.%s", m_languageDir,G_DIR_SEPARATOR,
   // LANGUAGE_EXTENSION);
   i = 0;
@@ -672,6 +672,8 @@ void Config::loadLanguageFile() {
     loadLanguage(s, v);
   }
 
+  const std::string VEH[] = {CURRENT_VERSION, EMAIL, HOMEPAGE};
+
   m_vectorMenuString.clear();
   for (auto &a : v) {
     i = a.first;
@@ -679,8 +681,15 @@ void Config::loadLanguageFile() {
 
     if (i < STRING_SIZE) { // load normal strings & errors not! STRING_SIZE
       if (i == STRING_ABOUT) {
-        S[i] = format(b.c_str(), CURRENT_VERSION.c_str(), EMAIL.c_str(),
-                      HOMEPAGE.c_str());
+        j = 0;
+        s = "";
+        for (auto &a : split(b, "%s")) {
+          s += a;
+          if (j < std::ssize(VEH)) {
+            s += VEH[j++];
+          }
+        }
+        S[i] = s;
       } else {
         S[i] = b;
       }

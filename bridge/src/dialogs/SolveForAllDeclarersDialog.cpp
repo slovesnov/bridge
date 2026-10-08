@@ -164,7 +164,7 @@ void SolveForAllDeclarersDialog::setBridgeLabel(int trump) {
 		CARD_INDEX declarer = getPreviousBridgePlayer(PLAYER[i]);
 		v = gdraw->m_solveAllDeclarersBridgeResult[trump][i];
 		w = m_label[indexOfPlayer(declarer)][trump][0];
-		gtk_label_set_text(GTK_LABEL(w[0]), format("%d", v).c_str());
+		gtk_label_set_text(GTK_LABEL(w[0]), std::format("{}", v).c_str());
 		gtk_label_set_text(GTK_LABEL(w[1]),
 				v > 6 ? std::to_string(v - 6).c_str() : "-");
 

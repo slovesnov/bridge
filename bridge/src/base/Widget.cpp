@@ -542,7 +542,7 @@ GtkWidget *Widget::createTextCombobox(int from, int to, int step,
   assert(step > 0);
   VString vs;
   for (i = from; i <= to; i += step) {
-    vs.push_back(format("%d", i));
+    vs.push_back(std::format("{}", i));
   }
   if (additionalString != NULL) {
     vs.push_back(additionalString);

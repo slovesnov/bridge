@@ -381,8 +381,9 @@ std::string ProblemVector::fileName(const std::string &filepath,
 	q = strrchr(p, '.');
 	assert(q);
 
-	s = format("%.*s", q - p, p);
-	s += format(buffer.c_str(), i);
+	s = std::format("{}", std::string_view(p, q - p));
+	//s += format(buffer.c_str(), i);
+	pr("#############")
 	s += q;
 	return s;
 }

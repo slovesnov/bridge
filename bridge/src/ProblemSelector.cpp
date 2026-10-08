@@ -211,9 +211,9 @@ bool ProblemSelector::setCheckLabelFit(int option, int width, std::string &s) {
 		s += getString(MENU_PROBLEM);
 	}
 	if (option & 2) {
-		s += format(" %d / %d", m_current + 1, size());
+		s += std::format(" {} / {}", m_current + 1, size());
 	} else {
-		s += format(" %d/%d", m_current + 1, size());
+		s += std::format(" {}/{}", m_current + 1, size());
 	}
 
 	gtk_label_set_text(GTK_LABEL(m_label), s.c_str());
@@ -562,7 +562,7 @@ std::string ProblemSelector::getTitle() const {
 			isEmptyFilepath() ?
 					"(" + std::string(getString(STRING_UNTITLED)) + ")" :
 					getFileInfo(m_filepath, FILEINFO::NAME);
-	s += format(" %c ", isModified() ? '*' : '-') + gconfig->getTitle();
+	s += std::format(" {} ", isModified() ? '*' : '-') + gconfig->getTitle();
 	return s;
 }
 

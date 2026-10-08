@@ -23,7 +23,7 @@ static void entry_delete(GtkWidget *entry, gint start_pos, gint end_pos,
 void DigitEntry::create(int min, int max, int startValue,
 		ButtonsDialog *dialog) {
 	m_widget = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(m_widget), format("%d", startValue).c_str());
+	gtk_entry_set_text(GTK_ENTRY(m_widget), std::format("{}", startValue).c_str());
 	m_min = min;
 	m_max = max;
 	m_dialog = dialog;

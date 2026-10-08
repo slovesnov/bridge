@@ -44,7 +44,7 @@ DeleteProblemDialog::DeleteProblemDialog(EditListDialog *eld) :
 			gtk_container_add(GTK_CONTAINER(w), m_combo);
 			gtk_container_add(GTK_CONTAINER(w),
 					gtk_label_new(
-							format(" # %d", m_pvm->m_current + 1).c_str()));
+							std::format(" # {}", m_pvm->m_current + 1).c_str()));
 		}
 
 		gtk_grid_attach(GTK_GRID(grid), w, 0, i, 1, 1);

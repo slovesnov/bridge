@@ -174,7 +174,7 @@ const gchar *getPlayerString(CARD_INDEX player) {
 std::string getCardRankString(int index) {
   int card = 12 - index % 13; // 0 - two, 8 - ten, 9 - jack
   if (card < 9) {
-    return format("%d", card + 2);
+    return std::format("{}", card + 2);
   } else {
     return getString(static_cast<STRING_ID>(STRING_J + card - 9));
   }
@@ -182,7 +182,7 @@ std::string getCardRankString(int index) {
 
 std::string getCardString(int index) {
   assert(index >= 0 && index < 52);
-  return format("%c%c", toupper(SUITS_CHAR[index / 13]),
+  return std::format("{}{}", toupper(SUITS_CHAR[index / 13]),
                 toupper(RANK[index % 13]));
 }
 
@@ -359,7 +359,7 @@ AuctionTagParseResult parseAuctionTag(const std::string &auctionValue,
   ntrump = indexOf(SO[trump], SUITS_CHAR);
   assert(ntrump != -1);
 
-  s = format("%d", contract) + getEnglishTrumpString(ntrump);
+  s = std::format("{}", contract) + getEnglishTrumpString(ntrump);
   for (i = 0; i < doubleredouble; i++) {
     s += 'X';
   }
@@ -412,7 +412,7 @@ std::string rgbaToString(const GdkRGBA c) {
    * rgba(0,0,0,255)
    *
    * */
-  return format("rgba(%d,%d,%d,%d)", int(c.red * 255), int(c.green * 255),
+  return std::format("rgba({},{},{},{})", int(c.red * 255), int(c.green * 255),
                 int(c.blue * 255), int(c.alpha * 255));
 }
 
@@ -500,14 +500,14 @@ int indexOfPlayer(CARD_INDEX player) {
 }
 
 std::string getSuitString(int suit) {
-  return format("suit%d-%d.png", suit, SUIT_PIXBUF_SIZE);
+  return std::format("suit{}-{}.png", suit, SUIT_PIXBUF_SIZE);
 }
 
-std::string getContractString(int n) { return format("contract%d.png", n); }
+std::string getContractString(int n) { return std::format("contract{}.png", n); }
 
 std::string getBgImageName(int i) {
   assert(i >= 0);
-  return format("bg%d.jpg", i);
+  return std::format("bg{}.jpg", i);
 }
 
 // using CRect so not aslov lib function
@@ -599,11 +599,11 @@ bool selectFont(const char *s, PangoFontDescription *&font) {
 bool think() { return gdraw->think(); }
 
 std::string getArrowFileName(int n, bool svg) {
-  return format("arrow%d.%s", n, svg ? SVG : PNG);
+  return std::format("arrow{}.{}", n, svg ? SVG : PNG);
 }
 
 std::string getDeckFileName(int n, bool svg) {
-  return format("deck%d.%s", n, svg ? SVG : PNG);
+  return std::format("deck{}.{}", n, svg ? SVG : PNG);
 }
 
 std::string getDeckFileName() { return getDeckFileName(gconfig->m_deckNumber); }

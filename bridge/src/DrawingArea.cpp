@@ -452,7 +452,7 @@ VString DrawingArea::getCaptions(CARD_INDEX index) {
 		 */
 		v.push_back(
 				getString(STRING_TRICKS)
-						+ format(" %d",
+						+ std::format(" {}",
 								isPreferans() && getAbsent() == index ?
 										0 : getTricks(index)));
 	}
@@ -1094,7 +1094,7 @@ void DrawingArea::countSize(int y) {
 	w = (maxCardsInSuit() - 1) * getIndentInsideSuit() + getMaxCardSize().x;
 
 	for (i = 0; i < 2; i++) {
-		s = format("%s %s 13", getString(i == 0 ? STRING_EAST : STRING_WEST),
+		s = std::format("{} {} 13", getString(i == 0 ? STRING_EAST : STRING_WEST),
 				getString(STRING_TRICKS));
 		j = getTextExtents(s).x;
 		w = std::max(w, j);
@@ -1935,7 +1935,7 @@ void DrawingArea::timer() {
 	if (think()) {
 		drawText(
 				TextWithAttributes(
-						format("%02d:%02d", seconds / 60, seconds % 60)), r,
+						std::format("{:02}:{:02}", seconds / 60, seconds % 60)), r,
 				false, true);
 	}
 

@@ -334,7 +334,7 @@ void BridgePreferansBase::endgameInit(bool bridge, int32_t *endgameLength[],
 
 	for (i = 0; i < endgameTypes; i++) {
 		auto &p = endgameEstimate[i];
-		std::string path = format("%c%d%s.bin", bridge ? 'b' : 'p', n, T[i]);
+		std::string path = std::format("{}{}{}.bin", bridge ? 'b' : 'p', n, T[i]);
 #ifndef FINAL_RELEASE
 		path="C:/slovesno/"+path;
 #endif
