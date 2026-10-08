@@ -672,8 +672,6 @@ void Config::loadLanguageFile() {
     loadLanguage(s, v);
   }
 
-  const std::string VEH[] = {CURRENT_VERSION, EMAIL, HOMEPAGE};
-
   m_vectorMenuString.clear();
   for (auto &a : v) {
     i = a.first;
@@ -681,15 +679,7 @@ void Config::loadLanguageFile() {
 
     if (i < STRING_SIZE) { // load normal strings & errors not! STRING_SIZE
       if (i == STRING_ABOUT) {
-        j = 0;
-        s = "";
-        for (auto &a : split(b, "%s")) {
-          s += a;
-          if (j < std::ssize(VEH)) {
-            s += VEH[j++];
-          }
-        }
-        S[i] = s;
+        S[i]=std::vformat(b, std::make_format_args(CURRENT_VERSION, EMAIL, HOMEPAGE));
       } else {
         S[i] = b;
       }
