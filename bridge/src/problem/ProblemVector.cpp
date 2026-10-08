@@ -188,16 +188,16 @@ void ProblemVector::openBts(const std::string &filepath, FILE_TYPE type) {
 		fclose(f);
 		throwOnError(0, i == 0 ? STRING_ERROR_EMPTY_FILE : STRING_UNKNOWN_ERROR);
 	}
-
+	std::string buffers=buffer;
 	//also recognize without BTS_SIGNATURE at the beginning of file
-	if (startsWith(buffer, BTS_SIGNATURE)
-			|| startsWith(buffer, BTS_BEGIN_MARKER)) { //new format
+	if (buffers.starts_with(BTS_SIGNATURE)
+			|| buffers.starts_with(BTS_BEGIN_MARKER)) { //new format
 			//should reopen in NOT binary mode
 		fclose(f);
 		f = open(filepath.c_str(), "r");
 		splitAndParse(f, FILE_TYPE_BRIDGE);
 	} else {
-		if (startsWith(buffer, PK)) {		//packed
+		if (buffers.starts_with(PK)) {		//packed
 			fclose(f);
 			content = unzipFile(filepath);	//external functions so use locale
 			throwOnError(content.length() != 0, STRING_UNKNOWN_ERROR);

@@ -430,9 +430,10 @@ void Config::save(GAME_TYPE gt, int x, int y) {
     S(*itString++, *itStringPtr);
   }
 
-  S(SUITSORDER_SIGNATURE, JOIN(m_suitsOrder))
+  S(SUITSORDER_SIGNATURE, join(m_suitsOrder))
 
-  S(START_POSITION_SIGNATURE, std::format("{} {}",m_startPosition.x, m_startPosition.y));
+  S(START_POSITION_SIGNATURE,
+    std::format("{} {}", m_startPosition.x, m_startPosition.y));
 
   itString = storeVariablesIntNote.begin();
   for (int *itIntPtr : storeVariablesInt) {
@@ -479,9 +480,10 @@ void Config::reset(bool fromMenu /*=false*/) {
   m_font = pango_font_description_from_string(s.c_str());
 
   s = getSystemLanguage();
-  auto it = std::find_if(m_language.begin(), m_language.end(), [&s](const std::string &e) {
-    return e.length() >= 2 && e.substr(0, 2) == s;
-  });
+  auto it = std::find_if(m_language.begin(), m_language.end(),
+                         [&s](const std::string &e) {
+                           return e.length() >= 2 && e.substr(0, 2) == s;
+                         });
   i = it == m_language.end() ? 0 : std::distance(m_language.begin(), it);
   setLanguageFileName(i);
 
@@ -655,7 +657,7 @@ void Config::loadLanguageFile() {
   // auto s = format("%s%cenglish.%s", m_languageDir,G_DIR_SEPARATOR,
   // LANGUAGE_EXTENSION);
   i = 0;
-  if (!endsWith(m_languageFileName, se) && !endsWith(m_languageFileName, sr)) {
+  if (!m_languageFileName.ends_with(se) && !m_languageFileName.ends_with(sr)) {
     i = 1;
     loadLanguage(s, v);
   }
@@ -664,7 +666,7 @@ void Config::loadLanguageFile() {
   if (!loadLanguage(m_languageFileName, v) && i == 0) {
 #ifndef FINAL_RELEASE
     pr("CRITICAL ERROR couldn't open language file, use english language "
-           "file");
+       "file");
 #endif
     m_languageFileName = s;
     loadLanguage(s, v);

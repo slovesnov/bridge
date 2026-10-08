@@ -185,7 +185,7 @@ void PbnEditorDialog::redrawProblem() {
 	k = 0;
 	for (it = getProblem().pbnEntryBegin(); it != getProblem().pbnEntryEnd();
 			it++) {
-		if ( INDEX_OF_NO_CASE(it->tag,DAP) != -1) {
+		if ( indexOfNoCase(it->tag,DAP) != -1) {
 			continue;
 		}
 
@@ -195,7 +195,7 @@ void PbnEditorDialog::redrawProblem() {
 
 		gtk_grid_attach(GTK_GRID(m_grid), w, k, i, 1, 1);
 
-		if ((j = INDEX_OF_NO_CASE(it->tag, CM)) != -1) {
+		if ((j = indexOfNoCase(it->tag, CM)) != -1) {
 			if (j == 1) {
 				if (!getProblem().noTrumpOrContract()) {
 					l = strtol(it->value.c_str(), &p, 10);
@@ -207,13 +207,13 @@ void PbnEditorDialog::redrawProblem() {
 				}
 			} else {
 				if (j == 0) {
-					l = INDEX_OF_NO_CASE(it->value, DEALER);
+					l = indexOfNoCase(it->value, DEALER);
 				} else if (j == 2) {
-					l = INDEX_OF_NO_CASE(it->value, ROOM);
+					l = indexOfNoCase(it->value, ROOM);
 				} else {
-					l = INDEX_OF_NO_CASE(it->value, VULNERABLE);
+					l = indexOfNoCase(it->value, VULNERABLE);
 				}
-				//doesn't work l=INDEX_OF_NO_CASE(j==0 ? DEALER( j==2 ? S_ROOM :S_VULNERABLE),it->value);
+				//doesn't work l=indexOfNoCase(j==0 ? DEALER( j==2 ? S_ROOM :S_VULNERABLE),it->value);
 				assert(l != -1);
 				setComboPosition(m_combo[j], l);
 				gtk_grid_attach(GTK_GRID(m_grid), m_combo[j], k + 1, i, 1, 1);
@@ -244,7 +244,7 @@ void PbnEditorDialog::redrawProblem() {
 					TRUE,
 					TRUE, 2);
 
-			l = INDEX_OF_NO_CASE(it->value.substr(0, 2), SCORE);
+			l = indexOfNoCase(it->value.substr(0, 2), SCORE);
 			assert(l != -1);
 			setComboPosition(m_combo[PBN_EDITOR_COMBO_SCORE], l);
 
@@ -371,7 +371,7 @@ bool PbnEditorDialog::storeProblem() {
 	k = 0;
 	for (it = getProblem().pbnEntryBegin(); it != getProblem().pbnEntryEnd();
 			it++) {
-		if ((j = INDEX_OF_NO_CASE(it->tag, DAP)) != -1) {
+		if ((j = indexOfNoCase(it->tag, DAP)) != -1) {
 			if (j == 0) {
 				it->value = gtk_label_get_text(
 						GTK_LABEL(m_label[PBN_EDITOR_LABEL_DEAL]));
@@ -381,7 +381,7 @@ bool PbnEditorDialog::storeProblem() {
 				gtk_text_buffer_get_end_iter(buffer, &end);
 				it->add = gtk_text_buffer_get_text(buffer, &start, &end, true);
 			}
-		} else if ((j = INDEX_OF_NO_CASE(it->tag, CM)) != -1) {
+		} else if ((j = indexOfNoCase(it->tag, CM)) != -1) {
 			if (j == 1 && getProblem().noTrumpOrContract()) {
 				it->value = "";
 			} else {

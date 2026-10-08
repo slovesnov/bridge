@@ -552,7 +552,7 @@ void Problem::parseDf(const std::string &content) {
 	/* not 'any' see Richard Pavlicek Deals.txt (deal 50)
 	 * *p=='\n' empty string nothing to parse
 	 */
-	if (!startsWith(p, "any") && *p != '\n') {
+	if (!std::string(p).starts_with("any") && *p != '\n') {
 		parsePlayString(p);
 	}
 }
@@ -1045,7 +1045,7 @@ void Problem::parseBts(const std::string &content) {
 		c = *p;
 		p = strchr(SUITS_CHAR, c);
 		if (p == NULL) {
-			if (startsWith(q, BTS_MISERE) || startsWith(q, BTS_MISERE_OLD)) {
+			if (std::string(q).starts_with(BTS_MISERE) || std::string(q).starts_with(BTS_MISERE_OLD)) {
 				//set misere
 				m_misere = true;
 				m_trump = NT;
@@ -1960,7 +1960,7 @@ void Problem::adjustPbnInfo() {
 	} else {
 		it = findPbnEntry(PBN_VULNERABLE_TAG);
 		assert(it != m_pbnEntry.end());
-		k = INDEX_OF_NO_CASE(it->value, VULNERABLE);
+		k = indexOfNoCase(it->value, VULNERABLE);
 
 		j = countBridgeScore(m_contract, m_trump, result, i, getDeclarerInt(),
 				k);
@@ -1968,7 +1968,7 @@ void Problem::adjustPbnInfo() {
 
 	it = findPbnEntry(PBN_SCORE_TAG);		//sometimes not found
 	if (it != m_pbnEntry.end()) {
-		i = INDEX_OF_NO_CASE(it->value.substr(0, 2), SCORE);
+		i = indexOfNoCase(it->value.substr(0, 2), SCORE);
 		assert(i>=0 && i<std::ssize(SCORE));
 		if (getDeclarerInt() % 2 != i) {
 			j = -j;
