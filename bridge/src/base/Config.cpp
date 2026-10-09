@@ -473,10 +473,10 @@ void Config::reset(bool fromMenu /*=false*/) {
    * for computers with other scaling factors need to use formula
    * 14*96./72.*sf (where sf=verticalScaleFactor=sf)
    */
-  setlocale(LC_NUMERIC, "C"); // for std::to_string
+  setlocale(LC_NUMERIC, "C");
   double sf = getScaleFactor().second;
   s = "Times New Roman, " + std::to_string(14 * 96. / 72. * sf) + "px";
-  // printl(s)
+  // pr(s)
   m_font = pango_font_description_from_string(s.c_str());
 
   s = getSystemLanguage();
