@@ -473,7 +473,7 @@ void Config::reset(bool fromMenu /*=false*/) {
    * for computers with other scaling factors need to use formula
    * 14*96./72.*sf (where sf=verticalScaleFactor=sf)
    */
-  setNumericLocale(); // for std::to_string
+  setlocale(LC_NUMERIC, "C"); // for std::to_string
   double sf = getScaleFactor().second;
   s = "Times New Roman, " + std::to_string(14 * 96. / 72. * sf) + "px";
   // printl(s)
